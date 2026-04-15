@@ -49,6 +49,9 @@ jobs:
           fi
           echo "All packages built successfully"
 
+      - name: Build @amplify/ui for Storybook
+        run: npm run build -w packages/ui
+
       - name: Verify Storybook build
         run: npm run build -w packages/storybook
 

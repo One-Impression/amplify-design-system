@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../lib/cn';
 import { Button } from '../Button/Button';
 
 export interface EmptyStateProps {
@@ -14,7 +15,7 @@ export interface EmptyStateProps {
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ title, description, action, icon, className }) => {
   return (
-    <div className={`flex flex-col items-center justify-center py-16 px-6 text-center ${className || ''}`}>
+    <div className={cn('flex flex-col items-center justify-center py-16 px-6 text-center', className)}>
       {icon && (
         <div className="w-12 h-12 rounded-xl bg-surface-raised flex items-center justify-center mb-4 text-neutral-500">
           {icon}
