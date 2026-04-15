@@ -1,0 +1,23 @@
+{
+  "name": "amplify-design-system",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Amplify Design System — federated design tokens for Brand, Creator, and Atmosphere products",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:foundation": "npm run build -w packages/tokens-foundation",
+    "build:brand": "npm run build -w packages/tokens-brand",
+    "build:creator": "npm run build -w packages/tokens-creator",
+    "build:atmosphere": "npm run build -w packages/tokens-atmosphere",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist",
+    "validate": "node scripts/validate-tokens.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

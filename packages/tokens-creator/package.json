@@ -1,0 +1,24 @@
+{
+  "name": "@amplify/tokens-creator",
+  "version": "1.0.0",
+  "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
+  "main": "dist/tokens.js",
+  "exports": {
+    "./css": "./dist/variables.css",
+    "./json": "./dist/tokens.json",
+    "./js": "./dist/tokens.js",
+    "./react-native": "./dist/tokens.native.js",
+    ".": "./dist/tokens.js"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "sync-check": "node scripts/sync-check.js"
+  },
+  "dependencies": {
+    "@amplify/tokens-foundation": "^1.0.0"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.0"
+  },
+  "files": ["dist/", "tokens/", "scripts/"]
+}

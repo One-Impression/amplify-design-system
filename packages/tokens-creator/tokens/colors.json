@@ -1,0 +1,25 @@
+{
+  "color": {
+    "sdui": {
+      "neutral-strong": { "value": "#1D252D", "type": "color", "description": "Primary text, headings — SDUI: neutralStrong" },
+      "neutral-medium": { "value": "#7C8085", "type": "color", "description": "Secondary text, subtitles — SDUI: neutralMedium" },
+      "neutral-weak": { "value": "#CDCFD1", "type": "color", "description": "Disabled text, light borders — SDUI: neutralWeak" },
+      "neutral-subtle": { "value": "#E2E3E4", "type": "color", "description": "Very light borders — SDUI: neutralSubtle" },
+      "neutral-inverse": { "value": "#FFFFFF", "type": "color", "description": "White text on dark — SDUI: neutralInverse" },
+      "primary": { "value": "#6531FF", "type": "color", "description": "Brand purple, CTAs — SDUI: primary" },
+      "primary-weak": { "value": "#F0E8FF", "type": "color", "description": "Light purple backgrounds — SDUI: primaryWeak" },
+      "positive": { "value": "#21C179", "type": "color", "description": "Success states — SDUI: positive" },
+      "positive-weak": { "value": "#E3F6EC", "type": "color", "description": "Success backgrounds — SDUI: positiveWeak" },
+      "notice": { "value": "#FF9823", "type": "color", "description": "Warnings, pending — SDUI: notice" },
+      "notice-weak": { "value": "#FFF3E1", "type": "color", "description": "Warning backgrounds — SDUI: noticeWeak" },
+      "negative": { "value": "#FD5154", "type": "color", "description": "Errors, destructive — SDUI: negative" },
+      "negative-weak": { "value": "#FFEBEF", "type": "color", "description": "Error backgrounds — SDUI: negativeWeak" },
+      "offset-strong": { "value": "#E2E3E4", "type": "color", "description": "Card borders — SDUI: offsetStrong" },
+      "offset-medium": { "value": "#F1F6FE", "type": "color", "description": "Card backgrounds — SDUI: offsetMedium" },
+      "offset-weak": { "value": "#F6FAFF", "type": "color", "description": "Page background — SDUI: offsetWeak" },
+      "transparent": { "value": "#00000000", "type": "color", "description": "Transparent — SDUI: transparent" },
+      "brown": { "value": "#8B4513", "type": "color", "description": "Brown — SDUI: brown" },
+      "vivid-yellow": { "value": "#FFD600", "type": "color", "description": "Highlights, badges — SDUI: vividYellow" }
+    }
+  }
+}

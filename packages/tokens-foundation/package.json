@@ -1,0 +1,20 @@
+{
+  "name": "@amplify/tokens-foundation",
+  "version": "1.0.0",
+  "description": "Amplify Design System — shared foundation tokens (spacing, radii, shadows, breakpoints, z-index)",
+  "main": "dist/tokens.js",
+  "exports": {
+    "./css": "./dist/variables.css",
+    "./scss": "./dist/variables.scss",
+    "./json": "./dist/tokens.json",
+    "./js": "./dist/tokens.js",
+    ".": "./dist/tokens.js"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.0"
+  },
+  "files": ["dist/", "tokens/"]
+}

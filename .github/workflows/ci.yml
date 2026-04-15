@@ -1,0 +1,100 @@
+name: Design System CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-validate:
+    name: Build & Validate Tokens
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Validate cross-package consistency
+        run: node scripts/validate-tokens.js
+
+      - name: Verify build outputs
+        run: |
+          MISSING=""
+          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere; do
+            DIR="packages/$pkg/dist"
+            if [ ! -d "$DIR" ]; then
+              MISSING="$MISSING\n  - packages/$pkg/dist/ (directory missing)"
+              continue
+            fi
+            # Check for at least one output file
+            FILE_COUNT=$(ls "$DIR" 2>/dev/null | wc -l)
+            if [ "$FILE_COUNT" -eq 0 ]; then
+              MISSING="$MISSING\n  - packages/$pkg/dist/ (empty)"
+            fi
+          done
+
+          if [ -n "$MISSING" ]; then
+            echo "::error::Missing build outputs:$MISSING"
+            exit 1
+          fi
+          echo "All packages built successfully"
+
+  secret-scan:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        run: |
+          FOUND=""
+          PATTERNS='(AKIA[A-Z0-9]{16}|ghp_[A-Za-z0-9]{36}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|sk-[A-Za-z0-9]{48})'
+
+          while IFS= read -r file; do
+            MATCHES=$(grep -nE "$PATTERNS" "$file" 2>/dev/null || true)
+            if [ -n "$MATCHES" ]; then
+              FOUND="$FOUND\n$file:\n$MATCHES\n"
+            fi
+          done < <(find . -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.md" \) -not -path "*/node_modules/*" -not -path "*/.git/*")
+
+          if [ -n "$FOUND" ]; then
+            echo "::error::Potential secrets found:"
+            printf "$FOUND"
+            exit 1
+          fi
+          echo "No secrets found"
+
+  sdui-sync-check:
+    name: SDUI Token Sync Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: One-Impression/api-gateway
+          path: api-gateway
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check creator tokens vs api-gateway ColorType
+        run: |
+          if [ -f packages/tokens-creator/scripts/sync-check.js ]; then
+            node packages/tokens-creator/scripts/sync-check.js api-gateway/src/apigateway/mobile_ui/ui_kit/properties/color_type.py
+          else
+            echo "sync-check.js not found — skipping"
+          fi

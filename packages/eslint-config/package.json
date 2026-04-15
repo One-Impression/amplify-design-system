@@ -1,0 +1,11 @@
+{
+  "name": "@amplify/eslint-config",
+  "version": "1.0.0",
+  "description": "Shared ESLint config enforcing Amplify design token usage",
+  "main": "index.js",
+  "scripts": {},
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "files": ["index.js", "rules/"]
+}

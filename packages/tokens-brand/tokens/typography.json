@@ -1,0 +1,14 @@
+{
+  "typography": {
+    "size": {
+      "display": { "value": "32px", "type": "dimension" },
+      "heading-lg": { "value": "24px", "type": "dimension" },
+      "heading-md": { "value": "18px", "type": "dimension" },
+      "heading-sm": { "value": "15px", "type": "dimension" },
+      "body-lg": { "value": "15px", "type": "dimension" },
+      "body-md": { "value": "13px", "type": "dimension" },
+      "body-sm": { "value": "11px", "type": "dimension" },
+      "mono": { "value": "13px", "type": "dimension" }
+    }
+  }
+}

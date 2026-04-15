@@ -1,0 +1,24 @@
+{
+  "name": "@amplify/tokens-brand",
+  "version": "1.0.0",
+  "description": "Amplify Brand Platform design tokens — colors, typography for brand dashboard",
+  "main": "dist/tailwind-preset.js",
+  "exports": {
+    "./css": "./dist/variables.css",
+    "./scss": "./dist/variables.scss",
+    "./tailwind": "./dist/tailwind-preset.js",
+    "./json": "./dist/tokens.json",
+    "./js": "./dist/tokens.js",
+    ".": "./dist/tailwind-preset.js"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@amplify/tokens-foundation": "^1.0.0"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.0"
+  },
+  "files": ["dist/", "tokens/"]
+}
