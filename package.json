@@ -15,7 +15,10 @@
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "clean": "rm -rf packages/*/dist",
-    "validate": "node scripts/validate-tokens.js"
+    "validate": "node scripts/validate-tokens.js",
+    "storybook": "npm run dev -w packages/storybook",
+    "build:storybook": "npm run build -w packages/storybook",
+    "build:ui": "npm run build -w packages/ui"
   },
   "engines": {
     "node": ">=18.0.0"

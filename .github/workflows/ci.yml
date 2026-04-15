@@ -31,13 +31,12 @@ jobs:
       - name: Verify build outputs
         run: |
           MISSING=""
-          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere; do
+          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere ui; do
             DIR="packages/$pkg/dist"
             if [ ! -d "$DIR" ]; then
               MISSING="$MISSING\n  - packages/$pkg/dist/ (directory missing)"
               continue
             fi
-            # Check for at least one output file
             FILE_COUNT=$(ls "$DIR" 2>/dev/null | wc -l)
             if [ "$FILE_COUNT" -eq 0 ]; then
               MISSING="$MISSING\n  - packages/$pkg/dist/ (empty)"
@@ -49,6 +48,9 @@ jobs:
             exit 1
           fi
           echo "All packages built successfully"
+
+      - name: Verify Storybook build
+        run: npm run build -w packages/storybook
 
   secret-scan:
     name: Secret Scan
