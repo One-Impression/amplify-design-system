@@ -1,0 +1,50 @@
+name: Chromatic Visual Regression
+
+on:
+  pull_request:
+    paths:
+      - 'packages/ui/**'
+      - 'packages/storybook/**'
+      - 'packages/tokens-*/**'
+
+jobs:
+  chromatic:
+    name: Visual Regression
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/storybook
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: .
+
+      - name: Build UI package
+        run: npm run build:ui
+        working-directory: .
+
+      - name: Build all token packages
+        run: npm run build
+        working-directory: .
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/storybook
+          buildScriptName: build
+          exitZeroOnChanges: false
+          exitOnceUploaded: false
+          onlyChanged: true
+          externals: |
+            packages/ui/src/**
+            packages/tokens-*/tokens/**
