@@ -43,7 +43,7 @@ jobs:
           workingDir: packages/storybook
           buildScriptName: build
           exitZeroOnChanges: false
-          exitOnceUploaded: true
+          exitOnceUploaded: false
           onlyChanged: true
           externals: |
             packages/ui/src/**

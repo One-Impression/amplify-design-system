@@ -4,12 +4,21 @@ import { cn } from '../../lib/cn';
 export type CardVariant = 'default' | 'elevated' | 'outlined' | 'ghost';
 export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
+/**
+ * Card component props.
+ *
+ * **Accessibility note:** When `onClick` is provided the Card renders with
+ * `role="button"`. Screen-reader users need an accessible name, so callers
+ * should supply an `aria-label` (or ensure the card's text content is
+ * sufficiently descriptive) whenever the card is interactive.
+ */
 export interface CardProps {
   variant?: CardVariant;
   padding?: CardPadding;
   children: React.ReactNode;
   as?: 'div' | 'article' | 'section' | 'li';
   onClick?: () => void;
+  /** Required for accessibility when `onClick` is provided. */
   'aria-label'?: string;
   className?: string;
 }
