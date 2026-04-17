@@ -37,12 +37,6 @@
       "warning-bg": { "value": "{color.primitive.amber-100}", "type": "color" },
       "brand": { "value": "{color.primitive.purple-600}", "type": "color", "description": "Semantic brand primary" },
       "brand-light": { "value": "{color.primitive.purple-100}", "type": "color" }
-    },
-    "radius": {
-      "_comment": "Intentional per-product card radii — documented divergence",
-      "card-desktop": { "value": "8", "type": "dimension", "description": "Brand Platform — desktop app, tighter UI" },
-      "card-analytics": { "value": "10", "type": "dimension", "description": "Atmosphere — dark theme needs more rounding for visual softness" },
-      "card-mobile": { "value": "16", "type": "dimension", "description": "Creator App — mobile needs larger touch targets" }
     }
   }
 }

@@ -15,8 +15,8 @@
       "light": { "value": "#FFEBEF", "type": "color" }
     },
     "warning": {
-      "default": { "value": "#FF9823", "type": "color", "description": "Unified warning — matches Creator/Atmosphere (#FF9823)" },
-      "light": { "value": "#FFF3E1", "type": "color", "description": "Unified warning background" }
+      "default": { "value": "#FF9823", "type": "color", "description": "Unified warning — source: foundation color.primitive.amber-500" },
+      "light": { "value": "#FFF3E1", "type": "color", "description": "Unified warning bg — source: foundation color.primitive.amber-100" }
     },
     "neutral": {
       "900": { "value": "#1D252D", "type": "color", "description": "Primary text" },
