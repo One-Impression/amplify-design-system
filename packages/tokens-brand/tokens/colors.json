@@ -15,8 +15,8 @@
       "light": { "value": "#FFEBEF", "type": "color" }
     },
     "warning": {
-      "default": { "value": "#ffc107", "type": "color", "description": "Warnings, caution" },
-      "light": { "value": "#fff8e1", "type": "color" }
+      "default": { "value": "#FF9823", "type": "color", "description": "Unified warning — matches Creator/Atmosphere (#FF9823)" },
+      "light": { "value": "#FFF3E1", "type": "color", "description": "Unified warning background" }
     },
     "neutral": {
       "900": { "value": "#1D252D", "type": "color", "description": "Primary text" },
