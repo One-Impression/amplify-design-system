@@ -14,13 +14,58 @@ const fs = require('fs');
 const path = require('path');
 
 // ---------------------------------------------------------------------------
-// 1. Load raw token files
+// 1. Load raw token files (foundation first, then product overrides)
 // ---------------------------------------------------------------------------
+const foundation = require('../tokens-foundation/tokens/colors.json');
 const colors = require('./tokens/colors.json');
 const typography = require('./tokens/typography.json');
 
+// ---------------------------------------------------------------------------
+// 1b. Resolve foundation references in brand tokens
+//     Brand tokens may contain {color.primitive.*} or {color.semantic.*}
+//     references that point to foundation values.
+// ---------------------------------------------------------------------------
+function resolveRef(ref, sources) {
+  const match = ref.match(/^\{(.+)\}$/);
+  if (!match) return ref;
+  const path = match[1].split('.');
+  let current = null;
+  for (const src of sources) {
+    current = src;
+    for (const key of path) {
+      if (current && typeof current === 'object' && key in current) {
+        current = current[key];
+      } else {
+        current = null;
+        break;
+      }
+    }
+    if (current !== null) break;
+  }
+  if (current && typeof current === 'object' && 'value' in current) {
+    return resolveRef(current.value, sources);
+  }
+  return current || ref;
+}
+
+function resolveTokenTree(obj, sources) {
+  const result = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (val && typeof val === 'object' && 'value' in val) {
+      result[key] = { ...val, value: resolveRef(val.value, sources) };
+    } else if (val && typeof val === 'object') {
+      result[key] = resolveTokenTree(val, sources);
+    } else {
+      result[key] = val;
+    }
+  }
+  return result;
+}
+
+const resolvedColors = resolveTokenTree(colors, [colors, foundation]);
+
 // Merge into a single token tree
-const allTokens = { ...colors, ...typography };
+const allTokens = { ...resolvedColors, ...typography };
 
 // ---------------------------------------------------------------------------
 // 2. Helper — recursively walk the token tree and collect leaf values
