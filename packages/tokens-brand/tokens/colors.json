@@ -11,12 +11,12 @@
       "light": { "value": "#E8FAF3", "type": "color" }
     },
     "negative": {
-      "default": { "value": "#fd5154", "type": "color", "description": "Errors, destructive actions" },
-      "light": { "value": "#FFEBEF", "type": "color" }
+      "default": { "value": "{color.semantic.error}", "type": "color", "description": "Errors — references foundation semantic" },
+      "light": { "value": "{color.semantic.error-bg}", "type": "color", "description": "Error bg — references foundation semantic" }
     },
     "warning": {
-      "default": { "value": "#FF9823", "type": "color", "description": "Unified warning — source: foundation color.primitive.amber-500" },
-      "light": { "value": "#FFF3E1", "type": "color", "description": "Unified warning bg — source: foundation color.primitive.amber-100" }
+      "default": { "value": "{color.semantic.warning}", "type": "color", "description": "Unified warning — references foundation semantic" },
+      "light": { "value": "{color.semantic.warning-bg}", "type": "color", "description": "Unified warning bg — references foundation semantic" }
     },
     "neutral": {
       "900": { "value": "#1D252D", "type": "color", "description": "Primary text" },

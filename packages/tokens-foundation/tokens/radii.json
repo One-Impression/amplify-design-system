@@ -6,9 +6,6 @@
     "lg": { "value": "12px", "type": "borderRadius" },
     "xl": { "value": "16px", "type": "borderRadius" },
     "2xl": { "value": "24px", "type": "borderRadius" },
-    "full": { "value": "9999px", "type": "borderRadius" },
-    "card-desktop": { "value": "8px", "type": "borderRadius", "description": "Brand Platform — intentional divergence, desktop app tighter UI" },
-    "card-analytics": { "value": "10px", "type": "borderRadius", "description": "Atmosphere — intentional divergence, dark theme visual softness" },
-    "card-mobile": { "value": "16px", "type": "borderRadius", "description": "Creator App — intentional divergence, mobile touch targets" }
+    "full": { "value": "9999px", "type": "borderRadius" }
   }
 }
