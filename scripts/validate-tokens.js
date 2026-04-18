@@ -71,12 +71,27 @@ for (const pkg of packages) {
 const foundation = loadTokens('tokens-foundation');
 const foundationValues = extractValues(foundation);
 
-const requiredCategories = ['spacing', 'radius', 'shadow', 'typography'];
+const requiredCategories = ['spacing', 'radius', 'shadow', 'typography', 'color'];
 for (const cat of requiredCategories) {
   if (!foundation[cat]) {
     console.log(`❌ Foundation missing required category: ${cat}`);
     errors++;
   }
+}
+
+// Check 2b: Foundation color primitives are complete
+if (foundation.color && foundation.color.primitive) {
+  const requiredColors = ['purple-500', 'purple-800', 'red-500', 'green-500', 'amber-500', 'neutral-900', 'neutral-700', 'neutral-500', 'neutral-300', 'neutral-100', 'neutral-50', 'white', 'black'];
+  for (const colorName of requiredColors) {
+    if (!foundation.color.primitive[colorName]) {
+      console.log(`❌ Foundation missing required color primitive: ${colorName}`);
+      errors++;
+    }
+  }
+  console.log(`✅ Foundation color primitives: ${Object.keys(foundation.color.primitive).length} defined`);
+} else {
+  console.log(`❌ Foundation missing color.primitive structure`);
+  errors++;
 }
 
 // Check 3: Color consistency across products

@@ -16,6 +16,11 @@
     "family": {
       "sans": { "value": "Inter, -apple-system, BlinkMacSystemFont, sans-serif", "type": "fontFamilies" },
       "mono": { "value": "JetBrains Mono, Menlo, Monaco, monospace", "type": "fontFamilies" }
+    },
+    "body": {
+      "desktop": { "value": "15px", "type": "fontSize", "description": "Body text — Brand desktop-first" },
+      "mobile": { "value": "14px", "type": "fontSize", "description": "Body text — Creator mobile-first" },
+      "dense": { "value": "13px", "type": "fontSize", "description": "Body text — Atmosphere data-dense" }
     }
   }
 }

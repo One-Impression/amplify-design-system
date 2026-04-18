@@ -6,6 +6,9 @@
     "lg": { "value": "12px", "type": "borderRadius" },
     "xl": { "value": "16px", "type": "borderRadius" },
     "2xl": { "value": "24px", "type": "borderRadius" },
-    "full": { "value": "9999px", "type": "borderRadius" }
+    "full": { "value": "9999px", "type": "borderRadius" },
+    "card-desktop": { "value": "8px", "type": "borderRadius", "description": "Card radius — Brand desktop" },
+    "card-analytics": { "value": "10px", "type": "borderRadius", "description": "Card radius — Atmosphere dark theme rounding" },
+    "card-mobile": { "value": "16px", "type": "borderRadius", "description": "Card radius — Creator mobile touch targets" }
   }
 }
