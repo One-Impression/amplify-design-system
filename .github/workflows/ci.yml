@@ -22,8 +22,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build all packages
-        run: npm run build
+      - name: Build token packages
+        run: |
+          npm run build -w packages/tokens-foundation
+          npm run build -w packages/tokens-brand
+          npm run build -w packages/tokens-creator
+          npm run build -w packages/tokens-atmosphere
+
+      - name: Build @amplify/ui
+        run: npm run build -w packages/ui
 
       - name: Validate cross-package consistency
         run: node scripts/validate-tokens.js
@@ -49,10 +56,7 @@ jobs:
           fi
           echo "All packages built successfully"
 
-      - name: Build @amplify/ui for Storybook
-        run: npm run build -w packages/ui
-
-      - name: Verify Storybook build
+      - name: Build Storybook
         run: npm run build -w packages/storybook
 
   secret-scan:
@@ -90,7 +94,8 @@ jobs:
         with:
           repository: One-Impression/api-gateway
           path: api-gateway
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CROSS_REPO_TOKEN }}
+        continue-on-error: true
 
       - uses: actions/setup-node@v4
         with:
@@ -98,6 +103,10 @@ jobs:
 
       - name: Check creator tokens vs api-gateway ColorType
         run: |
+          if [ ! -d api-gateway ]; then
+            echo "::warning::api-gateway checkout failed (missing CROSS_REPO_TOKEN secret) — skipping sync check"
+            exit 0
+          fi
           if [ -f packages/tokens-creator/scripts/sync-check.js ]; then
             node packages/tokens-creator/scripts/sync-check.js api-gateway/src/apigateway/mobile_ui/ui_kit/properties/color_type.py
           else
