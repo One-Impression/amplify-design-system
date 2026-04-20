@@ -8,12 +8,14 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build-and-validate:
     name: Build & Validate Tokens
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - uses: actions/checkout@v4
@@ -68,6 +70,7 @@ jobs:
       - name: Publish packages
         if: github.ref == 'refs/heads/main'
         run: |
+          set -e
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui eslint-config; do
             echo "Publishing @amplify/$pkg..."
             (
@@ -83,8 +86,6 @@ jobs:
                 fi
               }
             )
-            # Propagate subshell failure
-            if [ $? -ne 0 ]; then exit 1; fi
           done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
