@@ -35,7 +35,7 @@ function loadJsonFiles(dir) {
   const tokens = {};
   if (!existsSync(dir)) return tokens;
 
-  for (const entry of readdirSync(dir)) {
+  for (const entry of readdirSync(dir).sort()) {
     const full = join(dir, entry);
     const stat = statSync(full);
     if (stat.isDirectory()) {
@@ -71,6 +71,7 @@ function resolveValue(val, root) {
     if (current && typeof current === 'object' && key in current) {
       current = current[key];
     } else {
+      console.warn(`WARNING: unresolved reference ${val} — token will output raw reference string`);
       return val; // unresolved — keep as-is
     }
   }

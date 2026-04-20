@@ -23,7 +23,7 @@ function loadJsonFilesRecursive(dir) {
   const tokens = {};
   if (!existsSync(dir)) return tokens;
 
-  for (const entry of readdirSync(dir)) {
+  for (const entry of readdirSync(dir).sort()) {
     const full = join(dir, entry);
     const stat = statSync(full);
     if (stat.isDirectory()) {

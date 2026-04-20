@@ -26,10 +26,11 @@ Before building anything related to:
 ## Pixel ↔ This Repo Integration
 
 Pixel reads from this repo via GitHub API:
-- `packages/tokens-foundation/tokens/*.json` — primitives
-- `packages/tokens-brand/tokens/*.json` — brand tokens
-- `packages/tokens-atmosphere/tokens/*.json` — atmosphere tokens
-- `packages/tokens-creator/tokens/*.json` — creator tokens
+- `packages/tokens-foundation/tokens/primitives/*.json` — primitive values
+- `packages/tokens-foundation/tokens/semantic/*.json` — semantic mappings (light/dark)
+- `packages/tokens-brand/tokens/*.json` — brand product theme tokens
+- `packages/tokens-atmosphere/tokens/*.json` — atmosphere product theme tokens
+- `packages/tokens-creator/tokens/*.json` — creator product theme tokens
 
 Pixel's `token-sync.ts` compares these canonical files against what's deployed in product repos. When drift is found, Pixel raises alerts and can auto-cascade fixes.
 
@@ -58,22 +59,27 @@ packages/
 
 ## Token File Format
 
-Current format (pre-W3C migration):
+W3C Design Token Community Group (DTCG) format:
 ```json
-{ "value": "#6531FF", "type": "color" }
+{ "$value": "#6531FF", "$type": "color", "$description": "Primary accent" }
 ```
 
-Style Dictionary v4.3 builds these into CSS variables, SCSS, JSON, JS, and Tailwind presets.
+References use `{group.token}` syntax: `{ "$value": "{color.violet.600}" }`
+
+Token hierarchy: primitives (raw values) → semantic (light/dark mappings) → product themes (product-specific overrides).
+
+Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS, Tailwind v4, and React Native outputs.
 
 ## CI/CD
 
-- `figma-sync.yml` — Tokens Studio → build → validate → auto-PR
-- `ci.yml` — Build all packages, validate consistency, secret scan
-- `sdui-sync-check.yml` — Validates creator tokens vs api-gateway ColorType enum
+- `ci.yml` — Build all packages, validate consistency, secret scan, SDUI sync check
+- `chromatic.yml` — Visual regression testing via Chromatic
+- ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
 2. **No design governance logic here** — that's Pixel's job
-3. **All token changes** should go through Figma sync or direct PR (Pixel will cascade)
+3. **All token changes** go through direct PR (Pixel will detect drift and auto-cascade)
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
+5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
