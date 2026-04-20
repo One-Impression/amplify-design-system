@@ -1,0 +1,21 @@
+{
+  "theme": {
+    "$description": "Brand Platform — Light theme",
+    "product": "brand",
+    "mode": "light",
+    "color": {
+      "$type": "color",
+      "accent":          { "$value": "{color.violet.600}" },
+      "accent-hover":    { "$value": "{color.violet.700}" },
+      "accent-light":    { "$value": "{color.violet.100}" },
+      "bg-primary":      { "$value": "{color.stone.50}" },
+      "bg-surface":      { "$value": "{color.white}" },
+      "bg-raised":       { "$value": "#F8F9FD" },
+      "text-primary":    { "$value": "{color.stone.900}" },
+      "text-secondary":  { "$value": "{color.stone.600}" },
+      "text-muted":      { "$value": "{color.stone.500}" },
+      "border-default":  { "$value": "{color.stone.200}" },
+      "border-accent":   { "$value": "{color.violet.200}" }
+    }
+  }
+}

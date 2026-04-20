@@ -1,117 +1,188 @@
 #!/usr/bin/env node
 /**
- * Cross-package token validation
+ * Cross-package token validation (W3C DTCG format)
  * Ensures consistency across foundation, brand, creator, and atmosphere packages.
  *
  * Checks:
- * 1. All product packages reference valid foundation primitives
- * 2. No duplicate token names across packages (except intentional overrides)
- * 3. Creator SDUI colors match api-gateway ColorType enum (if path provided)
- * 4. Brand colors match one-dashboard-web tokens (if path provided)
+ * 1. All product packages have valid token files
+ * 2. Foundation primitives cover required categories
+ * 3. Product theme files reference only valid foundation tokens
+ * 4. No broken {references} in resolved output
  */
 
-const fs = require('fs');
-const path = require('path');
+import { readFileSync, existsSync, readdirSync, statSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const PACKAGES_DIR = path.join(__dirname, '..', 'packages');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PACKAGES_DIR = join(__dirname, '..', 'packages');
 let errors = 0;
 let warnings = 0;
 
-function loadTokens(packageName) {
-  const tokensDir = path.join(PACKAGES_DIR, packageName, 'tokens');
-  if (!fs.existsSync(tokensDir)) return {};
+function loadJsonFilesRecursive(dir) {
+  const tokens = {};
+  if (!existsSync(dir)) return tokens;
 
-  const combined = {};
-  for (const file of fs.readdirSync(tokensDir).filter(f => f.endsWith('.json'))) {
-    const content = JSON.parse(fs.readFileSync(path.join(tokensDir, file), 'utf8'));
-    Object.assign(combined, content);
+  for (const entry of readdirSync(dir).sort()) {
+    const full = join(dir, entry);
+    const stat = statSync(full);
+    if (stat.isDirectory()) {
+      deepMerge(tokens, loadJsonFilesRecursive(full));
+    } else if (entry.endsWith('.json')) {
+      const data = JSON.parse(readFileSync(full, 'utf8'));
+      deepMerge(tokens, data);
+    }
   }
-  return combined;
+  return tokens;
 }
 
-function extractValues(obj, prefix = '') {
+function deepMerge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) && !('$value' in source[key])) {
+      if (!target[key]) target[key] = {};
+      deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+}
+
+function extractDTCGValues(obj, prefix = '') {
   const result = [];
   for (const [key, val] of Object.entries(obj)) {
+    if (key.startsWith('$')) continue;
     const path = prefix ? `${prefix}.${key}` : key;
-    if (val && typeof val === 'object' && 'value' in val) {
-      result.push({ path, value: val.value, type: val.type });
-    } else if (val && typeof val === 'object') {
-      result.push(...extractValues(val, path));
+    if (val && typeof val === 'object' && '$value' in val) {
+      result.push({ path, value: val.$value, type: val.$type || null });
+    } else if (val && typeof val === 'object' && !Array.isArray(val)) {
+      result.push(...extractDTCGValues(val, path));
     }
   }
   return result;
 }
 
-// Check 1: All packages have valid token files
-console.log('\n=== Token Package Validation ===\n');
+function findBrokenRefs(obj, root, prefix = '') {
+  const broken = [];
+  for (const [key, val] of Object.entries(obj)) {
+    if (key.startsWith('$')) continue;
+    const path = prefix ? `${prefix}.${key}` : key;
+    if (val && typeof val === 'object' && '$value' in val) {
+      const v = val.$value;
+      if (typeof v === 'string' && v.match(/^\{.+\}$/)) {
+        const refPath = v.slice(1, -1).split('.');
+        let current = root;
+        for (const seg of refPath) {
+          if (current && typeof current === 'object' && seg in current) {
+            current = current[seg];
+          } else {
+            broken.push({ token: path, ref: v });
+            current = null;
+            break;
+          }
+        }
+      }
+    } else if (val && typeof val === 'object' && !Array.isArray(val)) {
+      broken.push(...findBrokenRefs(val, root, path));
+    }
+  }
+  return broken;
+}
+
+// ── Validation ──
+console.log('\n=== Token Package Validation (W3C DTCG) ===\n');
 
 const packages = ['tokens-foundation', 'tokens-brand', 'tokens-creator', 'tokens-atmosphere'];
 for (const pkg of packages) {
-  const pkgDir = path.join(PACKAGES_DIR, pkg);
-  if (!fs.existsSync(pkgDir)) {
-    console.log(`⚠️  Package ${pkg} directory not found — skipping`);
+  const tokensDir = join(PACKAGES_DIR, pkg, 'tokens');
+  if (!existsSync(tokensDir)) {
+    console.log(`  Package ${pkg} tokens directory not found — skipping`);
     warnings++;
     continue;
   }
 
-  const tokens = loadTokens(pkg);
-  const values = extractValues(tokens);
-  console.log(`✅ ${pkg}: ${values.length} tokens loaded`);
+  const tokens = loadJsonFilesRecursive(tokensDir);
+  const values = extractDTCGValues(tokens);
+  console.log(`  ${pkg}: ${values.length} tokens loaded`);
 
   // Check for empty values
   for (const { path: tokenPath, value } of values) {
-    if (!value && value !== 0) {
-      console.log(`  ❌ ${tokenPath} has empty value`);
+    if (value === '' || value === null || value === undefined) {
+      console.log(`  ERROR ${tokenPath} has empty $value`);
       errors++;
     }
   }
 }
 
-// Check 2: Foundation primitives are complete
-const foundation = loadTokens('tokens-foundation');
-const foundationValues = extractValues(foundation);
+// Check: Foundation primitives cover required categories
+console.log('\n--- Foundation Primitives ---');
+const primitivesDir = join(PACKAGES_DIR, 'tokens-foundation', 'tokens', 'primitives');
+const requiredPrimitives = ['colors', 'spacing', 'radii', 'shadows', 'typography', 'z-index', 'breakpoints'];
 
-const requiredCategories = ['spacing', 'radius', 'shadow', 'typography', 'color'];
-for (const cat of requiredCategories) {
-  if (!foundation[cat]) {
-    console.log(`❌ Foundation missing required category: ${cat}`);
+for (const cat of requiredPrimitives) {
+  const file = join(primitivesDir, `${cat}.json`);
+  if (!existsSync(file)) {
+    console.log(`  ERROR Foundation missing required primitive file: ${cat}.json`);
     errors++;
+  } else {
+    console.log(`  ${cat}.json exists`);
   }
 }
 
-// Check 2b: Foundation color primitives are complete
-if (foundation.color && foundation.color.primitive) {
-  const requiredColors = ['purple-500', 'purple-800', 'red-500', 'green-500', 'amber-500', 'neutral-900', 'neutral-700', 'neutral-500', 'neutral-300', 'neutral-100', 'neutral-50', 'white', 'black'];
-  for (const colorName of requiredColors) {
-    if (!foundation.color.primitive[colorName]) {
-      console.log(`❌ Foundation missing required color primitive: ${colorName}`);
+// Check: Semantic files exist
+const semanticDir = join(PACKAGES_DIR, 'tokens-foundation', 'tokens', 'semantic');
+for (const theme of ['colors-light.json', 'colors-dark.json']) {
+  if (!existsSync(join(semanticDir, theme))) {
+    console.log(`  ERROR Foundation missing semantic file: ${theme}`);
+    errors++;
+  } else {
+    console.log(`  semantic/${theme} exists`);
+  }
+}
+
+// Check: Product theme files reference valid foundation tokens
+// Validate each theme (light/dark) independently to avoid non-deterministic merging
+console.log('\n--- Reference Integrity ---');
+const foundationPrimitives = loadJsonFilesRecursive(primitivesDir);
+
+for (const theme of ['light', 'dark']) {
+  const semanticFile = join(semanticDir, `colors-${theme}.json`);
+  if (!existsSync(semanticFile)) continue;
+
+  const foundationForTheme = {};
+  deepMerge(foundationForTheme, foundationPrimitives);
+  deepMerge(foundationForTheme, JSON.parse(readFileSync(semanticFile, 'utf8')));
+
+  // Check foundation semantic refs resolve against primitives
+  const semanticTokens = JSON.parse(readFileSync(semanticFile, 'utf8'));
+  const brokenSemantic = findBrokenRefs(semanticTokens, foundationForTheme);
+  if (brokenSemantic.length > 0) {
+    for (const { token, ref } of brokenSemantic) {
+      console.log(`  ERROR foundation/semantic/${theme}: ${token} has broken reference ${ref}`);
       errors++;
     }
-  }
-  console.log(`✅ Foundation color primitives: ${Object.keys(foundation.color.primitive).length} defined`);
-} else {
-  console.log(`❌ Foundation missing color.primitive structure`);
-  errors++;
-}
-
-// Check 3: Color consistency across products
-const brand = loadTokens('tokens-brand');
-const creator = loadTokens('tokens-creator');
-
-if (brand.color && creator.color) {
-  // Check that shared semantic colors are consistent
-  const brandPositive = brand.color?.positive?.default?.value;
-  const creatorPositive = creator.color?.sdui?.positive?.value;
-  if (brandPositive && creatorPositive && brandPositive.toLowerCase() !== creatorPositive.toLowerCase()) {
-    console.log(`⚠️  Color mismatch: positive — brand=${brandPositive}, creator=${creatorPositive}`);
-    warnings++;
+  } else {
+    console.log(`  foundation semantic-${theme}: all references resolve`);
   }
 
-  const brandNegative = brand.color?.negative?.default?.value;
-  const creatorNegative = creator.color?.sdui?.negative?.value;
-  if (brandNegative && creatorNegative && brandNegative.toLowerCase() !== creatorNegative.toLowerCase()) {
-    console.log(`⚠️  Color mismatch: negative — brand=${brandNegative}, creator=${creatorNegative}`);
-    warnings++;
+  // Check each product's theme file against foundation
+  for (const pkg of ['tokens-brand', 'tokens-atmosphere', 'tokens-creator']) {
+    const themeFile = join(PACKAGES_DIR, pkg, 'tokens', `theme-${theme}.json`);
+    if (!existsSync(themeFile)) continue;
+
+    const productTokens = JSON.parse(readFileSync(themeFile, 'utf8'));
+    const combined = {};
+    deepMerge(combined, foundationForTheme);
+    deepMerge(combined, productTokens);
+
+    const broken = findBrokenRefs(productTokens, combined);
+    if (broken.length > 0) {
+      for (const { token, ref } of broken) {
+        console.log(`  ERROR ${pkg}/theme-${theme}: ${token} has broken reference ${ref}`);
+        errors++;
+      }
+    } else {
+      console.log(`  ${pkg} theme-${theme}: all references resolve`);
+    }
   }
 }
 
@@ -121,8 +192,8 @@ console.log(`Errors: ${errors}`);
 console.log(`Warnings: ${warnings}`);
 
 if (errors > 0) {
-  console.log('\n❌ Validation failed');
+  console.log('\nValidation failed');
   process.exit(1);
 } else {
-  console.log('\n✅ All checks passed');
+  console.log('\nAll checks passed');
 }
