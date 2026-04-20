@@ -1,0 +1,9 @@
+{
+  "shadow": {
+    "100": { "value": "0 1px 3px rgba(29, 37, 45, 0.08)", "type": "boxShadow" },
+    "200": { "value": "0 4px 12px rgba(29, 37, 45, 0.10)", "type": "boxShadow" },
+    "300": { "value": "0 8px 24px rgba(29, 37, 45, 0.12)", "type": "boxShadow" },
+    "400": { "value": "0 16px 48px rgba(29, 37, 45, 0.16)", "type": "boxShadow" },
+    "500": { "value": "0 4px 64px rgba(111, 125, 154, 0.25)", "type": "boxShadow" }
+  }
+}

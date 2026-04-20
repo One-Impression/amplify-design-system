@@ -1,0 +1,13 @@
+{
+  "z-index": {
+    "base": { "value": "0", "type": "other" },
+    "dropdown": { "value": "1000", "type": "other" },
+    "sticky": { "value": "1020", "type": "other" },
+    "fixed": { "value": "1030", "type": "other" },
+    "modal-backdrop": { "value": "1040", "type": "other" },
+    "modal": { "value": "1050", "type": "other" },
+    "popover": { "value": "1060", "type": "other" },
+    "tooltip": { "value": "1070", "type": "other" },
+    "toast": { "value": "1080", "type": "other" }
+  }
+}

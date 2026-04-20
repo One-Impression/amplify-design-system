@@ -2,7 +2,6 @@
   "name": "amplify-design-system",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "Amplify Design System — federated design tokens for Brand, Creator, and Atmosphere products",
   "workspaces": [
     "packages/*"
