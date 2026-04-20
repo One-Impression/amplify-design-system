@@ -74,6 +74,7 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 
 - `ci.yml` — Build all packages, validate consistency, secret scan, SDUI sync check
 - `chromatic.yml` — Visual regression testing via Chromatic
+- `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
 ## Rules
