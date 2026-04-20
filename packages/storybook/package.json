@@ -22,6 +22,7 @@
     "vite": "^6.0.0",
     "typescript": "^5.5.0",
     "tailwindcss": "^4.0.0",
-    "@amplify/ui": "*"
+    "@amplify/ui": "*",
+    "chromatic": "^11.0.0"
   }
 }

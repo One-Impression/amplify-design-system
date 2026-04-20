@@ -2,6 +2,7 @@ name: Chromatic Visual Regression
 
 on:
   pull_request:
+    branches: [main]
     paths:
       - 'packages/ui/**'
       - 'packages/storybook/**'
