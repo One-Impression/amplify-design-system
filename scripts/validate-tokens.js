@@ -140,27 +140,49 @@ for (const theme of ['colors-light.json', 'colors-dark.json']) {
 }
 
 // Check: Product theme files reference valid foundation tokens
+// Validate each theme (light/dark) independently to avoid non-deterministic merging
 console.log('\n--- Reference Integrity ---');
-const foundationTokens = loadJsonFilesRecursive(join(PACKAGES_DIR, 'tokens-foundation', 'tokens'));
+const foundationPrimitives = loadJsonFilesRecursive(primitivesDir);
 
-for (const pkg of ['tokens-brand', 'tokens-atmosphere', 'tokens-creator']) {
-  const tokensDir = join(PACKAGES_DIR, pkg, 'tokens');
-  if (!existsSync(tokensDir)) continue;
+for (const theme of ['light', 'dark']) {
+  const semanticFile = join(semanticDir, `colors-${theme}.json`);
+  if (!existsSync(semanticFile)) continue;
 
-  const productTokens = loadJsonFilesRecursive(tokensDir);
-  // Merge foundation + product to create full resolution context
-  const combined = {};
-  deepMerge(combined, foundationTokens);
-  deepMerge(combined, productTokens);
+  const foundationForTheme = {};
+  deepMerge(foundationForTheme, foundationPrimitives);
+  deepMerge(foundationForTheme, JSON.parse(readFileSync(semanticFile, 'utf8')));
 
-  const broken = findBrokenRefs(productTokens, combined);
-  if (broken.length > 0) {
-    for (const { token, ref } of broken) {
-      console.log(`  ERROR ${pkg}: ${token} has broken reference ${ref}`);
+  // Check foundation semantic refs resolve against primitives
+  const semanticTokens = JSON.parse(readFileSync(semanticFile, 'utf8'));
+  const brokenSemantic = findBrokenRefs(semanticTokens, foundationForTheme);
+  if (brokenSemantic.length > 0) {
+    for (const { token, ref } of brokenSemantic) {
+      console.log(`  ERROR foundation/semantic/${theme}: ${token} has broken reference ${ref}`);
       errors++;
     }
   } else {
-    console.log(`  ${pkg}: all references resolve`);
+    console.log(`  foundation semantic-${theme}: all references resolve`);
+  }
+
+  // Check each product's theme file against foundation
+  for (const pkg of ['tokens-brand', 'tokens-atmosphere', 'tokens-creator']) {
+    const themeFile = join(PACKAGES_DIR, pkg, 'tokens', `theme-${theme}.json`);
+    if (!existsSync(themeFile)) continue;
+
+    const productTokens = JSON.parse(readFileSync(themeFile, 'utf8'));
+    const combined = {};
+    deepMerge(combined, foundationForTheme);
+    deepMerge(combined, productTokens);
+
+    const broken = findBrokenRefs(productTokens, combined);
+    if (broken.length > 0) {
+      for (const { token, ref } of broken) {
+        console.log(`  ERROR ${pkg}/theme-${theme}: ${token} has broken reference ${ref}`);
+        errors++;
+      }
+    } else {
+      console.log(`  ${pkg} theme-${theme}: all references resolve`);
+    }
   }
 }
 

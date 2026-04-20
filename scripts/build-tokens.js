@@ -60,6 +60,8 @@ function deepMerge(target, source) {
 }
 
 // ── Resolve {reference.path} values ──
+const unresolvedRefs = [];
+
 function resolveValue(val, root) {
   if (typeof val !== 'string') return val;
   const match = val.match(/^\{(.+)\}$/);
@@ -71,7 +73,8 @@ function resolveValue(val, root) {
     if (current && typeof current === 'object' && key in current) {
       current = current[key];
     } else {
-      console.warn(`WARNING: unresolved reference ${val} — token will output raw reference string`);
+      unresolvedRefs.push(val);
+      console.warn(`WARNING: unresolved reference ${val}`);
       return val; // unresolved — keep as-is
     }
   }
@@ -285,4 +288,14 @@ if (pkg === 'creator') {
   console.log(`@amplify/tokens-${pkg}: built 6 artifacts (+ React Native)`);
 } else {
   console.log(`@amplify/tokens-${pkg}: built 5 artifacts`);
+}
+
+// Fail build if any references could not be resolved
+if (unresolvedRefs.length > 0) {
+  console.error(`\nERROR: ${unresolvedRefs.length} unresolved reference(s) found:`);
+  for (const ref of unresolvedRefs) {
+    console.error(`  - ${ref}`);
+  }
+  console.error('Run "node scripts/validate-tokens.js" for details.');
+  process.exit(1);
 }
