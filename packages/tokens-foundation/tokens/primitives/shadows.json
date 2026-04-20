@@ -1,0 +1,29 @@
+{
+  "shadow": {
+    "$type": "shadow",
+    "sm": {
+      "$value": "0 1px 3px rgba(28, 25, 23, 0.04)",
+      "$description": "Subtle card shadow"
+    },
+    "md": {
+      "$value": "0 2px 8px rgba(28, 25, 23, 0.06)",
+      "$description": "Elevated card, dropdown"
+    },
+    "lg": {
+      "$value": "0 8px 24px rgba(28, 25, 23, 0.08)",
+      "$description": "Modal, popover"
+    },
+    "sm-dark": {
+      "$value": "0 1px 3px rgba(0, 0, 0, 0.2)",
+      "$description": "Subtle shadow for dark mode"
+    },
+    "md-dark": {
+      "$value": "0 2px 8px rgba(0, 0, 0, 0.3)",
+      "$description": "Elevated shadow for dark mode"
+    },
+    "lg-dark": {
+      "$value": "0 8px 24px rgba(0, 0, 0, 0.4)",
+      "$description": "Modal shadow for dark mode"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "breakpoint": {
+    "$type": "dimension",
+    "sm":  { "$value": "640px",  "$description": "Mobile landscape" },
+    "md":  { "$value": "768px",  "$description": "Tablet portrait" },
+    "lg":  { "$value": "1024px", "$description": "Tablet landscape / small desktop" },
+    "xl":  { "$value": "1280px", "$description": "Desktop" },
+    "2xl": { "$value": "1536px", "$description": "Wide desktop" }
+  }
+}

@@ -1,35 +1,42 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
-import { Button } from '../Button/Button';
 
 export interface EmptyStateProps {
+  icon?: React.ReactNode;
   title: string;
   description?: string;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-  icon?: React.ReactNode;
+  action?: React.ReactNode;
   className?: string;
 }
 
-export const EmptyState: React.FC<EmptyStateProps> = ({ title, description, action, icon, className }) => {
+export const EmptyState: React.FC<EmptyStateProps> = ({
+  icon,
+  title,
+  description,
+  action,
+  className,
+}) => {
   return (
-    <div className={cn('flex flex-col items-center justify-center py-16 px-6 text-center', className)}>
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center py-16 px-6 text-center',
+        className
+      )}
+    >
       {icon && (
-        <div className="w-12 h-12 rounded-xl bg-surface-raised flex items-center justify-center mb-4 text-neutral-500">
+        <div className="w-12 h-12 rounded-[16px] bg-[var(--amp-semantic-bg-raised)] flex items-center justify-center mb-4 text-[var(--amp-semantic-text-muted)]">
           {icon}
         </div>
       )}
-      <h3 className="text-lg font-semibold text-neutral-900 mb-2">{title}</h3>
+      <h3 className="text-[16px] font-semibold text-[var(--amp-semantic-text-primary)] mb-2">
+        {title}
+      </h3>
       {description && (
-        <p className="text-sm text-neutral-700 max-w-sm mb-6">{description}</p>
+        <p className="text-[14px] text-[var(--amp-semantic-text-secondary)] max-w-sm mb-6">
+          {description}
+        </p>
       )}
-      {action && (
-        <Button variant="primary" size="md" onClick={action.onClick}>
-          {action.label}
-        </Button>
-      )}
+      {action && <div>{action}</div>}
     </div>
   );
 };
