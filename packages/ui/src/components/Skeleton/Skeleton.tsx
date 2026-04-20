@@ -1,38 +1,34 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type SkeletonVariant = 'text' | 'circular' | 'rectangular';
-
-export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: SkeletonVariant;
+export interface SkeletonProps {
   width?: string | number;
   height?: string | number;
+  variant?: 'text' | 'rectangular' | 'circular';
+  className?: string;
 }
 
-export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
-  ({ variant = 'rectangular', width, height, className, style, ...props }, ref) => {
-    const sizeStyle: React.CSSProperties = {
-      ...style,
-      ...(width != null ? { width: typeof width === 'number' ? `${width}px` : width } : {}),
-      ...(height != null ? { height: typeof height === 'number' ? `${height}px` : height } : {}),
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'animate-pulse bg-[var(--amp-semantic-bg-sunken)]',
-          variant === 'text' && 'rounded h-4 w-full',
-          variant === 'rectangular' && 'rounded-[16px]',
-          variant === 'circular' && 'rounded-full',
-          className
-        )}
-        style={sizeStyle}
-        aria-hidden="true"
-        role="presentation"
-        {...props}
-      />
-    );
-  }
-);
-Skeleton.displayName = 'Skeleton';
+export const Skeleton: React.FC<SkeletonProps> = ({
+  width,
+  height,
+  variant = 'rectangular',
+  className,
+}) => {
+  return (
+    <div
+      className={cn(
+        'animate-pulse bg-neutral-100',
+        variant === 'text' && 'rounded h-4',
+        variant === 'rectangular' && 'rounded-md',
+        variant === 'circular' && 'rounded-full',
+        className
+      )}
+      style={{
+        width: typeof width === 'number' ? `${width}px` : width,
+        height: typeof height === 'number' ? `${height}px` : height,
+      }}
+      aria-hidden="true"
+      role="presentation"
+    />
+  );
+};

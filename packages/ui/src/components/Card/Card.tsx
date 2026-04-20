@@ -1,128 +1,72 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type CardVariant = 'default' | 'elevated' | 'interactive' | 'outlined' | 'ghost';
+export type CardVariant = 'default' | 'elevated' | 'outlined' | 'ghost';
 export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+/**
+ * Card component props.
+ *
+ * **Accessibility note:** When `onClick` is provided the Card renders with
+ * `role="button"`. Screen-reader users need an accessible name, so callers
+ * should supply an `aria-label` (or ensure the card's text content is
+ * sufficiently descriptive) whenever the card is interactive.
+ */
+export interface CardProps {
   variant?: CardVariant;
   padding?: CardPadding;
   children: React.ReactNode;
-}
-
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  children: React.ReactNode;
-}
-
-export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  children: React.ReactNode;
-}
-
-export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  as?: 'div' | 'article' | 'section' | 'li';
+  onClick?: () => void;
+  /** Required for accessibility when `onClick` is provided. */
+  'aria-label'?: string;
+  className?: string;
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  default:
-    'border border-[var(--amp-semantic-border-default)] bg-[var(--amp-semantic-bg-surface)]',
-  elevated:
-    'bg-[var(--amp-semantic-bg-surface)] shadow-lg border border-[var(--amp-semantic-border-default)]',
-  interactive:
-    'bg-[var(--amp-semantic-bg-surface)] border border-[var(--amp-semantic-border-default)] cursor-pointer hover:shadow-lg transition-shadow duration-150',
-  outlined:
-    'bg-transparent border border-[var(--amp-semantic-border-default)]',
-  ghost:
-    'bg-transparent border-none',
+  default: 'bg-surface border border-border rounded-lg shadow-sm',
+  elevated: 'bg-surface border border-border rounded-lg shadow-md',
+  outlined: 'bg-transparent border-2 border-brand/20 rounded-lg',
+  ghost: 'bg-surface-raised rounded-lg',
 };
 
 const paddingClasses: Record<CardPadding, string> = {
-  none: 'p-0',
+  none: '',
   sm: 'p-3',
   md: 'p-4',
   lg: 'p-6',
 };
 
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ variant = 'default', padding = 'md', children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'rounded-[16px]',
-          variantClasses[variant],
-          paddingClasses[padding],
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  }
-);
-Card.displayName = 'Card';
-
-export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ children, className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex flex-col gap-1.5 pb-3', className)} {...props}>
-      {children}
-    </div>
-  )
-);
-CardHeader.displayName = 'CardHeader';
-
-export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ children, className, ...props }, ref) => (
-    <h3
-      ref={ref}
-      className={cn('text-[16px] font-semibold text-[var(--amp-semantic-text-primary)]', className)}
-      {...props}
+export const Card: React.FC<CardProps> = ({
+  variant = 'default',
+  padding = 'md',
+  children,
+  as: Tag = 'div',
+  onClick,
+  'aria-label': ariaLabel,
+  className,
+}) => {
+  return (
+    <Tag
+      className={cn(
+        'transition-all duration-150',
+        variantClasses[variant],
+        paddingClasses[padding],
+        onClick && 'cursor-pointer hover:shadow-md active:scale-[0.99]',
+        className
+      )}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      } : undefined}
     >
       {children}
-    </h3>
-  )
-);
-CardTitle.displayName = 'CardTitle';
-
-export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  ({ children, className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn('text-[14px] text-[var(--amp-semantic-text-secondary)]', className)}
-      {...props}
-    >
-      {children}
-    </p>
-  )
-);
-CardDescription.displayName = 'CardDescription';
-
-export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
-  ({ children, className, ...props }, ref) => (
-    <div ref={ref} className={cn('py-2', className)} {...props}>
-      {children}
-    </div>
-  )
-);
-CardContent.displayName = 'CardContent';
-
-export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
-  ({ children, className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('flex items-center pt-3 border-t border-[var(--amp-semantic-border-default)]', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-);
-CardFooter.displayName = 'CardFooter';
+    </Tag>
+  );
+};
