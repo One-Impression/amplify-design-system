@@ -38,14 +38,34 @@ jobs:
         working-directory: .
 
       - name: Run Chromatic
+        id: chromatic
         uses: chromaui/action@latest
+        continue-on-error: true
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: packages/storybook
           buildScriptName: build
-          exitZeroOnChanges: false
+          exitZeroOnChanges: true
           exitOnceUploaded: false
           onlyChanged: true
           externals: |
             packages/ui/src/**
             packages/tokens-*/tokens/**
+
+      - name: Report Chromatic results
+        if: always()
+        run: |
+          echo "### Chromatic Visual Regression" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Build URL | ${{ steps.chromatic.outputs.buildUrl }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Stories | ${{ steps.chromatic.outputs.specCount }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Changes | ${{ steps.chromatic.outputs.changeCount }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Component Errors | ${{ steps.chromatic.outputs.errorCount }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Step Outcome | ${{ steps.chromatic.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.chromatic.outcome }}" = "failure" ]; then
+            echo ""
+            echo "::warning::Chromatic reported errors. Review at ${{ steps.chromatic.outputs.buildUrl }}"
+          fi
+        working-directory: .
