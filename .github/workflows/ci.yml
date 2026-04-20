@@ -70,7 +70,16 @@ jobs:
         run: |
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui eslint-config; do
             cd packages/$pkg
-            npm publish --access restricted || true
+            OUTPUT=$(npm publish --access restricted 2>&1) && echo "$OUTPUT" || {
+              EXIT_CODE=$?
+              echo "$OUTPUT"
+              if echo "$OUTPUT" | grep -q 'EPUBLISHCONFLICT\|already been published\|You cannot publish over the previously published versions'; then
+                echo "Package already published at this version — skipping"
+              else
+                echo "::error::Publish failed for $pkg"
+                exit $EXIT_CODE
+              fi
+            }
             cd ../..
           done
         env:
