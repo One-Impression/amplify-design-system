@@ -18,5 +18,9 @@
   "devDependencies": {
     "style-dictionary": "^4.3.0"
   },
-  "files": ["dist/", "tokens/"]
+  "files": ["dist/", "tokens/"],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  }
 }

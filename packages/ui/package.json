@@ -37,5 +37,9 @@
   "dependencies": {
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.3.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
   }
 }
