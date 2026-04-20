@@ -1,0 +1,37 @@
+{
+  "semantic": {
+    "$type": "color",
+    "accent":          { "$value": "{color.violet.500}", "$description": "#A855F7 — lighter violet for dark bg" },
+    "accent-hover":    { "$value": "{color.violet.400}", "$description": "Accent hover on dark" },
+    "accent-light":    { "$value": "rgba(168, 85, 247, 0.12)", "$description": "Accent tint on dark" },
+    "accent-subtle":   { "$value": "rgba(168, 85, 247, 0.06)", "$description": "Subtle accent on dark" },
+
+    "bg-primary":      { "$value": "{color.stone.900}",  "$description": "#1C1917 — warm charcoal base" },
+    "bg-surface":      { "$value": "{color.stone.800}",  "$description": "#292524 — card surface" },
+    "bg-raised":       { "$value": "{color.stone.700}",  "$description": "#44403C — elevated" },
+    "bg-sunken":       { "$value": "{color.stone.950}",  "$description": "Inset areas" },
+    "bg-overlay":      { "$value": "rgba(0, 0, 0, 0.6)", "$description": "Modal backdrop (dark)" },
+
+    "text-primary":    { "$value": "{color.stone.200}",  "$description": "#E7E5E4 — main text on dark" },
+    "text-secondary":  { "$value": "{color.stone.400}",  "$description": "Secondary text on dark" },
+    "text-muted":      { "$value": "{color.stone.500}",  "$description": "Muted text on dark" },
+    "text-disabled":   { "$value": "{color.stone.600}",  "$description": "Disabled text on dark" },
+    "text-inverse":    { "$value": "{color.stone.900}",  "$description": "Text on light bg" },
+    "text-accent":     { "$value": "{color.violet.400}", "$description": "Links on dark" },
+
+    "border-default":  { "$value": "{color.stone.700}",  "$description": "#44403C — borders on dark" },
+    "border-strong":   { "$value": "{color.stone.600}",  "$description": "Stronger borders" },
+    "border-subtle":   { "$value": "rgba(255, 255, 255, 0.06)", "$description": "Subtle dividers" },
+    "border-accent":   { "$value": "rgba(168, 85, 247, 0.3)", "$description": "Accent borders on dark" },
+    "border-focus":    { "$value": "{color.violet.500}", "$description": "Focus ring on dark" },
+
+    "status-success":       { "$value": "{color.green.500}" },
+    "status-success-bg":    { "$value": "rgba(16, 185, 129, 0.12)" },
+    "status-warning":       { "$value": "{color.amber.500}" },
+    "status-warning-bg":    { "$value": "rgba(245, 158, 11, 0.12)" },
+    "status-error":         { "$value": "{color.red.500}" },
+    "status-error-bg":      { "$value": "rgba(239, 68, 68, 0.12)" },
+    "status-info":          { "$value": "{color.blue.500}" },
+    "status-info-bg":       { "$value": "rgba(59, 130, 246, 0.12)" }
+  }
+}

@@ -1,60 +1,7 @@
-import StyleDictionary from 'style-dictionary';
+// Delegates to shared build script
+import { execSync } from 'child_process';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-const sd = new StyleDictionary({
-  source: ['tokens/**/*.json'],
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      prefix: 'amplify',
-      buildPath: 'dist/',
-      files: [
-        {
-          destination: 'variables.css',
-          format: 'css/variables',
-          options: {
-            outputReferences: true,
-          },
-        },
-      ],
-    },
-    scss: {
-      transformGroup: 'scss',
-      prefix: 'amplify',
-      buildPath: 'dist/',
-      files: [
-        {
-          destination: 'variables.scss',
-          format: 'scss/variables',
-          options: {
-            outputReferences: true,
-          },
-        },
-      ],
-    },
-    json: {
-      transformGroup: 'js',
-      prefix: 'amplify',
-      buildPath: 'dist/',
-      files: [
-        {
-          destination: 'tokens.json',
-          format: 'json/flat',
-        },
-      ],
-    },
-    js: {
-      transformGroup: 'js',
-      prefix: 'amplify',
-      buildPath: 'dist/',
-      files: [
-        {
-          destination: 'tokens.js',
-          format: 'javascript/es6',
-        },
-      ],
-    },
-  },
-});
-
-await sd.buildAllPlatforms();
-console.log('tokens-foundation: build complete');
+const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+execSync(`node ${join(root, 'scripts/build-tokens.js')} foundation`, { stdio: 'inherit' });

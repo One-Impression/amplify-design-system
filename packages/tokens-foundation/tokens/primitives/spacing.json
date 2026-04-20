@@ -1,0 +1,17 @@
+{
+  "spacing": {
+    "$type": "dimension",
+    "1":  { "$value": "4px",  "$description": "Tight padding, icon gaps" },
+    "2":  { "$value": "8px",  "$description": "Compact spacing" },
+    "3":  { "$value": "12px", "$description": "Standard internal padding" },
+    "4":  { "$value": "16px", "$description": "Default component padding" },
+    "5":  { "$value": "20px", "$description": "Comfortable spacing" },
+    "6":  { "$value": "24px", "$description": "Card padding, section spacing" },
+    "8":  { "$value": "32px", "$description": "Generous gaps" },
+    "10": { "$value": "40px", "$description": "Large section margins" },
+    "12": { "$value": "48px", "$description": "Page-level vertical spacing" },
+    "16": { "$value": "64px", "$description": "Large page spacing" },
+    "20": { "$value": "80px", "$description": "Extra-large spacing" },
+    "24": { "$value": "96px", "$description": "Maximum spacing" }
+  }
+}
