@@ -1,8 +1,8 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type CardVariant = 'default' | 'elevated' | 'interactive';
-export type CardPadding = 'sm' | 'md' | 'lg';
+export type CardVariant = 'default' | 'elevated' | 'interactive' | 'outlined' | 'ghost';
+export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
@@ -37,9 +37,14 @@ const variantClasses: Record<CardVariant, string> = {
     'bg-[var(--amp-semantic-bg-surface)] shadow-lg border border-[var(--amp-semantic-border-default)]',
   interactive:
     'bg-[var(--amp-semantic-bg-surface)] border border-[var(--amp-semantic-border-default)] cursor-pointer hover:shadow-lg transition-shadow duration-150',
+  outlined:
+    'bg-transparent border border-[var(--amp-semantic-border-default)]',
+  ghost:
+    'bg-transparent border-none',
 };
 
 const paddingClasses: Record<CardPadding, string> = {
+  none: 'p-0',
   sm: 'p-3',
   md: 'p-4',
   lg: 'p-6',

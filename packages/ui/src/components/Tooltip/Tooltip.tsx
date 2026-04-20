@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../lib/cn';
 
 export type TooltipSide = 'top' | 'bottom' | 'left' | 'right';
@@ -25,6 +25,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const show = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

@@ -11,6 +11,7 @@ export interface DataTableColumn<T> {
 export interface DataTableProps<T> {
   columns: DataTableColumn<T>[];
   data: T[];
+  rowKey?: keyof T | ((item: T) => string);
   loading?: boolean;
   emptyMessage?: string;
   className?: string;
@@ -21,6 +22,7 @@ type SortDir = 'asc' | 'desc';
 export function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
+  rowKey,
   loading = false,
   emptyMessage = 'No data available',
   className,
@@ -103,9 +105,15 @@ export function DataTable<T extends Record<string, unknown>>({
               </td>
             </tr>
           ) : (
-            sortedData.map((row, idx) => (
+            sortedData.map((row, idx) => {
+              const key = rowKey
+                ? typeof rowKey === 'function'
+                  ? rowKey(row)
+                  : String(row[rowKey])
+                : idx;
+              return (
               <tr
-                key={idx}
+                key={key}
                 className={cn(
                   'border-t border-[var(--amp-semantic-border-default)]',
                   'hover:bg-[var(--amp-semantic-bg-raised)] transition-colors duration-100',
@@ -121,7 +129,8 @@ export function DataTable<T extends Record<string, unknown>>({
                   </td>
                 ))}
               </tr>
-            ))
+              );
+            })
           )}
         </tbody>
       </table>

@@ -20,9 +20,13 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   const [internal, setInternal] = useState(value);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevValueRef = useRef(value);
 
   useEffect(() => {
-    setInternal(value);
+    if (prevValueRef.current !== value) {
+      prevValueRef.current = value;
+      setInternal(value);
+    }
   }, [value]);
 
   const handleChange = useCallback(

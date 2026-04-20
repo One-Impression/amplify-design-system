@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '../../lib/cn';
 
 export interface TimelineEvent {
+  id: string;
   title: string;
   description?: string;
   timestamp: string;
@@ -29,7 +30,7 @@ export const Timeline: React.FC<TimelineProps> = ({ events, className }) => {
         const status = event.status || 'default';
 
         return (
-          <div key={idx} className="relative flex gap-4 pb-6 last:pb-0">
+          <div key={event.id} className="relative flex gap-4 pb-6 last:pb-0">
             {/* Vertical line */}
             {!isLast && (
               <div className="absolute left-[7px] top-4 bottom-0 w-px bg-[var(--amp-semantic-border-default)]" />
