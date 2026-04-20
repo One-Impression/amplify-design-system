@@ -23,9 +23,10 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
+const VALID_PACKAGES = ['foundation', 'brand', 'atmosphere', 'creator'];
 const pkg = process.argv[2];
-if (!pkg) {
-  console.error('Usage: node scripts/build-tokens.js <foundation|brand|atmosphere|creator>');
+if (!pkg || !VALID_PACKAGES.includes(pkg)) {
+  console.error(`Usage: node scripts/build-tokens.js <${VALID_PACKAGES.join('|')}>`);
   process.exit(1);
 }
 
@@ -111,17 +112,35 @@ function flatten(obj, prefix = '', sep = '-') {
 
 // ── Load tokens ──
 const foundationDir = join(ROOT, 'packages/tokens-foundation/tokens');
+const primitivesDir = join(foundationDir, 'primitives');
+const semanticDir = join(foundationDir, 'semantic');
 const packageDir = join(ROOT, `packages/tokens-${pkg}/tokens`);
 
+/**
+ * Load foundation tokens deterministically:
+ * 1. Always load primitives (stable base values)
+ * 2. Load ONLY colors-light.json for the default theme (avoids non-deterministic
+ *    deep-merge of light+dark which define the same semantic keys)
+ * 3. Overlay product tokens on top
+ */
 let allTokens = {};
 
-// Foundation primitives + semantics always loaded
-allTokens = loadJsonFiles(foundationDir);
+// Foundation primitives always loaded
+allTokens = loadJsonFiles(primitivesDir);
+
+// Semantic: explicitly load light theme as default
+const lightSemanticFile = join(semanticDir, 'colors-light.json');
+if (existsSync(lightSemanticFile)) {
+  deepMerge(allTokens, JSON.parse(readFileSync(lightSemanticFile, 'utf8')));
+}
 
 // Product tokens overlay (if not foundation itself)
 if (pkg !== 'foundation') {
-  const productTokens = loadJsonFiles(packageDir);
-  deepMerge(allTokens, productTokens);
+  // For product packages, load only theme-light.json as default
+  const themeLightFile = join(packageDir, 'theme-light.json');
+  if (existsSync(themeLightFile)) {
+    deepMerge(allTokens, JSON.parse(readFileSync(themeLightFile, 'utf8')));
+  }
 }
 
 // Resolve all references

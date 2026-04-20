@@ -6,7 +6,7 @@
     "md":   { "$value": "8px" },
     "lg":   { "$value": "12px" },
     "xl":   { "$value": "16px", "$description": "Default — soft, Canvas signature" },
-    "2xl":  { "$value": "20px", "$description": "Mobile cards, bottom sheets" },
+    "2xl":  { "$value": "24px", "$description": "Mobile cards, bottom sheets" },
     "full": { "$value": "9999px", "$description": "Circles, pills" }
   }
 }

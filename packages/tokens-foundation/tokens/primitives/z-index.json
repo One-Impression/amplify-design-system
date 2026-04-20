@@ -1,5 +1,5 @@
 {
-  "z": {
+  "z-index": {
     "$type": "number",
     "base":           { "$value": 0 },
     "dropdown":       { "$value": 1000 },
