@@ -109,3 +109,7 @@ export type { IconButtonProps, IconButtonVariant, IconButtonSize } from './compo
 // Separator
 export { Separator } from './components/Separator';
 export type { SeparatorProps, SeparatorOrientation } from './components/Separator';
+
+// CollapsibleNavGroup
+export { CollapsibleNavGroup } from './components/CollapsibleNavGroup';
+export type { CollapsibleNavGroupProps } from './components/CollapsibleNavGroup';
