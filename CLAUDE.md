@@ -51,11 +51,33 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, CollapsibleNavGroup)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### CollapsibleNavGroup (`packages/ui/src/components/CollapsibleNavGroup`)
+
+Reusable collapsible sidebar nav section. Supports uncontrolled and controlled modes.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `label` | `string` | required | Group heading text |
+| `icon` | `string` | — | Optional emoji/string icon before label |
+| `count` | `number` | — | Optional badge; turns accent color when expanded |
+| `defaultExpanded` | `boolean` | `false` | Uncontrolled initial state |
+| `expanded` | `boolean` | — | Controlled state; overrides internal state when set |
+| `onToggle` | `(expanded: boolean) => void` | — | Fired with next state on every toggle |
+| `children` | `ReactNode` | required | Nav items rendered when expanded |
+| `className` | `string` | — | Additional CSS class on root element |
+
+**Usage notes:**
+- Uncontrolled: use `defaultExpanded` + optional `onToggle`.
+- Controlled: pass `expanded` prop; component will not update internal state — consumer owns state.
+- Children are mounted/unmounted on toggle (not hidden); use controlled mode if you need to preserve child state across toggles.
+- Uses semantic tokens: `--amp-semantic-text-tertiary`, `--amp-semantic-text-secondary`, `--amp-semantic-accent` (with fallbacks).
+- ARIA: `aria-expanded` on trigger button, `role="group"` + `aria-labelledby` on child container.
 
 ## Token File Format
 
