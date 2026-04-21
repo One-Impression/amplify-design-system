@@ -15,16 +15,24 @@
 const noHardcodedColors = require('./rules/no-hardcoded-colors');
 const noRawSpacing = require('./rules/no-raw-spacing');
 const preferTokenImport = require('./rules/prefer-token-import');
+const noInlineStyles = require('./rules/no-inline-styles');
+const noRawSurface = require('./rules/no-raw-surface');
+const noHardcodedRadius = require('./rules/no-hardcoded-radius');
+const noHardcodedTypography = require('./rules/no-hardcoded-typography');
 
 const plugin = {
   meta: {
     name: '@amplify/eslint-plugin',
-    version: '1.0.0',
+    version: '2.0.0',
   },
   rules: {
     'no-hardcoded-colors': noHardcodedColors,
     'no-raw-spacing': noRawSpacing,
     'prefer-token-import': preferTokenImport,
+    'no-inline-styles': noInlineStyles,
+    'no-raw-surface': noRawSurface,
+    'no-hardcoded-radius': noHardcodedRadius,
+    'no-hardcoded-typography': noHardcodedTypography,
   },
 };
 
@@ -37,6 +45,10 @@ module.exports = [
       '@amplify/no-hardcoded-colors': 'warn',
       '@amplify/no-raw-spacing': 'warn',
       '@amplify/prefer-token-import': 'warn',
+      '@amplify/no-inline-styles': 'warn',
+      '@amplify/no-raw-surface': 'warn',
+      '@amplify/no-hardcoded-radius': 'warn',
+      '@amplify/no-hardcoded-typography': 'warn',
     },
   },
 ];
