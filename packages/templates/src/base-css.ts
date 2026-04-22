@@ -1,4 +1,8 @@
-module.exports = function getBaseCSS() {
+/**
+ * Base CSS for standalone HTML rendering.
+ * Provides styles for all amp-* utility classes used by template components.
+ */
+export function getBaseCSS(): string {
   return `
 /* Reset */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -141,4 +145,4 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
   .amp-nav-buttons .amp-btn{width:100%}
 }
 `;
-};
+}
