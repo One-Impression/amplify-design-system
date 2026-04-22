@@ -6,6 +6,12 @@ export interface DataTableColumn<T> {
   header: string;
   render?: (item: T) => React.ReactNode;
   sortable?: boolean;
+  /** Text alignment for this column */
+  align?: 'left' | 'center' | 'right';
+  /** Additional class for the header cell */
+  headerClassName?: string;
+  /** Minimum width (e.g., '200px') */
+  minWidth?: string;
 }
 
 export interface DataTableProps<T> {
@@ -14,6 +20,10 @@ export interface DataTableProps<T> {
   rowKey?: keyof T | ((item: T) => string);
   loading?: boolean;
   emptyMessage?: string;
+  /** Make the first column sticky on horizontal scroll */
+  stickyFirstColumn?: boolean;
+  /** Return a className for a specific row (e.g., for totals row styling) */
+  rowClassName?: (item: T, index: number) => string | undefined;
   className?: string;
 }
 
@@ -25,6 +35,8 @@ export function DataTable<T extends Record<string, unknown>>({
   rowKey,
   loading = false,
   emptyMessage = 'No data available',
+  stickyFirstColumn = false,
+  rowClassName,
   className,
 }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<string | null>(null);
@@ -53,6 +65,14 @@ export function DataTable<T extends Record<string, unknown>>({
     });
   }, [data, sortKey, sortDir]);
 
+  const alignClass = (align?: string) =>
+    align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left';
+
+  const stickyClass = (colIdx: number) =>
+    stickyFirstColumn && colIdx === 0
+      ? 'sticky left-0 z-[1] bg-inherit'
+      : '';
+
   if (loading) {
     return (
       <div className={cn('rounded-[16px] border border-[var(--amp-semantic-border-default)] overflow-hidden', className)}>
@@ -65,75 +85,87 @@ export function DataTable<T extends Record<string, unknown>>({
 
   return (
     <div className={cn('rounded-[16px] border border-[var(--amp-semantic-border-default)] overflow-hidden', className)}>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-[var(--amp-semantic-bg-sunken)]">
-            {columns.map((col) => (
-              <th
-                key={col.key}
-                className={cn(
-                  'px-4 py-3 text-left text-[12px] font-semibold uppercase tracking-wide text-[var(--amp-semantic-text-secondary)]',
-                  col.sortable && 'cursor-pointer select-none hover:text-[var(--amp-semantic-text-primary)]'
-                )}
-                onClick={col.sortable ? () => handleSort(col.key) : undefined}
-                aria-sort={sortKey === col.key ? (sortDir === 'asc' ? 'ascending' : 'descending') : undefined}
-              >
-                <span className="inline-flex items-center gap-1">
-                  {col.header}
-                  {col.sortable && sortKey === col.key && (
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d={sortDir === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'}
-                      />
-                    </svg>
+      <div className={stickyFirstColumn ? 'overflow-x-auto' : ''}>
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-[var(--amp-semantic-bg-sunken)]">
+              {columns.map((col, colIdx) => (
+                <th
+                  key={col.key}
+                  style={col.minWidth ? { minWidth: col.minWidth } : undefined}
+                  className={cn(
+                    'px-4 py-3 text-[12px] font-semibold uppercase tracking-wide text-[var(--amp-semantic-text-secondary)]',
+                    alignClass(col.align),
+                    stickyClass(colIdx),
+                    col.sortable && 'cursor-pointer select-none hover:text-[var(--amp-semantic-text-primary)]',
+                    col.headerClassName
                   )}
-                </span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.length === 0 ? (
-            <tr>
-              <td
-                colSpan={columns.length}
-                className="px-4 py-8 text-center text-[14px] text-[var(--amp-semantic-text-muted)]"
-              >
-                {emptyMessage}
-              </td>
+                  onClick={col.sortable ? () => handleSort(col.key) : undefined}
+                  aria-sort={sortKey === col.key ? (sortDir === 'asc' ? 'ascending' : 'descending') : undefined}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    {col.header}
+                    {col.sortable && sortKey === col.key && (
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d={sortDir === 'asc' ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'}
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </th>
+              ))}
             </tr>
-          ) : (
-            sortedData.map((row, idx) => {
-              const key = rowKey
-                ? typeof rowKey === 'function'
-                  ? rowKey(row)
-                  : String(row[rowKey])
-                : idx;
-              return (
-              <tr
-                key={key}
-                className={cn(
-                  'border-t border-[var(--amp-semantic-border-default)]',
-                  'hover:bg-[var(--amp-semantic-bg-raised)] transition-colors duration-100',
-                  idx % 2 === 1 && 'bg-[var(--amp-semantic-bg-sunken)]/30'
-                )}
-              >
-                {columns.map((col) => (
-                  <td
-                    key={col.key}
-                    className="px-4 py-3 text-[14px] text-[var(--amp-semantic-text-primary)]"
-                  >
-                    {col.render ? col.render(row) : (row[col.key] as React.ReactNode)}
-                  </td>
-                ))}
+          </thead>
+          <tbody>
+            {sortedData.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-8 text-center text-[14px] text-[var(--amp-semantic-text-muted)]"
+                >
+                  {emptyMessage}
+                </td>
               </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+            ) : (
+              sortedData.map((row, idx) => {
+                const key = rowKey
+                  ? typeof rowKey === 'function'
+                    ? rowKey(row)
+                    : String(row[rowKey])
+                  : idx;
+                const customRowClass = rowClassName?.(row, idx);
+                return (
+                  <tr
+                    key={key}
+                    className={cn(
+                      'border-t border-[var(--amp-semantic-border-default)]',
+                      'hover:bg-[var(--amp-semantic-bg-raised)] transition-colors duration-100',
+                      idx % 2 === 1 && 'bg-[var(--amp-semantic-bg-sunken)]/30',
+                      customRowClass
+                    )}
+                  >
+                    {columns.map((col, colIdx) => (
+                      <td
+                        key={col.key}
+                        className={cn(
+                          'px-4 py-3 text-[14px] text-[var(--amp-semantic-text-primary)]',
+                          alignClass(col.align),
+                          stickyClass(colIdx)
+                        )}
+                      >
+                        {col.render ? col.render(row) : (row[col.key] as React.ReactNode)}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -276,8 +276,46 @@ export const spacing = ${JSON.stringify(spacing, null, 2)};
 `;
 }
 
+// 7. Dark mode CSS — loads dark semantic + dark product theme, outputs [data-theme="dark"] block
+function buildDarkCSS() {
+  const darkSemanticFile = join(semanticDir, 'colors-dark.json');
+  const darkThemeFile = join(packageDir, 'theme-dark.json');
+  const hasDarkSemantic = existsSync(darkSemanticFile);
+  const hasDarkTheme = pkg !== 'foundation' && existsSync(darkThemeFile);
+
+  if (!hasDarkSemantic && !hasDarkTheme) return '';
+
+  let darkTokens = loadJsonFiles(primitivesDir);
+  if (hasDarkSemantic) {
+    deepMerge(darkTokens, JSON.parse(readFileSync(darkSemanticFile, 'utf8')));
+  }
+  if (hasDarkTheme) {
+    deepMerge(darkTokens, JSON.parse(readFileSync(darkThemeFile, 'utf8')));
+  }
+
+  const darkResolved = resolveAll(darkTokens, darkTokens);
+  const darkFlat = flatten(darkResolved);
+
+  const lines = ['', '/* Dark mode overrides */', '[data-theme="dark"] {'];
+  for (const [key, value] of Object.entries(darkFlat)) {
+    if (typeof value === 'string' || typeof value === 'number') {
+      lines.push(`  --${PREFIX}-${key}: ${value};`);
+    }
+  }
+  lines.push('}', '', '@media (prefers-color-scheme: dark) {', '  :root:not([data-theme="light"]) {');
+  for (const [key, value] of Object.entries(darkFlat)) {
+    if (typeof value === 'string' || typeof value === 'number') {
+      lines.push(`    --${PREFIX}-${key}: ${value};`);
+    }
+  }
+  lines.push('  }', '}');
+  return lines.join('\n');
+}
+
 // ── Write outputs ──
-writeFileSync(join(distDir, 'variables.css'), buildCSS());
+const lightCSS = buildCSS();
+const darkCSS = buildDarkCSS();
+writeFileSync(join(distDir, 'variables.css'), lightCSS + darkCSS);
 writeFileSync(join(distDir, 'variables.scss'), buildSCSS());
 writeFileSync(join(distDir, 'tokens.json'), buildJSON());
 writeFileSync(join(distDir, 'tokens.js'), buildJS());

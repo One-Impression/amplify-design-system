@@ -1,6 +1,8 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
+export type MetricCardIconVariant = 'accent' | 'success' | 'warning' | 'error' | 'info';
+
 export interface MetricCardProps {
   label: string;
   value: string | number;
@@ -8,8 +10,18 @@ export interface MetricCardProps {
   trendLabel?: string;
   subtitle?: string;
   icon?: React.ReactNode;
+  /** Color variant for the icon background. Defaults to 'accent' (violet). */
+  iconVariant?: MetricCardIconVariant;
   className?: string;
 }
+
+const iconVariantClasses: Record<MetricCardIconVariant, string> = {
+  accent: 'bg-[var(--amp-semantic-accent-light)] text-[var(--amp-semantic-accent)]',
+  success: 'bg-[var(--amp-semantic-status-success-bg)] text-[var(--amp-semantic-status-success)]',
+  warning: 'bg-[var(--amp-semantic-status-warning-bg)] text-[var(--amp-semantic-status-warning)]',
+  error: 'bg-[var(--amp-semantic-status-error-bg)] text-[var(--amp-semantic-status-error)]',
+  info: 'bg-[var(--amp-semantic-status-info-bg)] text-[var(--amp-semantic-status-info)]',
+};
 
 export const MetricCard: React.FC<MetricCardProps> = ({
   label,
@@ -18,6 +30,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   trendLabel,
   subtitle,
   icon,
+  iconVariant = 'accent',
   className,
 }) => {
   const isPositive = trend !== undefined && trend >= 0;
@@ -75,7 +88,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           )}
         </div>
         {icon && (
-          <div className="w-10 h-10 rounded-[12px] bg-[var(--amp-semantic-accent-light)] flex items-center justify-center text-[var(--amp-semantic-accent)]">
+          <div className={cn('w-10 h-10 rounded-[12px] flex items-center justify-center', iconVariantClasses[iconVariant])}>
             {icon}
           </div>
         )}
