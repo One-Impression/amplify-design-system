@@ -15,8 +15,8 @@ export interface ScrapeAnimationProps extends React.HTMLAttributes<HTMLDivElemen
 const spinnerStyle: React.CSSProperties = {
   width: 16,
   height: 16,
-  border: '2px solid #d6d3d1',
-  borderTop: '2px solid #6531FF',
+  border: '2px solid var(--amp-semantic-border-default, #d6d3d1)',
+  borderTop: '2px solid var(--amp-semantic-accent, #6531FF)',
   borderRadius: '50%',
   animation: 'amp-scrape-spin 0.8s linear infinite',
 };
