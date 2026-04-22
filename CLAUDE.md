@@ -51,11 +51,20 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, InsightBanner, FlexiSelector, ProductUrlInput, WalletCard)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### ui/components inventory (selected)
+
+| Component | Props | Description |
+|---|---|---|
+| `InsightBanner` | `icon?`, `children` | Violet-tinted informational banner with optional emoji icon. |
+| `FlexiSelector` | `defaultLabel`, `defaultDescription`, `options: FlexiOption[]`, `onSelect?`, `expandLabel?` | Two-stage selector: shows a flexible default card, expands to a 3-column options grid. `onSelect` receives `index \| null` (null = flexible). |
+| `ProductUrlInput` | `placeholder?`, `buttonLabel?`, `onSubmit?` | URL input with inline submit button. Fires `onSubmit(url)` on button click or Enter. Button disabled when empty. |
+| `WalletCard` | `balance`, `currency?`, `percentage?`, `topupMessage?`, `subtitle?` | Displays OI Money balance with a progress bar (clamped 0–100). Formats balance with `en-IN` locale. |
 
 ## Token File Format
 
