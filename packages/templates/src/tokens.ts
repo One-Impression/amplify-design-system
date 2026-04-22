@@ -1,5 +1,8 @@
-module.exports = function getTokensCSS(product = 'brand') {
-  // Core tokens shared across all products
+/**
+ * Token CSS generator — produces all --amp-* CSS custom properties
+ * for standalone HTML rendering.
+ */
+export function getTokensCSS(_product = 'brand'): string {
   return `
 :root {
   /* Colors - Violet (Primary) */
@@ -30,6 +33,17 @@ module.exports = function getTokensCSS(product = 'brand') {
   --amp-accent: var(--amp-violet-600);
   --amp-accent-light: var(--amp-violet-50);
 
+  /* Semantic aliases for @amplify/ui components */
+  --amp-semantic-text-primary: var(--amp-stone-900);
+  --amp-semantic-text-secondary: var(--amp-stone-600);
+  --amp-semantic-text-muted: var(--amp-stone-500);
+  --amp-semantic-bg-surface: var(--amp-surface);
+  --amp-semantic-bg-sunken: var(--amp-stone-100);
+  --amp-semantic-border-default: var(--amp-stone-200);
+  --amp-semantic-border-focus: var(--amp-violet-600);
+  --amp-semantic-accent: var(--amp-violet-600);
+  --amp-semantic-status-error: var(--amp-red-600);
+
   /* Spacing */
   --amp-sp-1: 4px; --amp-sp-2: 8px; --amp-sp-3: 12px; --amp-sp-4: 16px;
   --amp-sp-5: 20px; --amp-sp-6: 24px; --amp-sp-8: 32px; --amp-sp-10: 40px;
@@ -48,8 +62,27 @@ module.exports = function getTokensCSS(product = 'brand') {
   --amp-font: 'Inter', system-ui, -apple-system, sans-serif;
   --amp-text-xs: 12px; --amp-text-sm: 13px; --amp-text-base: 14px;
   --amp-text-md: 15px; --amp-text-lg: 18px; --amp-text-xl: 24px; --amp-text-2xl: 34px;
+  --amp-font-size-xs: 12px; --amp-font-size-sm: 13px; --amp-font-size-base: 14px;
+  --amp-font-size-md: 15px; --amp-font-size-lg: 18px; --amp-font-size-xl: 24px;
 
   /* Transitions */
   --amp-transition: 250ms ease-out;
+
+  /* Tailwind-mapped tokens for @amplify/ui components */
+  --color-brand: var(--amp-violet-600);
+  --color-brand-dark: var(--amp-violet-700);
+  --color-brand-light: var(--amp-violet-50);
+  --color-surface-overlay: var(--amp-stone-100);
+  --color-border: var(--amp-stone-200);
+  --color-neutral-100: var(--amp-stone-100);
+  --color-neutral-200: var(--amp-stone-200);
+  --color-neutral-700: var(--amp-stone-700);
+  --color-neutral-900: var(--amp-stone-900);
+  --color-positive: var(--amp-green-600);
+  --color-positive-light: var(--amp-green-50);
+  --color-negative: var(--amp-red-600);
+  --color-negative-light: var(--amp-red-50);
+  --color-warning: var(--amp-amber-600);
+  --color-warning-light: var(--amp-amber-50);
 }`;
-};
+}

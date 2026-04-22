@@ -1,0 +1,31 @@
+{
+  "name": "@amplify/templates",
+  "version": "0.1.0",
+  "description": "React SSR template engine for instant interactive mockups — 100% Canvas design system compliant",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --external react --external react-dom && npm run build:html",
+    "build:html": "tsx src/build.tsx",
+    "dev": "tsx watch src/dev-server.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@amplify/ui": "*",
+    "@amplify/tokens-brand": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}

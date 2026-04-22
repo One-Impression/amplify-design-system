@@ -113,3 +113,15 @@ export type { SeparatorProps, SeparatorOrientation } from './components/Separato
 // CollapsibleNavGroup
 export { CollapsibleNavGroup } from './components/CollapsibleNavGroup';
 export type { CollapsibleNavGroupProps } from './components/CollapsibleNavGroup';
+
+// Stepper
+export { Stepper } from './components/Stepper';
+export type { StepperProps, StepItem, StepStatus, StepperVariant } from './components/Stepper';
+
+// Chip
+export { Chip } from './components/Chip';
+export type { ChipProps, ChipVariant, ChipSize } from './components/Chip';
+
+// Slider
+export { Slider } from './components/Slider';
+export type { SliderProps, SliderMark } from './components/Slider';
