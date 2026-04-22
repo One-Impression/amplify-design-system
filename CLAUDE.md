@@ -51,11 +51,18 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        RecoReason, AddonTeaser, PackageCard, ScrapeAnimation)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**New components added in `packages/ui` (brand ordering flow):**
+- `RecoReason` — Recommendation callout strip (green, icon + text)
+- `AddonTeaser` — Dashed-border list of add-on features with optional badges
+- `PackageCard` — Selectable package row with `aria-pressed`, selected state uses `--amp-semantic-*` tokens
+- `ScrapeAnimation` — Step-by-step loading animation with `pending | active | done` states; injects its own CSS keyframes via `<style dangerouslySetInnerHTML>`
 
 ## Token File Format
 
