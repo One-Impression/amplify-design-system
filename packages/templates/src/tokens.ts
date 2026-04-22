@@ -5,33 +5,53 @@
 export function getTokensCSS(_product = 'brand'): string {
   return `
 :root {
-  /* Colors - Violet (Primary) */
-  --amp-violet-50: #FAF5FF; --amp-violet-100: #F3E8FF; --amp-violet-200: #E9D5FF;
-  --amp-violet-300: #D8B4FE; --amp-violet-400: #C084FC; --amp-violet-500: #A855F7;
-  --amp-violet-600: #7C3AED; --amp-violet-700: #6D28D9; --amp-violet-800: #5B21B6;
-  --amp-violet-900: #4C1D95;
+  /* Brand (primary accent) — from tailwind-preset colors.brand */
+  --amp-violet-50: #F5F0FF;
+  --amp-violet-100: #EDEAFC;
+  --amp-violet-200: #DBD2F6;
+  --amp-violet-300: #C4B5FD;
+  --amp-violet-400: #9B6BFF;
+  --amp-violet-500: #7C5CFF;
+  --amp-violet-600: #6531FF;
+  --amp-violet-700: #752AD4;
+  --amp-violet-800: #4A1FA8;
+  --amp-violet-900: #3B1785;
 
-  /* Colors - Stone (Neutral) */
-  --amp-stone-50: #FAFAF9; --amp-stone-100: #F5F5F4; --amp-stone-200: #E7E5E4;
-  --amp-stone-300: #D6D3D1; --amp-stone-400: #A8A29E; --amp-stone-500: #78716C;
-  --amp-stone-600: #57534E; --amp-stone-700: #44403C; --amp-stone-800: #292524;
-  --amp-stone-900: #1C1917;
+  /* Neutral — from tailwind-preset colors.neutral + surface */
+  --amp-stone-50: #f8f9fd;
+  --amp-stone-100: #f1f6fe;
+  --amp-stone-200: #d0d1d3;
+  --amp-stone-300: #b8bcc0;
+  --amp-stone-400: #8e939b;
+  --amp-stone-500: #6b7280;
+  --amp-stone-600: #4b5563;
+  --amp-stone-700: #374151;
+  --amp-stone-800: #1f2937;
+  --amp-stone-900: #1D252D;
 
-  /* Colors - Status */
-  --amp-green-50: #ECFDF5; --amp-green-600: #059669;
-  --amp-amber-50: #FFFBEB; --amp-amber-600: #D97706;
-  --amp-red-50: #FEF2F2; --amp-red-600: #DC2626;
-  --amp-blue-50: #EFF6FF; --amp-blue-600: #2563EB;
+  /* Status — from tailwind-preset colors.positive/negative/warning */
+  --amp-green-50: #E8FAF3;
+  --amp-green-600: #21C179;
+  --amp-amber-50: #fff8e1;
+  --amp-amber-600: #ffc107;
+  --amp-red-50: #FFEBEF;
+  --amp-red-600: #fd5154;
+  --amp-blue-50: #EFF6FF;
+  --amp-blue-600: #2563EB;
 
-  /* Semantic */
-  --amp-bg: var(--amp-stone-50);
-  --amp-surface: #FFFFFF;
-  --amp-text: var(--amp-stone-900);
-  --amp-text-secondary: var(--amp-stone-600);
-  --amp-text-muted: var(--amp-stone-500);
-  --amp-border: var(--amp-stone-200);
-  --amp-accent: var(--amp-violet-600);
-  --amp-accent-light: var(--amp-violet-50);
+  /* Semantic — mapped to preset values */
+  --amp-bg: #f8f9fd;
+  --amp-surface: #ffffff;
+  --amp-surface-overlay: rgba(29, 37, 45, 0.07);
+  --amp-text: #1D252D;
+  --amp-text-secondary: rgba(29, 37, 45, 0.58);
+  --amp-text-muted: #6b7280;
+  --amp-border: rgba(29, 37, 45, 0.08);
+  --amp-border-strong: rgba(29, 37, 45, 0.16);
+  --amp-border-brand: #DBD2F6;
+  --amp-accent: #6531FF;
+  --amp-accent-hover: #752AD4;
+  --amp-accent-light: #EDEAFC;
 
   /* Semantic aliases for @amplify/ui components */
   --amp-semantic-text-primary: var(--amp-stone-900);
@@ -44,29 +64,34 @@ export function getTokensCSS(_product = 'brand'): string {
   --amp-semantic-accent: var(--amp-violet-600);
   --amp-semantic-status-error: var(--amp-red-600);
 
-  /* Spacing */
+  /* Spacing — from tokens-foundation spacing.json */
   --amp-sp-1: 4px; --amp-sp-2: 8px; --amp-sp-3: 12px; --amp-sp-4: 16px;
   --amp-sp-5: 20px; --amp-sp-6: 24px; --amp-sp-8: 32px; --amp-sp-10: 40px;
   --amp-sp-12: 48px; --amp-sp-16: 64px;
 
-  /* Radius */
+  /* Radius — from tokens-foundation radii.json */
   --amp-radius-sm: 4px; --amp-radius-md: 8px; --amp-radius-lg: 12px;
   --amp-radius-xl: 16px; --amp-radius-2xl: 24px; --amp-radius-full: 9999px;
 
-  /* Shadows */
-  --amp-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --amp-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-  --amp-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+  /* Shadows — standard + brand shadow from preset */
+  --amp-shadow-sm: 0 1px 3px rgba(28,25,23,0.04);
+  --amp-shadow-md: 0 2px 8px rgba(28,25,23,0.06);
+  --amp-shadow-lg: 0 8px 24px rgba(28,25,23,0.08);
+  --amp-shadow-brand: 0 4px 20px rgba(101, 49, 255, 0.24);
 
-  /* Typography */
+  /* Gradients — from tailwind-preset backgroundImage */
+  --amp-gradient-brand: linear-gradient(96deg, #F55DC1 3.78%, #495AF4 97.89%);
+  --amp-gradient-brand-soft: linear-gradient(135deg, #6531ff 0%, #9b6bff 100%);
+
+  /* Typography — from tailwind-preset fontSize + foundation */
   --amp-font: 'Inter', system-ui, -apple-system, sans-serif;
-  --amp-text-xs: 12px; --amp-text-sm: 13px; --amp-text-base: 14px;
-  --amp-text-md: 15px; --amp-text-lg: 18px; --amp-text-xl: 24px; --amp-text-2xl: 34px;
-  --amp-font-size-xs: 12px; --amp-font-size-sm: 13px; --amp-font-size-base: 14px;
+  --amp-text-xs: 11px; --amp-text-sm: 13px; --amp-text-base: 14px;
+  --amp-text-md: 15px; --amp-text-lg: 18px; --amp-text-xl: 24px; --amp-text-2xl: 32px;
+  --amp-font-size-xs: 11px; --amp-font-size-sm: 13px; --amp-font-size-base: 14px;
   --amp-font-size-md: 15px; --amp-font-size-lg: 18px; --amp-font-size-xl: 24px;
 
   /* Transitions */
-  --amp-transition: 250ms ease-out;
+  --amp-transition: 150ms ease;
 
   /* Tailwind-mapped tokens for @amplify/ui components */
   --color-brand: var(--amp-violet-600);
