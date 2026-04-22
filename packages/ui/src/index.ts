@@ -145,3 +145,19 @@ export type { ScriptPreviewCardProps, ScriptSection } from './components/ScriptP
 // CollapsibleSection
 export { CollapsibleSection } from './components/CollapsibleSection';
 export type { CollapsibleSectionProps } from './components/CollapsibleSection';
+
+// RecoReason
+export { RecoReason } from './components/RecoReason';
+export type { RecoReasonProps } from './components/RecoReason';
+
+// AddonTeaser
+export { AddonTeaser } from './components/AddonTeaser';
+export type { AddonTeaserProps, AddonItem } from './components/AddonTeaser';
+
+// PackageCard
+export { PackageCard } from './components/PackageCard';
+export type { PackageCardProps } from './components/PackageCard';
+
+// ScrapeAnimation
+export { ScrapeAnimation } from './components/ScrapeAnimation';
+export type { ScrapeAnimationProps, ScrapeStep, ScrapeStepStatus } from './components/ScrapeAnimation';
