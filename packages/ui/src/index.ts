@@ -60,7 +60,7 @@ export type { DataTableProps, DataTableColumn } from './components/DataTable';
 
 // MetricCard
 export { MetricCard } from './components/MetricCard';
-export type { MetricCardProps } from './components/MetricCard';
+export type { MetricCardProps, MetricCardIconVariant } from './components/MetricCard';
 
 // Tabs
 export { Tabs } from './components/Tabs';
@@ -125,3 +125,7 @@ export type { ChipProps, ChipVariant, ChipSize } from './components/Chip';
 // Slider
 export { Slider } from './components/Slider';
 export type { SliderProps, SliderMark } from './components/Slider';
+
+// CollapsibleCard
+export { CollapsibleCard } from './components/CollapsibleCard';
+export type { CollapsibleCardProps } from './components/CollapsibleCard';

@@ -6,6 +6,8 @@ export type StatusTagSize = 'sm' | 'md';
 
 export interface StatusTagProps {
   status: StatusTagStatus;
+  /** Override the default label text for this status */
+  label?: string;
   size?: StatusTagSize;
   pulse?: boolean;
   className?: string;
@@ -57,6 +59,7 @@ const sizeClasses: Record<StatusTagSize, string> = {
 
 export const StatusTag: React.FC<StatusTagProps> = ({
   status,
+  label: labelOverride,
   size = 'md',
   pulse = false,
   className,
@@ -80,7 +83,7 @@ export const StatusTag: React.FC<StatusTagProps> = ({
           pulse && 'animate-pulse'
         )}
       />
-      {config.label}
+      {labelOverride ?? config.label}
     </span>
   );
 };

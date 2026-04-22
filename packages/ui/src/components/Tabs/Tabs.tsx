@@ -10,13 +10,32 @@ export interface Tab {
 export interface TabsProps {
   tabs: Tab[];
   defaultTab?: string;
+  /** Controlled mode: externally managed active tab */
+  activeTab?: string;
+  /** Callback when tab changes (works in both controlled and uncontrolled mode) */
+  onTabChange?: (tabId: string) => void;
   className?: string;
 }
 
-export const Tabs: React.FC<TabsProps> = ({ tabs, defaultTab, className }) => {
-  const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id || '');
+export const Tabs: React.FC<TabsProps> = ({
+  tabs,
+  defaultTab,
+  activeTab: controlledTab,
+  onTabChange,
+  className,
+}) => {
+  const [internalTab, setInternalTab] = useState(defaultTab || tabs[0]?.id || '');
+  const isControlled = controlledTab !== undefined;
+  const currentTab = isControlled ? controlledTab : internalTab;
 
-  const activeContent = tabs.find((t) => t.id === activeTab)?.content;
+  const handleTabClick = (tabId: string) => {
+    if (!isControlled) {
+      setInternalTab(tabId);
+    }
+    onTabChange?.(tabId);
+  };
+
+  const activeContent = tabs.find((t) => t.id === currentTab)?.content;
 
   return (
     <div className={cn('w-full', className)}>
@@ -28,20 +47,20 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, defaultTab, className }) => {
           <button
             key={tab.id}
             role="tab"
-            aria-selected={activeTab === tab.id}
+            aria-selected={currentTab === tab.id}
             aria-controls={`tabpanel-${tab.id}`}
             id={`tab-${tab.id}`}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => handleTabClick(tab.id)}
             className={cn(
               'px-4 py-2.5 text-[14px] font-medium transition-colors duration-150 relative',
               'hover:text-[var(--amp-semantic-text-primary)]',
-              activeTab === tab.id
+              currentTab === tab.id
                 ? 'text-[var(--amp-semantic-accent)]'
                 : 'text-[var(--amp-semantic-text-secondary)]'
             )}
           >
             {tab.label}
-            {activeTab === tab.id && (
+            {currentTab === tab.id && (
               <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--amp-semantic-accent)]" />
             )}
           </button>
@@ -49,8 +68,8 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, defaultTab, className }) => {
       </div>
       <div
         role="tabpanel"
-        id={`tabpanel-${activeTab}`}
-        aria-labelledby={`tab-${activeTab}`}
+        id={`tabpanel-${currentTab}`}
+        aria-labelledby={`tab-${currentTab}`}
         className="pt-4"
       >
         {activeContent}
