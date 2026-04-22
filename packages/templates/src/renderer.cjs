@@ -15,6 +15,27 @@ require('./components/ordering/repeat-banner.cjs');
 require('./components/ordering/wallet-card.cjs');
 require('./components/ordering/intelligence.cjs');
 
+// Import dashboard component renderers (they self-register)
+require('./components/dashboard/metric-cards.cjs');
+require('./components/dashboard/chart-placeholder.cjs');
+require('./components/dashboard/data-summary-table.cjs');
+require('./components/dashboard/filter-bar.cjs');
+
+// Import table component renderers (they self-register)
+require('./components/table/search-filter-bar.cjs');
+require('./components/table/sortable-table.cjs');
+require('./components/table/pagination.cjs');
+require('./components/table/bulk-actions.cjs');
+
+// Import detail component renderers (they self-register)
+require('./components/detail/entity-header.cjs');
+require('./components/detail/tab-navigation.cjs');
+require('./components/detail/detail-sections.cjs');
+require('./components/detail/activity-timeline.cjs');
+
+// Import auth component renderers (they self-register)
+require('./components/auth/auth-card.cjs');
+
 // Theme registry
 const themes = {};
 try {
@@ -32,6 +53,9 @@ function renderPage(config) {
     'scroll': './layouts/scroll.cjs',
     'stepper': './layouts/stepper.cjs',
     'stepper-editorial': './layouts/stepper-editorial.cjs',
+    'dashboard': './layouts/dashboard.cjs',
+    'detail': './layouts/detail.cjs',
+    'auth': './layouts/auth.cjs',
   };
   const layoutRenderer = require(layoutMap[layout] || layoutMap['stepper']);
 

@@ -22,7 +22,9 @@ for (const [name, config] of Object.entries(configs)) {
   const functionCount = (html.match(/function /g) || []).length;
   const onclickCount = (html.match(/onclick/gi) || []).length;
 
-  const status = hasCloseHtml && hasScript && hasCloseScript && functionCount > 10
+  // Stepper/scroll layouts have 10+ functions; dashboard/detail/auth have fewer but are still complete
+  const minFunctions = ['dashboard', 'detail', 'auth'].includes(config.layout) ? 3 : 10;
+  const status = hasCloseHtml && hasScript && hasCloseScript && functionCount >= minFunctions
     ? '✓' : '✗';
 
   console.log(`  ${status} ${filename} — ${(html.length / 1024).toFixed(1)}KB | </html>:${hasCloseHtml} | <script>:${hasScript} | functions:${functionCount} | onclicks:${onclickCount}`);
