@@ -161,3 +161,19 @@ export type { PackageCardProps } from './components/PackageCard';
 // ScrapeAnimation
 export { ScrapeAnimation } from './components/ScrapeAnimation';
 export type { ScrapeAnimationProps, ScrapeStep, ScrapeStepStatus } from './components/ScrapeAnimation';
+
+// InsightBanner
+export { InsightBanner } from './components/InsightBanner';
+export type { InsightBannerProps } from './components/InsightBanner';
+
+// FlexiSelector
+export { FlexiSelector } from './components/FlexiSelector';
+export type { FlexiSelectorProps, FlexiOption } from './components/FlexiSelector';
+
+// ProductUrlInput
+export { ProductUrlInput } from './components/ProductUrlInput';
+export type { ProductUrlInputProps } from './components/ProductUrlInput';
+
+// WalletCard
+export { WalletCard } from './components/WalletCard';
+export type { WalletCardProps } from './components/WalletCard';
