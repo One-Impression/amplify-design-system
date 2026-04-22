@@ -51,11 +51,20 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, ActionFooter, PricePill, StepPill, TrustBar)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `packages/ui` component inventory
+
+| Component | Description |
+|---|---|
+| ActionFooter | Fixed bottom bar with Back/Next buttons and optional keyboard hints. Props: `onBack`, `onNext`, `backLabel`, `nextLabel`, `showBack`, `showKeyboardHints`, `nextDisabled`. |
+| PricePill | Floating centered pill showing an estimated price. Props: `label`, `amount`, `visible` (controls opacity/translate-y transition). Positioned `fixed bottom-[60px]` above ActionFooter. |
+| StepPill | Horizontal step-progress nav with per-step status (`pending` \| `active` \| `done`). Props: `steps: StepPillItem[]`, `onStepClick`. Renders `role="navigation"` with `aria-current="step"` on the active step. |
+| TrustBar | Inline row of icon + label trust signals. Props: `items: TrustItem[]`. Typically placed above ActionFooter. |
 
 ## Token File Format
 
