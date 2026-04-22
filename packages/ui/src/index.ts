@@ -177,3 +177,19 @@ export type { ProductUrlInputProps } from './components/ProductUrlInput';
 // WalletCard
 export { WalletCard } from './components/WalletCard';
 export type { WalletCardProps } from './components/WalletCard';
+
+// ActionFooter
+export { ActionFooter } from './components/ActionFooter';
+export type { ActionFooterProps } from './components/ActionFooter';
+
+// PricePill
+export { PricePill } from './components/PricePill';
+export type { PricePillProps } from './components/PricePill';
+
+// StepPill
+export { StepPill } from './components/StepPill';
+export type { StepPillProps, StepPillItem, StepPillStatus } from './components/StepPill';
+
+// TrustBar
+export { TrustBar } from './components/TrustBar';
+export type { TrustBarProps, TrustItem } from './components/TrustBar';
