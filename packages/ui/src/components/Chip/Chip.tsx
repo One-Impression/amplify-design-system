@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type ChipVariant = 'default' | 'selected' | 'outline';
+export type ChipVariant = 'default' | 'selected' | 'outline' | 'dark';
 export type ChipSize = 'sm' | 'md';
 
 export interface ChipProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,6 +19,8 @@ const variantClasses: Record<ChipVariant, string> = {
     'border border-violet-600 bg-violet-600 text-white hover:bg-violet-700',
   outline:
     'border border-violet-200 bg-transparent text-violet-600 hover:bg-violet-50',
+  dark:
+    'border border-[var(--amp-semantic-text-primary)] bg-[var(--amp-semantic-text-primary)] text-[var(--amp-semantic-text-inverse)] hover:opacity-90',
 };
 
 const sizeClasses: Record<ChipSize, string> = {
@@ -77,7 +79,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
             className={cn(
               'flex-shrink-0 ml-0.5 rounded-full p-0.5 transition-colors',
               'hover:bg-black/10',
-              variant === 'selected' && 'hover:bg-white/20'
+              (variant === 'selected' || variant === 'dark') && 'hover:bg-white/20'
             )}
             aria-label="Remove"
           >
