@@ -55,7 +55,24 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  templates/          — Base CSS layer + token CSS for use in generated UIs; kept in sync with @amplify/ui component output
 ```
+
+### `packages/templates` — key conventions
+
+**Token values** (`src/tokens.ts`) are sourced from the Tailwind preset, not standalone choices:
+- Brand primary: `#6531FF` (violet-600), hover: `#752AD4`
+- Neutral-900 (text): `#1D252D`; borders use opacity-based RGBA, not solid stone steps
+- New variables added: `--amp-surface-overlay`, `--amp-border-strong`, `--amp-border-brand`, `--amp-shadow-brand`, `--amp-gradient-brand`, `--amp-gradient-brand-soft`, `--amp-accent-hover`
+- `--amp-text-xs` changed to `11px`; `--amp-text-2xl` changed to `32px`; `--amp-transition` changed to `150ms ease`
+
+**Component CSS** (`src/base-css.ts`) mirrors the exact Tailwind classes used by `@amplify/ui` React components:
+- **Button**: height-based sizing (`h-10`/`h-12`/`h-8`), `focus-visible` ring, disabled via `opacity:.5`. New variants: `.amp-btn-secondary`, `.amp-btn-sm`. Outline variant is now `1px` border with `bg-transparent`.
+- **Card**: `1px` border (was `2px`), no default shadow; hover shadow only on `.clickable`. New variant: `.amp-card.elevated`.
+- **Badge**: now `6px` border-radius (was `full`), adds `.amp-badge-red`, `.amp-badge-amber`, `.amp-badge-neutral`.
+- **Input**: `h-10`, `border-radius: var(--amp-radius-xl)` (16px), `1px` border, `2px` focus ring. `select.amp-input` adds a custom SVG chevron arrow.
+- **Chip**: `1px` border (was `1.5px`), new hover state.
+- When adding new component styles to templates, verify the CSS matches the Tailwind class output of the corresponding `@amplify/ui` component.
 
 ## Token File Format
 
