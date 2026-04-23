@@ -145,3 +145,51 @@ export type { ScriptPreviewCardProps, ScriptSection } from './components/ScriptP
 // CollapsibleSection
 export { CollapsibleSection } from './components/CollapsibleSection';
 export type { CollapsibleSectionProps } from './components/CollapsibleSection';
+
+// StepPill
+export { StepPill } from './components/StepPill';
+export type { StepPillProps, StepPillStatus } from './components/StepPill';
+
+// ActionFooter
+export { ActionFooter } from './components/ActionFooter';
+export type { ActionFooterProps } from './components/ActionFooter';
+
+// PricePill
+export { PricePill } from './components/PricePill';
+export type { PricePillProps } from './components/PricePill';
+
+// TrustBar
+export { TrustBar } from './components/TrustBar';
+export type { TrustBarProps, TrustItem } from './components/TrustBar';
+
+// ProductUrlInput
+export { ProductUrlInput } from './components/ProductUrlInput';
+export type { ProductUrlInputProps } from './components/ProductUrlInput';
+
+// InsightBanner
+export { InsightBanner } from './components/InsightBanner';
+export type { InsightBannerProps } from './components/InsightBanner';
+
+// ScrapeAnimation
+export { ScrapeAnimation } from './components/ScrapeAnimation';
+export type { ScrapeAnimationProps, ScrapeStep, ScrapeStepStatus } from './components/ScrapeAnimation';
+
+// FlexiSelector
+export { FlexiSelector } from './components/FlexiSelector';
+export type { FlexiSelectorProps } from './components/FlexiSelector';
+
+// WalletCard
+export { WalletCard } from './components/WalletCard';
+export type { WalletCardProps } from './components/WalletCard';
+
+// RecoReason
+export { RecoReason } from './components/RecoReason';
+export type { RecoReasonProps } from './components/RecoReason';
+
+// AddonTeaser
+export { AddonTeaser } from './components/AddonTeaser';
+export type { AddonTeaserProps } from './components/AddonTeaser';
+
+// PackageCard
+export { PackageCard } from './components/PackageCard';
+export type { PackageCardProps } from './components/PackageCard';
