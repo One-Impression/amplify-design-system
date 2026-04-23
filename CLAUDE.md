@@ -55,7 +55,36 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  templates/          — JSON-config-driven HTML rendering engine (see below)
 ```
+
+### `packages/templates` — Interactive Prototype Renderer
+
+Produces complete, interactive HTML mockups from JSON config in milliseconds (no LLM, no truncation).
+
+**Architecture:**
+- `src/registry.cjs` — component registry mapping names → render functions (HTML strings)
+- `src/renderer.cjs` — assembles: design tokens + base CSS + layout + components → single HTML file
+- `src/configs.cjs` — 6 pre-built ordering flow configs (4/5/6-step × stepper/scroll layouts)
+- `src/base-css.cjs` — shared CSS using `--amp-*` CSS variables (Canvas design system compliant)
+
+**Layouts:** `stepper`, `scroll` (progressive reveal), `stepper-editorial`
+
+**Themes:** `default` (Violet), `minimal-clean`, `bold-gradient`, `warm-earthy`, `modern-teal` — applied via CSS variable overrides
+
+**Ordering flow components:**
+`goal-cards`, `product-scanner`, `content-type`, `budget-section`, `brief-editor`, `script-preview`, `checkout`, `success-modal`, `repeat-banner`, `wallet-card`, `intelligence`
+
+**Build scripts:**
+```bash
+# Render all configs to HTML files (default output: ~/Desktop)
+node packages/templates/build.cjs [outputDir]
+
+# Render themed variants of 6-step layouts only
+node packages/templates/build-themed.cjs [outputDir]
+```
+
+**Extending:** Register new components via `register('component-name', (props, ctx) => htmlString)` in a `.cjs` file under `src/components/`. All CSS must use `var(--amp-*)` tokens — no hardcoded values.
 
 ## Token File Format
 
