@@ -51,11 +51,33 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (25 total — see component list below)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `packages/ui` component inventory
+
+| Category   | Components |
+|------------|------------|
+| Core       | Button, IconButton, Badge, StatusTag, Card (+ CardHeader, CardTitle, CardDescription, CardContent, CardFooter) |
+| Form       | Input, Textarea, Select, SearchInput, Checkbox, Switch |
+| Data       | DataTable, MetricCard, ProgressBar, Timeline |
+| Navigation | Tabs, Breadcrumb, Pagination |
+| Feedback   | Dialog, Toast, Tooltip, EmptyState, Skeleton |
+| Layout     | Avatar, Separator |
+
+### `packages/ui` component conventions
+
+- **CSS variables only** — all colors and surfaces use `var(--amp-semantic-*)` tokens; zero hardcoded values.
+- **`forwardRef`** — all components that wrap a native element expose a ref.
+- **TypeScript** — every component exports its Props interface (e.g. `CardProps`, `AvatarProps`).
+- **Accessibility** — ARIA attributes required; Dialog includes focus-trap and Escape-to-close; interactive elements carry `aria-label` or labelled-by IDs.
+- **`cn()` utility** — use `cn()` (clsx + tailwind-merge) for all class merging; never concatenate strings.
+- **Composite components** — Card exposes subcomponents (`CardHeader`, `CardTitle`, etc.) rather than a single monolithic prop API.
+- **Default radius / text size** — 16px border-radius, 14px body text per Canvas spec.
+- **Stable keys** — DataTable accepts a `rowKey` prop; Timeline expects an `id` field to avoid index-based React keys.
 
 ## Token File Format
 
