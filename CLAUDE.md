@@ -70,6 +70,30 @@ Token hierarchy: primitives (raw values) → semantic (light/dark mappings) → 
 
 Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS, Tailwind v4, and React Native outputs.
 
+
+
+## LLM Documentation Artifacts
+
+## LLM Documentation Artifacts
+
+Every build of `@amplify/ui` runs `scripts/generate-llms-docs.mjs` as a `postbuild` hook, emitting into `packages/ui/dist/`:
+
+- `llms.txt` — root index following [llmstxt.org](https://llmstxt.org) spec; links to per-component docs
+- `llms/<Name>.md` — per-component rule sheet (variants, sizes, props with required/default/allowed values, subcomponents, example)
+- `llms.json` — machine-readable mirror of all component data
+
+These artifacts are included in the published npm package alongside `dist/index.js`.
+
+**Per-component semantic overrides:** Place a file at `packages/ui/src/components/<Name>/<Name>.llm.md` to inject additional guidance (e.g. when-NOT-to-use rules) verbatim under a `## Guidance` section in that component's doc. No overrides ship today — this is a reserved extension point.
+
+**Failure behaviour:** The script never hard-fails the parent build. If doc generation crashes, `dist/` artifacts are still produced and the error is printed to stderr. A zero-prop yield on a component that declares a Props interface is surfaced as a warning (likely a parse edge case).
+
+**Log aggregation:** A single structured JSON line is emitted to stdout at the end of each run:
+```json
+{ "level": "info", "event": "llms_docs_generated", "componentCount": N, "failureCount": N, "suspiciousCount": N }
+```
+This can be queried in CloudWatch / Datadog to track doc-gen runs.
+
 ## CI/CD
 
 - `ci.yml` — Build all packages, validate consistency, secret scan, SDUI sync check
