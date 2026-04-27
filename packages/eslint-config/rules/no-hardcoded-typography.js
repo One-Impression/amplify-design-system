@@ -1,5 +1,5 @@
 /**
- * @amplify/no-hardcoded-typography
+ * @one-impression/no-hardcoded-typography
  *
  * Flags arbitrary pixel font sizes in Tailwind classes like text-[13px], text-[11px].
  * Use Tailwind's built-in scale instead:

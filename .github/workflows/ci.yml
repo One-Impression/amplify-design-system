@@ -25,7 +25,7 @@ jobs:
           node-version: 20
           cache: npm
           registry-url: https://npm.pkg.github.com
-          scope: '@amplify'
+          scope: '@one-impression'
 
       - name: Install dependencies
         run: npm ci
@@ -37,10 +37,10 @@ jobs:
           npm run build -w packages/tokens-creator
           npm run build -w packages/tokens-atmosphere
 
-      - name: Build @amplify/ui
+      - name: Build @one-impression/ui
         run: npm run build -w packages/ui
 
-      - name: Build @amplify/mcp-server
+      - name: Build @one-impression/mcp-server
         run: npm run build -w packages/mcp-server
 
       - name: Validate cross-package consistency
@@ -75,7 +75,7 @@ jobs:
         run: |
           set -e
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
-            echo "Publishing @amplify/$pkg..."
+            echo "Publishing @one-impression/$pkg..."
             (
               cd packages/$pkg
               OUTPUT=$(npm publish --access restricted 2>&1) && echo "$OUTPUT" || {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Shared token build script for all @amplify/tokens-* packages.
+ * Shared token build script for all @one-impression/tokens-* packages.
  *
  * Reads W3C DTCG-format token JSON files, resolves {references},
  * and generates platform-specific outputs:
@@ -211,7 +211,7 @@ function buildJS() {
 function buildTailwindPreset() {
   const lines = [
     '/* Auto-generated Tailwind v4 preset — do not edit */',
-    '/* Import in your globals.css: @import "@amplify/tokens-' + pkg + '/dist/tailwind.css"; */',
+    '/* Import in your globals.css: @import "@one-impression/tokens-' + pkg + '/dist/tailwind.css"; */',
     '',
     '@theme {',
   ];
@@ -323,9 +323,9 @@ writeFileSync(join(distDir, 'tailwind.css'), buildTailwindPreset());
 
 if (pkg === 'creator') {
   writeFileSync(join(distDir, 'tokens.native.js'), buildReactNative());
-  console.log(`@amplify/tokens-${pkg}: built 6 artifacts (+ React Native)`);
+  console.log(`@one-impression/tokens-${pkg}: built 6 artifacts (+ React Native)`);
 } else {
-  console.log(`@amplify/tokens-${pkg}: built 5 artifacts`);
+  console.log(`@one-impression/tokens-${pkg}: built 5 artifacts`);
 }
 
 // Fail build if any references could not be resolved

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from '@amplify/ui';
+import { Card, Button } from '@one-impression/ui';
 import type { ComponentRenderer } from '../../registry';
 
 export const Checkout: ComponentRenderer = ({ props, context }) => {

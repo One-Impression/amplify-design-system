@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent } from '@amplify/ui';
+import { Card, CardContent } from '@one-impression/ui';
 import type { ComponentRenderer } from '../../registry';
 
 const defaultGoals = [

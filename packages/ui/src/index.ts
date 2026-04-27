@@ -1,10 +1,10 @@
 /**
- * @amplify/ui — Shared UI Components for Amplify Products
+ * @one-impression/ui — Shared UI Components for Amplify Products
  *
  * Import from here, not from individual component files.
  *
  * @example
- * import { Button, Badge, Card, Input, Dialog } from '@amplify/ui';
+ * import { Button, Badge, Card, Input, Dialog } from '@one-impression/ui';
  */
 
 // Utilities

@@ -18,7 +18,7 @@ const server = createServer((req, res) => {
 <style>body{font-family:Inter,system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 20px}
 a{color:#7C3AED;text-decoration:none}a:hover{text-decoration:underline}
 li{margin:8px 0;font-size:16px}h1{color:#1C1917}</style></head>
-<body><h1>@amplify/templates Dev Server</h1><ul>${links}</ul></body></html>`);
+<body><h1>@one-impression/templates Dev Server</h1><ul>${links}</ul></body></html>`);
     return;
   }
 

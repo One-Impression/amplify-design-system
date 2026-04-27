@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/feature-flags",
+  "name": "@one-impression/feature-flags",
   "version": "1.0.0",
   "description": "Feature flag client and React hooks for Amplify platform",
   "main": "src/index.ts",

@@ -1,5 +1,5 @@
 /**
- * @amplify/no-raw-surface
+ * @one-impression/no-raw-surface
  *
  * Flags bg-[var(--surface-elevated/secondary/tertiary/overlay)] without a visible
  * boundary (ring, border, or shadow). In light mode, elevated surfaces are white

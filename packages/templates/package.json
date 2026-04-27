@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/templates",
+  "name": "@one-impression/templates",
   "version": "0.1.0",
   "description": "React SSR template engine for instant interactive mockups — 100% Canvas design system compliant",
   "type": "module",
@@ -12,8 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@amplify/ui": "*",
-    "@amplify/tokens-brand": "*"
+    "@one-impression/ui": "*",
+    "@one-impression/tokens-brand": "*"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

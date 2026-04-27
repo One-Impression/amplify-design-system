@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/eslint-config",
+  "name": "@one-impression/eslint-config",
   "version": "1.0.0",
   "description": "Shared ESLint config enforcing Amplify design token usage",
   "main": "index.js",
