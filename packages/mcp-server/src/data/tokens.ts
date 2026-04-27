@@ -67,8 +67,9 @@ export const loadTokens = (): TokenEntry[] => {
       try {
         const json = JSON.parse(readFileSync(file, 'utf8'));
         flatten(json, pkg, '', out);
-      } catch {
-        // skip malformed token files
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        console.error(`[canvas-mcp] skip malformed token file ${file}: ${msg}`);
       }
     }
   }

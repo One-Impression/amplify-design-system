@@ -45,9 +45,4 @@ Add to `~/.claude/.mcp.json`:
 
 ## Consuming from Pixel
 
-```ts
-import { createCanvasClient } from '@amplify/mcp-server';
-
-const canvas = createCanvasClient({ url: process.env.MCP_URL });
-const components = await canvas.listComponents();
-```
+Pixel runs the HTTP transport as a sidecar (or in-process) and queries it via the standard MCP HTTP protocol — wired up in PR-P1.

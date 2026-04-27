@@ -20,7 +20,7 @@ const main = async (): Promise<void> => {
   });
 
   http.listen(PORT, () => {
-    console.log(`[canvas-mcp] http transport listening on :${PORT}`);
+    console.error(`[canvas-mcp] http transport listening on :${PORT}`);
   });
 };
 

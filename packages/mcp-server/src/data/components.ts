@@ -38,8 +38,9 @@ export const loadComponentCatalog = (): ExtractedComponent[] => {
     if (!file) continue;
     try {
       out.push(extractFromSource(file, dir));
-    } catch {
-      // skip unparseable components rather than crash the server
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`[canvas-mcp] skip unparseable component "${dir}": ${msg}`);
     }
   }
   cache = out.sort((a, b) => a.name.localeCompare(b.name));

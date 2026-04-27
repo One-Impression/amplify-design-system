@@ -74,10 +74,26 @@ export const createCanvasServer = (): Server => {
 
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const tool = tools.find((t) => t.name === request.params.name);
-    if (!tool) throw new Error(`Unknown tool: ${request.params.name}`);
-    const parsed = tool.schema.parse(request.params.arguments ?? {});
-    const result = (tool.handler as (input: unknown) => unknown)(parsed);
-    return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    if (!tool) {
+      return {
+        isError: true,
+        content: [{ type: 'text', text: `Unknown tool: ${request.params.name}` }],
+      };
+    }
+    try {
+      const parsed = tool.schema.parse(request.params.arguments ?? {});
+      const result = (tool.handler as (input: unknown) => unknown)(parsed);
+      return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+    } catch (err) {
+      const isZod = err instanceof z.ZodError;
+      const msg = isZod
+        ? `Invalid arguments for ${tool.name}: ${err.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')}`
+        : err instanceof Error
+          ? err.message
+          : String(err);
+      console.error(`[canvas-mcp] tool "${tool.name}" failed: ${msg}`);
+      return { isError: true, content: [{ type: 'text', text: msg }] };
+    }
   });
 
   return server;
