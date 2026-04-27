@@ -39,7 +39,7 @@ const plugin = {
 module.exports = [
   {
     plugins: {
-      '@amplify': plugin,
+      '@one-impression': plugin,
     },
     rules: {
       '@one-impression/no-hardcoded-colors': 'warn',
