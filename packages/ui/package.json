@@ -1,6 +1,6 @@
 {
   "name": "@amplify/ui",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Shared UI components for Amplify products — Brand, Creator, and Atmosphere",
   "type": "module",
   "main": "dist/index.js",
@@ -10,9 +10,26 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./contracts": {
+      "default": "./dist/contracts.json"
+    },
+    "./contracts/*": {
+      "default": "./dist/contracts/*.json"
+    },
+    "./llms.txt": {
+      "default": "./dist/llms.txt"
+    },
+    "./llms.json": {
+      "default": "./dist/llms.json"
+    },
+    "./llms/*": {
+      "default": "./dist/llms/*.md"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --external react --external react-dom",
     "prebuild": "node scripts/generate-contracts.mjs",

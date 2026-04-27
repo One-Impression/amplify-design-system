@@ -40,13 +40,16 @@ jobs:
       - name: Build @amplify/ui
         run: npm run build -w packages/ui
 
+      - name: Build @amplify/mcp-server
+        run: npm run build -w packages/mcp-server
+
       - name: Validate cross-package consistency
         run: node scripts/validate-tokens.js
 
       - name: Verify build outputs
         run: |
           MISSING=""
-          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere ui; do
+          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere ui mcp-server; do
             DIR="packages/$pkg/dist"
             if [ ! -d "$DIR" ]; then
               MISSING="$MISSING\n  - packages/$pkg/dist/ (directory missing)"
@@ -71,7 +74,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           set -e
-          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui eslint-config; do
+          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
             echo "Publishing @amplify/$pkg..."
             (
               cd packages/$pkg
