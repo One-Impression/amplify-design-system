@@ -38,7 +38,7 @@ const candidateContractsManifests = [
   resolve(here, '../../../ui/dist/contracts.json'),
   resolve(here, '../../../../ui/dist/contracts.json'),
   resolve(process.cwd(), 'packages/ui/dist/contracts.json'),
-  resolve(process.cwd(), 'node_modules/@amplify/ui/dist/contracts.json'),
+  resolve(process.cwd(), 'node_modules/@one-impression/ui/dist/contracts.json'),
 ];
 
 const candidateComponentRoots = [

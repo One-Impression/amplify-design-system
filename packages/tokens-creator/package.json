@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/tokens-creator",
+  "name": "@one-impression/tokens-creator",
   "version": "1.0.0",
   "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
   "main": "dist/tokens.js",
@@ -15,7 +15,7 @@
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {
-    "@amplify/tokens-foundation": "^1.0.0"
+    "@one-impression/tokens-foundation": "^1.0.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"

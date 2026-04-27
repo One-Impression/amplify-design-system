@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/mcp-server",
+  "name": "@one-impression/mcp-server",
   "version": "1.0.0",
   "description": "MCP server exposing the Amplify Canvas design system to AI agents (Pixel, Claude Code).",
   "type": "module",

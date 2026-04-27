@@ -1,5 +1,5 @@
 {
-  "name": "@amplify/tokens-atmosphere",
+  "name": "@one-impression/tokens-atmosphere",
   "version": "1.0.0",
   "description": "Amplify Atmosphere (internal tools) design tokens",
   "main": "dist/tokens.js",
@@ -13,7 +13,7 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@amplify/tokens-foundation": "^1.0.0"
+    "@one-impression/tokens-foundation": "^1.0.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"

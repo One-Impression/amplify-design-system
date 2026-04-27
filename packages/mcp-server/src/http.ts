@@ -13,7 +13,7 @@ const main = async (): Promise<void> => {
   const http = createServer(async (req, res) => {
     if (req.url === '/health') {
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ status: 'ok', server: '@amplify/mcp-server' }));
+      res.end(JSON.stringify({ status: 'ok', server: '@one-impression/mcp-server' }));
       return;
     }
     await transport.handleRequest(req, res);

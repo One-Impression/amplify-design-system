@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Badge, Button } from '@amplify/ui';
+import { Card, Badge, Button } from '@one-impression/ui';
 import type { ComponentRenderer } from '../../registry';
 
 export const ContentType: ComponentRenderer = ({ props }) => {

@@ -1,5 +1,5 @@
 /**
- * @amplify/no-inline-styles
+ * @one-impression/no-inline-styles
  *
  * Flags inline style={{}} objects in JSX. These bypass the design token system
  * and can't be themed, audited, or updated globally.
