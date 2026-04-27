@@ -1,6 +1,6 @@
 {
   "name": "@amplify/mcp-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MCP server exposing the Amplify Canvas design system to AI agents (Pixel, Claude Code).",
   "type": "module",
   "main": "dist/index.js",
