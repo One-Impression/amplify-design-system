@@ -138,6 +138,7 @@ const extractFromSource = (filePath, name) => {
     props,
     hasForwardRef: FORWARD_REF_RE.test(source),
     subcomponents,
+    declaresPropsInterface: /export\s+interface\s+\w+Props\b/.test(source),
   };
 };
 
@@ -227,8 +228,7 @@ const main = () => {
     // Safety net: a Props interface that yields zero props is almost always
     // an extraction failure (regex truncation, unusual syntax, etc.) rather
     // than a genuine zero-prop component. Surface as a warning.
-    const declaresPropsInterface = /export\s+interface\s+\w+Props\b/.test(readFileSync(filePath, 'utf8'));
-    if (declaresPropsInterface && extracted.props.length === 0) {
+    if (extracted.declaresPropsInterface && extracted.props.length === 0) {
       suspicious.push(dir);
     }
     const overridePath = join(componentsDir, dir, `${dir}.llm.md`);
