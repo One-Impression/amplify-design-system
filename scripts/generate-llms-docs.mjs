@@ -19,12 +19,61 @@ const componentsDir = resolve(repoRoot, 'packages/ui/src/components');
 const distDir = resolve(repoRoot, 'packages/ui/dist');
 const docsDir = resolve(distDir, 'llms');
 
+const log = (msg) => process.stdout.write(`[llms-docs] ${msg}\n`);
+const warn = (msg) => process.stderr.write(`[llms-docs] ${msg}\n`);
+
 const TYPE_ALIAS_RE = /export\s+type\s+(\w+)\s*=\s*([^;]+);/g;
-const INTERFACE_RE = /export\s+interface\s+(\w+Props)(?:\s+extends\s+[^{]+)?\s*\{([^}]*)\}/s;
+const INTERFACE_HEADER_RE = /export\s+interface\s+(\w+Props)(?:<[^>]*>)?(?:\s+extends\s+[^{]+)?\s*\{/g;
 const PROP_LINE_RE = /^\s*(\w+)(\??):\s*([^;]+);?\s*$/;
 const FORWARD_REF_RE = /React\.forwardRef\s*</;
 const SUBCOMPONENT_RE = /export\s+(?:const|function)\s+(\w+(?:Header|Title|Description|Content|Footer|Body|Item|Trigger|Group))/g;
 const DEFAULT_VALUE_RE = /(\w+)\s*=\s*([^,\n}]+?)(?:[,\n}])/g;
+
+/**
+ * Extract the interface body using brace-depth counting so nested types
+ * (e.g. `defaultValue?: { label: string; value: string }`) don't truncate
+ * the match early. Returns null if no Props interface is found or braces
+ * are unbalanced.
+ */
+const extractInterfaceBody = (source) => {
+  INTERFACE_HEADER_RE.lastIndex = 0;
+  const headerMatch = INTERFACE_HEADER_RE.exec(source);
+  if (!headerMatch) return null;
+  const start = headerMatch.index + headerMatch[0].length;
+  let depth = 1;
+  for (let i = start; i < source.length; i++) {
+    const ch = source[i];
+    if (ch === '{') depth++;
+    else if (ch === '}') {
+      depth--;
+      if (depth === 0) return source.slice(start, i);
+    }
+  }
+  return null;
+};
+
+/**
+ * Split an interface body into prop declarations, respecting brace depth so
+ * a multi-line nested object type stays on one logical "line".
+ */
+const splitPropDeclarations = (body) => {
+  const out = [];
+  let buf = '';
+  let depth = 0;
+  for (const ch of body) {
+    if (ch === '{' || ch === '<' || ch === '(') depth++;
+    else if (ch === '}' || ch === '>' || ch === ')') depth = Math.max(0, depth - 1);
+    if ((ch === ';' || ch === '\n') && depth === 0) {
+      const trimmed = buf.trim();
+      if (trimmed) out.push(trimmed);
+      buf = '';
+      continue;
+    }
+    buf += ch;
+  }
+  if (buf.trim()) out.push(buf.trim());
+  return out;
+};
 
 const extractEnum = (typeBody) => {
   const stripped = typeBody.trim();
@@ -46,17 +95,19 @@ const extractFromSource = (filePath, name) => {
   const variants = aliases.get(`${name}Variant`) ?? null;
   const sizes = aliases.get(`${name}Size`) ?? null;
   const props = [];
-  const interfaceMatch = INTERFACE_RE.exec(source);
-  if (interfaceMatch) {
-    for (const line of interfaceMatch[2].split('\n')) {
-      const propMatch = PROP_LINE_RE.exec(line);
+  const body = extractInterfaceBody(source);
+  if (body) {
+    for (const decl of splitPropDeclarations(body)) {
+      // Match: `name?: type` (type may span multiple lines, no semicolon since splitter strips it)
+      const propMatch = /^(\w+)(\??):\s*([\s\S]+)$/.exec(decl);
       if (!propMatch) continue;
       const [, propName, optional, type] = propMatch;
+      const cleanType = type.trim();
       props.push({
         name: propName,
-        type: type.trim(),
+        type: cleanType,
         optional: optional === '?',
-        enumValues: aliases.get(type.trim()) ?? extractEnum(type),
+        enumValues: aliases.get(cleanType) ?? extractEnum(cleanType),
       });
     }
   }
@@ -139,9 +190,13 @@ const renderComponentDoc = (c, override) => {
 };
 
 const main = () => {
+  // Soft no-op when run in a context without the UI components dir (e.g.
+  // a partial build, storybook-only build). This script is hooked into
+  // the @amplify/ui build but should never hard-fail the parent build —
+  // dist/ artifacts must still be produced.
   if (!existsSync(componentsDir)) {
-    console.error(`[llms-docs] components dir not found: ${componentsDir}`);
-    process.exit(1);
+    warn(`components dir not found, skipping doc generation: ${componentsDir}`);
+    return;
   }
   if (!existsSync(distDir)) mkdirSync(distDir, { recursive: true });
   if (!existsSync(docsDir)) mkdirSync(docsDir, { recursive: true });
@@ -149,6 +204,7 @@ const main = () => {
   const dirs = readdirSync(componentsDir).filter((d) => statSync(join(componentsDir, d)).isDirectory());
   const components = [];
   const failures = [];
+  const suspicious = [];
 
   for (const dir of dirs) {
     const filePath = findComponentFile(join(componentsDir, dir), dir);
@@ -162,6 +218,13 @@ const main = () => {
     } catch (err) {
       failures.push({ name: dir, reason: err instanceof Error ? err.message : String(err) });
       continue;
+    }
+    // Safety net: a Props interface that yields zero props is almost always
+    // an extraction failure (regex truncation, unusual syntax, etc.) rather
+    // than a genuine zero-prop component. Surface as a warning.
+    const declaresPropsInterface = /export\s+interface\s+\w+Props\b/.test(readFileSync(filePath, 'utf8'));
+    if (declaresPropsInterface && extracted.props.length === 0) {
+      suspicious.push(dir);
     }
     const overridePath = join(componentsDir, dir, `${dir}.llm.md`);
     const override = existsSync(overridePath) ? readFileSync(overridePath, 'utf8') : null;
@@ -220,13 +283,21 @@ const main = () => {
   };
   writeFileSync(join(distDir, 'llms.json'), JSON.stringify(json, null, 2));
 
-  console.log(`[llms-docs] wrote ${components.length} component docs → ${docsDir}`);
-  console.log(`[llms-docs] wrote llms.txt → ${distDir}/llms.txt`);
-  console.log(`[llms-docs] wrote llms.json → ${distDir}/llms.json`);
+  log(`wrote ${components.length} component docs → ${docsDir}`);
+  log(`wrote llms.txt → ${distDir}/llms.txt`);
+  log(`wrote llms.json → ${distDir}/llms.json`);
   if (failures.length) {
-    console.error(`[llms-docs] ${failures.length} components skipped:`);
-    for (const f of failures) console.error(`  - ${f.name}: ${f.reason}`);
+    warn(`${failures.length} components skipped:`);
+    for (const f of failures) warn(`  - ${f.name}: ${f.reason}`);
+  }
+  if (suspicious.length) {
+    warn(`${suspicious.length} components declare a Props interface but yielded zero props (likely regex truncation): ${suspicious.join(', ')}`);
   }
 };
 
-main();
+// Never hard-fail the parent build — surface errors loudly but exit 0.
+try {
+  main();
+} catch (err) {
+  warn(`unexpected failure: ${err instanceof Error ? err.stack ?? err.message : String(err)}`);
+}

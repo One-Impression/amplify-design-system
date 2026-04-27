@@ -14,7 +14,8 @@
   },
   "files": ["dist"],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --external react --external react-dom && node ../../scripts/generate-llms-docs.mjs",
+    "build": "tsup src/index.ts --format esm --dts --external react --external react-dom",
+    "postbuild": "node ../../scripts/generate-llms-docs.mjs",
     "dev": "tsup src/index.ts --format esm --dts --external react --external react-dom --watch",
     "lint": "eslint src/",
     "test": "vitest run"
