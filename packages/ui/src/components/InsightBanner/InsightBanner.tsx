@@ -7,18 +7,20 @@ export interface InsightBannerProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 export const InsightBanner = React.forwardRef<HTMLDivElement, InsightBannerProps>(
-  ({ icon = '\uD83D\uDCA1', children, className, ...props }, ref) => {
+  ({ icon = '\u{1F4A1}', children, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          'flex items-start gap-3 rounded-xl border border-violet-100 bg-violet-50/50 p-4',
+          'flex flex-row items-start gap-3 rounded-lg border border-violet-200 bg-violet-50 px-4 py-3',
           className
         )}
         {...props}
       >
-        <span className="text-base flex-shrink-0" aria-hidden="true">{icon}</span>
-        <div className="text-sm text-stone-700 leading-relaxed">{children}</div>
+        <span className="flex-shrink-0 text-base" aria-hidden="true">
+          {icon}
+        </span>
+        <div className="text-sm text-violet-600">{children}</div>
       </div>
     );
   }

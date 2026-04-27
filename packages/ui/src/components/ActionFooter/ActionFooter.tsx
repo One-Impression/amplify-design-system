@@ -7,6 +7,7 @@ export interface ActionFooterProps extends React.HTMLAttributes<HTMLDivElement> 
   backLabel?: string;
   nextLabel?: string;
   showBack?: boolean;
+  showKeyboardHints?: boolean;
   nextDisabled?: boolean;
 }
 
@@ -15,9 +16,10 @@ export const ActionFooter = React.forwardRef<HTMLDivElement, ActionFooterProps>(
     {
       onBack,
       onNext,
-      backLabel = 'Back',
-      nextLabel = 'Continue',
+      backLabel = '\u2190 Back',
+      nextLabel = 'Save & Continue \u2192',
       showBack = true,
+      showKeyboardHints = true,
       nextDisabled = false,
       className,
       ...props
@@ -28,36 +30,47 @@ export const ActionFooter = React.forwardRef<HTMLDivElement, ActionFooterProps>(
       <div
         ref={ref}
         className={cn(
-          'fixed bottom-0 left-0 right-0 z-40',
-          'flex items-center justify-between',
-          'border-t border-stone-200 bg-white/95 backdrop-blur-sm',
-          'px-6 py-3',
+          'fixed bottom-0 left-0 right-0 z-50',
+          'flex items-center justify-between px-6 py-3',
+          'bg-white/[0.92] backdrop-blur-sm border-t border-[var(--amp-semantic-border-default,#e5e5e5)]',
           className
         )}
         {...props}
       >
-        <div className="flex items-center gap-3 text-xs text-stone-400">
-          <span className="inline-flex items-center gap-1">
-            <kbd className="rounded border border-stone-200 bg-stone-50 px-1 py-0.5 font-mono text-[10px]">&larr;</kbd>
-            <kbd className="rounded border border-stone-200 bg-stone-50 px-1 py-0.5 font-mono text-[10px]">&rarr;</kbd>
-            Navigate
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <kbd className="rounded border border-stone-200 bg-stone-50 px-1 py-0.5 font-mono text-[10px]">&crarr;</kbd>
-            Continue
-          </span>
+        {/* Keyboard hints */}
+        <div className="flex items-center gap-2">
+          {showKeyboardHints && (
+            <span className="text-xs text-[var(--amp-semantic-text-muted,#a3a3a3)] hidden sm:flex items-center gap-1.5">
+              <kbd className="inline-flex items-center justify-center min-w-[1.5rem] h-5 px-1.5 rounded border border-[var(--amp-semantic-border-default,#e5e5e5)] bg-[var(--amp-semantic-bg-sunken,#f5f5f5)] text-[10px] font-mono">
+                Enter
+              </kbd>
+              <span>Continue</span>
+              <span className="mx-1">&middot;</span>
+              <kbd className="inline-flex items-center justify-center min-w-[1.5rem] h-5 px-1.5 rounded border border-[var(--amp-semantic-border-default,#e5e5e5)] bg-[var(--amp-semantic-bg-sunken,#f5f5f5)] text-[10px] font-mono">
+                &uarr;
+              </kbd>
+              <kbd className="inline-flex items-center justify-center min-w-[1.5rem] h-5 px-1.5 rounded border border-[var(--amp-semantic-border-default,#e5e5e5)] bg-[var(--amp-semantic-bg-sunken,#f5f5f5)] text-[10px] font-mono">
+                &darr;
+              </kbd>
+              <span>Navigate</span>
+            </span>
+          )}
         </div>
+
+        {/* Buttons */}
         <div className="flex items-center gap-3">
-          {showBack && (
+          {showBack && onBack && (
             <button
               type="button"
               onClick={onBack}
               className={cn(
-                'rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700',
-                'transition-colors hover:bg-stone-50'
+                'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+                'text-[var(--amp-semantic-text-default,#171717)] bg-transparent',
+                'hover:bg-[var(--amp-semantic-bg-sunken,#f5f5f5)]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--amp-semantic-accent,#6531FF)]/40'
               )}
             >
-              &larr; {backLabel}
+              {backLabel}
             </button>
           )}
           <button
@@ -65,12 +78,14 @@ export const ActionFooter = React.forwardRef<HTMLDivElement, ActionFooterProps>(
             onClick={onNext}
             disabled={nextDisabled}
             className={cn(
-              'rounded-lg bg-stone-900 px-5 py-2 text-sm font-medium text-white',
-              'transition-colors hover:bg-stone-800',
+              'px-6 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              'bg-[var(--amp-semantic-accent,#6531FF)] text-white',
+              'hover:opacity-90',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--amp-semantic-accent,#6531FF)]/40',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
           >
-            {nextLabel} &rarr;
+            {nextLabel}
           </button>
         </div>
       </div>

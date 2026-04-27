@@ -1,48 +1,55 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type StepPillStatus = 'done' | 'active' | 'pending';
+export type StepPillStatus = 'pending' | 'active' | 'done';
 
-export interface StepPillProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface StepPillItem {
   label: string;
   status: StepPillStatus;
-  onNavigate?: () => void;
 }
 
-const statusClasses: Record<StepPillStatus, string> = {
-  done: 'text-violet-700 opacity-80',
-  active: 'bg-stone-900 text-white',
-  pending: 'text-stone-400',
-};
+export interface StepPillProps extends React.HTMLAttributes<HTMLDivElement> {
+  steps: StepPillItem[];
+  onStepClick?: (index: number) => void;
+}
 
-export const StepPill = React.forwardRef<HTMLButtonElement, StepPillProps>(
-  ({ label, status, onNavigate, className, ...props }, ref) => {
+export const StepPill = React.forwardRef<HTMLDivElement, StepPillProps>(
+  ({ steps, onStepClick, className, ...props }, ref) => {
     return (
-      <button
+      <div
         ref={ref}
-        type="button"
-        onClick={onNavigate}
-        disabled={status === 'pending'}
-        className={cn(
-          'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium',
-          'transition-all duration-200',
-          'disabled:cursor-not-allowed',
-          statusClasses[status],
-          className
-        )}
+        role="navigation"
+        aria-label="Step progress"
+        className={cn('flex items-center gap-2', className)}
         {...props}
       >
-        <span
-          className={cn(
-            'h-1.5 w-1.5 rounded-full',
-            status === 'done' && 'bg-violet-600',
-            status === 'active' && 'bg-white',
-            status === 'pending' && 'bg-stone-300'
-          )}
-          aria-hidden="true"
-        />
-        {label}
-      </button>
+        {steps.map((step, index) => {
+          const handleClick = onStepClick
+            ? () => onStepClick(index)
+            : undefined;
+
+          return (
+            <button
+              key={index}
+              type="button"
+              onClick={handleClick}
+              aria-current={step.status === 'active' ? 'step' : undefined}
+              className={cn(
+                'px-3 py-1.5 rounded-full text-xs font-medium transition-colors border',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--amp-semantic-accent,#6531FF)]/40',
+                step.status === 'pending' &&
+                  'border-[var(--amp-semantic-border-default,#e5e5e5)] text-[var(--amp-semantic-text-muted,#a3a3a3)] bg-transparent',
+                step.status === 'active' &&
+                  'border-[var(--amp-semantic-accent,#6531FF)] bg-[var(--amp-semantic-accent,#6531FF)] text-white font-semibold',
+                step.status === 'done' &&
+                  'border-green-600 bg-green-50 text-green-600'
+              )}
+            >
+              {step.label}
+            </button>
+          );
+        })}
+      </div>
     );
   }
 );

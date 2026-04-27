@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
 
-export type ScrapeStepStatus = 'pending' | 'loading' | 'done';
+export type ScrapeStepStatus = 'pending' | 'active' | 'done';
 
 export interface ScrapeStep {
   label: string;
@@ -9,70 +9,56 @@ export interface ScrapeStep {
 }
 
 export interface ScrapeAnimationProps extends React.HTMLAttributes<HTMLDivElement> {
-  url: string;
   steps: ScrapeStep[];
 }
 
-const statusIcon: Record<ScrapeStepStatus, string> = {
-  pending: '\u25CB',
-  loading: '\u27F3',
-  done: '\u2713',
+const spinnerStyle: React.CSSProperties = {
+  width: 16,
+  height: 16,
+  border: '2px solid var(--amp-semantic-border-default, #d6d3d1)',
+  borderTop: '2px solid var(--amp-semantic-accent, #6531FF)',
+  borderRadius: '50%',
+  animation: 'amp-scrape-spin 0.8s linear infinite',
 };
 
+const keyframesId = 'amp-scrape-spin-keyframes';
+
 export const ScrapeAnimation = React.forwardRef<HTMLDivElement, ScrapeAnimationProps>(
-  ({ url, steps, className, ...props }, ref) => {
+  ({ steps, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn(
-          'rounded-xl border border-stone-200 bg-white p-6',
-          className
-        )}
-        {...props}
-      >
-        <div className="mb-4 flex items-center gap-2 text-xs text-stone-500">
-          <svg
-            className="h-3.5 w-3.5"
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            aria-hidden="true"
+      <div ref={ref} className={cn('flex flex-col gap-2', className)} {...props}>
+        {/* Inject keyframes once */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `@keyframes amp-scrape-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}`,
+          }}
+          data-id={keyframesId}
+        />
+        {steps.map((step, idx) => (
+          <div
+            key={idx}
+            className={cn(
+              'flex items-center gap-2.5 text-sm',
+              step.status === 'pending' && 'opacity-30 text-stone-400',
+              step.status === 'active' && 'text-stone-700',
+              step.status === 'done' && 'text-green-600'
+            )}
           >
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-          </svg>
-          <span className="truncate">{url}</span>
-        </div>
-        <div className="flex flex-col gap-3">
-          {steps.map((step, i) => (
-            <div
-              key={i}
-              className={cn(
-                'flex items-center gap-3 text-sm',
-                step.status === 'done' && 'text-emerald-600',
-                step.status === 'loading' && 'text-stone-900 font-medium',
-                step.status === 'pending' && 'text-stone-400'
-              )}
-            >
-              <span
-                className={cn(
-                  'w-4 text-center',
-                  step.status === 'loading' && 'animate-spin'
-                )}
-                aria-hidden="true"
-              >
-                {statusIcon[step.status]}
+            {/* Status indicator */}
+            {step.status === 'pending' && (
+              <span className="inline-block w-4 h-4 rounded-full bg-stone-300" />
+            )}
+            {step.status === 'active' && <span style={spinnerStyle} />}
+            {step.status === 'done' && (
+              <span className="inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-green-600">
+                &#x2713;
               </span>
-              <span>{step.label}</span>
-            </div>
-          ))}
-        </div>
+            )}
+            <span>{step.label}</span>
+          </div>
+        ))}
       </div>
     );
   }
 );
-
 ScrapeAnimation.displayName = 'ScrapeAnimation';

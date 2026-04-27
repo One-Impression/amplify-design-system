@@ -2,20 +2,72 @@ import React from 'react';
 import { cn } from '../../lib/cn';
 
 export interface WalletCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  balance: string;
-  label?: string;
+  balance: number;
+  currency?: string;
+  percentage?: number;
+  topupMessage?: string;
+  subtitle?: string;
+}
+
+function formatBalance(amount: number, currency: string): string {
+  return `${currency}${amount.toLocaleString('en-IN')}`;
 }
 
 export const WalletCard = React.forwardRef<HTMLDivElement, WalletCardProps>(
-  ({ balance, label = 'Wallet Balance', className, ...props }, ref) => {
+  (
+    {
+      balance,
+      currency = '\u20B9',
+      percentage = 0,
+      topupMessage,
+      subtitle,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const clampedPct = Math.max(0, Math.min(100, percentage));
+
     return (
       <div
         ref={ref}
-        className={cn('rounded-xl border border-stone-200 bg-white p-4', className)}
+        className={cn(
+          'flex flex-col gap-3 rounded-lg border border-violet-200 bg-violet-50 px-4 py-4',
+          className
+        )}
         {...props}
       >
-        <span className="text-xs text-stone-500">{label}</span>
-        <p className="text-lg font-semibold text-stone-900">{balance}</p>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-stone-600">
+            OI Money Balance
+          </span>
+          <span className="text-lg font-bold text-violet-600">
+            {formatBalance(balance, currency)}
+          </span>
+        </div>
+
+        {/* Progress bar */}
+        <div className="h-2 w-full overflow-hidden rounded-full bg-violet-200">
+          <div
+            className="h-full rounded-full bg-violet-600 transition-all duration-300"
+            style={{ width: `${clampedPct}%` }}
+            role="progressbar"
+            aria-valuenow={clampedPct}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          />
+        </div>
+
+        {/* Topup message */}
+        {topupMessage && (
+          <p className="text-xs text-stone-500">{topupMessage}</p>
+        )}
+
+        {/* Subtitle */}
+        {subtitle && (
+          <p className="text-xs text-violet-600">{subtitle}</p>
+        )}
       </div>
     );
   }

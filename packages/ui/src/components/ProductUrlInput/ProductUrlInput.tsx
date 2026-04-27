@@ -1,70 +1,85 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { cn } from '../../lib/cn';
 
-export interface ProductUrlInputProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  value: string;
-  onChange: (value: string) => void;
-  onAnalyse: () => void;
+export interface ProductUrlInputProps {
   placeholder?: string;
-  loading?: boolean;
+  buttonLabel?: string;
+  onSubmit?: (url: string) => void;
+  className?: string;
 }
 
 export const ProductUrlInput = React.forwardRef<HTMLDivElement, ProductUrlInputProps>(
   (
     {
-      value,
-      onChange,
-      onAnalyse,
-      placeholder = 'https://example.com/products/...',
-      loading = false,
+      placeholder = 'Paste product URL...',
+      buttonLabel = 'Get Started',
+      onSubmit,
       className,
-      ...props
     },
     ref
   ) => {
+    const [value, setValue] = useState('');
+
+    const handleSubmit = useCallback(() => {
+      if (value.trim()) {
+        onSubmit?.(value.trim());
+      }
+    }, [value, onSubmit]);
+
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+          handleSubmit();
+        }
+      },
+      [handleSubmit]
+    );
+
     return (
       <div
         ref={ref}
         className={cn(
-          'flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-3',
-          'transition-all duration-200',
-          'focus-within:border-violet-400 focus-within:shadow-[0_0_0_3px_rgba(101,49,255,0.08)]',
+          'flex items-center gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-2 shadow-lg',
           className
         )}
-        {...props}
       >
+        {/* Link icon */}
         <svg
-          className="h-4 w-4 flex-shrink-0 text-stone-400"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
+          className="h-5 w-5 flex-shrink-0 text-stone-400"
           fill="none"
+          viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth={2}
           aria-hidden="true"
         >
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+          />
         </svg>
+
         <input
           type="url"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 bg-transparent text-sm text-stone-900 placeholder:text-stone-400 outline-none"
-          aria-label="Product URL"
+          className="min-w-0 flex-1 border-0 bg-transparent text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none"
         />
+
         <button
           type="button"
-          onClick={onAnalyse}
-          disabled={loading || !value}
+          onClick={handleSubmit}
           className={cn(
-            'rounded-lg bg-stone-900 px-4 py-1.5 text-xs font-medium text-white',
-            'transition-colors hover:bg-stone-800',
+            'flex-shrink-0 rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors',
+            'hover:bg-violet-700',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600/40 focus-visible:ring-offset-2',
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
+          disabled={!value.trim()}
         >
-          {loading ? 'Analysing...' : 'Analyse \u2192'}
+          {buttonLabel}
         </button>
       </div>
     );

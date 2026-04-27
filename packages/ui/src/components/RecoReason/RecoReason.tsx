@@ -7,21 +7,22 @@ export interface RecoReasonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const RecoReason = React.forwardRef<HTMLDivElement, RecoReasonProps>(
-  ({ icon = '\u2726', children, className, ...props }, ref) => {
+  ({ icon = '\uD83C\uDFAF', children, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          'flex items-start gap-2 rounded-lg bg-violet-50 px-3 py-2 text-sm text-violet-800',
+          'flex flex-row items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2.5 text-sm text-green-600',
           className
         )}
         {...props}
       >
-        <span className="flex-shrink-0" aria-hidden="true">{icon}</span>
-        <span>{children}</span>
+        <span className="shrink-0 leading-5" aria-hidden="true">
+          {icon}
+        </span>
+        <div className="min-w-0">{children}</div>
       </div>
     );
   }
 );
-
 RecoReason.displayName = 'RecoReason';
