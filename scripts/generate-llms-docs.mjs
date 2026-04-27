@@ -19,8 +19,13 @@ const componentsDir = resolve(repoRoot, 'packages/ui/src/components');
 const distDir = resolve(repoRoot, 'packages/ui/dist');
 const docsDir = resolve(distDir, 'llms');
 
+// Build-script logging: human-readable progress to stdout/stderr (low blast
+// radius, runs once per build). The final summary line is structured JSON
+// so log aggregators (CloudWatch, Datadog) can index doc-gen runs.
 const log = (msg) => process.stdout.write(`[llms-docs] ${msg}\n`);
 const warn = (msg) => process.stderr.write(`[llms-docs] ${msg}\n`);
+const summary = (event, fields) =>
+  process.stdout.write(JSON.stringify({ level: 'info', event, ...fields }) + '\n');
 
 const TYPE_ALIAS_RE = /export\s+type\s+(\w+)\s*=\s*([^;]+);/g;
 const INTERFACE_HEADER_RE = /export\s+interface\s+(\w+Props)(?:<[^>]*>)?(?:\s+extends\s+[^{]+)?\s*\{/g;
@@ -293,6 +298,11 @@ const main = () => {
   if (suspicious.length) {
     warn(`${suspicious.length} components declare a Props interface but yielded zero props (likely regex truncation): ${suspicious.join(', ')}`);
   }
+  summary('llms_docs_generated', {
+    componentCount: components.length,
+    failureCount: failures.length,
+    suspiciousCount: suspicious.length,
+  });
 };
 
 // Never hard-fail the parent build — surface errors loudly but exit 0.
