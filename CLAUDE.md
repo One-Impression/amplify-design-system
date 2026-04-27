@@ -43,6 +43,17 @@ npm run validate     # Cross-package consistency check
 npm run storybook    # Launch Storybook at port 6006
 ```
 
+### UI package build lifecycle
+
+`npm run build -w packages/ui` runs three steps in order:
+1. **`prebuild`** — `packages/ui/scripts/generate-contracts.mjs` uses the TypeScript compiler API to extract component contracts and write:
+   - `packages/ui/dist/contracts/<Component>.json` — per-component spec (own props, inherited HTML attribute counts, variants, sizes, subcomponents, JSDoc, defaults)
+   - `packages/ui/dist/contracts.json` — manifest index
+2. **`build`** — `tsup` compiles `src/index.ts` to ESM + `.d.ts`
+3. **`postbuild`** — `scripts/generate-llms-docs.mjs` reads `contracts.json` (not source files) to produce `dist/llms.txt`, `dist/llms/<Component>.md`, and `dist/llms.json`
+
+The MCP server (`packages/mcp-server`) prefers `dist/contracts.json` when present; falls back to regex filesystem extraction so the server works in development before the first build.
+
 ## Package Structure
 
 ```
