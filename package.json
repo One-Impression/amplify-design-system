@@ -19,7 +19,10 @@
     "validate": "node scripts/validate-tokens.js",
     "storybook": "npm run dev -w packages/storybook",
     "build:storybook": "npm run build -w packages/storybook",
-    "build:ui": "npm run build -w packages/ui"
+    "build:ui": "npm run build -w packages/ui",
+    "build:mcp": "npm run build -w packages/mcp-server",
+    "mcp": "npm run dev -w packages/mcp-server",
+    "mcp:http": "npm run dev:http -w packages/mcp-server"
   },
   "engines": {
     "node": ">=18.0.0"
