@@ -2,6 +2,20 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## [1.1.0] — 2026-04-28
+
+### Added (additive — `@one-impression/ui`)
+
+- **`xs` size variant** on `Button` and `IconButton`. Discovered while preparing the atmosphere migration: data-dense dashboards need a smaller-than-`sm` control (`h-6` = 24px) for tight rows. Without `xs` the alternative would have been forcing every consumer to either accept Canvas's coarser scale or to bypass Canvas with bespoke local primitives — neither acceptable.
+- This is a precursor to the proper density-mode work planned in Wave 2 Tier 2 (`compact` × `cozy` orthogonal axis). Once density lands, `xs` becomes "compact `sm`" automatically; this PR keeps the explicit `xs` opt-out for callsites that want the smaller footprint regardless of density.
+
+| Component | Size | Width / Height | Padding | Use case |
+|-----------|------|----------------|---------|----------|
+| Button | `xs` | h-6 (24px) | px-2 | Inline tables, dashboards, dense forms |
+| IconButton | `xs` | 24×24 | — | Inline row actions in DataTable |
+
+Pure additive — no breaking change. Existing `sm/md/lg` callsites unchanged.
+
 ## [1.0.1] — 2026-04-27
 
 ### Changed (BREAKING — pre-publish)

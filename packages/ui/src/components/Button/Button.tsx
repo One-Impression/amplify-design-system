@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../lib/cn';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'outline';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'style'> {
   variant?: ButtonVariant;
@@ -23,6 +23,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
+  xs: 'h-6 px-2 text-xs gap-1 rounded',
   sm: 'h-8 px-3 text-sm gap-1.5 rounded-md',
   md: 'h-10 px-4 text-base gap-2 rounded-md',
   lg: 'h-12 px-6 text-base gap-2 rounded-lg',
