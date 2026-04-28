@@ -71,7 +71,9 @@ jobs:
         run: npm run build -w packages/storybook
 
       - name: Publish packages
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && env.NPM_TOKEN_SET == 'true'
+        env:
+          NPM_TOKEN_SET: ${{ secrets.NPM_TOKEN != '' }}
         run: |
           set -e
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
@@ -100,8 +102,16 @@ jobs:
           # Public npm publishing requires NPM_TOKEN secret (org-level "amplify"
           # publish access). Setup: create npm org "amplify" → generate
           # automation token with "publish" scope → add as NPM_TOKEN secret on
-          # this repo.
+          # this repo. Until that's done, the step's `if:` skips publishing
+          # gracefully so CI stays green on builds + tests.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish skipped (NPM_TOKEN not set)
+        if: github.ref == 'refs/heads/main' && env.NPM_TOKEN_SET != 'true'
+        env:
+          NPM_TOKEN_SET: ${{ secrets.NPM_TOKEN != '' }}
+        run: |
+          echo "::notice title=Publish skipped::NPM_TOKEN secret is not set on this repo. Build + tests passed but @amplify/* was NOT published. To enable publishing: (1) create npm org 'amplify' at npmjs.com/org/create, (2) generate an automation token with publish scope, (3) gh secret set NPM_TOKEN -R One-Impression/amplify-design-system. Then re-run this workflow."
 
   secret-scan:
     name: Secret Scan
