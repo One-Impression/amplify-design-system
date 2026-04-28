@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Canvas Component Status",
+  "type": "object",
+  "required": ["components"],
+  "properties": {
+    "components": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "since"],
+        "properties": {
+          "status": {
+            "enum": ["alpha", "beta", "stable", "deprecated"],
+            "description": "Lifecycle phase. alpha=early/breaking-likely, beta=feature-complete/polishing, stable=production-ready, deprecated=slated for removal"
+          },
+          "since": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semver version when component was added"
+          },
+          "deprecatedSince": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semver version when component was deprecated (only when status=deprecated)"
+          },
+          "replacedBy": {
+            "type": "string",
+            "description": "Name of replacement component (only when status=deprecated)"
+          },
+          "removalTarget": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Target semver for removal (only when status=deprecated)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Free-form context for status (esp. for alpha/beta gotchas)"
+          }
+        }
+      }
+    }
+  }
+}
