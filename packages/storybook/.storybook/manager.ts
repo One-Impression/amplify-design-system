@@ -3,8 +3,8 @@ import { create } from '@storybook/theming/create';
 
 const amplifyTheme = create({
   base: 'dark',
-  brandTitle: 'Amplify Design System',
-  brandUrl: 'https://github.com/One-Impression/amplify-design-system',
+  brandTitle: 'Amplify Canvas Design System',
+  brandUrl: 'https://canvas.amplify.club',
   colorPrimary: '#6531FF',
   colorSecondary: '#6531FF',
   appBg: '#0a0a0a',

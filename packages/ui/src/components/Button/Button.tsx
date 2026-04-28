@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
+import { useDensity, type Density } from '../../lib/density';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'outline';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -7,6 +8,11 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'style'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  /**
+   * Override the ambient density set by `<DensityProvider>`. Default is
+   * to inherit from context (`comfortable` if no provider).
+   */
+  density?: Density;
   loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
@@ -22,11 +28,38 @@ const variantClasses: Record<ButtonVariant, string> = {
     'border border-border bg-transparent text-neutral-900 hover:bg-surface-overlay focus-visible:ring-neutral-200',
 };
 
-const sizeClasses: Record<ButtonSize, string> = {
-  xs: 'h-6 px-2 text-xs gap-1 rounded',
-  sm: 'h-8 px-3 text-sm gap-1.5 rounded-md',
-  md: 'h-10 px-4 text-base gap-2 rounded-md',
-  lg: 'h-12 px-6 text-base gap-2 rounded-lg',
+/**
+ * Density × size sizing table. Each row is a density mode; each column is
+ * a size. Density only affects height + horizontal padding — text size,
+ * gap, and radius are preserved per size for visual consistency. Going
+ * one density step up or down adjusts height by 1 step in the spacing
+ * scale (h-7 → h-8 → h-10 etc).
+ *
+ * `comfortable` matches v1.0 sizing exactly — backwards compatible
+ * default for any consumer not wrapped in a DensityProvider.
+ *
+ * `compact` restores h-7 for `sm` — addresses the 1px regression
+ * flagged in atmosphere PR-AT2 dense data tables.
+ */
+const sizeClasses: Record<Density, Record<ButtonSize, string>> = {
+  compact: {
+    xs: 'h-5 px-1.5 text-xs gap-1 rounded',
+    sm: 'h-7 px-2.5 text-sm gap-1.5 rounded-md',
+    md: 'h-8 px-3 text-sm gap-2 rounded-md',
+    lg: 'h-10 px-5 text-base gap-2 rounded-lg',
+  },
+  comfortable: {
+    xs: 'h-6 px-2 text-xs gap-1 rounded',
+    sm: 'h-8 px-3 text-sm gap-1.5 rounded-md',
+    md: 'h-10 px-4 text-base gap-2 rounded-md',
+    lg: 'h-12 px-6 text-base gap-2 rounded-lg',
+  },
+  spacious: {
+    xs: 'h-7 px-2.5 text-xs gap-1 rounded',
+    sm: 'h-9 px-3.5 text-sm gap-1.5 rounded-md',
+    md: 'h-11 px-5 text-base gap-2 rounded-md',
+    lg: 'h-14 px-7 text-base gap-2 rounded-lg',
+  },
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -34,6 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       variant = 'primary',
       size = 'md',
+      density: densityOverride,
       loading = false,
       icon,
       iconPosition = 'left',
@@ -44,6 +78,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const ambientDensity = useDensity();
+    const density = densityOverride ?? ambientDensity;
     return (
       <button
         ref={ref}
@@ -54,7 +90,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           variantClasses[variant],
-          sizeClasses[size],
+          sizeClasses[density][size],
           className
         )}
         {...props}

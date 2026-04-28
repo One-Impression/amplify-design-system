@@ -284,6 +284,21 @@ const extractContract = (program, checker, filePath, componentName) => {
   };
 };
 
+const loadComponentStatus = () => {
+  const path = resolve(uiRoot, 'component-status.json');
+  if (!existsSync(path)) {
+    warn(`component-status.json not found at ${path} — all components will get status='unknown'`);
+    return {};
+  }
+  try {
+    const raw = JSON.parse(readFileSync(path, 'utf8'));
+    return raw.components || {};
+  } catch (err) {
+    warn(`failed to parse component-status.json: ${err.message} — falling back to empty map`);
+    return {};
+  }
+};
+
 const main = () => {
   if (!existsSync(componentsDir)) {
     warn(`components dir not found, skipping contract generation: ${componentsDir}`);
@@ -291,6 +306,8 @@ const main = () => {
   }
   if (!existsSync(distDir)) mkdirSync(distDir, { recursive: true });
   if (!existsSync(contractsDir)) mkdirSync(contractsDir, { recursive: true });
+
+  const statusMap = loadComponentStatus();
 
   const dirs = readdirSync(componentsDir).filter((d) => statSync(join(componentsDir, d)).isDirectory());
   const entries = [];
@@ -324,16 +341,27 @@ const main = () => {
     if (contract.declaresPropsInterface && contract.props.length === 0) {
       suspicious.push(name);
     }
+    const lifecycle = statusMap[name] || { status: 'unknown', since: 'unknown' };
+    contract.lifecycle = lifecycle;
     writeFileSync(join(contractsDir, `${name}.json`), JSON.stringify(contract, null, 2));
     contracts.push(contract);
   }
 
   contracts.sort((a, b) => a.name.localeCompare(b.name));
 
+  const missingStatus = contracts.filter((c) => c.lifecycle.status === 'unknown').map((c) => c.name);
+  if (missingStatus.length > 0) {
+    warn(`${missingStatus.length} components missing status in component-status.json: ${missingStatus.join(', ')}`);
+  }
+
   const manifest = {
     generatedAt: new Date().toISOString(),
     tsVersion: ts.version,
     componentCount: contracts.length,
+    statusBreakdown: contracts.reduce((acc, c) => {
+      acc[c.lifecycle.status] = (acc[c.lifecycle.status] || 0) + 1;
+      return acc;
+    }, {}),
     components: contracts.map((c) => ({
       name: c.name,
       contract: `contracts/${c.name}.json`,
@@ -343,6 +371,7 @@ const main = () => {
       sizes: c.sizes,
       propCount: c.props.length,
       subcomponents: c.subcomponents,
+      lifecycle: c.lifecycle,
     })),
   };
   writeFileSync(join(distDir, 'contracts.json'), JSON.stringify(manifest, null, 2));

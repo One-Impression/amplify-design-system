@@ -10,6 +10,10 @@
 // Utilities
 export { cn } from './lib/cn';
 
+// Density mode (compact / comfortable / spacious)
+export { DensityProvider, useDensity } from './lib/density';
+export type { Density, DensityProviderProps } from './lib/density';
+
 // Button
 export { Button } from './components/Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
