@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@one-impression/ui';
+import { Button } from '@amplify/ui';
 
 const meta = {
   title: 'Components/Button',

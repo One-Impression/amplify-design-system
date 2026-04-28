@@ -33,7 +33,7 @@ Federated design tokens and shared UI components for all One Impression products
                     |  - Figma sync          |
                     +----------+-------------+
                                |
-                    npm install @one-impression/tokens-*
+                    npm install @amplify/tokens-*
                                |
           +--------------------+--------------------+
           |                    |                    |
@@ -50,7 +50,7 @@ Federated design tokens and shared UI components for all One Impression products
 |----------------|------------|
 | Stores token JSON source files | Governs token changes (approval workflows) |
 | Builds CSS/JS/RN output via Style Dictionary | Detects token drift (Pixel vs code) |
-| Publishes npm packages (@one-impression/*) | Cascades brand changes across products |
+| Publishes npm packages (@amplify/*) | Cascades brand changes across products |
 | Houses React UI components | Reviews PR design compliance |
 | Runs Storybook for component docs | Audits accessibility (WCAG 2.1 AA) |
 | Provides ESLint rules | Generates design mockups & handoff specs |
@@ -62,13 +62,13 @@ Federated design tokens and shared UI components for all One Impression products
 
 | Package | Purpose | Consumer |
 |---------|---------|----------|
-| `@one-impression/tokens-foundation` | Shared primitives (spacing, radii, shadows, typography) | All products |
-| `@one-impression/tokens-brand` | Brand platform colors & theme | one-dashboard-web |
-| `@one-impression/tokens-atmosphere` | Atmosphere dashboard colors & theme | odin-agent/web |
-| `@one-impression/tokens-creator` | Creator app colors & SDUI mapping | one_club_app |
-| `@one-impression/ui` | Shared React UI components | Web products |
-| `@one-impression/eslint-config` | Design system lint rules | All products |
-| `@one-impression/feature-flags` | Feature flag utilities | All products |
+| `@amplify/tokens-foundation` | Shared primitives (spacing, radii, shadows, typography) | All products |
+| `@amplify/tokens-brand` | Brand platform colors & theme | one-dashboard-web |
+| `@amplify/tokens-atmosphere` | Atmosphere dashboard colors & theme | odin-agent/web |
+| `@amplify/tokens-creator` | Creator app colors & SDUI mapping | one_club_app |
+| `@amplify/ui` | Shared React UI components | Web products |
+| `@amplify/eslint-config` | Design system lint rules | All products |
+| `@amplify/feature-flags` | Feature flag utilities | All products |
 
 ## Token Flow
 
@@ -77,7 +77,7 @@ Federated design tokens and shared UI components for all One Impression products
 3. **GitHub Actions** builds all packages, validates, creates PR
 4. On merge: npm publish + **Pixel** detects update via scheduled drift check
 5. Pixel runs brand cascade → identifies affected products → generates fix PRs
-6. Products `npm update @one-impression/tokens-*` to adopt changes
+6. Products `npm update @amplify/tokens-*` to adopt changes
 
 ## Pixel Integration Points
 

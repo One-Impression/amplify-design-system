@@ -1,6 +1,6 @@
 {
-  "name": "@one-impression/mcp-server",
-  "version": "1.0.0",
+  "name": "@amplify/mcp-server",
+  "version": "2.0.0",
   "description": "MCP server exposing the Amplify Canvas design system to AI agents (Pixel, Claude Code).",
   "type": "module",
   "main": "dist/index.js",
@@ -44,7 +44,7 @@
     "typescript": "^5.4.0"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   }
 }

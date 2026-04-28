@@ -1,7 +1,7 @@
 {
-  "name": "@one-impression/ui",
-  "version": "1.1.0",
-  "description": "Shared UI components for Amplify products — Brand, Creator, and Atmosphere",
+  "name": "@amplify/ui",
+  "version": "2.0.0",
+  "description": "Shared UI components for Amplify products \u2014 Brand, Creator, and Atmosphere",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,7 +59,7 @@
     "tailwind-merge": "^2.3.0"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   }
 }

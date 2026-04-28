@@ -1,14 +1,14 @@
 /**
- * @one-impression/eslint-config — Shared ESLint flat config
+ * @amplify/eslint-config — Shared ESLint flat config
  *
  * Enforces Amplify design token usage across consuming projects.
  *
  * Usage (eslint.config.js):
- *   import amplifyConfig from '@one-impression/eslint-config';
+ *   import amplifyConfig from '@amplify/eslint-config';
  *   export default [...amplifyConfig];
  *
  * Or CommonJS:
- *   const amplifyConfig = require('@one-impression/eslint-config');
+ *   const amplifyConfig = require('@amplify/eslint-config');
  *   module.exports = [...amplifyConfig];
  */
 
@@ -22,7 +22,7 @@ const noHardcodedTypography = require('./rules/no-hardcoded-typography');
 
 const plugin = {
   meta: {
-    name: '@one-impression/eslint-plugin',
+    name: '@amplify/eslint-plugin',
     version: '2.0.0',
   },
   rules: {
@@ -39,16 +39,16 @@ const plugin = {
 module.exports = [
   {
     plugins: {
-      '@one-impression': plugin,
+      '@amplify': plugin,
     },
     rules: {
-      '@one-impression/no-hardcoded-colors': 'warn',
-      '@one-impression/no-raw-spacing': 'warn',
-      '@one-impression/prefer-token-import': 'warn',
-      '@one-impression/no-inline-styles': 'warn',
-      '@one-impression/no-raw-surface': 'warn',
-      '@one-impression/no-hardcoded-radius': 'warn',
-      '@one-impression/no-hardcoded-typography': 'warn',
+      '@amplify/no-hardcoded-colors': 'warn',
+      '@amplify/no-raw-spacing': 'warn',
+      '@amplify/prefer-token-import': 'warn',
+      '@amplify/no-inline-styles': 'warn',
+      '@amplify/no-raw-surface': 'warn',
+      '@amplify/no-hardcoded-radius': 'warn',
+      '@amplify/no-hardcoded-typography': 'warn',
     },
   },
 ];

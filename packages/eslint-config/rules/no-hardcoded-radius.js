@@ -1,5 +1,5 @@
 /**
- * @one-impression/no-hardcoded-radius
+ * @amplify/no-hardcoded-radius
  *
  * Flags Tailwind hardcoded border-radius classes. Use design token radii instead:
  *   rounded-[var(--radius-card)]  — 16px, for cards and containers

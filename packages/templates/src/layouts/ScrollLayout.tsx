@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@one-impression/ui';
+import { Button } from '@amplify/ui';
 import type { TemplateConfig } from '../render';
 import { renderComponent } from '../registry';
 

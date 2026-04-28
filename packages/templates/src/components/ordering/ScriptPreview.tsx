@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Badge } from '@one-impression/ui';
+import { Card, Badge } from '@amplify/ui';
 import type { ComponentRenderer } from '../../registry';
 
 interface Script {

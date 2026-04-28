@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          registry-url: https://npm.pkg.github.com
-          scope: '@one-impression'
+          registry-url: https://registry.npmjs.org
+          scope: '@amplify'
 
       - name: Install dependencies
         run: npm ci
@@ -37,10 +37,10 @@ jobs:
           npm run build -w packages/tokens-creator
           npm run build -w packages/tokens-atmosphere
 
-      - name: Build @one-impression/ui
+      - name: Build @amplify/ui
         run: npm run build -w packages/ui
 
-      - name: Build @one-impression/mcp-server
+      - name: Build @amplify/mcp-server
         run: npm run build -w packages/mcp-server
 
       - name: Validate cross-package consistency
@@ -75,22 +75,19 @@ jobs:
         run: |
           set -e
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
-            echo "Publishing @one-impression/$pkg..."
+            echo "Publishing @amplify/$pkg..."
             (
               cd packages/$pkg
-              OUTPUT=$(npm publish --access restricted 2>&1) && echo "$OUTPUT" || {
+              # Public npm — access:public via publishConfig in package.json
+              OUTPUT=$(npm publish 2>&1) && echo "$OUTPUT" || {
                 EXIT_CODE=$?
                 echo "$OUTPUT"
                 # Recognise every shape of "this version already exists" the
-                # registry might return. npm CLI emits EPUBLISHCONFLICT, the
-                # legacy npmjs registry says "already been published" /
-                # "You cannot publish over the previously published versions",
-                # and GitHub Packages says "Cannot publish over existing version"
-                # with HTTP 409. Missing any of these silently fails the loop
-                # on a no-op republish and blocks every subsequent package
-                # (PR-A6 incident — Button xs never reached the registry
-                # because tokens-foundation@1.0.0 tripped the 409 first).
-                if echo "$OUTPUT" | grep -qE 'EPUBLISHCONFLICT|already been published|You cannot publish over the previously published versions|Cannot publish over existing version|409 Conflict'; then
+                # registry might return. npm CLI emits EPUBLISHCONFLICT, public
+                # npm says "You cannot publish over the previously published
+                # versions" — silently skipping a no-op republish lets us
+                # iterate on docs/CI without bumping versions every time.
+                if echo "$OUTPUT" | grep -qE 'EPUBLISHCONFLICT|already been published|You cannot publish over the previously published versions|cannot publish over the previously published'; then
                   echo "Package already published at this version — skipping"
                 else
                   echo "::error::Publish failed for $pkg"
@@ -100,7 +97,11 @@ jobs:
             )
           done
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Public npm publishing requires NPM_TOKEN secret (org-level "amplify"
+          # publish access). Setup: create npm org "amplify" → generate
+          # automation token with "publish" scope → add as NPM_TOKEN secret on
+          # this repo.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   secret-scan:
     name: Secret Scan

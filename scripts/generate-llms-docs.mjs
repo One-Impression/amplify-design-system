@@ -54,7 +54,7 @@ const renderExample = (c) => {
   const variantAttr = c.variants ? ` variant="${c.variants[0]}"` : '';
   const sizeAttr = c.sizes ? ` size="${c.sizes[c.sizes.length === 3 ? 1 : 0]}"` : '';
   const inner = c.subcomponents.length ? `\n  <${c.subcomponents[0]}>...</${c.subcomponents[0]}>\n` : 'children';
-  return `\`\`\`tsx\nimport { ${c.name} } from '@one-impression/ui';\n\n<${c.name}${variantAttr}${sizeAttr}>${inner}</${c.name}>\n\`\`\``;
+  return `\`\`\`tsx\nimport { ${c.name} } from '@amplify/ui';\n\n<${c.name}${variantAttr}${sizeAttr}>${inner}</${c.name}>\n\`\`\``;
 };
 
 const renderLifecycle = (lifecycle) => {
@@ -108,7 +108,7 @@ const renderComponentDoc = (c, override) => {
     sections.push(`## Guidance\n\n${override.trim()}`);
   }
 
-  sections.push(`## Import\n\n\`\`\`ts\nimport { ${c.name} } from '@one-impression/ui';\n\`\`\``);
+  sections.push(`## Import\n\n\`\`\`ts\nimport { ${c.name} } from '@amplify/ui';\n\`\`\``);
 
   return sections.join('\n\n') + '\n';
 };
@@ -141,7 +141,7 @@ const main = () => {
   const lines = [];
   lines.push('# Amplify Canvas Design System');
   lines.push('');
-  lines.push('> Canvas is the unified design system for Amplify products (Brand, Creator, Atmosphere). It ships React components, design tokens, and templates as `@one-impression/ui`, `@one-impression/tokens-*`, and `@one-impression/templates`.');
+  lines.push('> Canvas is the unified design system for Amplify products (Brand, Creator, Atmosphere). It ships React components, design tokens, and templates as `@amplify/ui`, `@amplify/tokens-*`, and `@amplify/templates`.');
   lines.push('');
   lines.push('Each component below has a per-component rule sheet listing variants, props, defaults, and allowed values. Use these to compose UI without inventing components or hardcoding values.');
   lines.push('');
@@ -166,14 +166,14 @@ const main = () => {
   lines.push('');
   lines.push('## Tokens');
   lines.push('');
-  lines.push('- `@one-impression/tokens-foundation`: primitives (color, spacing, typography, shadow, radius, motion)');
-  lines.push('- `@one-impression/tokens-brand`: Brand product theme');
-  lines.push('- `@one-impression/tokens-atmosphere`: Atmosphere product theme');
-  lines.push('- `@one-impression/tokens-creator`: Creator product theme');
+  lines.push('- `@amplify/tokens-foundation`: primitives (color, spacing, typography, shadow, radius, motion)');
+  lines.push('- `@amplify/tokens-brand`: Brand product theme');
+  lines.push('- `@amplify/tokens-atmosphere`: Atmosphere product theme');
+  lines.push('- `@amplify/tokens-creator`: Creator product theme');
   lines.push('');
   lines.push('## Programmatic access');
   lines.push('');
-  lines.push('- MCP server: `@one-impression/mcp-server` exposes the same data via stdio + HTTP transports.');
+  lines.push('- MCP server: `@amplify/mcp-server` exposes the same data via stdio + HTTP transports.');
   lines.push('- JSON contracts: `dist/contracts/<Component>.json` — TS-API-extracted, single source of truth.');
   lines.push('- JSON mirror: `dist/llms.json` for tools that prefer flattened structured data.');
 

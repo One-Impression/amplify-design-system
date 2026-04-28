@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Skeleton } from '@one-impression/ui';
+import { Skeleton } from '@amplify/ui';
 
 const meta = {
   title: 'Components/Skeleton',
