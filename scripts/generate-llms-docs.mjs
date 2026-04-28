@@ -57,10 +57,33 @@ const renderExample = (c) => {
   return `\`\`\`tsx\nimport { ${c.name} } from '@one-impression/ui';\n\n<${c.name}${variantAttr}${sizeAttr}>${inner}</${c.name}>\n\`\`\``;
 };
 
+const renderLifecycle = (lifecycle) => {
+  if (!lifecycle || lifecycle.status === 'unknown') return null;
+  const badge = {
+    alpha: '🚧 **Alpha** — early stage; breaking changes likely',
+    beta: '⚠️ **Beta** — feature-complete, polishing; minor changes possible',
+    stable: '✅ **Stable** — production-ready, semver-stable',
+    deprecated: '🛑 **Deprecated** — slated for removal',
+  }[lifecycle.status];
+  if (!badge) return null;
+  const lines = [badge];
+  lines.push(`Added in v${lifecycle.since}.`);
+  if (lifecycle.status === 'deprecated') {
+    if (lifecycle.replacedBy) lines.push(`Replaced by: \`${lifecycle.replacedBy}\`.`);
+    if (lifecycle.deprecatedSince) lines.push(`Deprecated since v${lifecycle.deprecatedSince}.`);
+    if (lifecycle.removalTarget) lines.push(`Scheduled for removal in v${lifecycle.removalTarget}.`);
+  }
+  if (lifecycle.notes) lines.push(`Notes: ${lifecycle.notes}`);
+  return `## Lifecycle\n\n${lines.join(' ')}`;
+};
+
 const renderComponentDoc = (c, override) => {
   const sections = [];
   sections.push(`# ${c.name}`);
   sections.push(`> Auto-extracted from \`${c.filePath}\`. Do not edit by hand — regenerated on every build.`);
+
+  const lifecycleSection = renderLifecycle(c.lifecycle);
+  if (lifecycleSection) sections.push(lifecycleSection);
 
   if (c.variants) sections.push(`## Variants\n\n${c.variants.map((v) => `- \`${v}\``).join('\n')}`);
   if (c.sizes) sections.push(`## Sizes\n\n${c.sizes.map((s) => `- \`${s}\``).join('\n')}`);
@@ -124,13 +147,21 @@ const main = () => {
   lines.push('');
   lines.push('## Components');
   lines.push('');
+  const statusBadge = {
+    alpha: ' 🚧',
+    beta: ' ⚠️',
+    stable: '',
+    deprecated: ' 🛑',
+    unknown: '',
+  };
   for (const c of components) {
     const summaryStr = [
       c.variants ? `${c.variants.length} variants` : null,
       c.sizes ? `${c.sizes.length} sizes` : null,
       `${c.props.length} props`,
     ].filter(Boolean).join(', ');
-    lines.push(`- [${c.name}](llms/${c.name}.md): ${summaryStr}`);
+    const badge = statusBadge[c.lifecycle?.status || 'unknown'] || '';
+    lines.push(`- [${c.name}](llms/${c.name}.md)${badge}: ${summaryStr}`);
   }
   lines.push('');
   lines.push('## Tokens');
@@ -153,6 +184,11 @@ const main = () => {
   const json = {
     generatedAt: new Date().toISOString(),
     componentCount: components.length,
+    statusBreakdown: components.reduce((acc, c) => {
+      const s = c.lifecycle?.status || 'unknown';
+      acc[s] = (acc[s] || 0) + 1;
+      return acc;
+    }, {}),
     components: components.map((c) => ({
       name: c.name,
       variants: c.variants,
@@ -161,6 +197,7 @@ const main = () => {
       inherits: c.inherits,
       kind: c.kind,
       subcomponents: c.subcomponents,
+      lifecycle: c.lifecycle,
     })),
   };
   writeFileSync(join(distDir, 'llms.json'), JSON.stringify(json, null, 2));
