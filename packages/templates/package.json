@@ -1,6 +1,6 @@
 {
-  "name": "@amplify/templates",
-  "version": "2.0.0",
+  "name": "@amplify-ai/templates",
+  "version": "2.0.1",
   "description": "React SSR template engine for instant interactive mockups \u2014 100% Canvas design system compliant",
   "type": "module",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@amplify/ui": "^2.0.0",
-    "@amplify/tokens-brand": "^2.0.0"
+    "@amplify-ai/ui": "^2.0.1",
+    "@amplify-ai/tokens-brand": "^2.0.1"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -27,9 +27,5 @@
     "tsup": "^8.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.5.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
   }
 }

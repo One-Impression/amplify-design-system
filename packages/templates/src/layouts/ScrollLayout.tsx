@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@amplify/ui';
+import { Button } from '@amplify-ai/ui';
 import type { TemplateConfig } from '../render';
 import { renderComponent } from '../registry';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from '@amplify/ui';
+import { Card, Button } from '@amplify-ai/ui';
 import type { ComponentRenderer } from '../../registry';
 
 export const Checkout: ComponentRenderer = ({ props, context }) => {

@@ -25,7 +25,7 @@ jobs:
           node-version: 20
           cache: npm
           registry-url: https://registry.npmjs.org
-          scope: '@amplify'
+          scope: '@amplify-ai'
 
       - name: Install dependencies
         run: npm ci
@@ -37,10 +37,10 @@ jobs:
           npm run build -w packages/tokens-creator
           npm run build -w packages/tokens-atmosphere
 
-      - name: Build @amplify/ui
+      - name: Build @amplify-ai/ui
         run: npm run build -w packages/ui
 
-      - name: Build @amplify/mcp-server
+      - name: Build @amplify-ai/mcp-server
         run: npm run build -w packages/mcp-server
 
       - name: Validate cross-package consistency
@@ -77,7 +77,7 @@ jobs:
         run: |
           set -e
           for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
-            echo "Publishing @amplify/$pkg..."
+            echo "Publishing @amplify-ai/$pkg..."
             (
               cd packages/$pkg
               # Public npm — access:public via publishConfig in package.json
@@ -111,7 +111,7 @@ jobs:
         env:
           NPM_TOKEN_SET: ${{ secrets.NPM_TOKEN != '' }}
         run: |
-          echo "::notice title=Publish skipped::NPM_TOKEN secret is not set on this repo. Build + tests passed but @amplify/* was NOT published. To enable publishing: (1) create npm org 'amplify' at npmjs.com/org/create, (2) generate an automation token with publish scope, (3) gh secret set NPM_TOKEN -R One-Impression/amplify-design-system. Then re-run this workflow."
+          echo "::notice title=Publish skipped::NPM_TOKEN secret is not set on this repo. Build + tests passed but @amplify-ai/* was NOT published. To enable publishing: (1) create npm org 'amplify-ai' at npmjs.com/org/create, (2) generate an automation token with publish scope, (3) gh secret set NPM_TOKEN -R One-Impression/amplify-design-system. Then re-run this workflow."
 
   secret-scan:
     name: Secret Scan

@@ -1,6 +1,6 @@
 {
-  "name": "@amplify/ui",
-  "version": "2.0.0",
+  "name": "@amplify-ai/ui",
+  "version": "2.0.1",
   "description": "Shared UI components for Amplify products \u2014 Brand, Creator, and Atmosphere",
   "type": "module",
   "main": "dist/index.js",
@@ -57,9 +57,5 @@
   "dependencies": {
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.3.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
   }
 }
