@@ -1,7 +1,7 @@
 {
-  "name": "@one-impression/tokens-foundation",
-  "version": "1.0.0",
-  "description": "Amplify Design System — shared foundation tokens (spacing, radii, shadows, breakpoints, z-index)",
+  "name": "@amplify/tokens-foundation",
+  "version": "2.0.0",
+  "description": "Amplify Design System \u2014 shared foundation tokens (spacing, radii, shadows, breakpoints, z-index)",
   "main": "dist/tokens.js",
   "exports": {
     "./css": "./dist/variables.css",
@@ -16,9 +16,12 @@
   "devDependencies": {
     "style-dictionary": "^4.3.0"
   },
-  "files": ["dist/", "tokens/"],
+  "files": [
+    "dist/",
+    "tokens/"
+  ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   }
 }

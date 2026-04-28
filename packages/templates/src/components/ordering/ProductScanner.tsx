@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@one-impression/ui';
+import { Card } from '@amplify/ui';
 import type { ComponentRenderer } from '../../registry';
 
 const defaultRecentProducts = [

@@ -1,4 +1,4 @@
-# @one-impression/mcp-server
+# @amplify/mcp-server
 
 MCP server exposing the Amplify Canvas design system to AI agents (Pixel, Claude Code, etc.).
 
@@ -6,7 +6,7 @@ MCP server exposing the Amplify Canvas design system to AI agents (Pixel, Claude
 
 | Tool | Purpose |
 |------|---------|
-| `list_components` | All components in `@one-impression/ui` with one-line descriptions and tags. |
+| `list_components` | All components in `@amplify/ui` with one-line descriptions and tags. |
 | `get_props` | Full prop signature for a component (variants, sizes, states, required props). |
 | `find_block` | Search the templates package for blocks matching a use case (e.g. "checkout", "stepper"). |
 | `validate_usage` | Validate a JSX snippet against component contracts — reports invalid props/values. |
@@ -37,7 +37,7 @@ Add to `~/.claude/.mcp.json`:
   "mcpServers": {
     "canvas": {
       "command": "npx",
-      "args": ["-y", "@one-impression/mcp-server"]
+      "args": ["-y", "@amplify/mcp-server"]
     }
   }
 }

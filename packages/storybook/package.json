@@ -1,5 +1,5 @@
 {
-  "name": "@one-impression/storybook",
+  "name": "@amplify/storybook",
   "version": "0.1.0",
   "private": true,
   "description": "Storybook for Amplify Design System — component documentation and visual testing",
@@ -22,7 +22,7 @@
     "vite": "^6.0.0",
     "typescript": "^5.5.0",
     "tailwindcss": "^4.0.0",
-    "@one-impression/ui": "*",
+    "@amplify/ui": "*",
     "chromatic": "^11.0.0"
   }
 }

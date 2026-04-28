@@ -10,7 +10,7 @@ import { z } from 'zod';
 const tools = [
   {
     name: 'list_components',
-    description: 'List components in @one-impression/ui with their variants, sizes, and forwardRef status.',
+    description: 'List components in @amplify/ui with their variants, sizes, and forwardRef status.',
     schema: listComponentsSchema,
     handler: listComponents,
   },
@@ -60,7 +60,7 @@ const zodToInputSchema = (schema: z.ZodTypeAny): Record<string, unknown> => {
 
 export const createCanvasServer = (): Server => {
   const server = new Server(
-    { name: '@one-impression/mcp-server', version: '0.1.0' },
+    { name: '@amplify/mcp-server', version: '0.1.0' },
     { capabilities: { tools: {} } }
   );
 

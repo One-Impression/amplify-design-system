@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card } from '@one-impression/ui';
+import { Card } from '@amplify/ui';
 
 const meta = {
   title: 'Components/Card',

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate JSON component contracts from @one-impression/ui source.
+ * Generate JSON component contracts from @amplify/ui source.
  *
  * Uses the real TypeScript compiler API (vs. the regex extractors in
  * scripts/generate-llms-docs.mjs and packages/mcp-server) so resolved

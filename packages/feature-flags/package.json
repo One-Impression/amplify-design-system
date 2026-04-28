@@ -1,6 +1,6 @@
 {
-  "name": "@one-impression/feature-flags",
-  "version": "1.0.0",
+  "name": "@amplify/feature-flags",
+  "version": "2.0.0",
   "description": "Feature flag client and React hooks for Amplify platform",
   "main": "src/index.ts",
   "exports": {
@@ -11,5 +11,11 @@
   "peerDependencies": {
     "react": ">=17.0.0"
   },
-  "files": ["src/"]
+  "files": [
+    "src/"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
 }

@@ -53,7 +53,7 @@ export function getTokensCSS(_product = 'brand'): string {
   --amp-accent-hover: #752AD4;
   --amp-accent-light: #EDEAFC;
 
-  /* Semantic aliases for @one-impression/ui components */
+  /* Semantic aliases for @amplify/ui components */
   --amp-semantic-text-primary: var(--amp-stone-900);
   --amp-semantic-text-secondary: var(--amp-stone-600);
   --amp-semantic-text-muted: var(--amp-stone-500);
@@ -93,7 +93,7 @@ export function getTokensCSS(_product = 'brand'): string {
   /* Transitions */
   --amp-transition: 150ms ease;
 
-  /* Tailwind-mapped tokens for @one-impression/ui components */
+  /* Tailwind-mapped tokens for @amplify/ui components */
   --color-brand: var(--amp-violet-600);
   --color-brand-dark: var(--amp-violet-700);
   --color-brand-light: var(--amp-violet-50);

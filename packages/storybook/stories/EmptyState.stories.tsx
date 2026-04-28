@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EmptyState } from '@one-impression/ui';
+import { EmptyState } from '@amplify/ui';
 
 const meta = {
   title: 'Components/EmptyState',
