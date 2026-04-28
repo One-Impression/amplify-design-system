@@ -6,7 +6,7 @@ This is the **build system** for One Impression's unified design tokens and shar
 
 ## What This Repo Is NOT
 
-This repo does NOT handle design governance, auditing, or intelligence. That is **Pixel Agent** (`pixel-agent` repo, deployed at pixel.amplify.club).
+This repo does NOT handle design governance, auditing, or intelligence. That is **Pixel Agent** (`pixel-agent` repo, public face at `canvas.amplify.club`). Pixel governs via PR-driven proposals back to this repo; this repo remains the upstream source of truth for component code and the publish target for Canvas packages. (Memory: feedback_canvas_distribution_via_npm.md.)
 
 Before building anything related to:
 - Token drift detection → already in Pixel (`token-sync.ts`)
