@@ -51,11 +51,38 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, + 40 more)
+    component-status.json        — Single source of truth for component lifecycle status (alpha/beta/stable/deprecated)
+    component-status.schema.json — JSON Schema for validating component-status.json
+    scripts/generate-contracts.mjs — Reads component-status.json; attaches `lifecycle` block to each contract and manifest
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Component Lifecycle Status
+
+`packages/ui/component-status.json` is the **single source of truth** for component lifecycle. Status values:
+
+| Status | Meaning |
+|--------|---------|
+| `alpha` | Early stage; breaking changes likely. Use behind feature flag. |
+| `beta` | Feature-complete, polishing; minor changes possible. |
+| `stable` | Production-ready, semver-stable. |
+| `deprecated` | Slated for removal; use `replacedBy` alternative. |
+
+This data is consumed by:
+- `generate-contracts.mjs` → `dist/contracts.json` (per-component `lifecycle` block + `statusBreakdown`)
+- `generate-llms-docs.mjs` → per-component `.md` files (renders `## Lifecycle` section with badge) and `llms.json`
+- Storybook (via `parameters.status`)
+
+**To deprecate a component:**
+1. Set `"status": "deprecated"` in `component-status.json`
+2. Add `deprecatedSince`, `replacedBy`, and optionally `removalTarget`
+3. Component remains functional through the deprecation period (semver minor)
+4. Removal happens in the next major version
+
+**To add a new component:** Add an entry to `component-status.json` with `status` and `since` (semver). `generate-contracts.mjs` warns at build time if any discovered component is missing from this file.
 
 ## Token File Format
 
