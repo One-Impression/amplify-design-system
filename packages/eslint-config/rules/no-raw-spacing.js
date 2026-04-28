@@ -1,5 +1,5 @@
 /**
- * @amplify/eslint-config — no-raw-spacing
+ * @amplify-ai/eslint-config — no-raw-spacing
  * Warns when raw pixel values are used in style props where spacing tokens exist.
  */
 module.exports = {

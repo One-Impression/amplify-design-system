@@ -1,6 +1,6 @@
 {
-  "name": "@amplify/tokens-atmosphere",
-  "version": "2.0.0",
+  "name": "@amplify-ai/tokens-atmosphere",
+  "version": "2.0.1",
   "description": "Amplify Atmosphere (internal tools) design tokens",
   "main": "dist/tokens.js",
   "exports": {
@@ -13,7 +13,7 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@amplify/tokens-foundation": "^2.0.0"
+    "@amplify-ai/tokens-foundation": "^2.0.1"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"
@@ -21,9 +21,5 @@
   "files": [
     "dist/",
     "tokens/"
-  ],
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
-  }
+  ]
 }

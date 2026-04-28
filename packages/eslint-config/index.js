@@ -1,14 +1,14 @@
 /**
- * @amplify/eslint-config — Shared ESLint flat config
+ * @amplify-ai/eslint-config — Shared ESLint flat config
  *
  * Enforces Amplify design token usage across consuming projects.
  *
  * Usage (eslint.config.js):
- *   import amplifyConfig from '@amplify/eslint-config';
+ *   import amplifyConfig from '@amplify-ai/eslint-config';
  *   export default [...amplifyConfig];
  *
  * Or CommonJS:
- *   const amplifyConfig = require('@amplify/eslint-config');
+ *   const amplifyConfig = require('@amplify-ai/eslint-config');
  *   module.exports = [...amplifyConfig];
  */
 
@@ -22,7 +22,7 @@ const noHardcodedTypography = require('./rules/no-hardcoded-typography');
 
 const plugin = {
   meta: {
-    name: '@amplify/eslint-plugin',
+    name: '@amplify-ai/eslint-plugin',
     version: '2.0.0',
   },
   rules: {
@@ -39,16 +39,16 @@ const plugin = {
 module.exports = [
   {
     plugins: {
-      '@amplify': plugin,
+      '@amplify-ai': plugin,
     },
     rules: {
-      '@amplify/no-hardcoded-colors': 'warn',
-      '@amplify/no-raw-spacing': 'warn',
-      '@amplify/prefer-token-import': 'warn',
-      '@amplify/no-inline-styles': 'warn',
-      '@amplify/no-raw-surface': 'warn',
-      '@amplify/no-hardcoded-radius': 'warn',
-      '@amplify/no-hardcoded-typography': 'warn',
+      '@amplify-ai/no-hardcoded-colors': 'warn',
+      '@amplify-ai/no-raw-spacing': 'warn',
+      '@amplify-ai/prefer-token-import': 'warn',
+      '@amplify-ai/no-inline-styles': 'warn',
+      '@amplify-ai/no-raw-surface': 'warn',
+      '@amplify-ai/no-hardcoded-radius': 'warn',
+      '@amplify-ai/no-hardcoded-typography': 'warn',
     },
   },
 ];
