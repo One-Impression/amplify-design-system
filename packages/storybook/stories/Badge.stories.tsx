@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from '@amplify/ui';
+import { Badge } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Components/Badge',

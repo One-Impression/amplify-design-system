@@ -8,7 +8,7 @@ export function getBaseCSS(): string {
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--amp-font);background:var(--amp-bg);color:var(--amp-text);font-size:var(--amp-text-base);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* ═══ Card — matches @amplify/ui Card component ═══ */
+/* ═══ Card — matches @amplify-ai/ui Card component ═══ */
 /* Default: rounded-[16px] border border-[border-default] bg-[bg-surface] */
 .amp-card{background:var(--amp-surface);border-radius:var(--amp-radius-xl);border:1px solid var(--amp-border);transition:all var(--amp-transition);overflow:hidden}
 /* Interactive variant: hover:shadow-lg */
@@ -21,7 +21,7 @@ body{font-family:var(--amp-font);background:var(--amp-bg);color:var(--amp-text);
 /* Elevated variant */
 .amp-card.elevated{box-shadow:var(--amp-shadow-lg)}
 
-/* ═══ Button — matches @amplify/ui Button component ═══ */
+/* ═══ Button — matches @amplify-ai/ui Button component ═══ */
 /* Base: inline-flex items-center justify-center font-medium transition-all duration-150 */
 .amp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:6px;font-size:var(--amp-text-base);font-weight:500;border:none;cursor:pointer;transition:all 150ms ease;font-family:var(--amp-font);outline:none}
 .amp-btn:focus-visible{outline:none;box-shadow:0 0 0 2px var(--amp-surface),0 0 0 4px rgba(101,49,255,0.4)}
@@ -52,7 +52,7 @@ body{font-family:var(--amp-font);background:var(--amp-bg);color:var(--amp-text);
 /* Full width */
 .amp-btn-full{width:100%}
 
-/* ═══ Input — matches @amplify/ui Input component ═══ */
+/* ═══ Input — matches @amplify-ai/ui Input component ═══ */
 /* h-10 px-3 rounded-[16px] text-[14px] border border-[border-default] */
 .amp-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--amp-border);border-radius:var(--amp-radius-xl);font-size:var(--amp-text-base);font-family:var(--amp-font);background:var(--amp-surface);color:var(--amp-text);outline:none;transition:colors 150ms ease}
 .amp-input::placeholder{color:var(--amp-text-muted)}
@@ -60,12 +60,12 @@ body{font-family:var(--amp-font);background:var(--amp-bg);color:var(--amp-text);
 textarea.amp-input{height:auto;min-height:80px;padding:var(--amp-sp-3) 12px;resize:vertical}
 select.amp-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 
-/* ═══ Chip — matches @amplify/ui chip-like patterns ═══ */
+/* ═══ Chip — matches @amplify-ai/ui chip-like patterns ═══ */
 .amp-chip{display:inline-flex;align-items:center;gap:6px;padding:var(--amp-sp-1) var(--amp-sp-3);border-radius:var(--amp-radius-full);font-size:var(--amp-text-sm);font-weight:500;border:1px solid var(--amp-border);background:var(--amp-surface);color:var(--amp-text-secondary);cursor:pointer;transition:all 150ms ease;user-select:none}
 .amp-chip:hover{border-color:var(--amp-border-strong);background:var(--amp-surface-overlay)}
 .amp-chip.active{background:var(--amp-accent);border-color:var(--amp-accent);color:#fff}
 
-/* ═══ Badge — matches @amplify/ui Badge component ═══ */
+/* ═══ Badge — matches @amplify-ai/ui Badge component ═══ */
 /* Base: inline-flex items-center gap-1.5 font-medium whitespace-nowrap */
 .amp-badge{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:6px;font-size:var(--amp-text-sm);font-weight:500;white-space:nowrap}
 /* Brand: bg-brand-light text-brand border border-brand/20 */

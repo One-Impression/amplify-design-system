@@ -1,6 +1,6 @@
 {
-  "name": "@amplify/feature-flags",
-  "version": "2.0.0",
+  "name": "@amplify-ai/feature-flags",
+  "version": "2.0.1",
   "description": "Feature flag client and React hooks for Amplify platform",
   "main": "src/index.ts",
   "exports": {
@@ -13,9 +13,5 @@
   },
   "files": [
     "src/"
-  ],
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
-  }
+  ]
 }

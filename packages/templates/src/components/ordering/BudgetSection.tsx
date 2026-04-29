@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Badge } from '@amplify/ui';
+import { Card, Badge } from '@amplify-ai/ui';
 import type { ComponentRenderer } from '../../registry';
 
 interface PackageItem {

@@ -1,6 +1,6 @@
 {
-  "name": "@amplify/tokens-foundation",
-  "version": "2.0.0",
+  "name": "@amplify-ai/tokens-foundation",
+  "version": "2.0.1",
   "description": "Amplify Design System \u2014 shared foundation tokens (spacing, radii, shadows, breakpoints, z-index)",
   "main": "dist/tokens.js",
   "exports": {
@@ -19,9 +19,5 @@
   "files": [
     "dist/",
     "tokens/"
-  ],
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
-  }
+  ]
 }

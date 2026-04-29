@@ -27,7 +27,7 @@ export const validateUsage = (input: ValidateUsageInput) => {
     return {
       valid: false,
       tag,
-      issues: [{ level: 'error' as const, message: `Component "${tag}" not in @amplify/ui.` }],
+      issues: [{ level: 'error' as const, message: `Component "${tag}" not in @amplify-ai/ui.` }],
     };
   }
 
