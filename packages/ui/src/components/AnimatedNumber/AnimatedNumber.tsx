@@ -39,6 +39,11 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   const ref = useRef<HTMLSpanElement | null>(null);
   const previousRef = useRef<number>(from ?? 0);
   const rafRef = useRef<number | null>(null);
+  const easingRef = useRef(easing);
+  // Keep latest easing without re-triggering the animation effect on inline-arrow
+  // function references (e.g. `easing={(t) => t}` would otherwise spawn overlapping
+  // RAF loops every render).
+  easingRef.current = easing;
   const [display, setDisplay] = useState<number>(reduced ? value : (from ?? 0));
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(!animateOnView);
 
@@ -83,7 +88,7 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(1, elapsed / duration);
-      const eased = easing(t);
+      const eased = easingRef.current(t);
       const current = start + delta * eased;
       setDisplay(current);
       if (t < 1) {
@@ -98,7 +103,10 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     };
-  }, [value, duration, easing, reduced, shouldAnimate]);
+    // `easing` is intentionally omitted — it's read via easingRef so callers can
+    // pass inline arrow functions without restarting the animation each render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, duration, reduced, shouldAnimate]);
 
   return (
     <span

@@ -122,6 +122,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                 key={`${r.emoji}-${i}`}
                 type="button"
                 onClick={() => onReactionClick?.(r)}
+                aria-label={`React with ${r.emoji}, ${r.count} reaction${r.count !== 1 ? 's' : ''}${r.reacted ? ' (you reacted)' : ''}`}
+                aria-pressed={r.reacted ?? false}
                 className={cn(
                   'flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[11px]',
                   'bg-[var(--amp-semantic-bg-surface)] border border-[var(--amp-semantic-border-default)]',
@@ -129,8 +131,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                   r.reacted && 'border-[var(--amp-semantic-accent)] bg-[var(--amp-semantic-accent-soft,transparent)]'
                 )}
               >
-                <span>{r.emoji}</span>
-                <span className="text-[var(--amp-semantic-text-muted)]">{r.count}</span>
+                <span aria-hidden="true">{r.emoji}</span>
+                <span aria-hidden="true" className="text-[var(--amp-semantic-text-muted)]">{r.count}</span>
               </button>
             ))}
           </div>
