@@ -51,10 +51,26 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, Stepper, Chip, Slider)
+  templates/          — React SSR template engine for interactive mockups (imports from @amplify/ui, outputs standalone HTML)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+```
+
+### `packages/templates` architecture
+- React TSX components render via `renderToStaticMarkup()` → complete standalone HTML files
+- Imports real `@amplify/ui` components — token/component changes propagate automatically on next build
+- Interactivity injected as inline `<script>` blocks (no bundler required at runtime)
+- Styling uses design token CSS variables (`var(--amp-*)`) only — no hand-copied CSS
+- Build validates each output: must contain `</html>`, `<script>`, and >10 JS functions
+- Outputs written to `dist/html/`
+
+```bash
+# In packages/templates:
+npm run build      # tsup + tsx src/build.tsx → dist/html/
+npm run dev        # Hot-reload dev server at localhost:3456
+npm run typecheck  # tsc --noEmit
 ```
 
 ## Token File Format
