@@ -52,6 +52,12 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+                        Current: v1.1.0
+                        Button sizes: xs (24px) | sm | md | lg
+                        IconButton sizes: xs (24×24) | sm | md | lg
+                        `xs` is a density-mode precursor — intended for data-dense dashboards/tables.
+                        Wave 2 Tier 2 will introduce a compact×cozy orthogonal axis; at that point
+                        `xs` becomes "compact sm" automatically.
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
