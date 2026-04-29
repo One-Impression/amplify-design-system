@@ -28,7 +28,47 @@ export type { CardProps, CardVariant, CardPadding, CardHeaderProps, CardTitlePro
 
 // EmptyState
 export { EmptyState } from './components/EmptyState';
-export type { EmptyStateProps } from './components/EmptyState';
+export type { EmptyStateProps, EmptyStateVariant } from './components/EmptyState';
+
+// ErrorState
+export { ErrorState } from './components/ErrorState';
+export type { ErrorStateProps, ErrorStateVariant } from './components/ErrorState';
+
+// LoadingState
+export { LoadingState } from './components/LoadingState';
+export type { LoadingStateProps, LoadingStateVariant, LoadingStateSize } from './components/LoadingState';
+
+// CommandPalette
+export { CommandPalette } from './components/CommandPalette';
+export type { CommandPaletteProps, CommandItem } from './components/CommandPalette';
+
+// ContextMenu
+export { ContextMenu } from './components/ContextMenu';
+export type { ContextMenuProps, ContextMenuItem } from './components/ContextMenu';
+
+// HoverCard
+export { HoverCard } from './components/HoverCard';
+export type { HoverCardProps, HoverCardSide } from './components/HoverCard';
+
+// Drawer
+export { Drawer } from './components/Drawer';
+export type { DrawerProps, DrawerSide, DrawerSize } from './components/Drawer';
+
+// Sheet
+export { Sheet } from './components/Sheet';
+export type { SheetProps, SheetMode, SheetSide } from './components/Sheet';
+
+// Recipes — small compositions of primitives. See src/recipes/README.md.
+export { SearchCombobox } from './recipes/SearchCombobox';
+export type { SearchComboboxProps, SearchComboboxOption } from './recipes/SearchCombobox';
+export { ActionCard } from './recipes/ActionCard';
+export type { ActionCardProps } from './recipes/ActionCard';
+export { StepHeader } from './recipes/StepHeader';
+export type { StepHeaderProps } from './recipes/StepHeader';
+export { MetricGrid } from './recipes/MetricGrid';
+export type { MetricGridProps } from './recipes/MetricGrid';
+export { AlertBanner } from './recipes/AlertBanner';
+export type { AlertBannerProps, AlertBannerTone } from './recipes/AlertBanner';
 
 // Skeleton
 export { Skeleton } from './components/Skeleton';
