@@ -1,0 +1,42 @@
+/**
+ * @amplify/tokens-marketing — Expressive surfaces
+ *
+ * Marketing surfaces lean into accent colour usage — gradients, tinted
+ * backgrounds, ambient washes. References the violet/stone primitives in
+ * tokens-foundation directly so themes still cascade.
+ */
+:root {
+  /* Background washes */
+  --amplify-marketing-surface-canvas:    var(--amp-color-stone-50, #FAFAF9);
+  --amplify-marketing-surface-spotlight: var(--amp-color-violet-50, #FAF5FF);
+  --amplify-marketing-surface-emphasis:  var(--amp-color-violet-100, #F3E8FF);
+  --amplify-marketing-surface-deep:      var(--amp-color-stone-900, #1C1917);
+  --amplify-marketing-surface-deep-tint: var(--amp-color-violet-900, #4C1D95);
+
+  /* Foreground colours per surface */
+  --amplify-marketing-on-canvas:    var(--amp-color-stone-900, #1C1917);
+  --amplify-marketing-on-spotlight: var(--amp-color-violet-900, #4C1D95);
+  --amplify-marketing-on-emphasis:  var(--amp-color-violet-900, #4C1D95);
+  --amplify-marketing-on-deep:      var(--amp-color-stone-50, #FAFAF9);
+
+  /* Dramatic shadows tuned for hero cards */
+  --amplify-marketing-shadow-hero:  0 32px 80px -16px rgba(101, 49, 255, 0.45);
+  --amplify-marketing-shadow-card:  0 16px 40px -8px rgba(101, 49, 255, 0.18);
+  --amplify-marketing-shadow-quiet: 0 8px 24px -4px rgba(28, 25, 23, 0.08);
+
+  /* Border radii — rounder than product */
+  --amplify-marketing-radius-card:  20px;
+  --amplify-marketing-radius-hero:  32px;
+  --amplify-marketing-radius-blob:  48px;
+}
+
+[data-theme="dark"] {
+  --amplify-marketing-surface-canvas:    var(--amp-color-stone-950, #0C0A09);
+  --amplify-marketing-surface-spotlight: rgba(168, 85, 247, 0.08);
+  --amplify-marketing-surface-emphasis:  rgba(168, 85, 247, 0.16);
+  --amplify-marketing-surface-deep:      var(--amp-color-stone-50, #FAFAF9);
+  --amplify-marketing-on-deep:           var(--amp-color-stone-900, #1C1917);
+  --amplify-marketing-shadow-hero:  0 32px 80px -16px rgba(168, 85, 247, 0.55);
+  --amplify-marketing-shadow-card:  0 16px 40px -8px rgba(168, 85, 247, 0.28);
+  --amplify-marketing-shadow-quiet: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+}

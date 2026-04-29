@@ -1,0 +1,45 @@
+/**
+ * @amplify/tokens-marketing — Motion-forward animation tokens
+ *
+ * Marketing is allowed to be slow and dramatic. These durations are 1.5–3×
+ * the product equivalents, and stagger waves are noticeably looser to
+ * reward scroll-driven reveal patterns.
+ */
+:root {
+  /* Durations — slower, more cinematic than product */
+  --amplify-marketing-motion-duration-fast:   300ms;
+  --amplify-marketing-motion-duration-normal: 500ms;
+  --amplify-marketing-motion-duration-slow:   800ms;
+  --amplify-marketing-motion-duration-cinematic: 1200ms;
+
+  /* Easings — heavier emphasis on overshoot for showmanship */
+  --amplify-marketing-motion-easing-soft:    cubic-bezier(0.25, 0.1, 0.25, 1);
+  --amplify-marketing-motion-easing-spring:  cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --amplify-marketing-motion-easing-dramatic: cubic-bezier(0.5, 0, 0.05, 1);
+  --amplify-marketing-motion-easing-anticipate: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+
+  /* Stagger — looser than product (50/100/200) to feel lavish */
+  --amplify-marketing-motion-stagger-tight:   80ms;
+  --amplify-marketing-motion-stagger-default: 160ms;
+  --amplify-marketing-motion-stagger-loose:   320ms;
+
+  /* Parallax / scroll multipliers (used by JS scroll handlers as numeric strings) */
+  --amplify-marketing-parallax-subtle: 0.05;
+  --amplify-marketing-parallax-medium: 0.15;
+  --amplify-marketing-parallax-bold:   0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --amplify-marketing-motion-duration-fast:      1ms;
+    --amplify-marketing-motion-duration-normal:    1ms;
+    --amplify-marketing-motion-duration-slow:      1ms;
+    --amplify-marketing-motion-duration-cinematic: 1ms;
+    --amplify-marketing-motion-stagger-tight:   0ms;
+    --amplify-marketing-motion-stagger-default: 0ms;
+    --amplify-marketing-motion-stagger-loose:   0ms;
+    --amplify-marketing-parallax-subtle: 0;
+    --amplify-marketing-parallax-medium: 0;
+    --amplify-marketing-parallax-bold:   0;
+  }
+}
