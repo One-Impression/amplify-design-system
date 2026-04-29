@@ -90,7 +90,7 @@ export const PricingTable = React.forwardRef<HTMLDivElement, PricingTableProps>(
                   {tier.description}
                 </p>
               )}
-              <ul className="mt-6 flex flex-col gap-3">
+              <ul className="mt-6 flex flex-1 flex-col gap-3">
                 {tier.features.map((f, i) => {
                   const included = f.included !== false;
                   return (
@@ -127,7 +127,7 @@ export const PricingTable = React.forwardRef<HTMLDivElement, PricingTableProps>(
                   );
                 })}
               </ul>
-              {tier.cta && <div className="mt-auto pt-6">{tier.cta}</div>}
+              {tier.cta && <div className="pt-6">{tier.cta}</div>}
             </article>
           ))}
         </div>
