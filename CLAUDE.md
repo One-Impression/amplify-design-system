@@ -47,13 +47,14 @@ npm run storybook    # Launch Storybook at port 6006
 
 ```
 packages/
-  tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints)
+  tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints, motion, surfaces, borders, fluid-type)
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  tokens-marketing/   — Marketing surface tokens (landing/pricing/Step 0; hero/display type scale, generous spacing, motion-forward durations, surface washes, gradient palette; variables prefixed `--amplify-marketing-*`; peer-dep: tokens-foundation ^2.1.0)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton + 14 new components)
   storybook/          — Component documentation and visual testing
-  eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
+  eslint-config/      — Design system lint rules (7 rules: no-hardcoded-colors, no-raw-spacing, prefer-token-import, no-inline-styles, no-raw-surface, no-hardcoded-radius, no-hardcoded-typography); exports `./recommended` (warn) and `./strict` (error) ESLint v9 flat-config presets
   feature-flags/      — Feature flag utilities
 ```
 
