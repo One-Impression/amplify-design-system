@@ -54,6 +54,14 @@
     "Toast": { "status": "stable", "since": "1.0.0" },
     "Tooltip": { "status": "stable", "since": "1.0.0" },
     "TrustBar": { "status": "stable", "since": "1.0.0" },
-    "WalletCard": { "status": "stable", "since": "1.0.0" }
+    "WalletCard": { "status": "stable", "since": "1.0.0" },
+    "BarChart": { "status": "beta", "since": "2.3.0" },
+    "Funnel": { "status": "beta", "since": "2.3.0" },
+    "Heatmap": { "status": "beta", "since": "2.3.0" },
+    "KPI": { "status": "beta", "since": "2.3.0" },
+    "LineChart": { "status": "beta", "since": "2.3.0" },
+    "PieChart": { "status": "beta", "since": "2.3.0" },
+    "ProgressRing": { "status": "beta", "since": "2.3.0" },
+    "Sparkline": { "status": "beta", "since": "2.3.0" }
   }
 }
