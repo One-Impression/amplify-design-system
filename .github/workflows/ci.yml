@@ -47,8 +47,8 @@ jobs:
       - name: Validate cross-package consistency
         run: node scripts/validate-tokens.js
 
-      - name: Test design-lint rules
-        run: node --test packages/design-lint/test/*.test.js
+      - name: Test eslint-config rules
+        run: node --test packages/eslint-config/test/*.test.js
 
       - name: Verify build outputs
         run: |
