@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Section, Button } from '@amplify/ui';
+import { Section, Button } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Marketing/Section',

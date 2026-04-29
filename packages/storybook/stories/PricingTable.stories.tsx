@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PricingTable, Button, type PricingTier } from '@amplify/ui';
+import { PricingTable, Button, type PricingTier } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Marketing/PricingTable',

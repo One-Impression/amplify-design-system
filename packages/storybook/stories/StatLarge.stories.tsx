@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StatLarge } from '@amplify/ui';
+import { StatLarge } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Marketing/StatLarge',

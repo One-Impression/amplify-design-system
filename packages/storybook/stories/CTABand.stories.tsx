@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CTABand, Button } from '@amplify/ui';
+import { CTABand, Button } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Marketing/CTABand',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { LogoCloud } from '@amplify/ui';
+import { LogoCloud } from '@amplify-ai/ui';
 
 const meta = {
   title: 'Marketing/LogoCloud',
