@@ -36,6 +36,7 @@ jobs:
           npm run build -w packages/tokens-brand
           npm run build -w packages/tokens-creator
           npm run build -w packages/tokens-atmosphere
+          npm run build -w packages/tokens-marketing
 
       - name: Build @amplify-ai/ui
         run: npm run build -w packages/ui
@@ -46,10 +47,13 @@ jobs:
       - name: Validate cross-package consistency
         run: node scripts/validate-tokens.js
 
+      - name: Test eslint-config rules
+        run: node --test packages/eslint-config/test/*.test.js
+
       - name: Verify build outputs
         run: |
           MISSING=""
-          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere ui mcp-server; do
+          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere tokens-marketing ui mcp-server; do
             DIR="packages/$pkg/dist"
             if [ ! -d "$DIR" ]; then
               MISSING="$MISSING\n  - packages/$pkg/dist/ (directory missing)"

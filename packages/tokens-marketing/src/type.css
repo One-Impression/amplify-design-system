@@ -1,0 +1,39 @@
+/**
+ * @amplify/tokens-marketing — Expressive type scale
+ *
+ * Larger than product type scale by design. Marketing surfaces (landing,
+ * Step 0, pricing, feature pages) need bigger display sizes and a more
+ * dramatic vertical rhythm than dense product UI.
+ */
+:root {
+  /* HERO — for the largest possible above-the-fold statement */
+  --amplify-marketing-text-hero-2xl: clamp(3.5rem, 2.357rem + 4.879vw, 6.75rem);  /* 56 → 108 */
+  --amplify-marketing-text-hero-xl:  clamp(3rem,   2.142rem + 3.66vw,  5.4375rem); /* 48 → 87 */
+  --amplify-marketing-text-hero-lg:  clamp(2.5rem, 1.875rem + 2.667vw, 4.25rem);  /* 40 → 68 */
+
+  /* DISPLAY — section headers, pricing tiers */
+  --amplify-marketing-text-display-xl: clamp(2.25rem, 1.821rem + 1.829vw, 3.4375rem); /* 36 → 55 */
+  --amplify-marketing-text-display-lg: clamp(2rem,    1.642rem + 1.524vw, 3rem);      /* 32 → 48 */
+  --amplify-marketing-text-display-md: clamp(1.75rem, 1.464rem + 1.219vw, 2.5rem);    /* 28 → 40 */
+
+  /* LEAD — sub-hero copy, large pull quotes */
+  --amplify-marketing-text-lead-lg: clamp(1.375rem, 1.232rem + 0.61vw, 1.75rem);   /* 22 → 28 */
+  --amplify-marketing-text-lead-md: clamp(1.25rem,  1.143rem + 0.457vw, 1.5rem);   /* 20 → 24 */
+
+  /* BODY — slightly larger than product body */
+  --amplify-marketing-text-body-lg: clamp(1.125rem, 1.054rem + 0.305vw, 1.25rem); /* 18 → 20 */
+  --amplify-marketing-text-body-md: clamp(1rem,     0.964rem + 0.152vw, 1.0625rem); /* 16 → 17 */
+
+  /* EYEBROW — labels, metadata, kickers */
+  --amplify-marketing-text-eyebrow: 0.8125rem; /* 13px, tracked */
+
+  /* Marketing leading + tracking are looser than product */
+  --amplify-marketing-text-leading-hero:    1.05;
+  --amplify-marketing-text-leading-display: 1.1;
+  --amplify-marketing-text-leading-lead:    1.4;
+  --amplify-marketing-text-leading-body:    1.7;
+
+  --amplify-marketing-text-tracking-hero:    -0.04em;
+  --amplify-marketing-text-tracking-display: -0.02em;
+  --amplify-marketing-text-tracking-eyebrow: 0.12em;
+}

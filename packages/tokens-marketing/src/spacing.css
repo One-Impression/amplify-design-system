@@ -1,0 +1,36 @@
+/**
+ * @amplify/tokens-marketing — Generous spacing scale
+ *
+ * Marketing surfaces breathe. These aliases compose the foundation spacing
+ * primitives (`--amp-spacing-*`) into much larger semantic stops suited to
+ * landing pages and pricing sheets.
+ */
+:root {
+  /* Section padding — vertical rhythm for landing pages */
+  --amplify-marketing-section-y-sm: clamp(3rem, 1.857rem + 4.879vw, 6.25rem);   /* 48 → 100 */
+  --amplify-marketing-section-y-md: clamp(4.5rem, 3rem + 6.4vw, 9rem);          /* 72 → 144 */
+  --amplify-marketing-section-y-lg: clamp(6rem, 3.857rem + 9.146vw, 12.5rem);   /* 96 → 200 */
+  --amplify-marketing-section-y-xl: clamp(8rem, 5rem + 12.8vw, 16.5rem);        /* 128 → 264 */
+
+  /* Container max widths */
+  --amplify-marketing-container-narrow: 720px;
+  --amplify-marketing-container-content: 960px;
+  --amplify-marketing-container-wide: 1200px;
+  --amplify-marketing-container-full: 1440px;
+
+  /* Stack gaps — vertical spacing between blocks */
+  --amplify-marketing-stack-tight:    1rem;     /* 16  */
+  --amplify-marketing-stack-default:  1.5rem;   /* 24  */
+  --amplify-marketing-stack-loose:    2.5rem;   /* 40  */
+  --amplify-marketing-stack-xl:       4rem;     /* 64  */
+  --amplify-marketing-stack-hero:     6rem;     /* 96  */
+
+  /* Row gaps — horizontal flex/grid */
+  --amplify-marketing-row-tight:   0.75rem;
+  --amplify-marketing-row-default: 1.5rem;
+  --amplify-marketing-row-loose:   3rem;
+
+  /* Hero padding — for landing-page jumbotrons */
+  --amplify-marketing-hero-padding-x: clamp(1.5rem, 0.5rem + 4.267vw, 4.5rem);
+  --amplify-marketing-hero-padding-y: clamp(4rem, 2rem + 8.533vw, 9rem);
+}

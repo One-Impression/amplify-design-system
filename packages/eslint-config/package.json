@@ -1,14 +1,25 @@
 {
   "name": "@amplify-ai/eslint-config",
-  "version": "2.0.1",
-  "description": "Shared ESLint config enforcing Amplify design token usage",
+  "version": "2.1.0",
+  "description": "Shared ESLint flat config enforcing Amplify design token usage (no-hardcoded-colors, no-raw-spacing, prefer-token-import, no-inline-styles, no-raw-surface, no-hardcoded-radius, no-hardcoded-typography)",
   "main": "index.js",
-  "scripts": {},
+  "exports": {
+    ".": "./index.js",
+    "./recommended": "./index.js",
+    "./strict": "./strict.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "peerDependencies": {
     "eslint": ">=8.0.0"
   },
+  "devDependencies": {
+    "eslint": "^9.0.0"
+  },
   "files": [
     "index.js",
+    "strict.js",
     "rules/"
   ]
 }

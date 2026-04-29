@@ -1,0 +1,30 @@
+/**
+ * @amplify-ai/tokens-foundation — Border tokens
+ *
+ * Semantic border aliases. Reference the `--amp-semantic-border-*` primitives
+ * so theming flips automatically when [data-theme] toggles.
+ *
+ *   subtle  — barely-there dividers (table rows, list separators)
+ *   default — standard component borders (cards, inputs at rest)
+ *   strong  — emphasized borders (hover, dragging)
+ *   accent  — brand-coloured borders (active, focused, selected)
+ */
+:root {
+  --amplify-border-subtle:  var(--amp-semantic-border-subtle);
+  --amplify-border-default: var(--amp-semantic-border-default);
+  --amplify-border-strong:  var(--amp-semantic-border-strong);
+  --amplify-border-accent:  var(--amp-semantic-border-accent);
+  --amplify-border-focus:   var(--amp-semantic-border-focus);
+
+  /* Status borders — surface-level cues */
+  --amplify-border-success: var(--amp-semantic-status-success);
+  --amplify-border-warning: var(--amp-semantic-status-warning);
+  --amplify-border-error:   var(--amp-semantic-status-error);
+  --amplify-border-info:    var(--amp-semantic-status-info);
+
+  /* Border widths — pair with the colours above */
+  --amplify-border-width-hairline: 1px;
+  --amplify-border-width-thin:     1px;
+  --amplify-border-width-medium:   2px;
+  --amplify-border-width-thick:    4px;
+}
