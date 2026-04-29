@@ -197,3 +197,48 @@ export type { ActionFooterProps } from './components/ActionFooter';
 // PricePill
 export { PricePill } from './components/PricePill';
 export type { PricePillProps } from './components/PricePill';
+
+// ─── Phase B Wave 2 — Conversational primitives ───────────────────────────
+
+// MessageBubble
+export { MessageBubble } from './components/MessageBubble';
+export type {
+  MessageBubbleProps,
+  MessageBubbleVariant,
+  MessageBubbleStatus,
+  MessageBubbleReaction,
+} from './components/MessageBubble';
+
+// ChatInput
+export { ChatInput } from './components/ChatInput';
+export type { ChatInputProps, ChatInputHandle } from './components/ChatInput';
+
+// TypingIndicator
+export { TypingIndicator } from './components/TypingIndicator';
+export type { TypingIndicatorProps, TypingIndicatorSize } from './components/TypingIndicator';
+
+// ─── Phase B Wave 2 — Motion primitives ───────────────────────────────────
+
+// Reveal
+export { Reveal } from './components/Reveal';
+export type { RevealProps, RevealDirection, RevealTrigger } from './components/Reveal';
+
+// Stagger
+export { Stagger } from './components/Stagger';
+export type { StaggerProps } from './components/Stagger';
+
+// Parallax
+export { Parallax } from './components/Parallax';
+export type { ParallaxProps, ParallaxDirection } from './components/Parallax';
+
+// AnimatedNumber
+export { AnimatedNumber } from './components/AnimatedNumber';
+export type { AnimatedNumberProps, AnimatedNumberFormatter } from './components/AnimatedNumber';
+
+// ScrollProgress
+export { ScrollProgress } from './components/ScrollProgress';
+export type {
+  ScrollProgressProps,
+  ScrollProgressVariant,
+  ScrollProgressPosition,
+} from './components/ScrollProgress';

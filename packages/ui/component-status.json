@@ -47,6 +47,14 @@
     "Toast": { "status": "stable", "since": "1.0.0" },
     "Tooltip": { "status": "stable", "since": "1.0.0" },
     "TrustBar": { "status": "stable", "since": "1.0.0" },
-    "WalletCard": { "status": "stable", "since": "1.0.0" }
+    "WalletCard": { "status": "stable", "since": "1.0.0" },
+    "MessageBubble": { "status": "alpha", "since": "2.2.0" },
+    "ChatInput": { "status": "alpha", "since": "2.2.0" },
+    "TypingIndicator": { "status": "alpha", "since": "2.2.0" },
+    "Reveal": { "status": "alpha", "since": "2.2.0" },
+    "Stagger": { "status": "alpha", "since": "2.2.0" },
+    "Parallax": { "status": "alpha", "since": "2.2.0" },
+    "AnimatedNumber": { "status": "alpha", "since": "2.2.0" },
+    "ScrollProgress": { "status": "alpha", "since": "2.2.0" }
   }
 }
