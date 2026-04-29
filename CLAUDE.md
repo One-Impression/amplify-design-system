@@ -51,11 +51,36 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, + marketing tier)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `@amplify-ai/ui` component tiers
+
+**Core components** (stable): Button, Badge, Card, EmptyState, Skeleton, Avatar, and others — general-purpose UI.
+
+**Marketing-tier components** (beta, added in v2.7.0): purpose-built presentational primitives for landing surfaces.
+
+| Component | Description |
+|---|---|
+| `Hero` | Page hero — `centered`, `split`, `asymmetric` variants; `compact`/`comfortable`/`spacious` density |
+| `Section` | Layout primitive — `default`, `muted`, `inverted`, `accent`; heading/description/body/footer slots |
+| `FeatureGrid` | Responsive feature list — 1–4 columns; `plain`, `card`, `bordered` variants |
+| `CTABand` | Full-width CTA strip — `default`, `accent`, `inverted`; `start`, `center`, `between` alignment |
+| `LogoCloud` | Logo grid — `greyscale`, `colour`, `colour-on-hover`; 3–6 columns |
+| `Testimonial` | Customer quote — `card`, `inline`, `featured` variants |
+| `PricingTable` | N-tier pricing — highlighted plan, badge slot |
+| `AnnouncementBar` | Top-of-page bar — dismissible, optional CTA, controlled or self-managed |
+| `ComparisonTable` | Feature × plan matrix — optional category grouping |
+| `StatLarge` | Big-number stat — label, description, trend indicator |
+| `Quote` | Pull-quote — `small`, `medium`, `large`; decorative quote mark |
+
+**Marketing component rules:**
+- All are server-renderable **except `AnnouncementBar`** (marked `'use client'` — uses internal dismiss state).
+- Use semantic CSS variables only — no hardcoded colours. `inverted` variant has temporary hardcoded fallbacks pending Phase A surface tokens (`TODO(phase-a)` comments in source).
+- All registered in `packages/ui/component-status.json` as `status: "beta", since: "2.1.0"`.
 
 ## Token File Format
 
