@@ -238,6 +238,72 @@ export type { ActionFooterProps } from './components/ActionFooter';
 export { PricePill } from './components/PricePill';
 export type { PricePillProps } from './components/PricePill';
 
+// ─── Phase B Wave 1 — Marketing tier ─────────────────────────────────────
+
+// Hero
+export { Hero } from './components/Hero';
+export type { HeroProps, HeroVariant } from './components/Hero';
+
+// Section
+export { Section } from './components/Section';
+export type { SectionProps, SectionVariant, SectionAlign } from './components/Section';
+
+// FeatureGrid
+export { FeatureGrid } from './components/FeatureGrid';
+export type {
+  FeatureGridProps,
+  FeatureItem,
+  FeatureGridColumns,
+} from './components/FeatureGrid';
+
+// CTABand
+export { CTABand } from './components/CTABand';
+export type { CTABandProps, CTABandVariant, CTABandAlign } from './components/CTABand';
+
+// LogoCloud
+export { LogoCloud } from './components/LogoCloud';
+export type {
+  LogoCloudProps,
+  LogoCloudItem,
+  LogoCloudColorMode,
+} from './components/LogoCloud';
+
+// Testimonial
+export { Testimonial } from './components/Testimonial';
+export type { TestimonialProps, TestimonialVariant } from './components/Testimonial';
+
+// PricingTable
+export { PricingTable } from './components/PricingTable';
+export type {
+  PricingTableProps,
+  PricingTier,
+  PricingFeature,
+} from './components/PricingTable';
+
+// AnnouncementBar
+export { AnnouncementBar } from './components/AnnouncementBar';
+export type {
+  AnnouncementBarProps,
+  AnnouncementBarVariant,
+} from './components/AnnouncementBar';
+
+// ComparisonTable
+export { ComparisonTable } from './components/ComparisonTable';
+export type {
+  ComparisonTableProps,
+  ComparisonPlan,
+  ComparisonRow,
+  ComparisonCellValue,
+} from './components/ComparisonTable';
+
+// StatLarge
+export { StatLarge } from './components/StatLarge';
+export type { StatLargeProps, StatLargeAlign, StatLargeTrend } from './components/StatLarge';
+
+// Quote
+export { Quote } from './components/Quote';
+export type { QuoteProps, QuoteSize, QuoteAlign } from './components/Quote';
+
 // ─── Phase B Wave 2 — Conversational primitives ───────────────────────────
 
 // MessageBubble
