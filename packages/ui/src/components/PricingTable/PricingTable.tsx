@@ -127,7 +127,7 @@ export const PricingTable = React.forwardRef<HTMLDivElement, PricingTableProps>(
                   );
                 })}
               </ul>
-              {tier.cta && <div className="mt-6 mt-auto pt-6">{tier.cta}</div>}
+              {tier.cta && <div className="mt-auto pt-6">{tier.cta}</div>}
             </article>
           ))}
         </div>
