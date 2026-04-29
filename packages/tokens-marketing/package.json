@@ -1,0 +1,26 @@
+{
+  "name": "@amplify/tokens-marketing",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Amplify Design System — marketing tokens (expressive scale for landing, Step 0, pricing surfaces)",
+  "main": "dist/index.css",
+  "exports": {
+    ".": "./dist/index.css",
+    "./css": "./dist/index.css",
+    "./type": "./src/type.css",
+    "./spacing": "./src/spacing.css",
+    "./motion": "./src/motion.css",
+    "./surfaces": "./src/surfaces.css",
+    "./gradients": "./src/gradients.css"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "peerDependencies": {
+    "@amplify-ai/tokens-foundation": "^2.1.0"
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ]
+}

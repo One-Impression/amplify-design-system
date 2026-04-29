@@ -2,22 +2,28 @@
   "motion": {
     "duration": {
       "$type": "duration",
-      "instant": { "$value": "50ms",  "$description": "Micro-interactions" },
+      "instant": { "$value": "60ms",  "$description": "Micro-interactions (tap feedback)" },
       "fast":    { "$value": "150ms", "$description": "Hover, focus" },
       "normal":  { "$value": "250ms", "$description": "Transitions" },
       "slow":    { "$value": "400ms", "$description": "Page transitions, fade-in" },
-      "slower":  { "$value": "600ms", "$description": "Complex animations" }
+      "lazy":    { "$value": "700ms", "$description": "Cinematic / hero animations" },
+      "slower":  { "$value": "600ms", "$description": "DEPRECATED — use 'lazy' (700ms) instead" }
     },
     "easing": {
       "$type": "cubicBezier",
+      "linear":      { "$value": [0.0, 0.0, 1.0, 1.0], "$description": "Constant velocity — progress bars, indeterminate spinners" },
       "ease-out":    { "$value": [0.0, 0.0, 0.2, 1.0], "$description": "Deceleration — elements entering" },
       "ease-in":     { "$value": [0.4, 0.0, 1.0, 1.0], "$description": "Acceleration — elements exiting" },
       "ease-in-out": { "$value": [0.4, 0.0, 0.2, 1.0], "$description": "Balanced — state changes" },
-      "spring":      { "$value": [0.175, 0.885, 0.32, 1.275], "$description": "Bouncy — playful interactions" }
+      "spring":      { "$value": [0.175, 0.885, 0.32, 1.275], "$description": "Bouncy — playful interactions" },
+      "bounce":      { "$value": [0.68, -0.55, 0.265, 1.55], "$description": "Overshoot — attention-getting" }
     },
     "stagger": {
       "$type": "duration",
-      "delay": { "$value": "50ms", "$description": "Per-child stagger delay for lists/grids" }
+      "1":     { "$value": "50ms",  "$description": "Tight stagger (fast lists, dense grids)" },
+      "2":     { "$value": "100ms", "$description": "Standard stagger (typical lists)" },
+      "3":     { "$value": "200ms", "$description": "Loose stagger (hero cascades, marketing reveals)" },
+      "delay": { "$value": "50ms",  "$description": "DEPRECATED — alias of stagger.1" }
     }
   }
 }

@@ -263,3 +263,37 @@ export type { StatLargeProps, StatLargeAlign, StatLargeTrend } from './component
 // Quote
 export { Quote } from './components/Quote';
 export type { QuoteProps, QuoteSize, QuoteAlign } from './components/Quote';
+
+// --- Phase B Wave 3 — Data viz primitives ---
+
+// LineChart
+export { LineChart } from './components/LineChart';
+export type { LineChartProps, LineChartSeries } from './components/LineChart';
+
+// BarChart
+export { BarChart } from './components/BarChart';
+export type { BarChartProps, BarChartSeries, BarChartLayout } from './components/BarChart';
+
+// PieChart
+export { PieChart } from './components/PieChart';
+export type { PieChartProps, PieChartSlice, PieChartVariant } from './components/PieChart';
+
+// Sparkline
+export { Sparkline } from './components/Sparkline';
+export type { SparklineProps, SparklineVariant } from './components/Sparkline';
+
+// Heatmap
+export { Heatmap } from './components/Heatmap';
+export type { HeatmapProps, HeatmapCell, HeatmapVariant } from './components/Heatmap';
+
+// Funnel
+export { Funnel } from './components/Funnel';
+export type { FunnelProps, FunnelStage } from './components/Funnel';
+
+// KPI
+export { KPI } from './components/KPI';
+export type { KPIProps, KPISize, KPITrend } from './components/KPI';
+
+// ProgressRing
+export { ProgressRing } from './components/ProgressRing';
+export type { ProgressRingProps, ProgressRingSize, ProgressRingVariant } from './components/ProgressRing';
