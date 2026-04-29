@@ -47,6 +47,13 @@
     "Toast": { "status": "stable", "since": "1.0.0" },
     "Tooltip": { "status": "stable", "since": "1.0.0" },
     "TrustBar": { "status": "stable", "since": "1.0.0" },
-    "WalletCard": { "status": "stable", "since": "1.0.0" }
+    "WalletCard": { "status": "stable", "since": "1.0.0" },
+    "Wizard": { "status": "alpha", "since": "2.4.0" },
+    "DateRangePicker": { "status": "alpha", "since": "2.4.0" },
+    "FilePicker": { "status": "alpha", "since": "2.4.0" },
+    "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
+    "BentoGrid": { "status": "alpha", "since": "2.4.0" },
+    "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
+    "SplitPane": { "status": "alpha", "since": "2.4.0" }
   }
 }
