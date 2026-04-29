@@ -19,6 +19,20 @@ const escapeHtml = (s: string): string =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 
+/**
+ * URL scheme allowlist — blocks `javascript:`, `data:`, `vbscript:`, etc.
+ * Only `http://`, `https://`, `mailto:`, and root-relative `/...` paths are
+ * allowed; everything else is rewritten to `#` so a malicious link still
+ * renders but cannot navigate to a script-bearing URL.
+ */
+const sanitizeUrl = (raw: string): string => {
+  const trimmed = raw.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (/^mailto:/i.test(trimmed)) return trimmed;
+  if (/^\/[^/]/.test(trimmed)) return trimmed; // root-relative path (not protocol-relative)
+  return '#';
+};
+
 const renderInline = (line: string): string => {
   let out = escapeHtml(line);
   // inline code first so other patterns don't touch its contents
@@ -27,10 +41,13 @@ const renderInline = (line: string): string => {
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   // italic: *text*  (not ** already handled)
   out = out.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
-  // links: [label](url)
+  // links: [label](url) — URL is run through sanitizeUrl to block javascript:/data: schemes
   out = out.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
-    (_m, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+    (_m, label, url) => {
+      const safeUrl = sanitizeUrl(url);
+      return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    }
   );
   return out;
 };
