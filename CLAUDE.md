@@ -52,10 +52,32 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+                        + Data Viz primitives (v2.3.0, all beta):
+                          LineChart, BarChart, PieChart, Sparkline,
+                          Heatmap, Funnel, KPI, ProgressRing
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Data Viz components (`@amplify-ai/ui` v2.3.0, status: beta)
+
+All 8 components are hand-rolled SVG — **zero new runtime dependencies** (shared helpers in `lib/chart-utils.ts`). All are `'use client'`, responsive (100% viewBox width, configurable `height`), and a11y-first: `role="img"` + `aria-label` required + SR-only `<table>` fallback.
+
+| Component | Key props / variants |
+|---|---|
+| `LineChart` | `xAxis`, `series[]` (name+values), optional `tooltip` render slot |
+| `BarChart` | `layout`: `vertical` \| `horizontal` \| `stacked` \| `grouped`; defaults to `grouped` for multi-series |
+| `PieChart` | `variant`: `pie` \| `donut`; donut accepts `centerSlot` |
+| `Sparkline` | `variant`: `line` \| `bar` \| `area`; inline mini chart |
+| `Heatmap` | `variant`: `calendar` (GitHub-style, ISO date ids) \| `matrix` (row/col index + labels) |
+| `Funnel` | `stages[]` (name+value+description?), `showConversion` toggle |
+| `KPI` | `size`: `md`\|`lg`\|`xl`; `delta`, `sparkline`, `higherIsBetter` (invert trend color for churn-style metrics) |
+| `ProgressRing` | `value` 0–100, `size`: `sm`\|`md`\|`lg`\|`xl`, `variant`: `default`\|`accent`\|`success`\|`warning`\|`error`; accepts `children` center slot |
+
+All charts reference design-token CSS variables (e.g. `--amp-semantic-text-muted`) with hardcoded fallbacks. Swap fallbacks to `tokens-foundation` v2.x once published.
+
+Storybook stories are under `Data Viz/` and use realistic Amplify domain data (GMV in ₹Cr, campaign pipelines, creator deliveries, brand churn).
 
 ## Token File Format
 
