@@ -1,14 +1,22 @@
 {
   "name": "@amplify-ai/tokens-foundation",
-  "version": "2.0.1",
-  "description": "Amplify Design System \u2014 shared foundation tokens (spacing, radii, shadows, breakpoints, z-index)",
+  "version": "2.1.0",
+  "type": "module",
+  "description": "Amplify Design System — shared foundation tokens (spacing, radii, shadows, motion, surfaces, borders, fluid type, breakpoints, z-index)",
   "main": "dist/tokens.js",
   "exports": {
+    ".": "./dist/tokens.js",
     "./css": "./dist/variables.css",
     "./scss": "./dist/variables.scss",
     "./json": "./dist/tokens.json",
     "./js": "./dist/tokens.js",
-    ".": "./dist/tokens.js"
+    "./tailwind": "./dist/tailwind.css",
+    "./phase-a": "./src/index.css",
+    "./motion": "./src/motion.css",
+    "./shadows": "./src/shadows.css",
+    "./surfaces": "./src/surfaces.css",
+    "./borders": "./src/borders.css",
+    "./fluid-type": "./src/fluid-type.css"
   },
   "scripts": {
     "build": "node build.js"
@@ -18,6 +26,7 @@
   },
   "files": [
     "dist/",
+    "src/",
     "tokens/"
   ]
 }
