@@ -382,3 +382,52 @@ export type { KPIProps, KPISize, KPITrend } from './components/KPI';
 // ProgressRing
 export { ProgressRing } from './components/ProgressRing';
 export type { ProgressRingProps, ProgressRingSize, ProgressRingVariant } from './components/ProgressRing';
+
+// ─── Phase B Wave 4 — Forms + Layout ─────────────────────────────────
+
+// Wizard
+export { Wizard } from './components/Wizard';
+export type {
+  WizardProps,
+  WizardStep,
+  WizardVariant,
+  WizardOrientation,
+} from './components/Wizard';
+
+// DateRangePicker
+export { DateRangePicker } from './components/DateRangePicker';
+export type {
+  DateRangePickerProps,
+  DateRange,
+  DateRangePreset,
+} from './components/DateRangePicker';
+
+// FilePicker
+export { FilePicker } from './components/FilePicker';
+export type {
+  FilePickerProps,
+  FilePickerVariant,
+  PickedFile,
+} from './components/FilePicker';
+
+// MarkdownEditor
+export { MarkdownEditor, renderMarkdown } from './components/MarkdownEditor';
+export type {
+  MarkdownEditorProps,
+  MarkdownEditorMode,
+} from './components/MarkdownEditor';
+
+// BentoGrid
+export { BentoGrid, BentoItem } from './components/BentoGrid';
+export type { BentoGridProps, BentoItemProps, BentoSize } from './components/BentoGrid';
+
+// MasonryGrid
+export { MasonryGrid } from './components/MasonryGrid';
+export type {
+  MasonryGridProps,
+  MasonryBreakpointConfig,
+} from './components/MasonryGrid';
+
+// SplitPane
+export { SplitPane } from './components/SplitPane';
+export type { SplitPaneProps, SplitPaneOrientation } from './components/SplitPane';

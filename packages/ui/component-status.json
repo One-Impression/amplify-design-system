@@ -81,6 +81,13 @@
     "Section": { "status": "beta", "since": "2.1.0" },
     "Sparkline": { "status": "beta", "since": "2.3.0" },
     "StatLarge": { "status": "beta", "since": "2.1.0" },
-    "Testimonial": { "status": "beta", "since": "2.1.0" }
+    "Testimonial": { "status": "beta", "since": "2.1.0" },
+    "Wizard": { "status": "alpha", "since": "2.4.0" },
+    "DateRangePicker": { "status": "alpha", "since": "2.4.0" },
+    "FilePicker": { "status": "alpha", "since": "2.4.0" },
+    "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
+    "BentoGrid": { "status": "alpha", "since": "2.4.0" },
+    "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
+    "SplitPane": { "status": "alpha", "since": "2.4.0" }
   }
 }
