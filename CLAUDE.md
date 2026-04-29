@@ -51,11 +51,19 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        CollapsibleCard, CollapsibleSection, GoalCard, ContentTypeCard,
+                        ScriptPreviewCard)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**Campaign wizard components** (`GoalCard`, `ContentTypeCard`, `ScriptPreviewCard`, `CollapsibleSection`) were added for the Brand campaign creation flow. Key props:
+- `GoalCard` — selectable card with icon, title, subtitle, and a colour-coded tag (`violet | green | amber | blue`)
+- `ContentTypeCard` — selectable pricing/feature card with badge, pros list, optional recommended flag, and badge colour (`violet | green`)
+- `ScriptPreviewCard` — read-only display card for a script concept with timed sections (`ScriptSection[]`)
+- `CollapsibleSection` — animated accordion wrapper with optional preview text shown when collapsed
 
 ## Token File Format
 
