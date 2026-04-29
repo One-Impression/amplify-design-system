@@ -52,10 +52,39 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+                        └─ lib/density.tsx — DensityProvider, useDensity, Density type
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Density Mode
+
+Three-tier density system for components that opt in:
+
+| Mode | Use case | Example height (size=md) |
+|---|---|---|
+| `compact` | Dense tables, ops dashboards (Atmosphere) | `h-8` |
+| `comfortable` | Default — matches v1.0 sizing exactly | `h-10` |
+| `spacious` | Marketing, onboarding, mobile-touch (Brand) | `h-11` |
+
+**API:**
+```tsx
+import { DensityProvider, useDensity, type Density } from '@one-impression/ui';
+
+// Wrap a subtree — inner provider wins over outer
+<DensityProvider density="compact">
+  <Button size="sm">Save</Button>  {/* renders h-7 */}
+</DensityProvider>
+
+// Per-component override (overrides ambient provider)
+<Button size="md" density="spacious">Get started</Button>
+```
+
+- Default (no provider) is `comfortable` — **fully backwards compatible** with v1.0 consumers.
+- **Button** is currently the only opted-in component. Input, Select, Textarea, Chip, IconButton follow in separate PRs.
+- Components that don't opt in (Card, Dialog, Badge) ignore density entirely.
+- Density only scales height + horizontal padding; text size, gap, and border-radius are fixed per `size`.
 
 ## Token File Format
 
