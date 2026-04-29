@@ -1,29 +1,23 @@
 {
   "shadow": {
     "$type": "shadow",
-    "sm": {
-      "$value": "0 1px 3px rgba(28, 25, 23, 0.04)",
-      "$description": "Subtle card shadow"
-    },
-    "md": {
-      "$value": "0 2px 8px rgba(28, 25, 23, 0.06)",
-      "$description": "Elevated card, dropdown"
-    },
-    "lg": {
-      "$value": "0 8px 24px rgba(28, 25, 23, 0.08)",
-      "$description": "Modal, popover"
-    },
-    "sm-dark": {
-      "$value": "0 1px 3px rgba(0, 0, 0, 0.2)",
-      "$description": "Subtle shadow for dark mode"
-    },
-    "md-dark": {
-      "$value": "0 2px 8px rgba(0, 0, 0, 0.3)",
-      "$description": "Elevated shadow for dark mode"
-    },
-    "lg-dark": {
-      "$value": "0 8px 24px rgba(0, 0, 0, 0.4)",
-      "$description": "Modal shadow for dark mode"
-    }
+    "0":  { "$value": "none", "$description": "Elevation 0 — flush" },
+    "1":  { "$value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)", "$description": "Elevation 1 — subtle separation" },
+    "2":  { "$value": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)", "$description": "Elevation 2 — cards" },
+    "3":  { "$value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)", "$description": "Elevation 3 — popovers, dropdowns" },
+    "4":  { "$value": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)", "$description": "Elevation 4 — modals" },
+    "5":  { "$value": "0 25px 50px -12px rgba(0, 0, 0, 0.25)", "$description": "Elevation 5 — max (full-screen overlays, hero modals)" },
+
+    "sm": { "$value": "0 1px 3px rgba(28, 25, 23, 0.04)", "$description": "Subtle card shadow (legacy alias for shadow.2)" },
+    "md": { "$value": "0 2px 8px rgba(28, 25, 23, 0.06)", "$description": "Elevated card, dropdown (legacy alias for shadow.3)" },
+    "lg": { "$value": "0 8px 24px rgba(28, 25, 23, 0.08)", "$description": "Modal, popover (legacy alias for shadow.4)" },
+
+    "sm-dark": { "$value": "0 1px 3px rgba(0, 0, 0, 0.2)", "$description": "Subtle shadow for dark mode" },
+    "md-dark": { "$value": "0 2px 8px rgba(0, 0, 0, 0.3)", "$description": "Elevated shadow for dark mode" },
+    "lg-dark": { "$value": "0 8px 24px rgba(0, 0, 0, 0.4)", "$description": "Modal shadow for dark mode" },
+
+    "accent-sm": { "$value": "0 1px 4px 0 rgba(101, 49, 255, 0.15)", "$description": "Coloured accent shadow — subtle (focus rings, hover hint)" },
+    "accent-md": { "$value": "0 4px 12px -2px rgba(101, 49, 255, 0.25)", "$description": "Coloured accent shadow — standard (CTAs, active cards)" },
+    "accent-lg": { "$value": "0 10px 25px -4px rgba(101, 49, 255, 0.35)", "$description": "Coloured accent shadow — bold (hero cards, premium emphasis)" }
   }
 }

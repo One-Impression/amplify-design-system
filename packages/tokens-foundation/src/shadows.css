@@ -1,0 +1,38 @@
+/**
+ * @amplify-ai/tokens-foundation — Shadow tokens
+ *
+ * Six-stop elevation scale (0–5) plus coloured accent shadows.
+ * Each elevation uses two stacked shadows for realistic light/ambient occlusion.
+ */
+:root {
+  /* Elevation scale — 0 (flush) to 5 (max overlay) */
+  --amplify-shadow-0: none;
+  --amplify-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --amplify-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+                      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --amplify-shadow-3: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --amplify-shadow-4: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --amplify-shadow-5: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Coloured accent shadows — derived from the violet brand accent */
+  --amplify-shadow-accent-sm: 0 1px 4px 0 rgba(101, 49, 255, 0.15);
+  --amplify-shadow-accent-md: 0 4px 12px -2px rgba(101, 49, 255, 0.25);
+  --amplify-shadow-accent-lg: 0 10px 25px -4px rgba(101, 49, 255, 0.35);
+
+  /* Inner shadows — for inset/pressed states */
+  --amplify-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode — heavier shadows since the surface contrast is reversed */
+[data-theme="dark"] {
+  --amplify-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --amplify-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.5),
+                      0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --amplify-shadow-3: 0 4px 6px -1px rgba(0, 0, 0, 0.5),
+                      0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --amplify-shadow-4: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+                      0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --amplify-shadow-5: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}

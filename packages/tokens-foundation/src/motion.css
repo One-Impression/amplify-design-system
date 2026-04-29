@@ -1,0 +1,45 @@
+/**
+ * @amplify-ai/tokens-foundation — Motion tokens
+ *
+ * Phase A — explicit, hand-authored CSS-variable surface for motion.
+ * Mirrors the JSON tokens in tokens/primitives/motion.json (`--amp-motion-*`)
+ * but uses the canonical `--amplify-motion-*` prefix consumers should reach for.
+ *
+ * Pixel's motion-system.ts is the AUTHORITATIVE source for animation orchestration;
+ * these are the design-system primitives Pixel composes.
+ */
+:root {
+  /* Durations — coarse-grained scale, designed for predictable rhythm */
+  --amplify-motion-duration-instant: 60ms;   /* Tap feedback, micro-press */
+  --amplify-motion-duration-fast:    150ms;  /* Hover, focus, simple toggles */
+  --amplify-motion-duration-normal:  250ms;  /* Default — most state transitions */
+  --amplify-motion-duration-slow:    400ms;  /* Page-level fades, drawer slide */
+  --amplify-motion-duration-lazy:    700ms;  /* Cinematic / hero / marketing reveal */
+
+  /* Easings — opinionated curves, all driven by cubic-bezier */
+  --amplify-motion-easing-linear:      cubic-bezier(0, 0, 1, 1);
+  --amplify-motion-easing-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --amplify-motion-easing-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --amplify-motion-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --amplify-motion-easing-spring:      cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --amplify-motion-easing-bounce:      cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Stagger delays — for cascading children */
+  --amplify-motion-stagger-1: 50ms;   /* Tight stagger (dense lists) */
+  --amplify-motion-stagger-2: 100ms;  /* Standard stagger */
+  --amplify-motion-stagger-3: 200ms;  /* Loose stagger (hero cascade) */
+}
+
+/* Reduced motion override — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --amplify-motion-duration-instant: 1ms;
+    --amplify-motion-duration-fast:    1ms;
+    --amplify-motion-duration-normal:  1ms;
+    --amplify-motion-duration-slow:    1ms;
+    --amplify-motion-duration-lazy:    1ms;
+    --amplify-motion-stagger-1: 0ms;
+    --amplify-motion-stagger-2: 0ms;
+    --amplify-motion-stagger-3: 0ms;
+  }
+}

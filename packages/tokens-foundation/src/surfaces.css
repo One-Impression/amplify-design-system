@@ -1,0 +1,29 @@
+/**
+ * @amplify-ai/tokens-foundation — Surface tokens
+ *
+ * Semantic surface aliases. Reference the `--amp-semantic-bg-*` primitives
+ * generated from tokens/semantic/colors-{light,dark}.json so theming flips
+ * automatically when [data-theme] toggles.
+ *
+ * Surface stack (bottom → top):
+ *   primary   — page background (deepest)
+ *   secondary — sunken cards, sidebar
+ *   tertiary  — nested groupings inside cards
+ *   elevated  — raised cards, hovered surfaces
+ *   overlay   — modals, popovers, tooltips (full opacity)
+ */
+:root {
+  --amplify-surface-primary:   var(--amp-semantic-bg-primary);
+  --amplify-surface-secondary: var(--amp-semantic-bg-sunken);
+  --amplify-surface-tertiary:  var(--amp-semantic-bg-surface);
+  --amplify-surface-elevated:  var(--amp-semantic-bg-raised);
+  --amplify-surface-overlay:   var(--amp-semantic-bg-overlay);
+
+  /* Inverse surface — for dark callouts in light themes / vice versa */
+  --amplify-surface-inverse:   var(--amp-semantic-text-primary);
+  --amplify-surface-on-inverse: var(--amp-semantic-text-inverse);
+
+  /* Subtle accent surfaces — for hover backdrops, selected states */
+  --amplify-surface-accent-subtle: var(--amp-semantic-accent-subtle);
+  --amplify-surface-accent-light:  var(--amp-semantic-accent-light);
+}
