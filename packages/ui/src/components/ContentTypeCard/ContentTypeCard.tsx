@@ -1,5 +1,16 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
+import { Card } from '../Card';
+
+/**
+ * ContentTypeCard — opinionated preset wrapper around `<Card>`.
+ *
+ * Backward-compatible: every prop on the v1 implementation continues to work.
+ * Internally it composes `<Card>` so visual and behavioural updates to the
+ * canonical Card surface flow through automatically.
+ *
+ * Migration hint: see `component-status.json` (`replacedBy: "Card"`).
+ */
 
 export type ContentTypeCardBadgeColor = 'violet' | 'green';
 
@@ -35,28 +46,24 @@ export const ContentTypeCard = React.forwardRef<HTMLDivElement, ContentTypeCardP
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
+    const selectionClasses = selected
+      ? 'border-violet-600 bg-violet-50'
+      : 'border-stone-200 bg-white hover:shadow-lg';
+
     return (
-      <div
-        ref={ref}
-        role="button"
-        tabIndex={0}
+      <Card
+        ref={ref as React.Ref<HTMLElement>}
+        variant="default"
+        padding="comfortable"
         onClick={onSelect}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onSelect?.();
-          }
-        }}
+        aria-pressed={selected}
         className={cn(
-          'relative flex flex-col gap-4 rounded-xl border p-6',
-          'cursor-pointer transition-all duration-200',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-600/40',
-          selected
-            ? 'border-violet-600 bg-violet-50'
-            : 'border-stone-200 bg-white hover:shadow-lg',
-          className
+          'relative flex flex-col gap-4 rounded-xl transition-all duration-200',
+          // Override Card's default surface with selection styling.
+          selectionClasses,
+          className,
         )}
         {...props}
       >
@@ -69,7 +76,7 @@ export const ContentTypeCard = React.forwardRef<HTMLDivElement, ContentTypeCardP
         <span
           className={cn(
             'inline-flex self-start rounded-full px-2.5 py-0.5 text-xs font-medium',
-            badgeColorClasses[badgeColor]
+            badgeColorClasses[badgeColor],
           )}
         >
           {badge}
@@ -98,12 +105,10 @@ export const ContentTypeCard = React.forwardRef<HTMLDivElement, ContentTypeCardP
           ))}
         </ul>
 
-        {cancelPolicy && (
-          <p className="text-xs text-stone-400">{cancelPolicy}</p>
-        )}
-      </div>
+        {cancelPolicy && <p className="text-xs text-stone-400">{cancelPolicy}</p>}
+      </Card>
     );
-  }
+  },
 );
 
 ContentTypeCard.displayName = 'ContentTypeCard';
