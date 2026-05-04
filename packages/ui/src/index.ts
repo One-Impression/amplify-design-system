@@ -532,3 +532,45 @@ export type { FieldErrorProps } from './components/FieldError';
 // FormSection
 export { FormSection } from './components/FormSection';
 export type { FormSectionProps } from './components/FormSection';
+
+// ─── Studio v2 primitives (Wave 2) ───────────────────────────────────
+// Foundational primitives composing the new Magic Studio v2 layout —
+// brief strip header, generation-history rail, council critique rail,
+// and the variant card with its state machine. See pixel-agent for the
+// Studio v2 product spec.
+
+// BriefStrip
+export { BriefStrip } from './components/BriefStrip';
+export type {
+  BriefStripProps,
+  BriefChipItem,
+  BriefChipKind,
+} from './components/BriefStrip';
+
+// HistoryStrip
+export { HistoryStrip } from './components/HistoryStrip';
+export type {
+  HistoryStripProps,
+  GenerationItem,
+  VariantThumb,
+  VariantThumbStatus,
+} from './components/HistoryStrip';
+
+// CouncilRail
+export { CouncilRail, CouncilCard, CouncilSummary } from './components/CouncilRail';
+export type {
+  CouncilRailProps,
+  CouncilCardProps,
+  CouncilSummaryProps,
+  AgentVerdict,
+  CouncilVerdict,
+} from './components/CouncilRail';
+
+// VariantCard
+export { VariantCard } from './components/VariantCard';
+export type {
+  VariantCardProps,
+  VariantCardState,
+  VariantCardAction,
+  VariantCardScoreVariant,
+} from './components/VariantCard';
