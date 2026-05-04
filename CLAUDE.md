@@ -52,10 +52,61 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+    └─ Card           — Composable surface primitive with named slots (see below)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Card component — v2 composable API
+
+`<Card>` is the single canonical card primitive. Compose it with named slots:
+
+```tsx
+<Card variant="elevated" padding="comfortable">
+  <Card.Header title="Q4 Performance" subtitle="Updated 2m ago" badge={<Badge>Live</Badge>} />
+  <Card.Media><img ... /></Card.Media>
+  <Card.Body>Main content</Card.Body>
+  <Card.Footer>Last sync: 12:04 PM</Card.Footer>
+  <Card.Actions>
+    <Button variant="ghost" size="sm">Dismiss</Button>
+    <Button variant="primary" size="sm">View report</Button>
+  </Card.Actions>
+</Card>
+```
+
+**Variants:** `default | elevated | interactive | outlined | ghost`
+
+**Padding (v2 preferred):** `compact | default | comfortable`  
+**Padding (v1 aliases — preserved for backward compat):** `none | sm | md | lg`  
+(`sm` ≡ `compact`, `md` ≡ `default`, `lg` ≡ `comfortable`)
+
+**Polymorphic root:** `as="button" | "article" | "section" | "li" | …`  
+When a card has `onClick` or `as="button"`, it automatically gets `role=button`, `tabIndex=0`, keyboard activation (Enter / Space), and a focus-visible ring.
+
+**`hover` prop:** `interactive | static` — auto-inferred from `onClick` / `as` when omitted.
+
+**Card.Header slot props:** `title`, `subtitle`, `icon`, `badge` (or pass `children` for free-form v1 layout).
+
+### Preset wrappers (still stable, prefer `<Card>` for new code)
+
+The 7 specialised card components are now thin preset wrappers on top of `<Card>`. All existing public props are preserved exactly — no breaking changes.
+
+| Preset | `replacedBy` hint |
+|---|---|
+| `CollapsibleCard` | `Card` |
+| `ContentTypeCard` | `Card` |
+| `GoalCard` | `Card` |
+| `MetricCard` | `Card` |
+| `PackageCard` | `Card` |
+| `ScriptPreviewCard` | `Card` |
+| `WalletCard` | `Card` |
+
+Each carries `replacedBy: "Card"` in `component-status.json` so Pixel can surface a "prefer the canonical primitive" hint when scaffolding new code. They remain `status: "stable"` — not deprecated.
+
+### Backward-compat top-level exports (v1 — still importable)
+
+`CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, `CardMedia`, `CardBody`, `CardActions` are all exported from `@amplify-ai/ui` as top-level symbols pointing at the same implementations.
 
 ## Token File Format
 
