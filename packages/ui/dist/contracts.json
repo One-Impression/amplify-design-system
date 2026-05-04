@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-04T12:51:21.428Z",
+  "generatedAt": "2026-05-04T16:44:23.199Z",
   "tsVersion": "5.9.3",
-  "componentCount": 105,
+  "componentCount": 109,
   "statusBreakdown": {
     "stable": 46,
     "alpha": 15,
-    "beta": 44
+    "beta": 48
   },
   "components": [
     {
@@ -171,6 +171,21 @@
       "lifecycle": {
         "status": "stable",
         "since": "1.0.0"
+      }
+    },
+    {
+      "name": "BriefStrip",
+      "contract": "contracts/BriefStrip.json",
+      "filePath": "packages/ui/src/components/BriefStrip/BriefStrip.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.9.0",
+        "notes": "Studio v2 Wave 2 — chip strip primitive composing Chip; persistent brief header for Magic Studio v2."
       }
     },
     {
@@ -403,6 +418,21 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.5.0"
+      }
+    },
+    {
+      "name": "CouncilRail",
+      "contract": "contracts/CouncilRail.json",
+      "filePath": "packages/ui/src/components/CouncilRail/CouncilRail.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.9.0",
+        "notes": "Studio v2 Wave 2 — right-rail per-agent verdicts; supports disagreementsOnly collapse + ask-the-council affordance."
       }
     },
     {
@@ -716,6 +746,21 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.1.0"
+      }
+    },
+    {
+      "name": "HistoryStrip",
+      "contract": "contracts/HistoryStrip.json",
+      "filePath": "packages/ui/src/components/HistoryStrip/HistoryStrip.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.9.0",
+        "notes": "Studio v2 Wave 2 — horizontal generation timeline with mini-thumb status (ready/generating/error/locked/win)."
       }
     },
     {
@@ -1637,6 +1682,21 @@
       "lifecycle": {
         "status": "alpha",
         "since": "2.2.0"
+      }
+    },
+    {
+      "name": "VariantCard",
+      "contract": "contracts/VariantCard.json",
+      "filePath": "packages/ui/src/components/VariantCard/VariantCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 13,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.9.0",
+        "notes": "Studio v2 Wave 2 — canvas variant card with empty/generating/ready/error state machine; shimmer + retry built-in."
       }
     },
     {

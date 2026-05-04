@@ -1,6 +1,6 @@
 {
   "name": "@amplify-ai/ui",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "Shared UI components for Amplify products \u2014 Brand, Creator, and Atmosphere",
   "type": "module",
   "main": "dist/index.js",
