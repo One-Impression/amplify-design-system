@@ -1,5 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../lib/cn';
+import { Card } from '../Card';
+
+/**
+ * CollapsibleCard — opinionated preset wrapper around `<Card>` that toggles
+ * the body open/closed via an animated reveal.
+ *
+ * Backward-compatible: existing public props (header, children, open,
+ * defaultOpen, onOpenChange, className) are preserved exactly.
+ * Migration hint: see `component-status.json` (`replacedBy: "Card"`).
+ */
 
 export interface CollapsibleCardProps {
   /** Content always visible (the clickable header) */
@@ -51,12 +61,13 @@ export const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
   };
 
   return (
-    <div
+    <Card
+      variant="default"
+      padding="none"
       className={cn(
-        'rounded-[16px] border border-[var(--amp-semantic-border-default)] bg-[var(--amp-semantic-bg-surface)]',
         'overflow-hidden transition-shadow duration-150',
         'hover:shadow-[0_4px_12px_rgba(29,37,45,0.10)]',
-        className
+        className,
       )}
     >
       <div
@@ -64,8 +75,13 @@ export const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
         tabIndex={0}
         aria-expanded={isOpen}
         onClick={toggle}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}
-        className="cursor-pointer"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle();
+          }
+        }}
+        className="cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--amp-semantic-accent,#6531FF)]/40"
       >
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex-1">{header}</div>
@@ -74,11 +90,14 @@ export const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
               'w-7 h-7 rounded-[8px] flex items-center justify-center flex-shrink-0 transition-all duration-200',
               isOpen
                 ? 'bg-[var(--amp-semantic-accent-light)] text-[var(--amp-semantic-accent)]'
-                : 'bg-[var(--amp-semantic-bg-sunken)] text-[var(--amp-semantic-text-muted)]'
+                : 'bg-[var(--amp-semantic-bg-sunken)] text-[var(--amp-semantic-text-muted)]',
             )}
           >
             <svg
-              className={cn('w-3.5 h-3.5 transition-transform duration-200', isOpen && 'rotate-180')}
+              className={cn(
+                'w-3.5 h-3.5 transition-transform duration-200',
+                isOpen && 'rotate-180',
+              )}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -91,12 +110,16 @@ export const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
       </div>
       <div
         ref={contentRef}
-        style={{ height: height !== undefined ? `${height}px` : 'auto', overflow: 'hidden', transition: 'height 200ms ease' }}
+        style={{
+          height: height !== undefined ? `${height}px` : 'auto',
+          overflow: 'hidden',
+          transition: 'height 200ms ease',
+        }}
       >
         <div className="border-t border-[var(--amp-semantic-border-default)]">
           {children}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };

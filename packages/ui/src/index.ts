@@ -432,6 +432,23 @@ export type {
 export { SplitPane } from './components/SplitPane';
 export type { SplitPaneProps, SplitPaneOrientation } from './components/SplitPane';
 
+// ─── Phase B Wave 5 — Page-level affordances ─────────────────────────────
+
+// Banner
+export { Banner } from './components/Banner';
+export type { BannerProps, BannerVariant } from './components/Banner';
+
+// Kbd
+export { Kbd } from './components/Kbd';
+export type { KbdProps, KbdKey, KbdSize } from './components/Kbd';
+
+// Notification
+export { Notification, NotificationList } from './components/Notification';
+export type { NotificationProps, NotificationListProps } from './components/Notification';
+
+// Tour
+export { Tour, TourStepMarker } from './components/Tour';
+export type { TourProps, TourStep, TourStepPlacement } from './components/Tour';
 // ─── Phase B Wave 6 — Marketing-page primitives (2.6.0) ────────────────────
 
 // CaseStudyCard

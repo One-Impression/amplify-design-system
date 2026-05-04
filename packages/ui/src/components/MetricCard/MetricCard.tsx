@@ -1,5 +1,13 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
+import { Card } from '../Card';
+
+/**
+ * MetricCard — opinionated preset wrapper around `<Card>` for KPI tiles.
+ *
+ * Backward-compatible: existing public props are preserved exactly.
+ * Migration hint: see `component-status.json` (`replacedBy: "Card"`).
+ */
 
 export type MetricCardIconVariant = 'accent' | 'success' | 'warning' | 'error' | 'info';
 
@@ -17,8 +25,10 @@ export interface MetricCardProps {
 
 const iconVariantClasses: Record<MetricCardIconVariant, string> = {
   accent: 'bg-[var(--amp-semantic-accent-light)] text-[var(--amp-semantic-accent)]',
-  success: 'bg-[var(--amp-semantic-status-success-bg)] text-[var(--amp-semantic-status-success)]',
-  warning: 'bg-[var(--amp-semantic-status-warning-bg)] text-[var(--amp-semantic-status-warning)]',
+  success:
+    'bg-[var(--amp-semantic-status-success-bg)] text-[var(--amp-semantic-status-success)]',
+  warning:
+    'bg-[var(--amp-semantic-status-warning-bg)] text-[var(--amp-semantic-status-warning)]',
   error: 'bg-[var(--amp-semantic-status-error-bg)] text-[var(--amp-semantic-status-error)]',
   info: 'bg-[var(--amp-semantic-status-info-bg)] text-[var(--amp-semantic-status-info)]',
 };
@@ -37,12 +47,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const isNegative = trend !== undefined && trend < 0;
 
   return (
-    <div
-      className={cn(
-        'rounded-[16px] border border-[var(--amp-semantic-border-default)] bg-[var(--amp-semantic-bg-surface)] p-5',
-        className
-      )}
-    >
+    <Card variant="default" padding="none" className={cn('p-5', className)}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-[12px] font-medium uppercase tracking-wide text-[var(--amp-semantic-text-secondary)] mb-1">
@@ -58,10 +63,16 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                   className={cn(
                     'inline-flex items-center gap-0.5 text-[12px] font-medium',
                     isPositive && 'text-[var(--amp-semantic-status-success)]',
-                    isNegative && 'text-[var(--amp-semantic-status-error)]'
+                    isNegative && 'text-[var(--amp-semantic-status-error)]',
                   )}
                 >
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -84,15 +95,22 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             </div>
           )}
           {trendLabel && subtitle && (
-            <p className="mt-1 text-[12px] text-[var(--amp-semantic-text-muted)]">{subtitle}</p>
+            <p className="mt-1 text-[12px] text-[var(--amp-semantic-text-muted)]">
+              {subtitle}
+            </p>
           )}
         </div>
         {icon && (
-          <div className={cn('w-10 h-10 rounded-[12px] flex items-center justify-center', iconVariantClasses[iconVariant])}>
+          <div
+            className={cn(
+              'w-10 h-10 rounded-[12px] flex items-center justify-center',
+              iconVariantClasses[iconVariant],
+            )}
+          >
             {icon}
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 };
