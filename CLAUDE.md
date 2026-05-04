@@ -52,10 +52,27 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+                        Studio v2 primitives (beta, since 2.8.0):
+                          BriefStrip   — horizontal chip strip (goal/audience/lock/avoid/ref/density/custom kinds;
+                                         locked chips, inline NL parsing on Enter, optional Expand affordance)
+                          HistoryStrip — generation timeline with per-cycle thumb status
+                                         (ready/generating/error/locked/win) and branch arrows
+                          CouncilRail  — right-rail per-agent verdicts (ok/warn/flag); CouncilCard +
+                                         CouncilSummary sub-components; disagreementsOnly collapse;
+                                         ⌘/ ask-the-council affordance
+                          VariantCard  — canvas variant card with empty/generating/ready/error state machine;
+                                         shimmer on generating, retry on error, selected outline;
+                                         prefers-reduced-motion honoured
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**Studio v2 primitive conventions:**
+- All colors via `var(--amp-semantic-*)` tokens only — zero hardcoded hex in component source.
+- `agentColor` on `AgentVerdict` accepts a CSS token value or hex (hex tolerated, token preferred).
+- Storybook stories live under the `Studio v2/<ComponentName>` title group.
+- Shimmer/pulse keyframes are injected inline with id-guards (scoped to avoid collisions).
 
 ## Token File Format
 
