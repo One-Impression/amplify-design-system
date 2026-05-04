@@ -52,7 +52,16 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+                        Marketing primitives (beta since 2.6.0):
+                          CaseStudyCard — customer story card (logo, quote, 2-3 stats, attribution, CTA/href)
+                          Marquee       — CSS-only seamless scroll strip; respects prefers-reduced-motion
+                          IconCallout   — single feature block (icon, title, description, optional align)
+                          IconGrid      — responsive 2/3/4-column grid wrapper for IconCallouts
+                          FAQ           — accordion with ARIA + automatic schema.org FAQPage JSON-LD (toggle-able via emitJsonLd)
+                          Footer        — composition via Footer.Brand / .LinkColumn / .Social / .Newsletter / .Legal slots
+                          MediaShowcase — hero-class image/video block; auto-pause on scroll-out, caption-track support
   storybook/          — Component documentation and visual testing
+                        Marketing/Marketing Page story shows all 6 primitives composed into a full landing page
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
