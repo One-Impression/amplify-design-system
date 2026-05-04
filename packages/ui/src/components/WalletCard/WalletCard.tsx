@@ -1,5 +1,14 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
+import { Card } from '../Card';
+
+/**
+ * WalletCard — opinionated preset wrapper around `<Card>` for the OI Money
+ * balance tile. Header (label + amount), body (progress), footer (messages).
+ *
+ * Backward-compatible: existing public props are preserved exactly.
+ * Migration hint: see `component-status.json` (`replacedBy: "Card"`).
+ */
 
 export interface WalletCardProps extends React.HTMLAttributes<HTMLDivElement> {
   balance: number;
@@ -17,31 +26,31 @@ export const WalletCard = React.forwardRef<HTMLDivElement, WalletCardProps>(
   (
     {
       balance,
-      currency = '\u20B9',
+      currency = '₹',
       percentage = 0,
       topupMessage,
       subtitle,
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const clampedPct = Math.max(0, Math.min(100, percentage));
 
     return (
-      <div
-        ref={ref}
+      <Card
+        ref={ref as React.Ref<HTMLElement>}
+        variant="default"
+        padding="none"
         className={cn(
-          'flex flex-col gap-3 rounded-lg border border-violet-200 bg-violet-50 px-4 py-4',
-          className
+          'flex flex-col gap-3 rounded-lg border-violet-200 bg-violet-50 px-4 py-4',
+          className,
         )}
         {...props}
       >
         {/* Header */}
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-stone-600">
-            OI Money Balance
-          </span>
+          <span className="text-sm font-medium text-stone-600">OI Money Balance</span>
           <span className="text-lg font-bold text-violet-600">
             {formatBalance(balance, currency)}
           </span>
@@ -60,17 +69,13 @@ export const WalletCard = React.forwardRef<HTMLDivElement, WalletCardProps>(
         </div>
 
         {/* Topup message */}
-        {topupMessage && (
-          <p className="text-xs text-stone-500">{topupMessage}</p>
-        )}
+        {topupMessage && <p className="text-xs text-stone-500">{topupMessage}</p>}
 
         {/* Subtitle */}
-        {subtitle && (
-          <p className="text-xs text-violet-600">{subtitle}</p>
-        )}
-      </div>
+        {subtitle && <p className="text-xs text-violet-600">{subtitle}</p>}
+      </Card>
     );
-  }
+  },
 );
 
 WalletCard.displayName = 'WalletCard';

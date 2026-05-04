@@ -26,7 +26,7 @@
           },
           "replacedBy": {
             "type": "string",
-            "description": "Name of replacement component (only when status=deprecated)"
+            "description": "Name of replacement / canonical component. Required when status=deprecated. Also valid on non-deprecated components to surface a 'prefer this' migration hint (e.g., specialized presets that are still supported but should ideally migrate to a canonical primitive)."
           },
           "removalTarget": {
             "type": "string",

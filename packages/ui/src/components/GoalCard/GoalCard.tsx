@@ -1,5 +1,14 @@
 import React from 'react';
 import { cn } from '../../lib/cn';
+import { Card } from '../Card';
+
+/**
+ * GoalCard — opinionated preset wrapper around `<Card>` for vertical
+ * "icon + title + subtitle + tag" tiles used in goal pickers / segmentation.
+ *
+ * Backward-compatible: existing public props are preserved exactly.
+ * Migration hint: see `component-status.json` (`replacedBy: "Card"`).
+ */
 
 export type GoalCardTagColor = 'violet' | 'green' | 'amber' | 'blue';
 
@@ -33,32 +42,29 @@ export const GoalCard = React.forwardRef<HTMLDivElement, GoalCardProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
+    const selectionClasses = selected
+      ? 'border-violet-600 bg-violet-50 shadow-[0_0_0_1px_rgba(101,49,255,0.3)]'
+      : 'border-stone-200 bg-white hover:shadow-lg';
+
     return (
-      <div
-        ref={ref}
-        role="button"
-        tabIndex={0}
+      <Card
+        ref={ref as React.Ref<HTMLElement>}
+        variant="default"
+        padding="comfortable"
         onClick={onSelect}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onSelect?.();
-          }
-        }}
+        aria-pressed={selected}
         className={cn(
-          'flex flex-col items-center gap-3 rounded-xl border p-6 text-center',
-          'cursor-pointer transition-all duration-200',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-600/40',
-          selected
-            ? 'border-violet-600 bg-violet-50 shadow-[0_0_0_1px_rgba(101,49,255,0.3)]'
-            : 'border-stone-200 bg-white hover:shadow-lg',
-          className
+          'flex flex-col items-center gap-3 rounded-xl text-center transition-all duration-200',
+          selectionClasses,
+          className,
         )}
         {...props}
       >
-        <span className="text-3xl" aria-hidden="true">{icon}</span>
+        <span className="text-3xl" aria-hidden="true">
+          {icon}
+        </span>
         <div className="flex flex-col gap-1">
           <h3 className="text-sm font-semibold text-stone-900">{title}</h3>
           <p className="text-xs text-stone-500">{subtitle}</p>
@@ -66,14 +72,14 @@ export const GoalCard = React.forwardRef<HTMLDivElement, GoalCardProps>(
         <span
           className={cn(
             'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-            tagColorClasses[tagColor]
+            tagColorClasses[tagColor],
           )}
         >
           {tag}
         </span>
-      </div>
+      </Card>
     );
-  }
+  },
 );
 
 GoalCard.displayName = 'GoalCard';
