@@ -94,6 +94,14 @@ export type { SearchInputProps } from './components/SearchInput';
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxProps } from './components/Checkbox';
 
+// RadioGroup
+export { RadioGroup, Radio } from './components/RadioGroup';
+export type { RadioGroupProps, RadioProps, RadioGroupOrientation } from './components/RadioGroup';
+
+// Combobox
+export { Combobox } from './components/Combobox';
+export type { ComboboxProps, ComboboxItemProps, ComboboxItemData } from './components/Combobox';
+
 // Switch
 export { Switch } from './components/Switch';
 export type { SwitchProps } from './components/Switch';
