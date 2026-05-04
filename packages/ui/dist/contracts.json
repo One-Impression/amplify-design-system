@@ -1,0 +1,1676 @@
+{
+  "generatedAt": "2026-05-04T12:51:21.428Z",
+  "tsVersion": "5.9.3",
+  "componentCount": 105,
+  "statusBreakdown": {
+    "stable": 46,
+    "alpha": 15,
+    "beta": 44
+  },
+  "components": [
+    {
+      "name": "ActionFooter",
+      "contract": "contracts/ActionFooter.json",
+      "filePath": "packages/ui/src/components/ActionFooter/ActionFooter.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "AddonTeaser",
+      "contract": "contracts/AddonTeaser.json",
+      "filePath": "packages/ui/src/components/AddonTeaser/AddonTeaser.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "AnimatedNumber",
+      "contract": "contracts/AnimatedNumber.json",
+      "filePath": "packages/ui/src/components/AnimatedNumber/AnimatedNumber.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "AnnouncementBar",
+      "contract": "contracts/AnnouncementBar.json",
+      "filePath": "packages/ui/src/components/AnnouncementBar/AnnouncementBar.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "default",
+        "accent",
+        "inverted"
+      ],
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "Avatar",
+      "contract": "contracts/Avatar.json",
+      "filePath": "packages/ui/src/components/Avatar/Avatar.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Badge",
+      "contract": "contracts/Badge.json",
+      "filePath": "packages/ui/src/components/Badge/Badge.tsx",
+      "kind": "function",
+      "variants": [
+        "default",
+        "brand",
+        "positive",
+        "negative",
+        "warning",
+        "neutral"
+      ],
+      "sizes": [
+        "sm",
+        "md"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Banner",
+      "contract": "contracts/Banner.json",
+      "filePath": "packages/ui/src/components/Banner/Banner.tsx",
+      "kind": "function",
+      "variants": [
+        "warning",
+        "info",
+        "error",
+        "success"
+      ],
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "BarChart",
+      "contract": "contracts/BarChart.json",
+      "filePath": "packages/ui/src/components/BarChart/BarChart.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "BentoGrid",
+      "contract": "contracts/BentoGrid.json",
+      "filePath": "packages/ui/src/components/BentoGrid/BentoGrid.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [
+        "BentoItem"
+      ],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "Breadcrumb",
+      "contract": "contracts/Breadcrumb.json",
+      "filePath": "packages/ui/src/components/Breadcrumb/Breadcrumb.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Button",
+      "contract": "contracts/Button.json",
+      "filePath": "packages/ui/src/components/Button/Button.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "primary",
+        "secondary",
+        "ghost",
+        "destructive",
+        "outline"
+      ],
+      "sizes": [
+        "sm",
+        "md",
+        "lg",
+        "xs"
+      ],
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Card",
+      "contract": "contracts/Card.json",
+      "filePath": "packages/ui/src/components/Card/Card.tsx",
+      "kind": "function",
+      "variants": [
+        "default",
+        "ghost",
+        "elevated",
+        "interactive",
+        "outlined"
+      ],
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [
+        "CardHeader",
+        "CardTitle",
+        "CardDescription",
+        "CardContent",
+        "CardFooter",
+        "CardBody"
+      ],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "CaseStudyCard",
+      "contract": "contracts/CaseStudyCard.json",
+      "filePath": "packages/ui/src/components/CaseStudyCard/CaseStudyCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "ChatInput",
+      "contract": "contracts/ChatInput.json",
+      "filePath": "packages/ui/src/components/ChatInput/ChatInput.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 15,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "Checkbox",
+      "contract": "contracts/Checkbox.json",
+      "filePath": "packages/ui/src/components/Checkbox/Checkbox.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Chip",
+      "contract": "contracts/Chip.json",
+      "filePath": "packages/ui/src/components/Chip/Chip.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "default",
+        "outline",
+        "selected",
+        "dark"
+      ],
+      "sizes": [
+        "sm",
+        "md"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "CollapsibleCard",
+      "contract": "contracts/CollapsibleCard.json",
+      "filePath": "packages/ui/src/components/CollapsibleCard/CollapsibleCard.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "CollapsibleNavGroup",
+      "contract": "contracts/CollapsibleNavGroup.json",
+      "filePath": "packages/ui/src/components/CollapsibleNavGroup/CollapsibleNavGroup.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "CollapsibleSection",
+      "contract": "contracts/CollapsibleSection.json",
+      "filePath": "packages/ui/src/components/CollapsibleSection/CollapsibleSection.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Combobox",
+      "contract": "contracts/Combobox.json",
+      "filePath": "packages/ui/src/components/Combobox/Combobox.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 17,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "CommandPalette",
+      "contract": "contracts/CommandPalette.json",
+      "filePath": "packages/ui/src/components/CommandPalette/CommandPalette.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "ComparisonTable",
+      "contract": "contracts/ComparisonTable.json",
+      "filePath": "packages/ui/src/components/ComparisonTable/ComparisonTable.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "ContentTypeCard",
+      "contract": "contracts/ContentTypeCard.json",
+      "filePath": "packages/ui/src/components/ContentTypeCard/ContentTypeCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "ContextMenu",
+      "contract": "contracts/ContextMenu.json",
+      "filePath": "packages/ui/src/components/ContextMenu/ContextMenu.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "CTABand",
+      "contract": "contracts/CTABand.json",
+      "filePath": "packages/ui/src/components/CTABand/CTABand.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "default",
+        "accent",
+        "inverted"
+      ],
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "DataTable",
+      "contract": "contracts/DataTable.json",
+      "filePath": "packages/ui/src/components/DataTable/DataTable.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "DateRangePicker",
+      "contract": "contracts/DateRangePicker.json",
+      "filePath": "packages/ui/src/components/DateRangePicker/DateRangePicker.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 13,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "Dialog",
+      "contract": "contracts/Dialog.json",
+      "filePath": "packages/ui/src/components/Dialog/Dialog.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Drawer",
+      "contract": "contracts/Drawer.json",
+      "filePath": "packages/ui/src/components/Drawer/Drawer.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "propCount": 12,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "EmptyState",
+      "contract": "contracts/EmptyState.json",
+      "filePath": "packages/ui/src/components/EmptyState/EmptyState.tsx",
+      "kind": "function",
+      "variants": [
+        "default",
+        "noData",
+        "noResults",
+        "noPermission",
+        "error-network",
+        "error-server"
+      ],
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "ErrorState",
+      "contract": "contracts/ErrorState.json",
+      "filePath": "packages/ui/src/components/ErrorState/ErrorState.tsx",
+      "kind": "function",
+      "variants": [
+        "inline",
+        "block",
+        "page",
+        "boundary"
+      ],
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "FAQ",
+      "contract": "contracts/FAQ.json",
+      "filePath": "packages/ui/src/components/FAQ/FAQ.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "FeatureGrid",
+      "contract": "contracts/FeatureGrid.json",
+      "filePath": "packages/ui/src/components/FeatureGrid/FeatureGrid.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "Field",
+      "contract": "contracts/Field.json",
+      "filePath": "packages/ui/src/components/Field/Field.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.7.0"
+      }
+    },
+    {
+      "name": "FieldError",
+      "contract": "contracts/FieldError.json",
+      "filePath": "packages/ui/src/components/FieldError/FieldError.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.7.0"
+      }
+    },
+    {
+      "name": "FilePicker",
+      "contract": "contracts/FilePicker.json",
+      "filePath": "packages/ui/src/components/FilePicker/FilePicker.tsx",
+      "kind": "function",
+      "variants": [
+        "inline",
+        "modal",
+        "drawer"
+      ],
+      "sizes": null,
+      "propCount": 17,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "FlexiSelector",
+      "contract": "contracts/FlexiSelector.json",
+      "filePath": "packages/ui/src/components/FlexiSelector/FlexiSelector.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Footer",
+      "contract": "contracts/Footer.json",
+      "filePath": "packages/ui/src/components/Footer/Footer.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "Form",
+      "contract": "contracts/Form.json",
+      "filePath": "packages/ui/src/components/Form/Form.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.7.0"
+      }
+    },
+    {
+      "name": "FormSection",
+      "contract": "contracts/FormSection.json",
+      "filePath": "packages/ui/src/components/FormSection/FormSection.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.7.0"
+      }
+    },
+    {
+      "name": "Funnel",
+      "contract": "contracts/Funnel.json",
+      "filePath": "packages/ui/src/components/Funnel/Funnel.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "GoalCard",
+      "contract": "contracts/GoalCard.json",
+      "filePath": "packages/ui/src/components/GoalCard/GoalCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "Heatmap",
+      "contract": "contracts/Heatmap.json",
+      "filePath": "packages/ui/src/components/Heatmap/Heatmap.tsx",
+      "kind": "function",
+      "variants": [
+        "calendar",
+        "matrix"
+      ],
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "Hero",
+      "contract": "contracts/Hero.json",
+      "filePath": "packages/ui/src/components/Hero/Hero.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "centered",
+        "split",
+        "asymmetric"
+      ],
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "HoverCard",
+      "contract": "contracts/HoverCard.json",
+      "filePath": "packages/ui/src/components/HoverCard/HoverCard.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "IconButton",
+      "contract": "contracts/IconButton.json",
+      "filePath": "packages/ui/src/components/IconButton/IconButton.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "default",
+        "ghost",
+        "outline"
+      ],
+      "sizes": [
+        "sm",
+        "md",
+        "lg",
+        "xs"
+      ],
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "IconCallout",
+      "contract": "contracts/IconCallout.json",
+      "filePath": "packages/ui/src/components/IconCallout/IconCallout.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "IconGrid",
+      "contract": "contracts/IconGrid.json",
+      "filePath": "packages/ui/src/components/IconGrid/IconGrid.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "Input",
+      "contract": "contracts/Input.json",
+      "filePath": "packages/ui/src/components/Input/Input.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "InsightBanner",
+      "contract": "contracts/InsightBanner.json",
+      "filePath": "packages/ui/src/components/InsightBanner/InsightBanner.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Kbd",
+      "contract": "contracts/Kbd.json",
+      "filePath": "packages/ui/src/components/Kbd/Kbd.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md"
+      ],
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "KPI",
+      "contract": "contracts/KPI.json",
+      "filePath": "packages/ui/src/components/KPI/KPI.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "md",
+        "lg",
+        "xl"
+      ],
+      "propCount": 13,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "Label",
+      "contract": "contracts/Label.json",
+      "filePath": "packages/ui/src/components/Label/Label.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.7.0"
+      }
+    },
+    {
+      "name": "LineChart",
+      "contract": "contracts/LineChart.json",
+      "filePath": "packages/ui/src/components/LineChart/LineChart.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "LoadingState",
+      "contract": "contracts/LoadingState.json",
+      "filePath": "packages/ui/src/components/LoadingState/LoadingState.tsx",
+      "kind": "function",
+      "variants": [
+        "spinner",
+        "dots",
+        "bar",
+        "skeleton-page",
+        "skeleton-table",
+        "skeleton-card"
+      ],
+      "sizes": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "LogoCloud",
+      "contract": "contracts/LogoCloud.json",
+      "filePath": "packages/ui/src/components/LogoCloud/LogoCloud.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "MarkdownEditor",
+      "contract": "contracts/MarkdownEditor.json",
+      "filePath": "packages/ui/src/components/MarkdownEditor/MarkdownEditor.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 14,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "Marquee",
+      "contract": "contracts/Marquee.json",
+      "filePath": "packages/ui/src/components/Marquee/Marquee.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "MasonryGrid",
+      "contract": "contracts/MasonryGrid.json",
+      "filePath": "packages/ui/src/components/MasonryGrid/MasonryGrid.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "MediaShowcase",
+      "contract": "contracts/MediaShowcase.json",
+      "filePath": "packages/ui/src/components/MediaShowcase/MediaShowcase.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "MessageBubble",
+      "contract": "contracts/MessageBubble.json",
+      "filePath": "packages/ui/src/components/MessageBubble/MessageBubble.tsx",
+      "kind": "function",
+      "variants": [
+        "incoming",
+        "outgoing",
+        "system"
+      ],
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "MetricCard",
+      "contract": "contracts/MetricCard.json",
+      "filePath": "packages/ui/src/components/MetricCard/MetricCard.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "Notification",
+      "contract": "contracts/Notification.json",
+      "filePath": "packages/ui/src/components/Notification/Notification.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 11,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "PackageCard",
+      "contract": "contracts/PackageCard.json",
+      "filePath": "packages/ui/src/components/PackageCard/PackageCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "Pagination",
+      "contract": "contracts/Pagination.json",
+      "filePath": "packages/ui/src/components/Pagination/Pagination.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Parallax",
+      "contract": "contracts/Parallax.json",
+      "filePath": "packages/ui/src/components/Parallax/Parallax.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "PieChart",
+      "contract": "contracts/PieChart.json",
+      "filePath": "packages/ui/src/components/PieChart/PieChart.tsx",
+      "kind": "function",
+      "variants": [
+        "pie",
+        "donut"
+      ],
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "PricePill",
+      "contract": "contracts/PricePill.json",
+      "filePath": "packages/ui/src/components/PricePill/PricePill.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "PricingTable",
+      "contract": "contracts/PricingTable.json",
+      "filePath": "packages/ui/src/components/PricingTable/PricingTable.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "ProductUrlInput",
+      "contract": "contracts/ProductUrlInput.json",
+      "filePath": "packages/ui/src/components/ProductUrlInput/ProductUrlInput.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "ProgressBar",
+      "contract": "contracts/ProgressBar.json",
+      "filePath": "packages/ui/src/components/ProgressBar/ProgressBar.tsx",
+      "kind": "function",
+      "variants": [
+        "default",
+        "error",
+        "success"
+      ],
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "ProgressRing",
+      "contract": "contracts/ProgressRing.json",
+      "filePath": "packages/ui/src/components/ProgressRing/ProgressRing.tsx",
+      "kind": "function",
+      "variants": [
+        "default",
+        "accent",
+        "warning",
+        "error",
+        "success"
+      ],
+      "sizes": [
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "Quote",
+      "contract": "contracts/Quote.json",
+      "filePath": "packages/ui/src/components/Quote/Quote.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "RadioGroup",
+      "contract": "contracts/RadioGroup.json",
+      "filePath": "packages/ui/src/components/RadioGroup/RadioGroup.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 13,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "RecoReason",
+      "contract": "contracts/RecoReason.json",
+      "filePath": "packages/ui/src/components/RecoReason/RecoReason.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Reveal",
+      "contract": "contracts/Reveal.json",
+      "filePath": "packages/ui/src/components/Reveal/Reveal.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "ScrapeAnimation",
+      "contract": "contracts/ScrapeAnimation.json",
+      "filePath": "packages/ui/src/components/ScrapeAnimation/ScrapeAnimation.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 1,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "ScriptPreviewCard",
+      "contract": "contracts/ScriptPreviewCard.json",
+      "filePath": "packages/ui/src/components/ScriptPreviewCard/ScriptPreviewCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "ScrollProgress",
+      "contract": "contracts/ScrollProgress.json",
+      "filePath": "packages/ui/src/components/ScrollProgress/ScrollProgress.tsx",
+      "kind": "function",
+      "variants": [
+        "linear",
+        "radial"
+      ],
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "SearchInput",
+      "contract": "contracts/SearchInput.json",
+      "filePath": "packages/ui/src/components/SearchInput/SearchInput.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Section",
+      "contract": "contracts/Section.json",
+      "filePath": "packages/ui/src/components/Section/Section.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "default",
+        "accent",
+        "inverted",
+        "muted"
+      ],
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "Select",
+      "contract": "contracts/Select.json",
+      "filePath": "packages/ui/src/components/Select/Select.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Separator",
+      "contract": "contracts/Separator.json",
+      "filePath": "packages/ui/src/components/Separator/Separator.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Sheet",
+      "contract": "contracts/Sheet.json",
+      "filePath": "packages/ui/src/components/Sheet/Sheet.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.5.0"
+      }
+    },
+    {
+      "name": "Skeleton",
+      "contract": "contracts/Skeleton.json",
+      "filePath": "packages/ui/src/components/Skeleton/Skeleton.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "text",
+        "circular",
+        "rectangular"
+      ],
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Slider",
+      "contract": "contracts/Slider.json",
+      "filePath": "packages/ui/src/components/Slider/Slider.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Sparkline",
+      "contract": "contracts/Sparkline.json",
+      "filePath": "packages/ui/src/components/Sparkline/Sparkline.tsx",
+      "kind": "function",
+      "variants": [
+        "area",
+        "line",
+        "bar"
+      ],
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.3.0"
+      }
+    },
+    {
+      "name": "SplitPane",
+      "contract": "contracts/SplitPane.json",
+      "filePath": "packages/ui/src/components/SplitPane/SplitPane.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 12,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    },
+    {
+      "name": "Stagger",
+      "contract": "contracts/Stagger.json",
+      "filePath": "packages/ui/src/components/Stagger/Stagger.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "StatLarge",
+      "contract": "contracts/StatLarge.json",
+      "filePath": "packages/ui/src/components/StatLarge/StatLarge.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "StatusTag",
+      "contract": "contracts/StatusTag.json",
+      "filePath": "packages/ui/src/components/StatusTag/StatusTag.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Stepper",
+      "contract": "contracts/Stepper.json",
+      "filePath": "packages/ui/src/components/Stepper/Stepper.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "circles",
+        "bars",
+        "minimal"
+      ],
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "StepPill",
+      "contract": "contracts/StepPill.json",
+      "filePath": "packages/ui/src/components/StepPill/StepPill.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Switch",
+      "contract": "contracts/Switch.json",
+      "filePath": "packages/ui/src/components/Switch/Switch.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Tabs",
+      "contract": "contracts/Tabs.json",
+      "filePath": "packages/ui/src/components/Tabs/Tabs.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Testimonial",
+      "contract": "contracts/Testimonial.json",
+      "filePath": "packages/ui/src/components/Testimonial/Testimonial.tsx",
+      "kind": "forwardRef",
+      "variants": [
+        "featured",
+        "inline",
+        "card"
+      ],
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.1.0"
+      }
+    },
+    {
+      "name": "Textarea",
+      "contract": "contracts/Textarea.json",
+      "filePath": "packages/ui/src/components/Textarea/Textarea.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Timeline",
+      "contract": "contracts/Timeline.json",
+      "filePath": "packages/ui/src/components/Timeline/Timeline.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Toast",
+      "contract": "contracts/Toast.json",
+      "filePath": "packages/ui/src/components/Toast/Toast.tsx",
+      "kind": "function",
+      "variants": [
+        "warning",
+        "info",
+        "error",
+        "success"
+      ],
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Tooltip",
+      "contract": "contracts/Tooltip.json",
+      "filePath": "packages/ui/src/components/Tooltip/Tooltip.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "Tour",
+      "contract": "contracts/Tour.json",
+      "filePath": "packages/ui/src/components/Tour/Tour.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.6.0"
+      }
+    },
+    {
+      "name": "TrustBar",
+      "contract": "contracts/TrustBar.json",
+      "filePath": "packages/ui/src/components/TrustBar/TrustBar.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 1,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0"
+      }
+    },
+    {
+      "name": "TypingIndicator",
+      "contract": "contracts/TypingIndicator.json",
+      "filePath": "packages/ui/src/components/TypingIndicator/TypingIndicator.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.2.0"
+      }
+    },
+    {
+      "name": "WalletCard",
+      "contract": "contracts/WalletCard.json",
+      "filePath": "packages/ui/src/components/WalletCard/WalletCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "stable",
+        "since": "1.0.0",
+        "replacedBy": "Card",
+        "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "Wizard",
+      "contract": "contracts/Wizard.json",
+      "filePath": "packages/ui/src/components/Wizard/Wizard.tsx",
+      "kind": "function",
+      "variants": [
+        "linear",
+        "non-linear"
+      ],
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.4.0"
+      }
+    }
+  ]
+}
