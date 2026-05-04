@@ -51,11 +51,21 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        Banner, Kbd, Notification, NotificationList, Tour)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `packages/ui` component notes (beta additions since 2.6.0)
+
+| Component | Status | Key contract |
+|---|---|---|
+| `Banner` | beta | Sticky inline page banner. Variants: `info` / `warning` / `error` / `success`. `warning`+`error` → `role="alert"`; `info`+`success` → `role="status"`. Supports `dismissible`, `onDismiss`, and `actions` slot. Distinct from `Toast` (transient/floating) and `AnnouncementBar` (top-of-app strip). |
+| `Kbd` | beta | Inline keyboard-shortcut hint. Two modes: static (`<Kbd>K</Kbd>`) or platform-aware (`<Kbd keys={["mod","K"]} />`). `mod` resolves to `⌘` on Mac, `Ctrl` elsewhere. Renders `role="img"` with `aria-label` for screen readers. |
+| `Notification` | beta | Persistent in-app notification row. Distinct from `Toast`. Unread state shows indicator dot; clicking fires `onMarkRead(id)` then navigates if `href` set. Renders as `<a>` when `href` provided, otherwise `role="button"`. Pair with `NotificationList` for accessible list semantics. |
+| `Tour` | beta | Multi-step product tour. Portal-rendered backdrop with spotlight around target (CSS selector per step). Keyboard: Esc → `onClose`, Enter/→ → advance, ← → back. Persists step index to `localStorage[amp:tour:{tourId}]` unless `persist=false`; clears on completion. Centered fallback when no `target` provided. |
 
 ## Token File Format
 
