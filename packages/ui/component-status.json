@@ -88,6 +88,8 @@
     "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
     "BentoGrid": { "status": "alpha", "since": "2.4.0" },
     "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
-    "SplitPane": { "status": "alpha", "since": "2.4.0" }
+    "SplitPane": { "status": "alpha", "since": "2.4.0" },
+    "RadioGroup": { "status": "beta", "since": "2.6.0" },
+    "Combobox": { "status": "beta", "since": "2.6.0" }
   }
 }
