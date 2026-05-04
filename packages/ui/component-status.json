@@ -88,6 +88,11 @@
     "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
     "BentoGrid": { "status": "alpha", "since": "2.4.0" },
     "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
-    "SplitPane": { "status": "alpha", "since": "2.4.0" }
+    "SplitPane": { "status": "alpha", "since": "2.4.0" },
+    "Form": { "status": "beta", "since": "2.7.0" },
+    "Field": { "status": "beta", "since": "2.7.0" },
+    "Label": { "status": "beta", "since": "2.7.0" },
+    "FieldError": { "status": "beta", "since": "2.7.0" },
+    "FormSection": { "status": "beta", "since": "2.7.0" }
   }
 }
