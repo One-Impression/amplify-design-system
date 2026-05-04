@@ -88,6 +88,10 @@
     "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
     "BentoGrid": { "status": "alpha", "since": "2.4.0" },
     "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
-    "SplitPane": { "status": "alpha", "since": "2.4.0" }
+    "SplitPane": { "status": "alpha", "since": "2.4.0" },
+    "Banner": { "status": "beta", "since": "2.6.0" },
+    "Kbd": { "status": "beta", "since": "2.6.0" },
+    "Notification": { "status": "beta", "since": "2.6.0" },
+    "Tour": { "status": "beta", "since": "2.6.0" }
   }
 }
