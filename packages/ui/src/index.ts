@@ -449,3 +449,38 @@ export type { NotificationProps, NotificationListProps } from './components/Noti
 // Tour
 export { Tour, TourStepMarker } from './components/Tour';
 export type { TourProps, TourStep, TourStepPlacement } from './components/Tour';
+// ─── Form scaffolding (Tier A1) ──────────────────────────────────────
+// Composable form layer — Form owns submission + zod-shape validation;
+// Field wires Label + input + hint + FieldError with full a11y; Label
+// and FieldError are usable standalone; FormSection groups related
+// fields. See ~/Desktop/canvas-design-system-audit.md for the gap
+// analysis that drove this layer.
+
+// Form
+export { Form, useFormContext } from './components/Form';
+export type {
+  FormProps,
+  FormValues,
+  FormSubmitPayload,
+  FormSchema,
+  FormSchemaResult,
+  FormSchemaError,
+  FormSchemaIssue,
+  FormContextValue,
+} from './components/Form';
+
+// Field
+export { Field } from './components/Field';
+export type { FieldProps, FieldRenderProps, FieldLayout } from './components/Field';
+
+// Label
+export { Label } from './components/Label';
+export type { LabelProps } from './components/Label';
+
+// FieldError
+export { FieldError } from './components/FieldError';
+export type { FieldErrorProps } from './components/FieldError';
+
+// FormSection
+export { FormSection } from './components/FormSection';
+export type { FormSectionProps } from './components/FormSection';

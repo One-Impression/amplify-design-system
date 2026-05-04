@@ -92,6 +92,11 @@
     "Banner": { "status": "beta", "since": "2.6.0" },
     "Kbd": { "status": "beta", "since": "2.6.0" },
     "Notification": { "status": "beta", "since": "2.6.0" },
-    "Tour": { "status": "beta", "since": "2.6.0" }
+    "Tour": { "status": "beta", "since": "2.6.0" },
+    "Form": { "status": "beta", "since": "2.7.0" },
+    "Field": { "status": "beta", "since": "2.7.0" },
+    "Label": { "status": "beta", "since": "2.7.0" },
+    "FieldError": { "status": "beta", "since": "2.7.0" },
+    "FormSection": { "status": "beta", "since": "2.7.0" }
   }
 }
