@@ -2,6 +2,19 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.9.0 — 2026-05-04
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 2 — foundational primitives composing the new Magic Studio v2 layout. All four ship as `lifecycle.status=beta`, `since=2.9.0`. Pure additive — no breaking changes.
+
+- **`BriefStrip`** — Studio v2 Wave 2 — chip strip primitive composing `Chip`; persistent brief header for Magic Studio v2.
+- **`HistoryStrip`** — Studio v2 Wave 2 — horizontal generation timeline with mini-thumb status (`ready` / `generating` / `error` / `locked` / `win`).
+- **`CouncilRail`** (with `CouncilCard` + `CouncilSummary` subcomponents) — Studio v2 Wave 2 — right-rail per-agent verdicts; supports `disagreementsOnly` collapse + ask-the-council affordance.
+- **`VariantCard`** — Studio v2 Wave 2 — canvas variant card with empty / generating / ready / error state machine; shimmer + retry built-in.
+
+Unblocks the magic-studio v2 layout refactor, which depends on these primitives being available on npm.
+
 ## [1.1.0] — 2026-04-28
 
 ### Added (additive — `@amplify-ai/ui`)
