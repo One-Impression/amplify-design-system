@@ -51,11 +51,44 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, RadioGroup, Combobox)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Beta form primitives (since 2.6.0)
+
+**RadioGroup + Radio** — Accessible radio group with arrow-key navigation (down/right = next, up/left = previous), Space to select, horizontal/vertical orientation. Only the selected radio is tabbable. Arrow keys skip disabled radios and wrap around.
+
+```tsx
+<RadioGroup name="color" value={color} onValueChange={setColor} orientation="vertical">
+  <Radio value="red">Red</Radio>
+  <Radio value="blue" disabled>Blue</Radio>
+</RadioGroup>
+```
+
+Key props: `name` (required), `value`/`defaultValue`, `onValueChange`, `orientation` (`vertical`|`horizontal`), `disabled`, `readOnly`, `label`, `error`, `helperText`.
+
+**Combobox** — Searchable single-select. Supports three item sources (mutually exclusive): `items={[...]}` prop, `<Combobox.Item>` children, or async `loadItems(query)` (debounced, default 250 ms). Includes a clear button when a value is selected. Keyboard: ArrowDown/Up to navigate, Enter to select, Escape to close, Home/End to jump.
+
+```tsx
+// Static items
+<Combobox label="Platform" items={platforms} value={val} onValueChange={setVal} />
+
+// Children composition
+<Combobox label="Currency" value={val} onValueChange={setVal}>
+  <Combobox.Item value="usd" label="USD" hint="Default" />
+  <Combobox.Item value="eur" label="EUR" />
+</Combobox>
+
+// Async
+<Combobox label="Country" loadItems={fetchCountries} debounceMs={300} value={val} onValueChange={setVal} />
+```
+
+Key props: `value`/`defaultValue`, `onValueChange`, `items`, `loadItems`, `debounceMs`, `label`, `placeholder`, `error`, `helperText`, `emptyMessage`, `disabled`, `readOnly`, `name`.
+
+Both components use Canvas CSS variables only — no hardcoded colors or spacing.
 
 ## Token File Format
 
