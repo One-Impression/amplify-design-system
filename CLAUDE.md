@@ -51,11 +51,22 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton;
+                        Studio v2 Wave 2 beta: BriefStrip, HistoryStrip, CouncilRail, VariantCard)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**`@amplify-ai/ui` current version: 2.9.0**
+
+Studio v2 Wave 2 components (all `lifecycle.status=beta`, `since=2.9.0`):
+- **`BriefStrip`** — chip strip composing `Chip`; persistent brief header for Magic Studio v2
+- **`HistoryStrip`** — horizontal generation timeline with mini-thumb status (`ready` / `generating` / `error` / `locked` / `win`)
+- **`CouncilRail`** (+ `CouncilCard`, `CouncilSummary` subcomponents) — right-rail per-agent verdicts; supports `disagreementsOnly` collapse + ask-the-council affordance
+- **`VariantCard`** — canvas variant card with empty / generating / ready / error state machine; shimmer + retry built-in
+
+Component lifecycle metadata is tracked in `packages/ui/component-status.json` and `packages/ui/dist/contracts.json`.
 
 ## Token File Format
 
