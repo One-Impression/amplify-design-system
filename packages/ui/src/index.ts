@@ -431,3 +431,44 @@ export type {
 // SplitPane
 export { SplitPane } from './components/SplitPane';
 export type { SplitPaneProps, SplitPaneOrientation } from './components/SplitPane';
+
+// ─── Phase B Wave 6 — Marketing-page primitives (2.6.0) ────────────────────
+
+// CaseStudyCard
+export { CaseStudyCard } from './components/CaseStudyCard';
+export type { CaseStudyCardProps, CaseStudyStat } from './components/CaseStudyCard';
+
+// Marquee
+export { Marquee } from './components/Marquee';
+export type { MarqueeProps, MarqueeDirection, MarqueeSpeed } from './components/Marquee';
+
+// IconCallout + IconGrid
+export { IconCallout } from './components/IconCallout';
+export type { IconCalloutProps, IconCalloutAlign } from './components/IconCallout';
+export { IconGrid } from './components/IconGrid';
+export type { IconGridProps, IconGridColumns, IconGridGap } from './components/IconGrid';
+
+// FAQ
+export { FAQ } from './components/FAQ';
+export type { FAQProps, FAQItem, FAQMode } from './components/FAQ';
+
+// Footer
+export { Footer } from './components/Footer';
+export type {
+  FooterProps,
+  FooterBrandProps,
+  FooterLinkColumnProps,
+  FooterSocialProps,
+  FooterNewsletterProps,
+  FooterLegalProps,
+} from './components/Footer';
+
+// MediaShowcase
+export { MediaShowcase } from './components/MediaShowcase';
+export type {
+  MediaShowcaseProps,
+  MediaShowcaseMedia,
+  MediaShowcaseMediaType,
+  MediaShowcaseCaptionTrack,
+  MediaShowcaseAspect,
+} from './components/MediaShowcase';

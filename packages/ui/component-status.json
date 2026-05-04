@@ -88,6 +88,13 @@
     "MarkdownEditor": { "status": "alpha", "since": "2.4.0" },
     "BentoGrid": { "status": "alpha", "since": "2.4.0" },
     "MasonryGrid": { "status": "alpha", "since": "2.4.0" },
-    "SplitPane": { "status": "alpha", "since": "2.4.0" }
+    "SplitPane": { "status": "alpha", "since": "2.4.0" },
+    "CaseStudyCard": { "status": "beta", "since": "2.6.0" },
+    "Marquee": { "status": "beta", "since": "2.6.0" },
+    "IconCallout": { "status": "beta", "since": "2.6.0" },
+    "IconGrid": { "status": "beta", "since": "2.6.0" },
+    "FAQ": { "status": "beta", "since": "2.6.0" },
+    "Footer": { "status": "beta", "since": "2.6.0" },
+    "MediaShowcase": { "status": "beta", "since": "2.6.0" }
   }
 }
