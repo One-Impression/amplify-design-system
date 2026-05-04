@@ -51,11 +51,37 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, + Form layer)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `ui` Form layer (v2.8.0, all status=beta)
+
+Five primitives replace ad-hoc per-product form state. Compose them top-down:
+
+| Component | Role |
+|---|---|
+| `Form` | Owns submission lifecycle, optional schema validation, and a React context that `Field` instances register against. No runtime form library dep. |
+| `Field` | Render-prop slot: pairs a `Label`, an input primitive, an optional hint, and a `FieldError`. Auto-wires `id`, `htmlFor`, `aria-describedby`, `aria-invalid`. |
+| `Label` | Accessible `<label>` with optional required asterisk (`aria-hidden`). |
+| `FieldError` | `role="alert"` inline error with AlertCircle SVG. Renders nothing when `children` is falsy. |
+| `FormSection` | Title + description + vertical field stack. Supports a `collapsible` variant via `CollapsibleSection`. |
+
+**Schema validation** — `Form` accepts any object with `safeParse(input) => { success, data?, error? }`. A real `z.ZodSchema` satisfies this structurally. Zod is NOT a dependency of the `ui` package.
+
+**Field render-prop pattern:**
+```tsx
+<Field name="email" label="Email" required hint="We never share this">
+  {(props) => <Input {...props} type="email" />}
+</Field>
+```
+Spread `props` onto the input primitive — it carries `id`, `name`, `aria-describedby`, `aria-invalid`, `aria-required`, and `required`.
+
+**Error visibility** — field errors from form context are shown only after the first submit (`hasSubmitted`). Explicit `error` prop on `Field` shows immediately.
+
+**Do not** add `react-hook-form`, `formik`, or any heavy form library to `packages/ui`. The schema duck-type approach is intentional.
 
 ## Token File Format
 
