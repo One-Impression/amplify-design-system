@@ -5,6 +5,8 @@
   "main": "dist/tokens.js",
   "exports": {
     "./css": "./dist/variables.css",
+    "./tailwind": "./dist/tailwind.css",
+    "./dist/tailwind.css": "./dist/tailwind.css",
     "./json": "./dist/tokens.json",
     "./js": "./dist/tokens.js",
     "./react-native": "./dist/tokens.native.js",
