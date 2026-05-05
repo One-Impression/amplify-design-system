@@ -2,6 +2,17 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.10.0 — 2026-05-05
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Map mode prep — two new primitives compose into the variant-graph map view. Both ship as `lifecycle.status=beta`, `since=2.10.0`. Pure additive — no breaking changes.
+
+- **`MapNode`** — Studio v2 Map mode — variant-graph node primitive with `live` / `ready` / `generating` / `error` / `locked` / `focus` state machine. Absolute-positioned via `x` / `y` / `width` (default `180`); selected and focus states share the 2px accent outline + glow; locked renders a top-right lock badge; live renders a dashed-border ghost; generating shows the shimmer body; error shows a red corner triangle. Dark theme by default.
+- **`MapEdge`** — Studio v2 Map mode — SVG `<path>`-only edge primitive (consumer wraps in their own `<svg>`). Renders a smooth horizontal cubic Bézier between two `(x, y)` points. Token-driven `active` (accent stroke + thicker) and `dashed` (default `true`) modes. Exposes `buildEdgePath()` so layout code can compute geometry without rendering.
+
+Unblocks the Studio v2 Map mode layer, which depends on these primitives being available on npm.
+
 ## 2.9.0 — 2026-05-04
 
 ### Added (additive — `@amplify-ai/ui`)

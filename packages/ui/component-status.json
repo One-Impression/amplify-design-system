@@ -110,6 +110,8 @@
     "BriefStrip": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — chip strip primitive composing Chip; persistent brief header for Magic Studio v2." },
     "HistoryStrip": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — horizontal generation timeline with mini-thumb status (ready/generating/error/locked/win)." },
     "CouncilRail": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — right-rail per-agent verdicts; supports disagreementsOnly collapse + ask-the-council affordance." },
-    "VariantCard": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — canvas variant card with empty/generating/ready/error state machine; shimmer + retry built-in." }
+    "VariantCard": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — canvas variant card with empty/generating/ready/error state machine; shimmer + retry built-in." },
+    "MapNode": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — variant-graph node primitive with live/ready/generating/error/locked/focus state machine; absolute positioning, lock badge, error corner, shimmer." },
+    "MapEdge": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — SVG <path>-only edge primitive (consumer wraps in <svg>); cubic-bezier connector with active/dashed states." }
   }
 }

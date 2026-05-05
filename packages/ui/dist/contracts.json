@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-04T16:44:23.199Z",
+  "generatedAt": "2026-05-05T06:49:53.811Z",
   "tsVersion": "5.9.3",
-  "componentCount": 109,
+  "componentCount": 111,
   "statusBreakdown": {
     "stable": 46,
     "alpha": 15,
-    "beta": 48
+    "beta": 50
   },
   "components": [
     {
@@ -956,6 +956,36 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.1.0"
+      }
+    },
+    {
+      "name": "MapEdge",
+      "contract": "contracts/MapEdge.json",
+      "filePath": "packages/ui/src/components/MapEdge/MapEdge.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.10.0",
+        "notes": "Studio v2 Map mode — SVG <path>-only edge primitive (consumer wraps in <svg>); cubic-bezier connector with active/dashed states."
+      }
+    },
+    {
+      "name": "MapNode",
+      "contract": "contracts/MapNode.json",
+      "filePath": "packages/ui/src/components/MapNode/MapNode.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 14,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.10.0",
+        "notes": "Studio v2 Map mode — variant-graph node primitive with live/ready/generating/error/locked/focus state machine; absolute positioning, lock badge, error corner, shimmer."
       }
     },
     {
