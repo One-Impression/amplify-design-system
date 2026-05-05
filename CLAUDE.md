@@ -51,11 +51,32 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        MapNode, MapEdge, and others — 111 components total as of v2.10.0)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `@amplify-ai/ui` notable components (beta, v2.10.0)
+
+**`MapNode`** (`packages/ui/src/components/MapNode/`) — Studio v2 Map mode variant-graph node.
+- State machine: `live` | `ready` | `generating` | `error` | `locked` | `focus`
+- Absolute-positioned via `x` / `y` / `width` (default `180`); parent container must be `position: relative`
+- `selected` + `focus` share a 2px accent outline + accent-subtle ring glow + `shadow-lg`
+- `locked=true` renders a top-right lock badge; `state="error"` renders a red corner triangle with `role="alert"`
+- `state="generating"` renders a shimmer body with `role="status"`; respects `prefers-reduced-motion`
+- `onClick` provided → renders as `role="button"` with `aria-pressed`; omitted → renders as `role="group"`
+- Token-only colours (zero hex/rgba). Dark-theme surface by default.
+- Exports: `MapNode`, `MapNodeProps`, `MapNodeState`
+
+**`MapEdge`** (`packages/ui/src/components/MapEdge/`) — Studio v2 Map mode SVG edge primitive.
+- Renders a **single `<path>` only** — consumer must wrap it in their own `<svg>` element
+- Smooth horizontal cubic Bézier between `(fromX, fromY)` → `(toX, toY)`; control points at horizontal midpoint (symmetric for both directions)
+- `active` → accent stroke colour + thicker stroke (`1.75px`); idle → subtle border colour (`1.25px`)
+- `dashed` (default `true`) → `6 4` dash pattern
+- Exposes `buildEdgePath(fromX, fromY, toX, toY): string` for computing geometry without rendering
+- Exports: `MapEdge`, `buildEdgePath`, `MapEdgeProps`
 
 ## Token File Format
 
