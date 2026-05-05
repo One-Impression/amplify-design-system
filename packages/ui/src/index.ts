@@ -566,6 +566,14 @@ export type {
   CouncilVerdict,
 } from './components/CouncilRail';
 
+// MapEdge
+export { MapEdge, buildEdgePath } from './components/MapEdge';
+export type { MapEdgeProps } from './components/MapEdge';
+
+// MapNode
+export { MapNode } from './components/MapNode';
+export type { MapNodeProps, MapNodeState } from './components/MapNode';
+
 // VariantCard
 export { VariantCard } from './components/VariantCard';
 export type {
