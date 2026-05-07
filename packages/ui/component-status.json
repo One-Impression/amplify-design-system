@@ -112,6 +112,9 @@
     "CouncilRail": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — right-rail per-agent verdicts; supports disagreementsOnly collapse + ask-the-council affordance." },
     "VariantCard": { "status": "beta", "since": "2.9.0", "notes": "Studio v2 Wave 2 — canvas variant card with empty/generating/ready/error state machine; shimmer + retry built-in." },
     "MapNode": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — variant-graph node primitive with live/ready/generating/error/locked/focus state machine; absolute positioning, lock badge, error corner, shimmer." },
-    "MapEdge": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — SVG <path>-only edge primitive (consumer wraps in <svg>); cubic-bezier connector with active/dashed states." }
+    "MapEdge": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — SVG <path>-only edge primitive (consumer wraps in <svg>); cubic-bezier connector with active/dashed states." },
+    "PhaseRibbon": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — numbered phase indicator (1 → 2 → 3 → 4) above a workflow; pending/active/done/error states; aria-current=step on the active phase." },
+    "SegmentedControl": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — generalised two-or-more-button segmented control with sliding accent highlight; W3C radiogroup keyboard pattern; honours prefers-reduced-motion and density." },
+    "StatusBar": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — slim ~24px horizontal status strip; dl/dt/dd semantics; mono variant for SHAs/versions; align=between for left/right split footers." }
   }
 }

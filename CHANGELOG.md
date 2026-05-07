@@ -2,9 +2,37 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
-## Unreleased
+## 2.11.0 — 2026-05-07
 
-### Added (new package — `@amplify-ai/tokens-studio@1.0.0`)
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 3 — three more visual primitives lifted from the Studio
+Phase-0 audit. All three ship as `lifecycle.status=beta`,
+`since=2.11.0`. Pure additive — no breaking changes.
+
+- **`StatusBar`** — slim ~24px horizontal status strip. Renders as a
+  `<dl>` with `<dt>` / `<dd>` pairs for screen-reader semantics; one
+  cell per item with `default` / `mono` variants (mono = monospace
+  value for SHAs, versions). Supports `truncate` + `maxWidth` per
+  item, and `align="between"` to push the last item right. Density-
+  aware vertical padding.
+- **`PhaseRibbon`** — numbered phase indicator (1 → 2 → 3 → …) above a
+  workflow. `pending` / `active` / `done` / `error` per-phase status
+  drives circle colour (status-success / accent / status-error /
+  border tokens) and connector tint. Active phase flagged via
+  `aria-current="step"`; `done` renders a check glyph; status auto-
+  derives from `current` when not given explicitly.
+- **`SegmentedControl`** — generalised two-or-more-button segmented
+  control. Pill wrapper with a single sliding accent highlight,
+  W3C-pattern `role="radiogroup"` + arrow / Home / End / Enter / Space
+  keyboard navigation, roving tabindex, and `motion-reduce`-honoured
+  slide animation. `sm` (~28px) / `md` (~36px) sizes; density=compact
+  forces `sm`.
+
+Unblocks the Studio cockpit footer migration and consolidates the
+ad-hoc Grid|Map toggle into a reusable primitive.
+
+### Added (new package — `@amplify-ai/tokens-studio@1.0.0`) — landed via #89
 
 Studio-specific tokens package — used only by `studio.amplify.club`. Inherits primitives from tokens-foundation; layers Studio cockpit semantics on top. Sibling to `tokens-brand` / `tokens-creator` / `tokens-atmosphere`.
 
@@ -15,7 +43,7 @@ Studio-specific tokens package — used only by `studio.amplify.club`. Inherits 
 - **6-entry status scale** — `--amp-studio-status-{success,warning,error}` plus `-bg` variants — replaces the 10 raw hex literals (`#10b981`, `#f59e0b`, `#d4524d`, `#b45309`) called out as `❌` in the Phase-0 audit's status-indicator cluster.
 - Light + dark themes; Studio is dark-default but both modes are emitted.
 - Five build outputs (`variables.css`, `variables.scss`, `tokens.json`, `tokens.js`, `tailwind.css`) via the shared `scripts/build-tokens.js studio` entrypoint.
-- This PR is release-prep only — package is **not** published to npm. Phase D in `magic-studio` will swap the in-repo `:root { --studio-* / --mirror-* }` definitions for an `@import "@amplify-ai/tokens-studio/css"` plus a small consumer-alias block (~16 lines) once this package is on the registry.
+- Phase D in `magic-studio` will swap the in-repo `:root { --studio-* / --mirror-* }` definitions for an `@import "@amplify-ai/tokens-studio/css"` plus a small consumer-alias block (~16 lines) once this package is on the registry.
 - `scripts/validate-tokens.js` now includes `tokens-studio` in cross-package reference-integrity checks; `scripts/build-tokens.js` accepts `studio` as a valid entrypoint.
 
 Pure additive — no breaking change to any existing package.
