@@ -51,11 +51,18 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton, StatusBar, PhaseRibbon, SegmentedControl, …)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+`@amplify-ai/ui` is currently at **v2.11.0** (114 components: 46 stable, 15 alpha, 53 beta).
+
+**Studio v2 Wave 3 additions (v2.11.0, all `beta`):**
+- **`StatusBar`** — slim ~24px horizontal status strip. `<dl>`/`<dt>`/`<dd>` semantics; `default`/`mono` variants (mono for SHAs, versions); `truncate` + `maxWidth` per item; `align="between"` for left/right split footers. Density-aware padding.
+- **`PhaseRibbon`** — numbered phase indicator (1 → 2 → 3 → …) above a workflow. `pending`/`active`/`done`/`error` status per phase; auto-derives status from `current` prop when not set explicitly. `aria-current="step"` on the active phase; check glyph on done phases; token-driven connector tints.
+- **`SegmentedControl`** — generalised pill toggle with W3C `role="radiogroup"` keyboard pattern (Arrow / Home / End / Enter / Space), roving tabindex, sliding accent highlight, `motion-reduce` honoured, `density=compact` forces `sm` size.
 
 ## Token File Format
 
