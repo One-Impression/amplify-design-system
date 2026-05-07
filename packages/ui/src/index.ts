@@ -582,3 +582,23 @@ export type {
   VariantCardAction,
   VariantCardScoreVariant,
 } from './components/VariantCard';
+
+// ─── Studio v2 primitives (Wave 3 — 2.11.0) ──────────────────────────
+// Three additional generic primitives lifted from Studio's Phase-0
+// audit: a thin status footer (StatusBar), a numbered phase indicator
+// (PhaseRibbon), and a generalised pill toggle (SegmentedControl).
+
+// PhaseRibbon
+export { PhaseRibbon } from './components/PhaseRibbon';
+export type { PhaseRibbonProps, PhaseItem, PhaseStatus } from './components/PhaseRibbon';
+
+// SegmentedControl
+export { SegmentedControl } from './components/SegmentedControl';
+export type {
+  SegmentedControlProps,
+  SegmentedControlOption,
+} from './components/SegmentedControl';
+
+// StatusBar
+export { StatusBar } from './components/StatusBar';
+export type { StatusBarProps, StatusBarItem } from './components/StatusBar';

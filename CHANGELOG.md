@@ -2,6 +2,36 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.11.0 — 2026-05-07
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 3 — three more visual primitives lifted from the Studio
+Phase-0 audit. All three ship as `lifecycle.status=beta`,
+`since=2.11.0`. Pure additive — no breaking changes.
+
+- **`StatusBar`** — slim ~24px horizontal status strip. Renders as a
+  `<dl>` with `<dt>` / `<dd>` pairs for screen-reader semantics; one
+  cell per item with `default` / `mono` variants (mono = monospace
+  value for SHAs, versions). Supports `truncate` + `maxWidth` per
+  item, and `align="between"` to push the last item right. Density-
+  aware vertical padding.
+- **`PhaseRibbon`** — numbered phase indicator (1 → 2 → 3 → …) above a
+  workflow. `pending` / `active` / `done` / `error` per-phase status
+  drives circle colour (status-success / accent / status-error /
+  border tokens) and connector tint. Active phase flagged via
+  `aria-current="step"`; `done` renders a check glyph; status auto-
+  derives from `current` when not given explicitly.
+- **`SegmentedControl`** — generalised two-or-more-button segmented
+  control. Pill wrapper with a single sliding accent highlight,
+  W3C-pattern `role="radiogroup"` + arrow / Home / End / Enter / Space
+  keyboard navigation, roving tabindex, and `motion-reduce`-honoured
+  slide animation. `sm` (~28px) / `md` (~36px) sizes; density=compact
+  forces `sm`.
+
+Unblocks the Studio cockpit footer migration and consolidates the
+ad-hoc Grid|Map toggle into a reusable primitive.
+
 ## 2.10.0 — 2026-05-05
 
 ### Added (additive — `@amplify-ai/ui`)

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-05T06:49:53.811Z",
+  "generatedAt": "2026-05-07T09:08:09.991Z",
   "tsVersion": "5.9.3",
-  "componentCount": 111,
+  "componentCount": 114,
   "statusBreakdown": {
     "stable": 46,
     "alpha": 15,
-    "beta": 50
+    "beta": 53
   },
   "components": [
     {
@@ -1137,6 +1137,21 @@
       }
     },
     {
+      "name": "PhaseRibbon",
+      "contract": "contracts/PhaseRibbon.json",
+      "filePath": "packages/ui/src/components/PhaseRibbon/PhaseRibbon.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.11.0",
+        "notes": "Studio v2 Wave 3 — numbered phase indicator (1 → 2 → 3 → 4) above a workflow; pending/active/done/error states; aria-current=step on the active phase."
+      }
+    },
+    {
       "name": "PieChart",
       "contract": "contracts/PieChart.json",
       "filePath": "packages/ui/src/components/PieChart/PieChart.tsx",
@@ -1379,6 +1394,21 @@
       }
     },
     {
+      "name": "SegmentedControl",
+      "contract": "contracts/SegmentedControl.json",
+      "filePath": "packages/ui/src/components/SegmentedControl/SegmentedControl.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.11.0",
+        "notes": "Studio v2 Wave 3 — generalised two-or-more-button segmented control with sliding accent highlight; W3C radiogroup keyboard pattern; honours prefers-reduced-motion and density."
+      }
+    },
+    {
       "name": "Select",
       "contract": "contracts/Select.json",
       "filePath": "packages/ui/src/components/Select/Select.tsx",
@@ -1510,6 +1540,21 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.1.0"
+      }
+    },
+    {
+      "name": "StatusBar",
+      "contract": "contracts/StatusBar.json",
+      "filePath": "packages/ui/src/components/StatusBar/StatusBar.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.11.0",
+        "notes": "Studio v2 Wave 3 — slim ~24px horizontal status strip; dl/dt/dd semantics; mono variant for SHAs/versions; align=between for left/right split footers."
       }
     },
     {
