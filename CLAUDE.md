@@ -51,11 +51,24 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-studio/      — Magic Studio tokens (cockpit chrome, Mirror/Map-mode voice colours, status scale); consumed only by studio.amplify.club; NOT yet published to npm
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### tokens-studio specifics
+
+- **Inherits** primitives from `tokens-foundation`; layers Studio cockpit semantics on top — same pattern as `tokens-brand` / `tokens-creator` / `tokens-atmosphere`.
+- **Token groups:**
+  - `theme.color` — 5 chrome semantics (`--amp-studio-theme-color-{bg,fg,muted,border,accent}`), backing `--studio-*` consumer aliases
+  - `theme.layout` — 4 raw-`px` dimensions (`--amp-studio-theme-layout-{toolbar-h,drawer-h,drawer-h-open,pane-left-w}`), backing `--studio-toolbar-h` etc.
+  - `theme.map` — 7 per-agent voice colours (`--amp-studio-theme-map-voice-{pixel,aria,heimdall,atlas,sentinel,penny,zara}`), backing `--mirror-voice-*`
+  - `status` — 6-entry scale (`--amp-studio-status-{success,warning,error}` + `-bg` variants), replacing raw hex literals
+- **Dark-default** — both light and dark themes are emitted; dark is canonical.
+- **Consumer-alias pattern** — `magic-studio` imports the package CSS, then maps `--amp-studio-*` → `--studio-*` / `--mirror-*` in a small alias block (~16 lines) to keep ~282 existing use sites byte-identical. See `packages/tokens-studio/README.md` for the full snippet.
+- **Not published** — release-prep only at 1.0.0; Phase D in `magic-studio` will add the `@import` and publish.
 
 ## Token File Format
 
