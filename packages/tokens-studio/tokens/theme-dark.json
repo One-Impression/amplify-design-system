@@ -1,0 +1,41 @@
+{
+  "theme": {
+    "$description": "Magic Studio — Dark theme (cockpit chrome + Mirror voices). Studio is dark-default; this is the canonical mode.",
+    "product": "studio",
+    "mode": "dark",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "{semantic.bg-surface}",   "$description": "Studio surface background (dark)" },
+      "fg":             { "$value": "{semantic.text-primary}", "$description": "Studio default foreground (dark)" },
+      "muted":          { "$value": "{semantic.text-secondary}", "$description": "Studio muted text (dark)" },
+      "border":         { "$value": "{semantic.border-default}", "$description": "Studio default border (dark)" },
+      "accent":         { "$value": "{semantic.accent}",       "$description": "Studio action primary (dark)" }
+    },
+    "layout": {
+      "$type": "dimension",
+      "toolbar-h":      { "$value": "56px" },
+      "drawer-h":       { "$value": "48px" },
+      "drawer-h-open":  { "$value": "240px" },
+      "pane-left-w":    { "$value": "30%" }
+    },
+    "map": {
+      "$type": "color",
+      "voice-pixel":    { "$value": "{color.violet.500}", "$description": "Pixel agent voice (dark — softer violet)" },
+      "voice-aria":     { "$value": "{color.amber.500}" },
+      "voice-heimdall": { "$value": "{color.blue.500}" },
+      "voice-atlas":    { "$value": "{color.stone.300}",  "$description": "Atlas — flipped lighter on dark for legibility" },
+      "voice-sentinel": { "$value": "{color.red.500}" },
+      "voice-penny":    { "$value": "{color.green.500}" },
+      "voice-zara":     { "$value": "{color.rose.500}" }
+    }
+  },
+  "status": {
+    "$type": "color",
+    "success":         { "$value": "{semantic.status-success}" },
+    "success-bg":      { "$value": "{semantic.status-success-bg}" },
+    "warning":         { "$value": "{semantic.status-warning}" },
+    "warning-bg":      { "$value": "{semantic.status-warning-bg}" },
+    "error":           { "$value": "{semantic.status-error}" },
+    "error-bg":        { "$value": "{semantic.status-error-bg}" }
+  }
+}

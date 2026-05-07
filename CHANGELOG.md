@@ -32,6 +32,22 @@ Phase-0 audit. All three ship as `lifecycle.status=beta`,
 Unblocks the Studio cockpit footer migration and consolidates the
 ad-hoc Grid|Map toggle into a reusable primitive.
 
+### Added (new package — `@amplify-ai/tokens-studio@1.0.0`) — landed via #89
+
+Studio-specific tokens package — used only by `studio.amplify.club`. Inherits primitives from tokens-foundation; layers Studio cockpit semantics on top. Sibling to `tokens-brand` / `tokens-creator` / `tokens-atmosphere`.
+
+- **16 lifted variables** sourced verbatim from the Phase-0 token audit (`magic-studio/docs/audits/phase-0-tokens.md`):
+  - 5 chrome colour semantics — `--amp-studio-theme-color-{bg,fg,muted,border,accent}` — back the existing `--studio-*` consumer aliases.
+  - 4 layout dimensions — `--amp-studio-theme-layout-{toolbar-h,drawer-h,drawer-h-open,pane-left-w}` — back `--studio-toolbar-h` etc. (intentional raw `px` per `magic-studio/CLAUDE.md` Rule 2).
+  - 7 Mirror / Map-mode voice colours — `--amp-studio-theme-map-voice-{pixel,aria,heimdall,atlas,sentinel,penny,zara}` — back `--mirror-voice-*`.
+- **6-entry status scale** — `--amp-studio-status-{success,warning,error}` plus `-bg` variants — replaces the 10 raw hex literals (`#10b981`, `#f59e0b`, `#d4524d`, `#b45309`) called out as `❌` in the Phase-0 audit's status-indicator cluster.
+- Light + dark themes; Studio is dark-default but both modes are emitted.
+- Five build outputs (`variables.css`, `variables.scss`, `tokens.json`, `tokens.js`, `tailwind.css`) via the shared `scripts/build-tokens.js studio` entrypoint.
+- Phase D in `magic-studio` will swap the in-repo `:root { --studio-* / --mirror-* }` definitions for an `@import "@amplify-ai/tokens-studio/css"` plus a small consumer-alias block (~16 lines) once this package is on the registry.
+- `scripts/validate-tokens.js` now includes `tokens-studio` in cross-package reference-integrity checks; `scripts/build-tokens.js` accepts `studio` as a valid entrypoint.
+
+Pure additive — no breaking change to any existing package.
+
 ## 2.10.0 — 2026-05-05
 
 ### Added (additive — `@amplify-ai/ui`)
