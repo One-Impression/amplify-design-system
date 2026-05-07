@@ -1,0 +1,43 @@
+{
+  "theme": {
+    "$description": "Magic Studio — Light theme (cockpit chrome + Mirror voices). Inherits primitives from tokens-foundation; layers Studio cockpit semantics on top.",
+    "product": "studio",
+    "mode": "light",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "{semantic.bg-surface}",   "$description": "Studio surface background — paired with --studio-bg consumer alias" },
+      "fg":             { "$value": "{semantic.text-primary}", "$description": "Studio default foreground — paired with --studio-fg" },
+      "muted":          { "$value": "{semantic.text-secondary}", "$description": "Studio muted text — paired with --studio-muted" },
+      "border":         { "$value": "{semantic.border-default}", "$description": "Studio default border — paired with --studio-border" },
+      "accent":         { "$value": "{semantic.accent}",       "$description": "Studio action primary — paired with --studio-accent" }
+    },
+    "layout": {
+      "$type": "dimension",
+      "toolbar-h":      { "$value": "56px",  "$description": "Top toolbar chrome height — paired with --studio-toolbar-h" },
+      "drawer-h":       { "$value": "48px",  "$description": "Bottom drawer collapsed height — paired with --studio-drawer-h" },
+      "drawer-h-open":  { "$value": "240px", "$description": "Bottom drawer expanded height — paired with --studio-drawer-h-open" },
+      "pane-left-w":    { "$value": "30%",   "$description": "Left brief pane width — paired with --studio-pane-left-w" }
+    },
+    "map": {
+      "$type": "color",
+      "$description": "Mirror / Map-mode voice colours — one per agent voice in the Council rail",
+      "voice-pixel":    { "$value": "{color.violet.600}", "$description": "Pixel agent voice — paired with --mirror-voice-pixel" },
+      "voice-aria":     { "$value": "{color.amber.500}",  "$description": "Aria agent voice — paired with --mirror-voice-aria" },
+      "voice-heimdall": { "$value": "{color.blue.500}",   "$description": "Heimdall agent voice — paired with --mirror-voice-heimdall" },
+      "voice-atlas":    { "$value": "{color.stone.100}",  "$description": "Atlas agent voice — paired with --mirror-voice-atlas" },
+      "voice-sentinel": { "$value": "{color.red.500}",    "$description": "Sentinel agent voice — paired with --mirror-voice-sentinel" },
+      "voice-penny":    { "$value": "{color.green.500}",  "$description": "Penny agent voice — paired with --mirror-voice-penny" },
+      "voice-zara":     { "$value": "{color.rose.500}",   "$description": "Zara agent voice — paired with --mirror-voice-zara" }
+    }
+  },
+  "status": {
+    "$type": "color",
+    "$description": "Studio status indicator scale — replaces the 10 raw hex literals in magic-studio/src/app/globals.css (status badges, off-system, promote-link, flow-status-pill).",
+    "success":         { "$value": "{semantic.status-success}",    "$description": "Live / positive / 'real' status indicator (was #10b981)" },
+    "success-bg":      { "$value": "{semantic.status-success-bg}", "$description": "Success status surface tint" },
+    "warning":         { "$value": "{semantic.status-warning}",    "$description": "Preview / off-system / pending status (was #f59e0b)" },
+    "warning-bg":      { "$value": "{semantic.status-warning-bg}", "$description": "Warning status surface tint" },
+    "error":           { "$value": "{semantic.status-error}",      "$description": "Flow error / failure status (was #d4524d)" },
+    "error-bg":        { "$value": "{semantic.status-error-bg}",   "$description": "Error status surface tint" }
+  }
+}
