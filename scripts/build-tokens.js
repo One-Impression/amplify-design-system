@@ -276,7 +276,84 @@ export const spacing = ${JSON.stringify(spacing, null, 2)};
 `;
 }
 
-// 7. Dark mode CSS — loads dark semantic + dark product theme, outputs [data-theme="dark"] block
+// 7. Product-agnostic semantic aliases — emits --amp-semantic-* aliases that
+//    resolve to whichever product theme is loaded. Canvas v2 primitives in
+//    @amplify-ai/ui (BriefStrip, HistoryStrip, CouncilRail, VariantCard,
+//    StatusBar, SegmentedControl) hard-code Tailwind arbitrary classes
+//    referencing the agnostic --amp-semantic-* family. Without these aliases,
+//    every primitive renders unstyled in every consumer.
+//
+//    Mechanism:
+//    - For every product package (brand/atmosphere/creator/studio), each
+//      alias points to the product-prefixed source: `--amp-semantic-bg-surface:
+//      var(--amp-brand-semantic-bg-surface)` etc. Dark mode cascades
+//      automatically through the var() indirection.
+//    - For foundation, source vars are already `--amp-semantic-*` (foundation
+//      uses the unprefixed `amp` namespace). We emit only aliases whose
+//      target name differs from the source name; identity aliases would
+//      create self-referencing CSS variables.
+//
+//    Source: STUDIO_DESIGN_PLAN.md §3.1 (Magic Studio docs). Replaces the
+//    per-app hotfix in magic-studio/src/app/globals.css.
+const SEMANTIC_ALIASES = [
+  // Backgrounds
+  ['bg-surface',          'semantic-bg-surface'],
+  ['bg-base',             'semantic-bg-primary'],
+  ['bg-canvas',           'semantic-bg-sunken'],
+  ['bg-subtle',           'semantic-bg-sunken'],
+  ['bg-raised',           'semantic-bg-raised'],
+  ['bg-accent-subtle',    'semantic-accent-subtle'],
+  ['bg-success-subtle',   'semantic-status-success-bg'],
+  ['bg-warning-subtle',   'semantic-status-warning-bg'],
+  ['bg-error-subtle',     'semantic-status-error-bg'],
+  ['bg-info-subtle',      'semantic-status-info-bg'],
+  // Text
+  ['text-default',        'semantic-text-primary'],
+  ['text-secondary',      'semantic-text-secondary'],
+  ['text-tertiary',       'semantic-text-muted'],
+  ['text-inverse',        'semantic-text-inverse'],
+  ['text-accent',         'semantic-text-accent'],
+  // Status
+  ['status-success',      'semantic-status-success'],
+  ['status-warning',      'semantic-status-warning'],
+  ['status-error',        'semantic-status-error'],
+  ['status-info',         'semantic-status-info'],
+  // Borders
+  ['border-default',      'semantic-border-default'],
+  ['border-strong',       'semantic-border-strong'],
+  ['border-subtle',       'semantic-border-subtle'],
+  ['border-accent',       'semantic-border-accent'],
+  ['border-success',      'semantic-status-success'],
+  ['border-focus',        'semantic-border-focus'],
+  // Accent
+  ['accent-soft',         'semantic-accent-light'],
+];
+
+function buildSemanticAliases() {
+  const lines = [
+    '',
+    '/* ──────────────────────────────────────────────────────────────────',
+    '   Product-agnostic semantic aliases — resolve to active product theme.',
+    '   Consumed by Canvas v2 primitives in @amplify-ai/ui via Tailwind',
+    '   arbitrary classes (e.g. bg-[var(--amp-semantic-bg-accent-subtle)]).',
+    '   Dark mode cascades through var() indirection automatically.',
+    '   ────────────────────────────────────────────────────────────────── */',
+    ':root {',
+  ];
+  for (const [aliasName, sourceName] of SEMANTIC_ALIASES) {
+    const target = `--amp-semantic-${aliasName}`;
+    const source = `--${PREFIX}-${sourceName}`;
+    // Skip identity aliases (foundation case) — `--amp-semantic-bg-surface:
+    // var(--amp-semantic-bg-surface)` would self-cycle. Foundation already
+    // emits these names directly in the main :root block above.
+    if (target === source) continue;
+    lines.push(`  ${target}: var(${source});`);
+  }
+  lines.push('}', '');
+  return lines.join('\n');
+}
+
+// 8. Dark mode CSS — loads dark semantic + dark product theme, outputs [data-theme="dark"] block
 function buildDarkCSS() {
   const darkSemanticFile = join(semanticDir, 'colors-dark.json');
   const darkThemeFile = join(packageDir, 'theme-dark.json');
@@ -314,8 +391,9 @@ function buildDarkCSS() {
 
 // ── Write outputs ──
 const lightCSS = buildCSS();
+const aliasCSS = buildSemanticAliases();
 const darkCSS = buildDarkCSS();
-writeFileSync(join(distDir, 'variables.css'), lightCSS + darkCSS);
+writeFileSync(join(distDir, 'variables.css'), lightCSS + aliasCSS + darkCSS);
 writeFileSync(join(distDir, 'variables.scss'), buildSCSS());
 writeFileSync(join(distDir, 'tokens.json'), buildJSON());
 writeFileSync(join(distDir, 'tokens.js'), buildJS());
