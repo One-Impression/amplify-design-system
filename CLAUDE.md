@@ -51,11 +51,25 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        BriefStrip, HistoryStrip, CouncilRail, SegmentedControl)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Studio v2 primitives (`@amplify-ai/ui` ≥ 2.12.0)
+
+Four components are used by `magic-studio` and pixel-matched against `studio-v2-option-d.html`. Each ships an `OptionDFidelity` Storybook story as the Chromatic visual-regression baseline.
+
+| Component | New opt-in prop | Visual changes (intentional, affect all call sites) |
+|---|---|---|
+| `BriefStrip` | `leading?: ReactNode` — label before chips; defaults to `"Brief"`; pass `null` to suppress | Chip radius `rounded-full` → `rounded-md`; input border also `rounded-md` |
+| `HistoryStrip` | `liveSlot?: ReactNode` — trailing slot pushed right via `ml-auto` | Branch-line connector is now a styled hairline span (not a plain `→`); mini-thumbs use a 135deg `bg-subtle→bg-canvas` gradient; `win` dot bumped to 1.5×1.5 with 2px surface ring |
+| `CouncilRail` | *(none)* | Heading restyled to 11px uppercase tertiary; `forVariantLabel` is plain accent text (no pill); avatars 28×28 `rounded-full` → 24×24 `rounded-md`; verdict badges `rounded-[3px] px-1.5 py-0.5`; ask input border → `border-dashed` |
+| `SegmentedControl` | *(none)* | `shadow-sm` on active highlight (shipped 2.11.0); `OptionDFidelity` story added |
+
+`HistoryStrip`'s mini-thumb gradient depends on `--amp-semantic-bg-canvas` (requires `@amplify-ai/tokens-foundation@2.1.1`+).
 
 ## Token File Format
 
