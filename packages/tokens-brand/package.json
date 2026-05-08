@@ -1,6 +1,6 @@
 {
   "name": "@amplify-ai/tokens-brand",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Amplify Brand Platform design tokens \u2014 colors, typography for brand dashboard",
   "main": "dist/tokens.js",
   "exports": {

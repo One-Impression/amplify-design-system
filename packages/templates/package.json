@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@amplify-ai/ui": "^2.0.1",
-    "@amplify-ai/tokens-brand": "^2.0.1"
+    "@amplify-ai/tokens-brand": "^3.0.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
