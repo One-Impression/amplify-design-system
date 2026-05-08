@@ -70,6 +70,18 @@ Token hierarchy: primitives (raw values) → semantic (light/dark mappings) → 
 
 Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS, Tailwind v4, and React Native outputs.
 
+### Product-agnostic semantic aliases (`--amp-semantic-*`)
+
+Every token package's `dist/variables.css` now includes a 26-entry alias block appended after the light `:root` block and before the `[data-theme="dark"]` block. These aliases map the unprefixed `--amp-semantic-*` family to the product-prefixed source variables in the same package (e.g. `--amp-semantic-bg-surface: var(--amp-brand-semantic-bg-surface)`).
+
+**Why it exists:** Canvas v2 primitives in `@amplify-ui` (`BriefStrip`, `HistoryStrip`, `CouncilRail`, `VariantCard`, `StatusBar`, `SegmentedControl`) hard-code Tailwind arbitrary classes referencing `--amp-semantic-*`. Without these aliases the components rendered unstyled in every consumer.
+
+**Dark mode** cascades automatically through the `var()` indirection — no extra alias block is needed in `[data-theme="dark"]`.
+
+**Foundation special case:** `tokens-foundation` already emits `--amp-semantic-*` names directly (unprefixed `amp` namespace), so identity aliases (e.g. `--amp-semantic-bg-surface: var(--amp-semantic-bg-surface)`) are skipped to prevent CSS self-cycles.
+
+**Consumers:** If you previously added a manual `--amp-semantic-*` hotfix in a product app's global CSS (e.g. `magic-studio/src/app/globals.css`), that block can be removed once `@amplify-ai/tokens-foundation` ≥ 2.1.1 (and the corresponding product token package) is deployed.
+
 ## CI/CD
 
 - `ci.yml` — Build all packages, validate consistency, secret scan, SDUI sync check
