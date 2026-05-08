@@ -245,6 +245,98 @@ function buildTailwindPreset() {
   return lines.join('\n');
 }
 
+// 5b. Tailwind v4 consumer preset (Issue #88)
+// Brand-style packages only. Maps Canvas's class names (bg-brand, text-primary,
+// etc.) to the existing theme-color / semantic tier so consumers can
+// `@import "@amplify-ai/tokens-<pkg>/preset"` instead of inlining a hand-rolled
+// @theme bridge. Self-contained — re-emits the same primitives + semantic +
+// theme-color block as tailwind.css plus the consumer alias layer below.
+function buildConsumerPreset() {
+  if (!['brand', 'atmosphere', 'creator'].includes(pkg)) return null;
+
+  const lines = [
+    '/* Auto-generated Tailwind v4 consumer preset — do not edit */',
+    '/* Closes Issue #88: ship semantic class names (bg-brand, text-primary, ...)',
+    ' * for Canvas component consumers. Self-contained — no need to also',
+    ' * @import "@amplify-ai/tokens-' + pkg + '/tailwind". */',
+    '/* Usage: @import "@amplify-ai/tokens-' + pkg + '/preset"; */',
+    '',
+    '@theme {',
+  ];
+
+  // Re-emit existing tailwind.css @theme block (primitives + semantic + theme-color)
+  for (const [key, value] of Object.entries(flat)) {
+    if (typeof value !== 'string' && typeof value !== 'number') continue;
+    if (key.startsWith('color-') || key.startsWith('semantic-') || key.startsWith('theme-color-')) {
+      lines.push(`  --color-${key}: ${value};`);
+    } else if (key.startsWith('spacing-')) {
+      lines.push(`  --spacing-${key.replace('spacing-', '')}: ${value};`);
+    } else if (key.startsWith('radius-')) {
+      lines.push(`  --radius-${key.replace('radius-', '')}: ${value};`);
+    } else if (key.startsWith('shadow-') && !key.includes('dark')) {
+      lines.push(`  --shadow-${key.replace('shadow-', '')}: ${value};`);
+    } else if (key.startsWith('font-size-')) {
+      lines.push(`  --text-${key.replace('font-size-', '')}: ${value};`);
+    }
+  }
+
+  // Consumer alias layer — Canvas's class names → theme-color / semantic source
+  // Per Issue #88. Mappings are provisional; canonical answers live with the
+  // design-system team. Open design questions surfaced in PR #__ description.
+  lines.push('');
+  lines.push('  /* Consumer aliases (Canvas class-name layer) — Issue #88 */');
+
+  const aliasMap = {
+    // Brand / accent — theme-color tier (product-specific overrides)
+    'brand': 'theme-color-accent',
+    'brand-dark': 'theme-color-accent-hover',
+    'brand-light': 'theme-color-accent-light',
+    'accent': 'semantic-accent',
+    'accent-subtle': 'semantic-accent-subtle',
+
+    // Surfaces — semantic-bg-* tier
+    'surface': 'semantic-bg-surface',
+    'surface-overlay': 'semantic-bg-overlay',
+    'base': 'semantic-bg-primary',
+    'raised': 'semantic-bg-raised',
+    'sunken': 'semantic-bg-sunken',
+    'subtle': 'semantic-bg-sunken', // best-fit; flagged for review
+
+    // Text — semantic-text-* tier
+    'primary': 'semantic-text-primary',
+    'secondary': 'semantic-text-secondary',
+    'tertiary': 'semantic-text-muted', // best-fit; flagged for review
+    'muted': 'semantic-text-muted',
+    'faint': 'semantic-text-disabled',
+    'inverse': 'semantic-text-inverse',
+
+    // Status — semantic-status-* tier
+    'positive': 'semantic-status-success',
+    'positive-light': 'semantic-status-success-bg',
+    'negative': 'semantic-status-error',
+    'negative-light': 'semantic-status-error-bg',
+    'warning': 'semantic-status-warning',
+    'warning-light': 'semantic-status-warning-bg',
+
+    // Borders — semantic-border-* tier
+    'border-default': 'semantic-border-default',
+    'border-strong': 'semantic-border-strong',
+    'border-subtle': 'semantic-border-subtle',
+    'border-accent': 'semantic-border-accent',
+  };
+
+  for (const [aliasName, sourceKey] of Object.entries(aliasMap)) {
+    if (flat[sourceKey] === undefined) {
+      console.warn(`@amplify-ai/tokens-${pkg}: preset alias "${aliasName}" → "${sourceKey}" not found in flat tree, skipping`);
+      continue;
+    }
+    lines.push(`  --color-${aliasName}: var(--color-${sourceKey});`);
+  }
+
+  lines.push('}', '');
+  return lines.join('\n');
+}
+
 // 6. React Native JS (creator only)
 function buildReactNative() {
   const colors = {};
@@ -414,12 +506,24 @@ writeFileSync(join(distDir, 'tokens.json'), buildJSON());
 writeFileSync(join(distDir, 'tokens.js'), buildJS());
 writeFileSync(join(distDir, 'tailwind.css'), buildTailwindPreset());
 
+const consumerPreset = buildConsumerPreset();
+if (consumerPreset !== null) {
+  writeFileSync(join(distDir, 'preset.css'), consumerPreset);
+}
+
+const baseCount = 5;
+const presetCount = consumerPreset !== null ? 1 : 0;
+const rnCount = pkg === 'creator' ? 1 : 0;
+const extras = [];
+if (presetCount) extras.push('+ consumer preset');
+if (rnCount) extras.push('+ React Native');
+const total = baseCount + presetCount + rnCount;
+const suffix = extras.length ? ` (${extras.join(', ')})` : '';
+
 if (pkg === 'creator') {
   writeFileSync(join(distDir, 'tokens.native.js'), buildReactNative());
-  console.log(`@amplify-ai/tokens-${pkg}: built 6 artifacts (+ React Native)`);
-} else {
-  console.log(`@amplify-ai/tokens-${pkg}: built 5 artifacts`);
 }
+console.log(`@amplify-ai/tokens-${pkg}: built ${total} artifacts${suffix}`);
 
 // Fail build if any references could not be resolved
 if (unresolvedRefs.length > 0) {
