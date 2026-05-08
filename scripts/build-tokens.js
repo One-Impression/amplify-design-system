@@ -23,7 +23,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const VALID_PACKAGES = ['foundation', 'brand', 'atmosphere', 'creator'];
+const VALID_PACKAGES = ['foundation', 'brand', 'atmosphere', 'creator', 'studio'];
 const pkg = process.argv[2];
 if (!pkg || !VALID_PACKAGES.includes(pkg)) {
   console.error(`Usage: node scripts/build-tokens.js <${VALID_PACKAGES.join('|')}>`);

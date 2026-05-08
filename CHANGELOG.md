@@ -2,6 +2,76 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.11.0 — 2026-05-07
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 3 — three more visual primitives lifted from the Studio
+Phase-0 audit. All three ship as `lifecycle.status=beta`,
+`since=2.11.0`. Pure additive — no breaking changes.
+
+- **`StatusBar`** — slim ~24px horizontal status strip. Renders as a
+  `<dl>` with `<dt>` / `<dd>` pairs for screen-reader semantics; one
+  cell per item with `default` / `mono` variants (mono = monospace
+  value for SHAs, versions). Supports `truncate` + `maxWidth` per
+  item, and `align="between"` to push the last item right. Density-
+  aware vertical padding.
+- **`PhaseRibbon`** — numbered phase indicator (1 → 2 → 3 → …) above a
+  workflow. `pending` / `active` / `done` / `error` per-phase status
+  drives circle colour (status-success / accent / status-error /
+  border tokens) and connector tint. Active phase flagged via
+  `aria-current="step"`; `done` renders a check glyph; status auto-
+  derives from `current` when not given explicitly.
+- **`SegmentedControl`** — generalised two-or-more-button segmented
+  control. Pill wrapper with a single sliding accent highlight,
+  W3C-pattern `role="radiogroup"` + arrow / Home / End / Enter / Space
+  keyboard navigation, roving tabindex, and `motion-reduce`-honoured
+  slide animation. `sm` (~28px) / `md` (~36px) sizes; density=compact
+  forces `sm`.
+
+Unblocks the Studio cockpit footer migration and consolidates the
+ad-hoc Grid|Map toggle into a reusable primitive.
+
+### Added (new package — `@amplify-ai/tokens-studio@1.0.0`) — landed via #89
+
+Studio-specific tokens package — used only by `studio.amplify.club`. Inherits primitives from tokens-foundation; layers Studio cockpit semantics on top. Sibling to `tokens-brand` / `tokens-creator` / `tokens-atmosphere`.
+
+- **16 lifted variables** sourced verbatim from the Phase-0 token audit (`magic-studio/docs/audits/phase-0-tokens.md`):
+  - 5 chrome colour semantics — `--amp-studio-theme-color-{bg,fg,muted,border,accent}` — back the existing `--studio-*` consumer aliases.
+  - 4 layout dimensions — `--amp-studio-theme-layout-{toolbar-h,drawer-h,drawer-h-open,pane-left-w}` — back `--studio-toolbar-h` etc. (intentional raw `px` per `magic-studio/CLAUDE.md` Rule 2).
+  - 7 Mirror / Map-mode voice colours — `--amp-studio-theme-map-voice-{pixel,aria,heimdall,atlas,sentinel,penny,zara}` — back `--mirror-voice-*`.
+- **6-entry status scale** — `--amp-studio-status-{success,warning,error}` plus `-bg` variants — replaces the 10 raw hex literals (`#10b981`, `#f59e0b`, `#d4524d`, `#b45309`) called out as `❌` in the Phase-0 audit's status-indicator cluster.
+- Light + dark themes; Studio is dark-default but both modes are emitted.
+- Five build outputs (`variables.css`, `variables.scss`, `tokens.json`, `tokens.js`, `tailwind.css`) via the shared `scripts/build-tokens.js studio` entrypoint.
+- Phase D in `magic-studio` will swap the in-repo `:root { --studio-* / --mirror-* }` definitions for an `@import "@amplify-ai/tokens-studio/css"` plus a small consumer-alias block (~16 lines) once this package is on the registry.
+- `scripts/validate-tokens.js` now includes `tokens-studio` in cross-package reference-integrity checks; `scripts/build-tokens.js` accepts `studio` as a valid entrypoint.
+
+Pure additive — no breaking change to any existing package.
+
+## 2.10.0 — 2026-05-05
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Map mode prep — two new primitives compose into the variant-graph map view. Both ship as `lifecycle.status=beta`, `since=2.10.0`. Pure additive — no breaking changes.
+
+- **`MapNode`** — Studio v2 Map mode — variant-graph node primitive with `live` / `ready` / `generating` / `error` / `locked` / `focus` state machine. Absolute-positioned via `x` / `y` / `width` (default `180`); selected and focus states share the 2px accent outline + glow; locked renders a top-right lock badge; live renders a dashed-border ghost; generating shows the shimmer body; error shows a red corner triangle. Dark theme by default.
+- **`MapEdge`** — Studio v2 Map mode — SVG `<path>`-only edge primitive (consumer wraps in their own `<svg>`). Renders a smooth horizontal cubic Bézier between two `(x, y)` points. Token-driven `active` (accent stroke + thicker) and `dashed` (default `true`) modes. Exposes `buildEdgePath()` so layout code can compute geometry without rendering.
+
+Unblocks the Studio v2 Map mode layer, which depends on these primitives being available on npm.
+
+## 2.9.0 — 2026-05-04
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 2 — foundational primitives composing the new Magic Studio v2 layout. All four ship as `lifecycle.status=beta`, `since=2.9.0`. Pure additive — no breaking changes.
+
+- **`BriefStrip`** — Studio v2 Wave 2 — chip strip primitive composing `Chip`; persistent brief header for Magic Studio v2.
+- **`HistoryStrip`** — Studio v2 Wave 2 — horizontal generation timeline with mini-thumb status (`ready` / `generating` / `error` / `locked` / `win`).
+- **`CouncilRail`** (with `CouncilCard` + `CouncilSummary` subcomponents) — Studio v2 Wave 2 — right-rail per-agent verdicts; supports `disagreementsOnly` collapse + ask-the-council affordance.
+- **`VariantCard`** — Studio v2 Wave 2 — canvas variant card with empty / generating / ready / error state machine; shimmer + retry built-in.
+
+Unblocks the magic-studio v2 layout refactor, which depends on these primitives being available on npm.
+
 ## [1.1.0] — 2026-04-28
 
 ### Added (additive — `@amplify-ai/ui`)

@@ -94,6 +94,14 @@ export type { SearchInputProps } from './components/SearchInput';
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxProps } from './components/Checkbox';
 
+// RadioGroup
+export { RadioGroup, Radio } from './components/RadioGroup';
+export type { RadioGroupProps, RadioProps, RadioGroupOrientation } from './components/RadioGroup';
+
+// Combobox
+export { Combobox } from './components/Combobox';
+export type { ComboboxProps, ComboboxItemProps, ComboboxItemData } from './components/Combobox';
+
 // Switch
 export { Switch } from './components/Switch';
 export type { SwitchProps } from './components/Switch';
@@ -431,3 +439,166 @@ export type {
 // SplitPane
 export { SplitPane } from './components/SplitPane';
 export type { SplitPaneProps, SplitPaneOrientation } from './components/SplitPane';
+
+// ─── Phase B Wave 5 — Page-level affordances ─────────────────────────────
+
+// Banner
+export { Banner } from './components/Banner';
+export type { BannerProps, BannerVariant } from './components/Banner';
+
+// Kbd
+export { Kbd } from './components/Kbd';
+export type { KbdProps, KbdKey, KbdSize } from './components/Kbd';
+
+// Notification
+export { Notification, NotificationList } from './components/Notification';
+export type { NotificationProps, NotificationListProps } from './components/Notification';
+
+// Tour
+export { Tour, TourStepMarker } from './components/Tour';
+export type { TourProps, TourStep, TourStepPlacement } from './components/Tour';
+// ─── Phase B Wave 6 — Marketing-page primitives (2.6.0) ────────────────────
+
+// CaseStudyCard
+export { CaseStudyCard } from './components/CaseStudyCard';
+export type { CaseStudyCardProps, CaseStudyStat } from './components/CaseStudyCard';
+
+// Marquee
+export { Marquee } from './components/Marquee';
+export type { MarqueeProps, MarqueeDirection, MarqueeSpeed } from './components/Marquee';
+
+// IconCallout + IconGrid
+export { IconCallout } from './components/IconCallout';
+export type { IconCalloutProps, IconCalloutAlign } from './components/IconCallout';
+export { IconGrid } from './components/IconGrid';
+export type { IconGridProps, IconGridColumns, IconGridGap } from './components/IconGrid';
+
+// FAQ
+export { FAQ } from './components/FAQ';
+export type { FAQProps, FAQItem, FAQMode } from './components/FAQ';
+
+// Footer
+export { Footer } from './components/Footer';
+export type {
+  FooterProps,
+  FooterBrandProps,
+  FooterLinkColumnProps,
+  FooterSocialProps,
+  FooterNewsletterProps,
+  FooterLegalProps,
+} from './components/Footer';
+
+// MediaShowcase
+export { MediaShowcase } from './components/MediaShowcase';
+export type {
+  MediaShowcaseProps,
+  MediaShowcaseMedia,
+  MediaShowcaseMediaType,
+  MediaShowcaseCaptionTrack,
+  MediaShowcaseAspect,
+} from './components/MediaShowcase';
+// ─── Form scaffolding (Tier A1) ──────────────────────────────────────
+// Composable form layer — Form owns submission + zod-shape validation;
+// Field wires Label + input + hint + FieldError with full a11y; Label
+// and FieldError are usable standalone; FormSection groups related
+// fields. See ~/Desktop/canvas-design-system-audit.md for the gap
+// analysis that drove this layer.
+
+// Form
+export { Form, useFormContext } from './components/Form';
+export type {
+  FormProps,
+  FormValues,
+  FormSubmitPayload,
+  FormSchema,
+  FormSchemaResult,
+  FormSchemaError,
+  FormSchemaIssue,
+  FormContextValue,
+} from './components/Form';
+
+// Field
+export { Field } from './components/Field';
+export type { FieldProps, FieldRenderProps, FieldLayout } from './components/Field';
+
+// Label
+export { Label } from './components/Label';
+export type { LabelProps } from './components/Label';
+
+// FieldError
+export { FieldError } from './components/FieldError';
+export type { FieldErrorProps } from './components/FieldError';
+
+// FormSection
+export { FormSection } from './components/FormSection';
+export type { FormSectionProps } from './components/FormSection';
+
+// ─── Studio v2 primitives (Wave 2) ───────────────────────────────────
+// Foundational primitives composing the new Magic Studio v2 layout —
+// brief strip header, generation-history rail, council critique rail,
+// and the variant card with its state machine. See pixel-agent for the
+// Studio v2 product spec.
+
+// BriefStrip
+export { BriefStrip } from './components/BriefStrip';
+export type {
+  BriefStripProps,
+  BriefChipItem,
+  BriefChipKind,
+} from './components/BriefStrip';
+
+// HistoryStrip
+export { HistoryStrip } from './components/HistoryStrip';
+export type {
+  HistoryStripProps,
+  GenerationItem,
+  VariantThumb,
+  VariantThumbStatus,
+} from './components/HistoryStrip';
+
+// CouncilRail
+export { CouncilRail, CouncilCard, CouncilSummary } from './components/CouncilRail';
+export type {
+  CouncilRailProps,
+  CouncilCardProps,
+  CouncilSummaryProps,
+  AgentVerdict,
+  CouncilVerdict,
+} from './components/CouncilRail';
+
+// MapEdge
+export { MapEdge, buildEdgePath } from './components/MapEdge';
+export type { MapEdgeProps } from './components/MapEdge';
+
+// MapNode
+export { MapNode } from './components/MapNode';
+export type { MapNodeProps, MapNodeState } from './components/MapNode';
+
+// VariantCard
+export { VariantCard } from './components/VariantCard';
+export type {
+  VariantCardProps,
+  VariantCardState,
+  VariantCardAction,
+  VariantCardScoreVariant,
+} from './components/VariantCard';
+
+// ─── Studio v2 primitives (Wave 3 — 2.11.0) ──────────────────────────
+// Three additional generic primitives lifted from Studio's Phase-0
+// audit: a thin status footer (StatusBar), a numbered phase indicator
+// (PhaseRibbon), and a generalised pill toggle (SegmentedControl).
+
+// PhaseRibbon
+export { PhaseRibbon } from './components/PhaseRibbon';
+export type { PhaseRibbonProps, PhaseItem, PhaseStatus } from './components/PhaseRibbon';
+
+// SegmentedControl
+export { SegmentedControl } from './components/SegmentedControl';
+export type {
+  SegmentedControlProps,
+  SegmentedControlOption,
+} from './components/SegmentedControl';
+
+// StatusBar
+export { StatusBar } from './components/StatusBar';
+export type { StatusBarProps, StatusBarItem } from './components/StatusBar';
