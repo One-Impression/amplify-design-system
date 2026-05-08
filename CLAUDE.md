@@ -48,14 +48,32 @@ npm run storybook    # Launch Storybook at port 6006
 ```
 packages/
   tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints)
-  tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
+  tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes) [v3.0.0]
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  templates/          — Composite templates consuming tokens-brand + ui
 ```
+
+### Token Package Exports
+
+All three brand-style token packages (`tokens-brand`, `tokens-creator`, `tokens-atmosphere`) expose the following export paths:
+
+| Import path | Resolves to |
+|---|---|
+| `@amplify-ai/tokens-{brand,creator,atmosphere}` | `dist/tokens.js` |
+| `@amplify-ai/tokens-{brand,creator,atmosphere}/css` | `dist/variables.css` |
+| `@amplify-ai/tokens-{brand,creator,atmosphere}/tailwind` | `dist/tailwind.css` |
+| `@amplify-ai/tokens-{brand,creator,atmosphere}/dist/tailwind.css` | `dist/tailwind.css` |
+| `@amplify-ai/tokens-{brand,creator,atmosphere}/json` | `dist/tokens.json` |
+| `@amplify-ai/tokens-{brand,creator,atmosphere}/js` | `dist/tokens.js` |
+
+`tokens-foundation` uses the same pattern and was already correct prior to this change.
+
+> **Note:** `tokens-brand` v3.0.0 — the `./tailwind` export previously pointed at `dist/tailwind-preset.js` (which was never produced by the build) and `main`/`.` also pointed there. All are now corrected to match the actual build output. Do **not** import `@amplify-ai/tokens-brand/tailwind` expecting a JS Tailwind preset object — it is a CSS file (`@layer` / CSS variable declarations for Tailwind v4).
 
 ## Token File Format
 
