@@ -2,6 +2,39 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.11.2 — 2026-05-08
+
+### Fixed (extended `--amp-semantic-*` alias block — all token packages)
+
+Triage of `magic-studio` live (`magic-studio/docs/pixel-brief/STUDIO_LIVE_TRIAGE.md`
+Issue #1) found that the 26-entry alias block introduced in #95 covers only
+26 of the 41 `--amp-semantic-*` references that Canvas v2 primitives actually
+hard-code. The other 15 — `bg-accent`, `bg-sunken`, `text-primary`, `text-muted`,
+`text-on-accent`, `accent`, `accent-light`, `accent-primary`, `status-{error,
+warning,success,info}-bg`, `border-{error,warning,info}` — were still
+undefined in published CSS, so chip backgrounds, status fills, error borders,
+and inverse text on accent surfaces all rendered as the user-agent default.
+
+`scripts/build-tokens.js` now emits 41 alias entries per non-foundation token
+package. Each new alias resolves to the same product-prefixed source the
+existing block uses (e.g. `--amp-semantic-bg-accent: var(--amp-{prefix}-semantic-accent)`),
+so dark-mode cascade and product theming continue to work unchanged.
+Foundation skips identity aliases — only non-identity entries
+(`bg-accent`, `text-on-accent`, `border-{error,warning,info}`,
+`accent-primary`) are emitted there.
+
+After this lands and is published, the per-app hotfix in
+`magic-studio/src/app/globals.css` (One-Impression/magic-studio#66) becomes
+fully redundant and can be deleted in a follow-up.
+
+### Versioned
+
+- `@amplify-ai/tokens-foundation`: `2.1.1` → `2.1.2`
+- `@amplify-ai/tokens-brand`: `3.0.1` → `3.0.2`
+- `@amplify-ai/tokens-atmosphere`: `2.0.2` → `2.0.3`
+- `@amplify-ai/tokens-creator`: `2.0.2` → `2.0.3`
+- `@amplify-ai/tokens-studio`: `1.0.1` → `1.0.2`
+
 ## 2.12.0 — 2026-05-08
 
 ### Added (additive — `@amplify-ai/ui`)
