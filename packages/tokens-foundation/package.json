@@ -1,6 +1,6 @@
 {
   "name": "@amplify-ai/tokens-foundation",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "Amplify Design System — shared foundation tokens (spacing, radii, shadows, motion, surfaces, borders, fluid type, breakpoints, z-index)",
   "main": "dist/tokens.js",

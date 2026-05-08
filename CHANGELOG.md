@@ -2,6 +2,32 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.11.1 — 2026-05-08
+
+### Fixed (`@amplify-ai/tokens-foundation@2.1.1` and all product token packages)
+
+Canvas v2 primitives in `@amplify-ai/ui` (`BriefStrip`, `HistoryStrip`,
+`CouncilRail`, `VariantCard`, `StatusBar`, `SegmentedControl`) hard-code
+Tailwind arbitrary classes referencing a product-agnostic
+`--amp-semantic-*` family (e.g. `bg-[var(--amp-semantic-bg-accent-subtle)]`,
+`text-[var(--amp-semantic-text-default)]`). That family was not emitted
+by any token package — only product-prefixed
+`--amp-{brand,atmosphere,creator,studio}-semantic-*` was — so every
+primitive rendered unstyled in every consumer.
+
+`scripts/build-tokens.js` now appends a 26-entry alias block to every
+package's `dist/variables.css`. Each alias resolves to the product-
+prefixed source in the same package via `var()` indirection, so dark
+mode cascades automatically and the alias is always theme-correct for
+whichever product CSS is loaded. For `tokens-foundation` (unprefixed
+`amp` namespace), identity aliases are skipped to avoid self-cycles.
+
+This replaces the per-app hotfix in `magic-studio/src/app/globals.css`
+(One-Impression/magic-studio#66) — that block can be deleted in a
+follow-up PR after this lands and is published.
+
+Source: `magic-studio/docs/pixel-brief/STUDIO_DESIGN_PLAN.md` §3.1.
+
 ## 2.11.0 — 2026-05-07
 
 ### Added (additive — `@amplify-ai/ui`)
