@@ -1,7 +1,7 @@
 {
   "name": "@amplify-ai/tokens-creator",
-  "version": "2.0.1",
-  "description": "Amplify Creator App design tokens \u2014 SDUI theme colors, typography, and component tokens",
+  "version": "2.0.2",
+  "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
   "main": "dist/tokens.js",
   "exports": {
     "./css": "./dist/variables.css",
