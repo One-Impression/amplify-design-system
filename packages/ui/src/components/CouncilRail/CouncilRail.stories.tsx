@@ -127,3 +127,50 @@ export const WithAskQuestion: Story = {
     onAskQuestion: (text) => console.log('asked:', text),
   },
 };
+
+/**
+ * Option-D fidelity baseline — mirrors the council rail region of
+ * `studio-v2-option-d.html` verbatim.
+ *
+ * Mockup HTML region:
+ *
+ * ```html
+ * <aside class="d-council">
+ *   <div class="d-council-head">
+ *     <span class="title">COUNCIL</span>
+ *     <span class="for">on V1</span>
+ *   </div>
+ *   <div class="d-council-summary">
+ *     <b>3 of 4 agents agree V1</b>
+ *     <p>Heimdall flags conversion risk — review before lock.</p>
+ *   </div>
+ *   <div class="agent-card">
+ *     <div class="av" style="background:#6531FF">P</div>
+ *     <div>
+ *       <div class="who">Pixel</div>
+ *       <div class="role">Design Director</div>
+ *       <div class="body">Hierarchy and rhythm are right; spacing tokens consistent.</div>
+ *     </div>
+ *     <span class="verdict ok">ok</span>
+ *   </div>
+ *   …more cards…
+ *   <div class="ask">⌘/  ask the council a question</div>
+ * </aside>
+ * ```
+ *
+ * Visual contract:
+ * - 11px uppercase tertiary "Council" title; plain accent-text "on V1"
+ *   (no pill).
+ * - 24px square-ish (rounded-md) avatars, no full-circle.
+ * - 3px-rounded compact verdict badges (px-1.5 py-0.5 text-[10px]).
+ * - Dashed-border ask input pinned to the bottom.
+ */
+export const OptionDFidelity: Story = {
+  args: {
+    forVariantLabel: 'V1',
+    verdicts: fullCouncil,
+    summaryHeadline: '3 of 4 agents agree V1',
+    summaryDetail: 'Heimdall flags conversion risk — review before lock.',
+    onAskQuestion: (text) => console.log('asked:', text),
+  },
+};

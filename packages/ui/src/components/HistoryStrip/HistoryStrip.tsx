@@ -39,6 +39,12 @@ export interface HistoryStripProps
   generations: GenerationItem[];
   onSelect?: (genId: string) => void;
   onThumbSelect?: (genId: string, variantId: string) => void;
+  /**
+   * Optional trailing slot pushed to the right with `ml-auto`. Used by
+   * Studio v2 for the "live now" indicator (e.g. "AI sees the live page").
+   * Mirrors the Option-D mockup's `.live-now` element.
+   */
+  liveSlot?: React.ReactNode;
   className?: string;
 }
 
@@ -74,7 +80,8 @@ const baseThumb = cn(
 );
 
 const thumbStatusClasses: Record<VariantThumbStatus, string> = {
-  ready: 'bg-[var(--amp-semantic-bg-subtle)]',
+  ready:
+    'bg-[linear-gradient(135deg,var(--amp-semantic-bg-subtle),var(--amp-semantic-bg-canvas))]',
   generating:
     'amp-history-thumb--generating bg-[length:200%_100%] bg-[linear-gradient(90deg,var(--amp-semantic-bg-subtle)_0%,var(--amp-semantic-bg-raised)_50%,var(--amp-semantic-bg-subtle)_100%)]',
   error: 'bg-[var(--amp-semantic-bg-error-subtle)]',
@@ -158,7 +165,7 @@ const GenerationChip: React.FC<GenerationChipProps> = ({
             {thumb.status === 'win' && (
               <span
                 aria-hidden="true"
-                className="absolute right-0.5 top-0.5 h-1 w-1 rounded-full bg-[var(--amp-semantic-status-success)]"
+                className="absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-[var(--amp-semantic-status-success)] ring-2 ring-[var(--amp-semantic-bg-surface)]"
               />
             )}
             {thumb.status === 'error' && (
@@ -191,7 +198,7 @@ const GenerationChip: React.FC<GenerationChipProps> = ({
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export const HistoryStrip = React.forwardRef<HTMLDivElement, HistoryStripProps>(
-  ({ generations, onSelect, onThumbSelect, className, ...rest }, ref) => {
+  ({ generations, onSelect, onThumbSelect, liveSlot, className, ...rest }, ref) => {
     useInjectedKeyframes();
     const isEmpty = generations.length === 0;
 
@@ -234,13 +241,35 @@ export const HistoryStrip = React.forwardRef<HTMLDivElement, HistoryStripProps>(
               {i < generations.length - 1 && (
                 <span
                   aria-hidden="true"
-                  className="shrink-0 text-xs text-[var(--amp-semantic-text-tertiary)]"
+                  data-testid="history-strip-branchline"
+                  className={cn(
+                    'relative h-px w-4 shrink-0 self-center',
+                    'bg-[var(--amp-semantic-border-default)]',
+                  )}
                 >
-                  &rarr;
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+                      'bg-[var(--amp-semantic-bg-surface)] px-0.5 text-[11px] leading-none',
+                      'text-[var(--amp-semantic-text-tertiary)]',
+                    )}
+                  >
+                    &rarr;
+                  </span>
                 </span>
               )}
             </React.Fragment>
           ))
+        )}
+
+        {liveSlot != null && (
+          <span
+            data-testid="history-strip-live-slot"
+            className="ml-auto inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-[var(--amp-semantic-text-accent)]"
+          >
+            {liveSlot}
+          </span>
         )}
       </div>
     );

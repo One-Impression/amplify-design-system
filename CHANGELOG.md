@@ -2,6 +2,51 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.12.0 — 2026-05-08
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v2 Wave 4 — Option-D fidelity polish across four primitives so
+the Canvas surfaces consumed by `magic-studio` pixel-match the
+`studio-v2-option-d.html` mockup. All changes are additive: existing
+call sites compile and render unchanged; the polish manifests as
+visual treatment + two opt-in slot props.
+
+- **`BriefStrip`** — new `leading?: ReactNode` prop (default `"Brief"`,
+  rendered as 11px uppercase tertiary label before the chip list).
+  Chip radius tightened from `rounded-full` to `rounded-md` so chips
+  read as 7px-rounded-rect tokens, matching the mockup's `.d-bchip`.
+- **`HistoryStrip`** — new `liveSlot?: ReactNode` prop pushed to the
+  right with `ml-auto` (used for "AI sees the live page" indicator).
+  The Fragment-`→` connector between generations is now a styled
+  hairline branch-line span with a centered arrow on a surface
+  background. Mini-thumbs gain a 135deg gradient between subtle/canvas
+  bg tokens, and the `win` thumb dot is bumped from `1×1` to `1.5×1.5`
+  with a 2px surface ring so it reads as a true notification badge.
+- **`CouncilRail`** — heading restyled from `text-sm font-semibold` to
+  the 11px uppercase tertiary treatment used everywhere else in
+  Option-D. The `forVariantLabel` is now plain accent text (no pill).
+  Avatars are 24×24 `rounded-md` (not 28×28 `rounded-full`); verdict
+  badges shrink to `rounded-[3px] px-1.5 py-0.5`. Ask-the-council
+  input border switches to `border-dashed` to match the mockup's
+  `.ask` affordance.
+- **`SegmentedControl`** — already shipped with `shadow-sm` on the
+  active-segment highlight layer in 2.11.0; added a dedicated
+  `OptionDFidelity` story so Chromatic snapshots pin the Grid/Map
+  toggle visual against the mockup region.
+
+Each primitive now ships an `OptionDFidelity` Storybook story with the
+Option-D HTML region inlined as JSDoc; these stories are the visual
+contract Chromatic anchors against.
+
+### Versioned
+
+- `@amplify-ai/ui`: `2.11.0` → `2.12.0` — additive prop surface
+  (`leading`, `liveSlot`); no breaking visual changes for existing
+  consumers (`rounded-full` → `rounded-md` on `BriefStrip` chips and
+  the rail-header restyle are intentional brand-cascade alignments,
+  flagged here as the only visible deltas at non-Option-D call sites).
+
 ## 2.11.1 — 2026-05-08
 
 ### Fixed (`@amplify-ai/tokens-foundation@2.1.1` and all product token packages)

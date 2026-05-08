@@ -111,13 +111,30 @@ describe('HistoryStrip', () => {
     expect(onThumbSelect).toHaveBeenCalledTimes(1);
   });
 
-  it('renders branch arrow between consecutive generations', () => {
-    const { container } = render(<HistoryStrip generations={baseGenerations} />);
-    // Find arrow span — the only span containing the right-arrow glyph.
-    const arrows = Array.from(container.querySelectorAll('span')).filter((el) =>
-      el.textContent === '→',
+  it('renders styled branch-line connector between consecutive generations', () => {
+    render(<HistoryStrip generations={baseGenerations} />);
+    const branchlines = screen.getAllByTestId('history-strip-branchline');
+    expect(branchlines.length).toBe(1);
+    // The arrow glyph still lives inside the connector for visual feedback.
+    expect(branchlines[0].textContent).toBe('→');
+  });
+
+  it('renders the liveSlot pushed to the right when provided', () => {
+    render(
+      <HistoryStrip
+        generations={baseGenerations}
+        liveSlot={<span>AI sees the live page</span>}
+      />,
     );
-    expect(arrows.length).toBe(1);
+    const slot = screen.getByTestId('history-strip-live-slot');
+    expect(slot.textContent).toContain('AI sees the live page');
+    // ml-auto class is what pushes it right.
+    expect(slot.className).toContain('ml-auto');
+  });
+
+  it('does NOT render the liveSlot wrapper when liveSlot is missing', () => {
+    render(<HistoryStrip generations={baseGenerations} />);
+    expect(screen.queryByTestId('history-strip-live-slot')).toBeNull();
   });
 
   it('truncates thumbs beyond 4 with overflow indicator', () => {

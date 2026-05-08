@@ -53,6 +53,48 @@ export const Expandable: Story = {
   },
 };
 
+/**
+ * Option-D fidelity baseline — mirrors the brief strip region of the
+ * `studio-v2-option-d.html` mockup verbatim. Used as the visual contract
+ * Chromatic snapshots against.
+ *
+ * Mockup HTML region:
+ *
+ * ```html
+ * <div class="d-brief">
+ *   <span class="lead">Brief</span>
+ *   <span class="d-bchip"><span class="key">goal:</span> confident editorial</span>
+ *   <span class="d-bchip"><span class="key">for:</span> returning brands</span>
+ *   <span class="d-bchip lock">🔒 keep price column</span>
+ *   <span class="d-bchip lock">🔒 keep GST badge</span>
+ *   <span class="d-bchip"><span class="key">avoid:</span> tax footer</span>
+ *   <span class="d-bchip"><span class="key">refs:</span> Linear pricing · 2 more</span>
+ *   <span class="d-bchip"><span class="key">density:</span> cozy</span>
+ *   <span class="d-bchip add">+ add</span>
+ *   <span class="expand">⤢ expand</span>
+ * </div>
+ * ```
+ *
+ * Visual contract:
+ * - 11px uppercase tertiary "Brief" label, 7px-rounded chips.
+ * - Locked chips render with accent-soft background + lock glyph.
+ * - Trailing dashed "+ add" pill, "Expand brief" affordance pinned right.
+ */
+export const OptionDFidelity: Story = {
+  args: {
+    chips: [
+      { id: 'g', kind: 'goal', key: 'goal:', value: 'confident editorial' },
+      { id: 'a', kind: 'audience', key: 'for:', value: 'returning brands' },
+      { id: 'l1', kind: 'lock', value: 'keep price column', locked: true },
+      { id: 'l2', kind: 'lock', value: 'keep GST badge', locked: true },
+      { id: 'av', kind: 'avoid', key: 'avoid:', value: 'tax footer' },
+      { id: 'r', kind: 'ref', key: 'refs:', value: 'Linear pricing · 2 more' },
+      { id: 'd', kind: 'density', key: 'density:', value: 'cozy' },
+    ],
+    expandable: true,
+  },
+};
+
 export const Interactive: Story = {
   render: () => {
     const [chips, setChips] = React.useState<BriefChipItem[]>([

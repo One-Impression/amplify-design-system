@@ -123,4 +123,21 @@ describe('BriefStrip', () => {
     // Lock glyph is rendered as a sibling span; check its presence in DOM.
     expect(lockChip.textContent).toContain('serif heading');
   });
+
+  it('renders the default leading label "Brief" before the chip list', () => {
+    render(<BriefStrip chips={baseChips} />);
+    const leading = screen.getByTestId('brief-strip-leading');
+    expect(leading.textContent).toBe('Brief');
+  });
+
+  it('accepts a custom leading node', () => {
+    render(<BriefStrip chips={baseChips} leading={<span>Inputs</span>} />);
+    const leading = screen.getByTestId('brief-strip-leading');
+    expect(leading.textContent).toBe('Inputs');
+  });
+
+  it('omits the leading label entirely when leading={null}', () => {
+    render(<BriefStrip chips={baseChips} leading={null} />);
+    expect(screen.queryByTestId('brief-strip-leading')).toBeNull();
+  });
 });

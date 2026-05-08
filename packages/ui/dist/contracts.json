@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-07T09:08:09.991Z",
+  "generatedAt": "2026-05-08T18:52:27.093Z",
   "tsVersion": "5.9.3",
   "componentCount": 114,
   "statusBreakdown": {
@@ -180,7 +180,7 @@
       "kind": "forwardRef",
       "variants": null,
       "sizes": null,
-      "propCount": 8,
+      "propCount": 9,
       "subcomponents": [],
       "lifecycle": {
         "status": "beta",
@@ -755,7 +755,7 @@
       "kind": "forwardRef",
       "variants": null,
       "sizes": null,
-      "propCount": 4,
+      "propCount": 5,
       "subcomponents": [],
       "lifecycle": {
         "status": "beta",
