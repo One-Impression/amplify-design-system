@@ -125,7 +125,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ verdict }) => {
         <span
           aria-hidden="true"
           className={cn(
-            'inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full',
+            'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md',
             'text-xs font-semibold text-[var(--amp-semantic-text-inverse)]',
           )}
           style={{ backgroundColor: verdict.agentColor }}
@@ -142,7 +142,7 @@ export const CouncilCard: React.FC<CouncilCardProps> = ({ verdict }) => {
         </div>
         <span
           className={cn(
-            'shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide',
+            'shrink-0 rounded-[3px] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide',
             v.className,
           )}
         >
@@ -203,15 +203,12 @@ export const CouncilRail = React.forwardRef<HTMLElement, CouncilRailProps>(
         {...rest}
       >
         <header className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-[var(--amp-semantic-text-default)]">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--amp-semantic-text-tertiary)]">
             Council
           </h3>
           {forVariantLabel && (
             <span
-              className={cn(
-                'rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide',
-                'bg-[var(--amp-semantic-bg-accent-subtle)] text-[var(--amp-semantic-text-accent)]',
-              )}
+              className="text-[11px] font-medium text-[var(--amp-semantic-text-accent)]"
               data-testid="council-rail-variant-label"
             >
               on {forVariantLabel}
@@ -257,7 +254,7 @@ export const CouncilRail = React.forwardRef<HTMLElement, CouncilRailProps>(
 
         <form
           onSubmit={handleSubmit}
-          className="mt-auto flex items-center gap-1.5 rounded-md border border-[var(--amp-semantic-border-default)] bg-[var(--amp-semantic-bg-surface)] px-2 py-1.5"
+          className="mt-auto flex items-center gap-1.5 rounded-md border border-dashed border-[var(--amp-semantic-border-default)] bg-[var(--amp-semantic-bg-surface)] px-2 py-1.5"
         >
           <span
             aria-hidden="true"

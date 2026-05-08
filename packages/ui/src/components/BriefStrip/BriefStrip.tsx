@@ -44,13 +44,19 @@ export interface BriefStripProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   /** When true, shows an "Expand brief" affordance on the right. */
   expandable?: boolean;
   onExpand?: () => void;
+  /**
+   * Leading label rendered before the chip list. Defaults to `"Brief"` —
+   * matches the Option-D mockup (11px, 600, uppercase, tertiary text).
+   * Pass any node to override; pass `null` to suppress entirely.
+   */
+  leading?: React.ReactNode;
   className?: string;
 }
 
 // ─── Visual tokens ───────────────────────────────────────────────────────────
 
 const baseChipClasses = cn(
-  'inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium',
+  'inline-flex shrink-0 items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium',
   'transition-colors duration-150',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
   'focus-visible:ring-[var(--amp-semantic-border-focus)]'
@@ -81,6 +87,7 @@ export const BriefStrip = React.forwardRef<HTMLDivElement, BriefStripProps>(
       onParseInput,
       expandable = false,
       onExpand,
+      leading = 'Brief',
       className,
       ...rest
     },
@@ -136,6 +143,15 @@ export const BriefStrip = React.forwardRef<HTMLDivElement, BriefStripProps>(
         )}
         {...rest}
       >
+        {leading != null && (
+          <span
+            className="shrink-0 text-[11px] font-semibold uppercase tracking-wide text-[var(--amp-semantic-text-tertiary)]"
+            aria-hidden="true"
+            data-testid="brief-strip-leading"
+          >
+            {leading}
+          </span>
+        )}
         <div
           className="flex min-w-0 flex-1 items-center gap-1.5"
           data-testid="brief-strip-chips"
@@ -211,7 +227,7 @@ export const BriefStrip = React.forwardRef<HTMLDivElement, BriefStripProps>(
               placeholder="Type a goal, audience, or constraint…"
               aria-label="Add to brief"
               className={cn(
-                'inline-flex min-w-[14rem] shrink-0 items-center rounded-full',
+                'inline-flex min-w-[14rem] shrink-0 items-center rounded-md',
                 'border border-dashed border-[var(--amp-semantic-border-default)]',
                 'bg-transparent px-2.5 py-1 text-xs',
                 'text-[var(--amp-semantic-text-default)]',

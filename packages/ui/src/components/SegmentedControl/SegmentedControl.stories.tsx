@@ -163,6 +163,51 @@ export const Disabled: Story = {
   },
 };
 
+/**
+ * Option-D fidelity baseline — mirrors the Grid/Map view-mode toggle in
+ * `studio-v2-option-d.html`. Active segment is a soft surface pill with
+ * a subtle shadow; inactive segments stay tertiary text.
+ *
+ * Mockup HTML region:
+ *
+ * ```html
+ * <div class="seg-toggle">
+ *   <button class="seg active"><svg/>Grid</button>
+ *   <button class="seg"><svg/>Map</button>
+ * </div>
+ * ```
+ *
+ * Visual contract:
+ * - Pill wrapper with subtle border + bg-subtle background.
+ * - Active segment slides to a surface pill with `shadow-sm`.
+ * - Density-aware sizing; reduced-motion disables the slide.
+ */
+export const OptionDFidelity: Story = {
+  render: () => {
+    const [value, setValue] = React.useState<'grid' | 'map'>('grid');
+    const opts: SegmentedControlOption<'grid' | 'map'>[] = [
+      { value: 'grid', label: 'Grid', icon: <GridIcon /> },
+      { value: 'map', label: 'Map', icon: <MapIcon /> },
+    ];
+    return (
+      <SegmentedControl<'grid' | 'map'>
+        value={value}
+        options={opts}
+        onChange={setValue}
+        ariaLabel="View mode"
+        size="sm"
+      />
+    );
+  },
+  args: {
+    value: 'grid',
+    options: modeOptions,
+    onChange: () => undefined,
+    ariaLabel: 'View mode',
+    size: 'sm',
+  },
+};
+
 export const DensityCompact: Story = {
   render: () => {
     const [value, setValue] = React.useState<Mode>('grid');
