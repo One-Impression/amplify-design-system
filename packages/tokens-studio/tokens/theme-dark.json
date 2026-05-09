@@ -13,10 +13,32 @@
     },
     "layout": {
       "$type": "dimension",
-      "toolbar-h":      { "$value": "56px" },
-      "drawer-h":       { "$value": "48px" },
-      "drawer-h-open":  { "$value": "240px" },
-      "pane-left-w":    { "$value": "30%" }
+      "toolbar-h":          { "$value": "56px" },
+      "drawer-h":           { "$value": "48px" },
+      "drawer-h-open":      { "$value": "240px" },
+      "pane-left-w":        { "$value": "30%" },
+      "topbar-h":           { "$value": "56px",   "$description": "Studio v0 cockpit top bar height (Option D mockup)" },
+      "thread-max-w":       { "$value": "1180px", "$description": "Studio v0 cockpit thread / main column max width" },
+      "composer-max-w":     { "$value": "980px",  "$description": "Studio v0 sticky composer max width" },
+      "flow-sidebar-w":     { "$value": "260px",  "$description": "Studio v0 flow sidebar expanded width" },
+      "flow-sidebar-rail-w":{ "$value": "44px",   "$description": "Studio v0 flow sidebar collapsed rail width" },
+      "history-panel-w":    { "$value": "360px",  "$description": "Studio v0 history / runs panel width" },
+      "variant-card-h":     { "$value": "580px",  "$description": "Studio v0 variant card height" },
+      "variant-card-w":     { "$value": "268px",  "$description": "Studio v0 variant card width" }
+    },
+    "aspect": {
+      "$type": "dimension",
+      "$description": "Studio v0 device-frame aspect ratios for variant previews (Option D mockup) — values identical across themes",
+      "iphone-15-pro-max":  { "$value": "1 / 2.17" },
+      "iphone-15-pro":      { "$value": "1 / 2.17" },
+      "galaxy-s24":         { "$value": "1 / 2.17" },
+      "ipad-pro-13":        { "$value": "1 / 1.33" },
+      "ipad-air":           { "$value": "1 / 1.44" },
+      "apple-watch-ultra":  { "$value": "1 / 1.22" },
+      "apple-watch-9":      { "$value": "1 / 1.22" },
+      "mac":                { "$value": "1.6 / 1" },
+      "mac-1280":           { "$value": "1.6 / 1" },
+      "flow-thumb":         { "$value": "160 / 100" }
     },
     "map": {
       "$type": "color",

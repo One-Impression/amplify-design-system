@@ -32,6 +32,8 @@
     "status-error":         { "$value": "{color.red.600}" },
     "status-error-bg":      { "$value": "rgba(220, 38, 38, 0.08)" },
     "status-info":          { "$value": "{color.blue.600}" },
-    "status-info-bg":       { "$value": "rgba(37, 99, 235, 0.08)" }
+    "status-info-bg":       { "$value": "rgba(37, 99, 235, 0.08)" },
+
+    "color-info-soft":      { "$value": "rgba(37, 99, 235, 0.08)", "$description": "Subtle informational background tint — Studio v0 cockpit info panels / hints (mirrors status-info-bg, exposed under semantic.color-* for product consumers)" }
   }
 }

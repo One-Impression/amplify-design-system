@@ -13,10 +13,32 @@
     },
     "layout": {
       "$type": "dimension",
-      "toolbar-h":      { "$value": "56px",  "$description": "Top toolbar chrome height — paired with --studio-toolbar-h" },
-      "drawer-h":       { "$value": "48px",  "$description": "Bottom drawer collapsed height — paired with --studio-drawer-h" },
-      "drawer-h-open":  { "$value": "240px", "$description": "Bottom drawer expanded height — paired with --studio-drawer-h-open" },
-      "pane-left-w":    { "$value": "30%",   "$description": "Left brief pane width — paired with --studio-pane-left-w" }
+      "toolbar-h":          { "$value": "56px",   "$description": "Top toolbar chrome height — paired with --studio-toolbar-h" },
+      "drawer-h":           { "$value": "48px",   "$description": "Bottom drawer collapsed height — paired with --studio-drawer-h" },
+      "drawer-h-open":      { "$value": "240px",  "$description": "Bottom drawer expanded height — paired with --studio-drawer-h-open" },
+      "pane-left-w":        { "$value": "30%",    "$description": "Left brief pane width — paired with --studio-pane-left-w" },
+      "topbar-h":           { "$value": "56px",   "$description": "Studio v0 cockpit top bar height (Option D mockup)" },
+      "thread-max-w":       { "$value": "1180px", "$description": "Studio v0 cockpit thread / main column max width (Option D mockup)" },
+      "composer-max-w":     { "$value": "980px",  "$description": "Studio v0 sticky composer max width (Option D mockup)" },
+      "flow-sidebar-w":     { "$value": "260px",  "$description": "Studio v0 flow sidebar expanded width (Option D mockup)" },
+      "flow-sidebar-rail-w":{ "$value": "44px",   "$description": "Studio v0 flow sidebar collapsed rail width (Option D mockup)" },
+      "history-panel-w":    { "$value": "360px",  "$description": "Studio v0 history / runs panel width (Option D mockup)" },
+      "variant-card-h":     { "$value": "580px",  "$description": "Studio v0 variant card height (Option D mockup)" },
+      "variant-card-w":     { "$value": "268px",  "$description": "Studio v0 variant card width (Option D mockup)" }
+    },
+    "aspect": {
+      "$type": "dimension",
+      "$description": "Studio v0 device-frame aspect ratios for variant previews (Option D mockup)",
+      "iphone-15-pro-max":  { "$value": "1 / 2.17",  "$description": "iPhone 15 Pro Max device frame aspect" },
+      "iphone-15-pro":      { "$value": "1 / 2.17",  "$description": "iPhone 15 Pro device frame aspect" },
+      "galaxy-s24":         { "$value": "1 / 2.17",  "$description": "Samsung Galaxy S24 device frame aspect" },
+      "ipad-pro-13":        { "$value": "1 / 1.33",  "$description": "iPad Pro 13\" device frame aspect" },
+      "ipad-air":           { "$value": "1 / 1.44",  "$description": "iPad Air device frame aspect" },
+      "apple-watch-ultra":  { "$value": "1 / 1.22",  "$description": "Apple Watch Ultra device frame aspect" },
+      "apple-watch-9":      { "$value": "1 / 1.22",  "$description": "Apple Watch Series 9 device frame aspect" },
+      "mac":                { "$value": "1.6 / 1",   "$description": "MacBook / desktop landscape aspect" },
+      "mac-1280":           { "$value": "1.6 / 1",   "$description": "MacBook / desktop 1280-wide aspect" },
+      "flow-thumb":         { "$value": "160 / 100", "$description": "Flow thumbnail aspect (Studio v0 cockpit)" }
     },
     "map": {
       "$type": "color",
