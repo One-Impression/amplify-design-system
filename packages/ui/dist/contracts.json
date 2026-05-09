@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-08T19:04:36.415Z",
+  "generatedAt": "2026-05-09T09:58:05.031Z",
   "tsVersion": "5.9.3",
-  "componentCount": 114,
+  "componentCount": 120,
   "statusBreakdown": {
     "stable": 46,
     "alpha": 15,
-    "beta": 53
+    "beta": 59
   },
   "components": [
     {
@@ -496,6 +496,21 @@
       }
     },
     {
+      "name": "DiffOverlay",
+      "contract": "contracts/DiffOverlay.json",
+      "filePath": "packages/ui/src/components/DiffOverlay/DiffOverlay.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — red/green pixel-diff layer over the Live pane; modes: highlight (mix-blend-multiply bands + legend) / swipe (vertical curtain) / side-by-side (1fr/1fr grid)."
+      }
+    },
+    {
       "name": "Drawer",
       "contract": "contracts/Drawer.json",
       "filePath": "packages/ui/src/components/Drawer/Drawer.tsx",
@@ -639,6 +654,21 @@
       "lifecycle": {
         "status": "stable",
         "since": "1.0.0"
+      }
+    },
+    {
+      "name": "FlowContextSidebar",
+      "contract": "contracts/FlowContextSidebar.json",
+      "filePath": "packages/ui/src/components/FlowContextSidebar/FlowContextSidebar.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 9,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — left-rail multi-step flow navigator implementing FlowSidebar SPEC v0 (PR #101); 260px expanded / 44px rail; status (default/in-progress/complete/skipped); roving tabindex; href|button chips; sticky Apply-to-all."
       }
     },
     {
@@ -917,6 +947,21 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.3.0"
+      }
+    },
+    {
+      "name": "LivePaneToggle",
+      "contract": "contracts/LivePaneToggle.json",
+      "filePath": "packages/ui/src/components/LivePaneToggle/LivePaneToggle.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — 3-state Live/Variants/Split pane control for the Magic Studio cockpit; W3C radiogroup keyboard pattern; data-live-url surface for the consumer's iframe."
       }
     },
     {
@@ -1286,6 +1331,21 @@
       }
     },
     {
+      "name": "RecentChangesPanel",
+      "contract": "contracts/RecentChangesPanel.json",
+      "filePath": "packages/ui/src/components/RecentChangesPanel/RecentChangesPanel.tsx",
+      "kind": "function",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — right side-panel listing the last N git commits touching a file; 360px width via --amp-studio-theme-layout-history-panel-w; Esc closes."
+      }
+    },
+    {
       "name": "RecoReason",
       "contract": "contracts/RecoReason.json",
       "filePath": "packages/ui/src/components/RecoReason/RecoReason.tsx",
@@ -1297,6 +1357,36 @@
       "lifecycle": {
         "status": "stable",
         "since": "1.0.0"
+      }
+    },
+    {
+      "name": "ReferenceSnapshotPill",
+      "contract": "contracts/ReferenceSnapshotPill.json",
+      "filePath": "packages/ui/src/components/ReferenceSnapshotPill/ReferenceSnapshotPill.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — 'Reference snapshot taken at HH:MM' pill rendered in the Studio top-bar; click opens the original-screenshot modal (consumer-rendered)."
+      }
+    },
+    {
+      "name": "ReplyAffordance",
+      "contract": "contracts/ReplyAffordance.json",
+      "filePath": "packages/ui/src/components/ReplyAffordance/ReplyAffordance.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "beta",
+        "since": "2.13.0",
+        "notes": "Studio v0 Wave 4 — hover-revealed pill on a VariantCard that pre-fills the composer with @V<n> (Gen <m>): for chained iteration."
       }
     },
     {

@@ -2,6 +2,97 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.13.0 — 2026-05-08
+
+### Added (additive — `@amplify-ai/ui`)
+
+Studio v0 Wave 4 — six new primitives that ship the Magic Studio
+Option-D cockpit shell. Source-of-truth contracts:
+
+- `magic-studio/docs/mockups/option-d.html` (canonical mockup)
+- `magic-studio/docs/mockups/OPTION_D_SPEC.md` (binding spec)
+- `packages/ui/src/components/FlowSidebar/SPEC.md` (FlowSidebar v0
+  contract from PR #101 — implemented here as `FlowContextSidebar`)
+
+All six ship as `lifecycle.status=beta`, `since=2.13.0`. Pure additive —
+no breaking changes to existing primitives.
+
+- **`LivePaneToggle`** — 3-state segmented control (Live / Variants /
+  Split) for the Studio top bar. Distinct from the generic
+  `SegmentedControl` because it owns pane-state semantics: switching to
+  `live` or `split` is the consumer's signal to mount a live iframe of
+  `liveUrl`. Standard W3C radiogroup keyboard pattern with roving
+  tabindex; data-live-url surface for the consumer's iframe; honours
+  `prefers-reduced-motion`.
+- **`ReferenceSnapshotPill`** — "Reference snapshot · 3:42 PM" pill
+  rendered in the top bar after the first generate. Click opens the
+  original-screenshot modal (consumer-rendered). Time formatting
+  defaults to `Intl.DateTimeFormat` with locale-aware `h:mm a`; can be
+  overridden via `formatTime` for visual-regression-stable Storybook /
+  Chromatic snapshots. ISO `capturedAt` exposed via
+  `data-captured-at`; URL via `data-screenshot-url`.
+- **`DiffOverlay`** — red/green pixel-diff layer over the Live pane.
+  Three modes: `highlight` (translucent multiply bands + legend pill),
+  `swipe` (vertical curtain at `swipePercent` 0–100, defaults 50;
+  `clip-path` for clean curtain reveal), and `side-by-side` (1fr / 1fr
+  grid). `role="img"` with descriptive aria-label.
+- **`FlowContextSidebar`** — left-rail multi-step flow navigator
+  implementing the `FlowSidebar` v0 contract from PR #101 (with
+  Studio-scoped tokens). 260 px expanded / 44 px rail; per-step status
+  (`default` / `in-progress` / `complete` / `skipped`) drives chip
+  treatment + aria-label suffix; roving tabindex; `Enter` / `Space`
+  activate; `Home` / `End` jump first / last; `<a href>` chips render
+  as anchors but still emit `onStepClick`; sticky bottom Apply-to-all
+  action; collapse toggle with `aria-expanded` + `aria-controls`.
+  Empty `steps: []` returns `null` (consumer-gated render).
+- **`RecentChangesPanel`** — right side-panel listing the last N git
+  commits touching a file. 360 px width via
+  `--amp-studio-theme-layout-history-panel-w`; `role="complementary"`
+  with `aria-labelledby` linked to the heading; `Esc` closes; commits
+  with `url` render as `<a target="_blank" rel="noopener>`. Default
+  timestamp formatter uses `Intl.RelativeTimeFormat`; overridable.
+  Includes empty-state + single-commit fallbacks.
+- **`ReplyAffordance`** — hover-revealed pill on a `VariantCard` that
+  pre-fills the composer with `@V<n> (Gen <m>):`. Exposes the
+  reference syntax via `data-ref-syntax`; gen / variant via dedicated
+  data attributes for analytics. Native `<button>` semantics so
+  `Enter` / `Space` activate. Visibility is owned by the parent
+  `VariantCard`'s hover state — this primitive renders unconditionally.
+
+### Token usage
+
+All six primitives consume the existing `--amp-studio-theme-*` and
+`--amp-semantic-*` token surface that ships from
+`@amplify-ai/tokens-studio` 1.0.2 + the `--amp-semantic-*` alias block
+landed in 2.11.2 / 2.12.0. Two token references propose new tokens
+that the matching `tokens-studio` bump (sibling PR — token-bump
+sub-agent) will publish:
+
+- `--amp-studio-theme-layout-history-panel-w` (used by
+  `RecentChangesPanel`; default 360 px fallback).
+- `--amp-studio-theme-layout-flow-step-chip-h` (used by
+  `FlowContextSidebar`; default 64 px fallback).
+
+Both have inline `var(--name, fallback)` defaults, so the components
+render correctly even before the token-bump publishes. The
+`FlowSidebar` SPEC also calls for
+`--amp-studio-theme-layout-flow-sidebar-w` and
+`-flow-sidebar-rail-w` — both are already declared in
+`magic-studio/docs/mockups/OPTION_D_SPEC.md` §7 and ship in the
+sibling token-bump PR.
+
+### Versioned
+
+- `@amplify-ai/ui`: `2.12.0` → `2.13.0`
+
+### Publish gating
+
+This PR does NOT publish `@amplify-ai/ui@2.13.0` to npm. Publish is
+gated on the matching `tokens-studio` PR merging first so consumers
+picking up `@amplify-ai/ui` 2.13.0 alongside `@amplify-ai/tokens-studio`
+get a consistent token surface. The orchestrating coordinator handles
+the sequence.
+
 ## 2.11.3 — 2026-05-09
 
 ### Added — Studio v0 cockpit tokens (Option D mockup)

@@ -115,6 +115,12 @@
     "MapEdge": { "status": "beta", "since": "2.10.0", "notes": "Studio v2 Map mode — SVG <path>-only edge primitive (consumer wraps in <svg>); cubic-bezier connector with active/dashed states." },
     "PhaseRibbon": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — numbered phase indicator (1 → 2 → 3 → 4) above a workflow; pending/active/done/error states; aria-current=step on the active phase." },
     "SegmentedControl": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — generalised two-or-more-button segmented control with sliding accent highlight; W3C radiogroup keyboard pattern; honours prefers-reduced-motion and density." },
-    "StatusBar": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — slim ~24px horizontal status strip; dl/dt/dd semantics; mono variant for SHAs/versions; align=between for left/right split footers." }
+    "StatusBar": { "status": "beta", "since": "2.11.0", "notes": "Studio v2 Wave 3 — slim ~24px horizontal status strip; dl/dt/dd semantics; mono variant for SHAs/versions; align=between for left/right split footers." },
+    "LivePaneToggle": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — 3-state Live/Variants/Split pane control for the Magic Studio cockpit; W3C radiogroup keyboard pattern; data-live-url surface for the consumer's iframe." },
+    "ReferenceSnapshotPill": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — 'Reference snapshot taken at HH:MM' pill rendered in the Studio top-bar; click opens the original-screenshot modal (consumer-rendered)." },
+    "DiffOverlay": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — red/green pixel-diff layer over the Live pane; modes: highlight (mix-blend-multiply bands + legend) / swipe (vertical curtain) / side-by-side (1fr/1fr grid)." },
+    "FlowContextSidebar": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — left-rail multi-step flow navigator implementing FlowSidebar SPEC v0 (PR #101); 260px expanded / 44px rail; status (default/in-progress/complete/skipped); roving tabindex; href|button chips; sticky Apply-to-all." },
+    "RecentChangesPanel": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — right side-panel listing the last N git commits touching a file; 360px width via --amp-studio-theme-layout-history-panel-w; Esc closes." },
+    "ReplyAffordance": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — hover-revealed pill on a VariantCard that pre-fills the composer with @V<n> (Gen <m>): for chained iteration." }
   }
 }
