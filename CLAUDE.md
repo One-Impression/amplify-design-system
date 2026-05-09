@@ -51,11 +51,38 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton,
+                        and Studio v0 primitives — see below)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### `@amplify-ai/ui` — Studio v0 primitives (Wave 4, v2.13.0)
+
+Six new **beta** components (`lifecycle.status=beta`, `since=2.13.0`) that implement the Magic Studio Option-D cockpit shell. Source-of-truth contracts:
+
+- `magic-studio/docs/mockups/option-d.html` — canonical mockup
+- `magic-studio/docs/mockups/OPTION_D_SPEC.md` — binding spec
+- `packages/ui/src/components/FlowSidebar/SPEC.md` — FlowSidebar v0 contract (PR #101)
+
+| Component | Key props | Notes |
+|---|---|---|
+| `LivePaneToggle` | `value: 'live'\|'variants'\|'split'`, `onChange`, `liveUrl?`, `disabled?` | 3-state segmented control for the Studio top bar; W3C radiogroup keyboard pattern; `data-live-url` surface for consumer iframe |
+| `ReferenceSnapshotPill` | `capturedAt: Date`, `screenshotUrl: string`, `onClick?`, `formatTime?`, `label?` | Top-bar pill showing snapshot capture time; `Intl.DateTimeFormat` default; use `formatTime` for VR-stable Storybook/Chromatic snapshots |
+| `DiffOverlay` | `liveScreenshot`, `variantScreenshot`, `mode: 'highlight'\|'swipe'\|'side-by-side'`, `swipePercent?`, `showLegend?`, `ariaLabel?` | Pixel-diff layer over the Live pane; `role="img"`; swipe curtain via `clip-path` |
+| `FlowContextSidebar` | `flowName`, `steps: FlowStep[]`, `activeStepId`, `collapsed?`, `onStepClick?`, `onCollapse?`, `onApplyToAll?`, `applyToAllLabel?` | Left-rail multi-step navigator; 260 px expanded / 44 px rail; empty `steps: []` returns `null` |
+| `RecentChangesPanel` | `filePath`, `commits: GitCommit[]`, `onClose`, `formatTime?` | Right side-panel of last N git commits; `role="complementary"`; `Esc` closes |
+| `ReplyAffordance` | `variantRef: { gen: number; variant: number\|string }`, `onClick`, `label?` | Hover-revealed pill on a `VariantCard`; pre-fills composer with `@V<n> (Gen <m>):`; visibility owned by parent hover state |
+
+**Token dependencies:** All six consume the existing `--amp-studio-theme-*` and `--amp-semantic-*` surface from `@amplify-ai/tokens-studio` 1.0.2. Four new layout tokens are proposed and will be published in a sibling `tokens-studio` PR; each has an inline `var(--name, fallback)` default so components render correctly before that PR merges:
+
+- `--amp-studio-theme-layout-history-panel-w` (360 px — `RecentChangesPanel`)
+- `--amp-studio-theme-layout-flow-sidebar-w` (260 px — `FlowContextSidebar`)
+- `--amp-studio-theme-layout-flow-sidebar-rail-w` (44 px — `FlowContextSidebar`)
+- `--amp-studio-theme-layout-flow-step-chip-h` (64 px — `FlowContextSidebar`)
+
+**Publish gating:** `@amplify-ai/ui@2.13.0` is **NOT yet published to npm**. Publish is gated on the matching `tokens-studio` sibling PR merging first to ensure consumers get a consistent token surface.
 
 ## Token File Format
 
