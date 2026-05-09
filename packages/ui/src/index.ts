@@ -602,3 +602,55 @@ export type {
 // StatusBar
 export { StatusBar } from './components/StatusBar';
 export type { StatusBarProps, StatusBarItem } from './components/StatusBar';
+
+// ─── Studio v0 primitives (Wave 4 — 2.13.0) ──────────────────────────
+// Six new primitives that ship the Magic Studio Option-D cockpit shell.
+// All consume the `--amp-studio-theme-*` token surface; the matching
+// `tokens-studio` bump lands in a sibling PR (see PR body).
+//
+// Source-of-truth contracts:
+//   - magic-studio/docs/mockups/option-d.html
+//   - magic-studio/docs/mockups/OPTION_D_SPEC.md
+//   - packages/ui/src/components/FlowSidebar/SPEC.md (PR #101)
+
+// LivePaneToggle — 3-state Live / Variants / Split control
+export { LivePaneToggle } from './components/LivePaneToggle';
+export type {
+  LivePaneToggleProps,
+  LivePaneMode,
+} from './components/LivePaneToggle';
+
+// ReferenceSnapshotPill — "Reference snapshot · 3:42 PM" pill
+export { ReferenceSnapshotPill } from './components/ReferenceSnapshotPill';
+export type { ReferenceSnapshotPillProps } from './components/ReferenceSnapshotPill';
+
+// DiffOverlay — red/green pixel diff layer (highlight / swipe / side-by-side)
+export { DiffOverlay } from './components/DiffOverlay';
+export type {
+  DiffOverlayProps,
+  DiffOverlayMode,
+} from './components/DiffOverlay';
+
+// FlowContextSidebar — left rail multi-step flow navigator (FlowSidebar
+// SPEC v0 implementation, scoped to the Studio cockpit)
+export { FlowContextSidebar } from './components/FlowContextSidebar';
+export type {
+  FlowContextSidebarProps,
+  FlowStep,
+  FlowStepStatus,
+  FlowStepBadge,
+} from './components/FlowContextSidebar';
+
+// RecentChangesPanel — right side-panel of last N git commits
+export { RecentChangesPanel } from './components/RecentChangesPanel';
+export type {
+  RecentChangesPanelProps,
+  GitCommit,
+} from './components/RecentChangesPanel';
+
+// ReplyAffordance — hover-revealed pill that pre-fills @V<n> (Gen <m>):
+export { ReplyAffordance } from './components/ReplyAffordance';
+export type {
+  ReplyAffordanceProps,
+  VariantRef,
+} from './components/ReplyAffordance';
