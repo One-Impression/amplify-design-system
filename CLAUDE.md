@@ -47,15 +47,32 @@ npm run storybook    # Launch Storybook at port 6006
 
 ```
 packages/
-  tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints)
+  tokens-foundation/  — Shared primitives (spacing, radii, shadows, motion, surfaces, borders, fluid type, breakpoints, z-index)
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-studio/      — Magic Studio cockpit tokens (layout dims, device aspect ratios, cockpit chrome; consumed only by studio.amplify.club)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### Token placement rule
+| Scope | Package |
+|---|---|
+| Cockpit-only layout / aspect dims | `@amplify-ai/tokens-studio` |
+| Cross-product shadows / semantic colors | `@amplify-ai/tokens-foundation` (cascades to brand, atmosphere, creator) |
+
+**tokens-studio token categories (as of v1.0.3)**
+- `theme.layout.*` — cockpit chrome dimensions (topbar height, thread/composer max-widths, sidebar widths, variant card size)
+- `theme.aspect.*` — device-frame aspect ratios for variant previews (iPhone, Galaxy, iPad, Apple Watch, Mac, flow thumbnail)
+
+**tokens-foundation additions (as of v2.1.3)**
+- `shadow.ring-accent` — accent focus/selection ring; consumes `--amp-semantic-border-accent` via `var()` at runtime
+- `shadow.composer` — upward shadow for sticky composers / bottom bars
+- `shadow.device` — drop shadow under variant device frames
+- `semantic.color-info-soft` — subtle info background tint (light: `rgba(37,99,235,0.08)`, dark: `rgba(59,130,246,0.12)`)
 
 ## Token File Format
 
