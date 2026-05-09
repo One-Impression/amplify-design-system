@@ -18,6 +18,10 @@
 
     "accent-sm": { "$value": "0 1px 4px 0 rgba(101, 49, 255, 0.15)", "$description": "Coloured accent shadow — subtle (focus rings, hover hint)" },
     "accent-md": { "$value": "0 4px 12px -2px rgba(101, 49, 255, 0.25)", "$description": "Coloured accent shadow — standard (CTAs, active cards)" },
-    "accent-lg": { "$value": "0 10px 25px -4px rgba(101, 49, 255, 0.35)", "$description": "Coloured accent shadow — bold (hero cards, premium emphasis)" }
+    "accent-lg": { "$value": "0 10px 25px -4px rgba(101, 49, 255, 0.35)", "$description": "Coloured accent shadow — bold (hero cards, premium emphasis)" },
+
+    "ring-accent": { "$value": "0 0 0 2px var(--amp-semantic-border-accent)", "$description": "Accent focus / selection ring (Studio v0 cockpit; consumes semantic.border-accent runtime variable)" },
+    "composer":    { "$value": "0 -4px 12px -4px rgba(28, 25, 23, 0.08)", "$description": "Subtle upward shadow for sticky composers / bottom bars (Studio v0 cockpit)" },
+    "device":      { "$value": "0 12px 32px -8px rgba(28, 25, 23, 0.18), 0 4px 12px -4px rgba(28, 25, 23, 0.10)", "$description": "Drop shadow under variant device frames (Studio v0 cockpit)" }
   }
 }

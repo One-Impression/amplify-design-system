@@ -2,6 +2,53 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## 2.11.3 — 2026-05-09
+
+### Added — Studio v0 cockpit tokens (Option D mockup)
+
+Adds 23 tokens required by the Studio v0 cockpit (`magic-studio/docs/mockups/option-d.html`,
+spec at `magic-studio/docs/mockups/OPTION_D_SPEC.md`). Layout + aspect tokens are scoped
+to `@amplify-ai/tokens-studio` (cockpit-only); the 4 new shadow / semantic tokens land in
+`@amplify-ai/tokens-foundation` so brand, atmosphere, and creator inherit them via the
+existing cascade.
+
+#### `@amplify-ai/tokens-studio` (`theme.layout.*`, 8 new)
+- `--amp-studio-theme-layout-topbar-h: 56px`
+- `--amp-studio-theme-layout-thread-max-w: 1180px`
+- `--amp-studio-theme-layout-composer-max-w: 980px`
+- `--amp-studio-theme-layout-flow-sidebar-w: 260px`
+- `--amp-studio-theme-layout-flow-sidebar-rail-w: 44px`
+- `--amp-studio-theme-layout-history-panel-w: 360px`
+- `--amp-studio-theme-layout-variant-card-h: 580px`
+- `--amp-studio-theme-layout-variant-card-w: 268px`
+
+#### `@amplify-ai/tokens-studio` (`theme.aspect.*`, 10 new)
+- `--amp-studio-theme-aspect-iphone-15-pro-max: 1 / 2.17`
+- `--amp-studio-theme-aspect-iphone-15-pro: 1 / 2.17`
+- `--amp-studio-theme-aspect-galaxy-s24: 1 / 2.17`
+- `--amp-studio-theme-aspect-ipad-pro-13: 1 / 1.33`
+- `--amp-studio-theme-aspect-ipad-air: 1 / 1.44`
+- `--amp-studio-theme-aspect-apple-watch-ultra: 1 / 1.22`
+- `--amp-studio-theme-aspect-apple-watch-9: 1 / 1.22`
+- `--amp-studio-theme-aspect-mac: 1.6 / 1`
+- `--amp-studio-theme-aspect-mac-1280: 1.6 / 1`
+- `--amp-studio-theme-aspect-flow-thumb: 160 / 100`
+
+#### `@amplify-ai/tokens-foundation` (semantic + shadow primitives, 4 new)
+- `--amp-semantic-color-info-soft` — light: `rgba(37, 99, 235, 0.08)`, dark: `rgba(59, 130, 246, 0.12)` (subtle info background)
+- `--amp-shadow-ring-accent` — `0 0 0 2px var(--amp-semantic-border-accent)` (focus / selection ring)
+- `--amp-shadow-composer` — `0 -4px 12px -4px rgba(28, 25, 23, 0.08)` (sticky composer upward shadow)
+- `--amp-shadow-device` — `0 12px 32px -8px rgba(28, 25, 23, 0.18), 0 4px 12px -4px rgba(28, 25, 23, 0.10)` (device-frame drop shadow)
+
+Note: `--amp-semantic-border-accent` (#5 in the spec list) already exists in
+`tokens-foundation/semantic/colors-{light,dark}.json` and was not duplicated.
+Total new tokens emitted: 23 (8 layout + 10 aspect + 1 semantic + 3 shadow + 1 reused existing).
+
+### Versioned
+
+- `@amplify-ai/tokens-foundation`: `2.1.2` → `2.1.3`
+- `@amplify-ai/tokens-studio`: `1.0.2` → `1.0.3`
+
 ## 2.11.2 — 2026-05-08
 
 ### Fixed (extended `--amp-semantic-*` alias block — all token packages)
