@@ -6,6 +6,7 @@
     "color": {
       "$type": "color",
       "bg":             { "$value": "{semantic.bg-surface}",   "$description": "Studio surface background — paired with --studio-bg consumer alias" },
+      "bg-elev":        { "$value": "{semantic.bg-surface}",   "$description": "Studio elevated surface — used as the foreground colour for filled chips/pills whose background is the page bg/fg pair (LivePaneToggle active state). Aliases bg in the default scheme so an inverted-fill button's text reads as the surface beneath fg." },
       "fg":             { "$value": "{semantic.text-primary}", "$description": "Studio default foreground — paired with --studio-fg" },
       "muted":          { "$value": "{semantic.text-secondary}", "$description": "Studio muted text — paired with --studio-muted" },
       "border":         { "$value": "{semantic.border-default}", "$description": "Studio default border — paired with --studio-border" },

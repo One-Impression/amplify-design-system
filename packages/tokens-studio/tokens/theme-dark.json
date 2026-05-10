@@ -6,6 +6,7 @@
     "color": {
       "$type": "color",
       "bg":             { "$value": "{semantic.bg-surface}",   "$description": "Studio surface background (dark)" },
+      "bg-elev":        { "$value": "{semantic.bg-surface}",   "$description": "Studio elevated surface (dark) — same alias as bg so an inverted-fill chip's text reads as the surface beneath fg. See light-theme description for full context." },
       "fg":             { "$value": "{semantic.text-primary}", "$description": "Studio default foreground (dark)" },
       "muted":          { "$value": "{semantic.text-secondary}", "$description": "Studio muted text (dark)" },
       "border":         { "$value": "{semantic.border-default}", "$description": "Studio default border (dark)" },
