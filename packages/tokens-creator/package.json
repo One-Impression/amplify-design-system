@@ -10,10 +10,14 @@
     "./json": "./dist/tokens.json",
     "./js": "./dist/tokens.js",
     "./react-native": "./dist/tokens.native.js",
+    "./icons": "./dist/icons/manifest.json",
+    "./icons/essentials": "./dist/icons/essentials.json",
+    "./icons/types": "./dist/icons/manifest.d.ts",
     ".": "./dist/tokens.js"
   },
   "scripts": {
-    "build": "node build.js",
+    "build": "node build.js && npx tsx scripts/build-icons.ts",
+    "build:icons": "npx tsx scripts/build-icons.ts",
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {
@@ -25,6 +29,7 @@
   "files": [
     "dist/",
     "tokens/",
-    "scripts/"
+    "scripts/",
+    "icons/"
   ]
 }

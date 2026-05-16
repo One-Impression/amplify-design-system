@@ -342,15 +342,59 @@ function buildReactNative() {
   const colors = {};
   const fontSize = {};
   const spacing = {};
+  // SDUI-specific token buckets — consumed by useToken('sdui.*') in the creator app
+  const sduiSpacing = {};
+  const sduiFontSize = {};
+  const sduiFontWeight = {};
+  const sduiIconSize = {};
+  const sduiRadius = {};
+  const sduiBorderWidth = {};
+  const sduiComponentButton = {};
 
   for (const [key, value] of Object.entries(flat)) {
-    if (key.startsWith('sdui-color-') || key.startsWith('theme-color-') || key.startsWith('semantic-')) {
-      const name = key.replace(/^(sdui-color-|theme-color-|semantic-)/, '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+    // ── SDUI tokens (sdui-* prefix) ──
+    if (key.startsWith('sdui-color-')) {
+      const name = key.replace(/^sdui-color-/, '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+      colors[name] = value;
+    } else if (key.startsWith('sdui-spacing-')) {
+      const name = key.replace('sdui-spacing-', '');
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiSpacing[name] = numVal;
+    } else if (key.startsWith('sdui-font-size-')) {
+      const name = key.replace('sdui-font-size-', '');
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiFontSize[name] = numVal;
+    } else if (key.startsWith('sdui-font-weight-')) {
+      const name = key.replace('sdui-font-weight-', '');
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiFontWeight[name] = numVal;
+    } else if (key.startsWith('sdui-icon-size-')) {
+      const name = key.replace('sdui-icon-size-', '');
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiIconSize[name] = numVal;
+    } else if (key.startsWith('sdui-radius-')) {
+      const name = key.replace('sdui-radius-', '');
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiRadius[name] = numVal;
+    } else if (key.startsWith('sdui-border-width-')) {
+      const name = key.replace('sdui-border-width-', '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiBorderWidth[name] = numVal;
+    } else if (key.startsWith('sdui-component-button-')) {
+      const name = key.replace('sdui-component-button-', '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiComponentButton[name] = numVal;
+    }
+    // ── Theme / semantic / primitive color tokens ──
+    else if (key.startsWith('theme-color-') || key.startsWith('semantic-')) {
+      const name = key.replace(/^(theme-color-|semantic-)/, '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
       colors[name] = value;
     } else if (key.startsWith('color-')) {
       const name = key.replace(/^color-/, '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
       colors[name] = value;
-    } else if (key.startsWith('font-size-')) {
+    }
+    // ── Generic (non-sdui) font-size and spacing tokens ──
+    else if (key.startsWith('font-size-')) {
       const name = key.replace('font-size-', '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
       const numVal = parseInt(String(value), 10);
       if (!isNaN(numVal)) fontSize[name] = numVal;
@@ -361,10 +405,36 @@ function buildReactNative() {
     }
   }
 
+  // Build sdui namespace — flat lookup for useToken('sdui.spacing.xs') etc.
+  const sdui = {
+    color: {},
+    spacing: sduiSpacing,
+    fontSize: sduiFontSize,
+    fontWeight: sduiFontWeight,
+    iconSize: sduiIconSize,
+    radius: sduiRadius,
+    borderWidth: sduiBorderWidth,
+    component: { button: sduiComponentButton },
+  };
+  // Populate sdui.color from the sdui-color-* entries already in colors
+  for (const [key, value] of Object.entries(flat)) {
+    if (key.startsWith('sdui-color-')) {
+      const name = key.replace(/^sdui-color-/, '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+      sdui.color[name] = value;
+    }
+  }
+
   return `/** Auto-generated React Native tokens — do not edit */
 export const colors = ${JSON.stringify(colors, null, 2)};
 export const fontSize = ${JSON.stringify(fontSize, null, 2)};
 export const spacing = ${JSON.stringify(spacing, null, 2)};
+
+/**
+ * SDUI token namespace — all sdui.* tokens grouped for useToken() resolution.
+ * Usage: import { sdui } from '@amplify-ai/tokens-creator/react-native';
+ *        const value = sdui.spacing.xs; // 4
+ */
+export const sdui = ${JSON.stringify(sdui, null, 2)};
 `;
 }
 
