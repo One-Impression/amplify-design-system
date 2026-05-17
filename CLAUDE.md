@@ -52,6 +52,13 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native primitives for Creator App SDUI (18 components, consumes @amplify-ai/tokens-creator/react-native)
+                        Layout: Box, Stack
+                        Foundation: Text, Icon, Image, Separator
+                        Interactive: Button, Card, Input, Chip, Checkbox, Radio, Tag, Tab
+                        Composite: ProgressIndicator, SearchBar, SelectableItem, ImageStack, Section, ScrollView
+                        Plus: ThemeProvider, token type unions (ColorToken, SpacingToken, etc.), and resolver utilities
+                        Each primitive follows the 5-file pattern: types, styles, component, test, index
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
