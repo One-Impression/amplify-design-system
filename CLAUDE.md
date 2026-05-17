@@ -51,11 +51,57 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+                        ├── tokens/         — SDUI token contract (sdui.spacing, sdui.font-size, sdui.font-weight,
+                        │                     sdui.icon-size, sdui.radius, sdui.border-width, sdui.component.button)
+                        ├── icons/          — SVG source files (kebab-case; populate from legacy app before building)
+                        └── scripts/
+                            ├── build-icons.ts  — Generates dist/icons/manifest.json, essentials.json,
+                            │                     version.txt, manifest.d.ts from icons/*.svg
+                            └── sync-check.js
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### tokens-creator package exports
+
+| Export path | Resolves to |
+|---|---|
+| `@amplify-ai/tokens-creator` | `dist/tokens.js` |
+| `@amplify-ai/tokens-creator/react-native` | `dist/tokens.native.js` — includes `export const sdui` namespace |
+| `@amplify-ai/tokens-creator/icons` | `dist/icons/manifest.json` — full icon catalog |
+| `@amplify-ai/tokens-creator/icons/essentials` | `dist/icons/essentials.json` — bootstrap subset (~10 icons) |
+| `@amplify-ai/tokens-creator/icons/types` | `dist/icons/manifest.d.ts` — `IconName` literal-union type |
+
+### SDUI token namespace (React Native)
+
+The React Native output exports a structured `sdui` object for `useToken()` resolution:
+
+```ts
+import { sdui } from '@amplify-ai/tokens-creator/react-native';
+sdui.spacing.xs      // 4
+sdui.fontSize.md     // 14
+sdui.fontWeight.bold // 700
+sdui.iconSize.md     // 20
+sdui.radius.md       // 8
+sdui.borderWidth.thin // 1
+sdui.component.button.heightMd // 40
+```
+
+### Icon manifest build
+
+```bash
+npm run build:icons -w packages/tokens-creator
+```
+
+Requires SVG files in `packages/tokens-creator/icons/` (kebab-case filenames). See `icons/README.md` for how to populate from the legacy app. An empty `icons/` directory produces a valid empty manifest — the build does not fail.
+
+Outputs:
+- `dist/icons/manifest.json` — `{ version, count, icons: { name: svgContent } }`
+- `dist/icons/essentials.json` — bootstrap subset (arrow-left, check, close, home, search, …)
+- `dist/icons/version.txt` — manifest version string
+- `dist/icons/manifest.d.ts` — `IconName` literal-union type
 
 ## Token File Format
 
