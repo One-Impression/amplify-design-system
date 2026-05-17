@@ -9,5 +9,3 @@ sdui.border-width, and sdui.component.button token sections for the creator SDUI
 
 Adds build-icons.ts pipeline that generates dist/icons/manifest.json, essentials.json,
 version.txt, and manifest.d.ts from SVG source files in icons/.
-
-Brief #264, Task 001.
