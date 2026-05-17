@@ -39,6 +39,79 @@
       "offset-medium":   { "$value": "#F1F6FE" },
       "offset-weak":     { "$value": "#F6FAFF" },
       "transparent":     { "$value": "transparent" }
+    },
+    "spacing": {
+      "$type": "dimension",
+      "$description": "SDUI mobile spacing scale — consumed by useToken('sdui.spacing.*')",
+      "xs":    { "$value": "4",  "$description": "Extra small — tight inner padding" },
+      "sm":    { "$value": "8",  "$description": "Small — default inner padding" },
+      "md":    { "$value": "12", "$description": "Medium — card content padding" },
+      "lg":    { "$value": "16", "$description": "Large — section spacing" },
+      "xl":    { "$value": "24", "$description": "Extra large — group spacing" },
+      "xxl":   { "$value": "32", "$description": "2XL — major section spacing" },
+      "xxxl":  { "$value": "48", "$description": "3XL — page-level spacing" }
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$description": "SDUI mobile font size scale — numeric px values consumed by RN Text",
+      "xs":    { "$value": "10", "$description": "Caption / fine print" },
+      "sm":    { "$value": "12", "$description": "Small body / labels" },
+      "md":    { "$value": "14", "$description": "Default body text" },
+      "lg":    { "$value": "16", "$description": "Large body / subheadings" },
+      "xl":    { "$value": "20", "$description": "Section headings" },
+      "xxl":   { "$value": "24", "$description": "Page titles" },
+      "xxxl":  { "$value": "32", "$description": "Hero / display text" }
+    },
+    "font-weight": {
+      "$type": "number",
+      "$description": "SDUI font weight tokens — numeric values for RN fontWeight",
+      "regular":  { "$value": "400", "$description": "Normal body text" },
+      "medium":   { "$value": "500", "$description": "Emphasized body / labels" },
+      "semibold": { "$value": "600", "$description": "Subheadings / buttons" },
+      "bold":     { "$value": "700", "$description": "Headings / strong emphasis" }
+    },
+    "icon-size": {
+      "$type": "dimension",
+      "$description": "SDUI icon sizing tokens — width/height for icon containers",
+      "sm":  { "$value": "16", "$description": "Inline icons (labels, list items)" },
+      "md":  { "$value": "20", "$description": "Default icon size (buttons, nav)" },
+      "lg":  { "$value": "24", "$description": "Prominent icons (cards, headers)" },
+      "xl":  { "$value": "32", "$description": "Large icons (empty states, hero)" }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$description": "SDUI border radius scale",
+      "none": { "$value": "0",    "$description": "No rounding" },
+      "xs":   { "$value": "2",    "$description": "Minimal rounding — tags, badges" },
+      "sm":   { "$value": "4",    "$description": "Subtle rounding — inputs, chips" },
+      "md":   { "$value": "8",    "$description": "Default rounding — cards, buttons" },
+      "lg":   { "$value": "12",   "$description": "Prominent rounding — modals, sheets" },
+      "xl":   { "$value": "16",   "$description": "Heavy rounding — pills, avatars" },
+      "full": { "$value": "9999", "$description": "Fully round — circular elements" }
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$description": "SDUI border width tokens",
+      "none":   { "$value": "0", "$description": "No border" },
+      "thin":   { "$value": "1", "$description": "Default border — inputs, dividers" },
+      "medium": { "$value": "2", "$description": "Emphasized border — active states" },
+      "thick":  { "$value": "4", "$description": "Heavy border — focus rings, accents" }
+    },
+    "component": {
+      "$description": "SDUI component-level tokens — composite references for specific UI elements",
+      "button": {
+        "$description": "Button component tokens for SDUI server-driven buttons",
+        "height-sm":      { "$value": "32", "$type": "dimension", "$description": "Small button height" },
+        "height-md":      { "$value": "40", "$type": "dimension", "$description": "Medium (default) button height" },
+        "height-lg":      { "$value": "48", "$type": "dimension", "$description": "Large button height" },
+        "padding-x-sm":   { "$value": "12", "$type": "dimension", "$description": "Small button horizontal padding" },
+        "padding-x-md":   { "$value": "16", "$type": "dimension", "$description": "Medium button horizontal padding" },
+        "padding-x-lg":   { "$value": "20", "$type": "dimension", "$description": "Large button horizontal padding" },
+        "radius":         { "$value": "8",  "$type": "dimension", "$description": "Button border radius" },
+        "font-size-sm":   { "$value": "12", "$type": "dimension", "$description": "Small button font size" },
+        "font-size-md":   { "$value": "14", "$type": "dimension", "$description": "Medium button font size" },
+        "font-size-lg":   { "$value": "16", "$type": "dimension", "$description": "Large button font size" }
+      }
     }
   }
 }
