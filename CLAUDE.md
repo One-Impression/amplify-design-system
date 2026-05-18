@@ -55,7 +55,55 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI action engine and capability handlers (see below)
 ```
+
+### sdui-runtime: Action Engine
+
+`packages/sdui-runtime/src/action-engine/` contains the central dispatcher for all SDUI actions.
+
+**Verb handlers** (`action-engine/handlers/`) — registered in `actionHandlerMap`:
+| Verb | File | Description |
+|---|---|---|
+| `navigate` | navigate.ts | Delegates to `config.onNavigate` |
+| `bff_call` | bff-call.ts | Fetches a BFF endpoint with auth, optimistic update + rollback |
+| `sheet` | sheet.ts | Opens a bottom sheet via `useBottomSheetStore` |
+| `dismiss` | dismiss.ts | Closes a bottom sheet via `useBottomSheetStore` |
+| `toast` | toast.ts | Delegates to `config.onToast` |
+| `reload_section` | reload-section.ts | Fetches fresh node from BFF, replaces in `usePageStore` |
+| `replace_section` | replace-section.ts | Replaces a node inline (no BFF call) via `usePageStore` |
+| `append_items` | append-items.ts | Appends items to a list node in `usePageStore` (infinite scroll) |
+| `set_local` | set-local.ts | Mutates `useLocalStore` (set/merge/toggle/increment/remove) |
+| `emit_telemetry` | emit-telemetry.ts | Emits events via `useTelemetryStore` |
+| `compound` | compound.ts | Recursive AST interpreter (see below) |
+| `deeplink` | deeplink.ts | Delegates to `config.onDeeplink` |
+
+**Capability handlers** (`capabilities/`) — dispatched for `capability:*` action types:
+`files`, `camera`, `notifications`, `linking-open`, `linking-open-oauth`, `deep-link`, `share`, `clipboard`, `haptics`, `auth` (store/refresh/clear), `phone`, `ui-tooltip`, `app-refresh`.
+
+Capabilities return `{ success?, error? }`. The dispatcher routes `on_success`/`on_error` chains based on that result.
+
+**Compound AST** (`handlers/compound.ts`) — node types:
+- `sequence` — runs children in order, awaiting each
+- `parallel` — runs children concurrently via `Promise.all`
+- `branch` — evaluates a dot-path condition against `useLocalStore` (supports `!` negation), picks `then`/`else`
+- `catch` — runs `try` child, falls back to `catch` child on error
+- `delay` — waits `delay_ms` ms, then runs `child`
+
+**Async chains**: `on_success` and `on_error` are first-class on all actions. `bff_call` and capability handlers manage their own chains internally. All other handlers have `on_success`/`on_error` dispatched by the engine after the handler returns.
+
+**`ActionEngineConfig`** (required when calling `createActionEngine`):
+```ts
+{
+  bffBaseUrl: string;
+  authToken: () => string | null;
+  onNavigate: (op: string, target: string, params?) => void;
+  onToast: (level: string, message: string) => void;
+  onDeeplink: (url: string) => void;
+}
+```
+
+**Expo packages** used by capability handlers are externalized in tsup config: `expo-clipboard`, `expo-document-picker`, `expo-haptics`, `expo-image-picker`, `expo-notifications`, `expo-secure-store`, `expo-web-browser`.
 
 ## Token File Format
 
