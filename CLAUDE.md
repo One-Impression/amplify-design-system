@@ -55,7 +55,22 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI page container renderers + component registry (React Native)
 ```
+
+### sdui-runtime: Page Container Renderers
+
+Five page layout renderers live under `src/pages/` and are registered in `src/registries/pages.ts` (`pageContainerRegistry`). `PageRoot` dispatches to the correct renderer based on the BFF page envelope's `layout` field.
+
+| Layout key (`layout` field) | Renderer | Description |
+|---|---|---|
+| `standard` | `PageStandardRenderer` | ScrollView + pull-to-refresh + lifecycle hooks |
+| `sticky_footer` | `PageStickyFooterRenderer` | KeyboardAvoidingView + scrollable body + pinned footer; set `page.data.keyboard_aware` for keyboard avoidance |
+| `feed` | `PageFeedRenderer` | FlatList infinite-scroll feed with horizontal filter chips, load-more (`page.data.on_load_more`), loader node, and empty state |
+| `web_view` | `WebViewPageRenderer` | Full-screen WebView shell; URL from `page.data.url`, optional header from `page.data.title` |
+| `web_view_action` | `WebViewPageWithActionRenderer` | WebView with URL-pattern interception; patterns in `page.data.url_patterns` (regex + action pairs) trigger native action dispatch and block navigation |
+
+**Peer dependency:** `WebViewPage` and `WebViewPageWithAction` require `react-native-webview >= 13.0.0` as an optional peer dep. Install it in any app that uses these layout types.
 
 ## Token File Format
 
