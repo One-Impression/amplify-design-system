@@ -52,9 +52,33 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  sdui-runtime/       — SDUI renderer runtime (@amplify-ai/sdui-runtime)
+                        • registries/ui-components.ts — wire-type → renderer map
+                        • ui_components/              — 18 Tier-1 renderers (Button, Text, Card, Chip,
+                          Checkbox, Radio, Icon, Image, ImageStack, Input, Section, Separator, Tag,
+                          Tab, ProgressIndicator, SearchBar, SelectableItem, ScrollView)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+```
+
+### SDUI Renderer Pattern
+
+Every renderer in `packages/sdui-runtime/src/ui_components/` must follow this pattern:
+
+1. **Wrap in `<SduiNode>`** — provides schema validation, error boundary, and lifecycle hooks (`on_load`, `on_view`, `on_click`, `on_dismount`).
+2. **Pass the component's Zod schema** via `schema={XxxComponentSchema.shape.data}` (imported from `@one-impression/sdk-native-sdui`).
+3. **Map to a DS component** from `@amplify-ai/ui-native` inside the render callback `{(v) => ...}`.
+4. **Use `<Interpreter node={...} />`** for any nested SDUI nodes (icons, labels, children).
+5. **Export via `index.ts`** in the component folder, and re-export from `ui_components/index.ts`.
+6. **Register the wire type** in `registries/ui-components.ts` as `"creator.ui_component.<name>": XxxRenderer`.
+
+File layout for a new renderer:
+```
+ui_components/
+  MyComponent/
+    MyComponent.renderer.tsx   ← renderer function
+    index.ts                   ← re-exports renderer
 ```
 
 ## Token File Format
