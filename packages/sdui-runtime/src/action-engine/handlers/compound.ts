@@ -178,7 +178,7 @@ async function evaluateCondition(condition: string): Promise<boolean> {
   }
 
   try {
-    const { useLocalStore } = await import("../../stores/local-store.js");
+    const { useLocalStore } = await import("../../state/useLocalStore.js");
     const value = useLocalStore.getState().get(key);
     const result = Boolean(value);
     return negate ? !result : result;

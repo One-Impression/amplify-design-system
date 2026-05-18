@@ -13,7 +13,7 @@ export async function handleAppRefresh(
   AppRefreshPayloadSchema.parse(action.payload);
 
   try {
-    const { usePageStore } = await import("../../stores/page-store.js");
+    const { usePageStore } = await import("../../state/usePageStore.js");
     usePageStore.getState().refresh();
     return { success: {} };
   } catch (err) {

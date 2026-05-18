@@ -12,5 +12,13 @@ export default defineConfig({
     "@amplify-ai/ui-native",
     "@amplify-ai/tokens-creator",
     "@gorhom/bottom-sheet",
+    // Expo / React Native packages used via dynamic imports in capabilities/
+    "expo-clipboard",
+    "expo-document-picker",
+    "expo-haptics",
+    "expo-image-picker",
+    "expo-notifications",
+    "expo-secure-store",
+    "expo-web-browser",
   ],
 });

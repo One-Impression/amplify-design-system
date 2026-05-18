@@ -13,7 +13,7 @@ export async function handleUiTooltip(
   const payload = UiTooltipPayloadSchema.parse(action.payload);
 
   try {
-    const { useTooltipStore } = await import("../../stores/tooltip-store.js");
+    const { useTooltipStore } = await import("../../state/useTooltipStore.js");
     useTooltipStore.getState().show({
       target: payload.target,
       text: payload.text,

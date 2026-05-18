@@ -13,6 +13,6 @@ export async function handleSheet(
   const payload = SheetPayloadSchema.parse(action.payload);
 
   // Dynamic import to avoid hard dependency on bottom-sheet store at module level.
-  const { useBottomSheetStore } = await import("../../stores/bottom-sheet-store.js");
+  const { useBottomSheetStore } = await import("../../bottom-sheet/useBottomSheetStore.js");
   useBottomSheetStore.getState().open({ id: payload.sheet_id });
 }

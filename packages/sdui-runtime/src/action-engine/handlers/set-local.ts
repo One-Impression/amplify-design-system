@@ -13,7 +13,7 @@ export async function handleSetLocal(
 ): Promise<void> {
   const payload = SetLocalPayloadSchema.parse(action.payload);
 
-  const { useLocalStore } = await import("../../stores/local-store.js");
+  const { useLocalStore } = await import("../../state/useLocalStore.js");
   const store = useLocalStore.getState();
 
   switch (payload.op) {

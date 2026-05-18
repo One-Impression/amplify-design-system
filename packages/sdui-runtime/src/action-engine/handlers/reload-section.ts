@@ -36,6 +36,6 @@ export async function handleReloadSection(
 
   const node = await res.json();
 
-  const { usePageStore } = await import("../../stores/page-store.js");
+  const { usePageStore } = await import("../../state/usePageStore.js");
   usePageStore.getState().replaceNode(payload.target, node);
 }

@@ -12,6 +12,6 @@ export async function handleDismiss(
 ): Promise<void> {
   const payload = DismissPayloadSchema.parse(action.payload);
 
-  const { useBottomSheetStore } = await import("../../stores/bottom-sheet-store.js");
+  const { useBottomSheetStore } = await import("../../bottom-sheet/useBottomSheetStore.js");
   useBottomSheetStore.getState().close(payload.target);
 }

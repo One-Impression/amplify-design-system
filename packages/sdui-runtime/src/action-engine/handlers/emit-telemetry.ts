@@ -12,7 +12,7 @@ export async function handleEmitTelemetry(
 ): Promise<void> {
   const payload = EmitTelemetryPayloadSchema.parse(action.payload);
 
-  const { useTelemetryStore } = await import("../../stores/telemetry-store.js");
+  const { useTelemetryStore } = await import("../../state/useTelemetryStore.js");
   const telemetry = useTelemetryStore.getState();
 
   for (const event of payload.events) {
