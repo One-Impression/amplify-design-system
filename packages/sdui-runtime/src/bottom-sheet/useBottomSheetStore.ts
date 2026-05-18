@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const MAX_STACK_DEPTH = 2;
 
-interface SheetEntry {
+export interface SheetEntry {
   id: string;
   title?: string;
   size: string;
