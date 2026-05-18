@@ -91,7 +91,7 @@ jobs:
             echo "Publishing @amplify-ai/$pkg..."
             (
               cd packages/$pkg
-              OUTPUT=$(npm publish 2>&1) && echo "$OUTPUT" || {
+              OUTPUT=$(npm publish --access public 2>&1) && echo "$OUTPUT" || {
                 EXIT_CODE=$?
                 echo "$OUTPUT"
                 if echo "$OUTPUT" | grep -qE 'EPUBLISHCONFLICT|already been published|You cannot publish over the previously published versions|cannot publish over the previously published'; then
