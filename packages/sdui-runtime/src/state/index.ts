@@ -54,3 +54,22 @@ export type {
 // Auth
 export { useAuthStore } from './useAuthStore.js';
 export type { AuthUser, AuthState, AuthActions } from './useAuthStore.js';
+
+// Telemetry (Zustand bridge for action handlers — delegates to TelemetryEmitter)
+export { useTelemetryStore } from './useTelemetryStore.js';
+export type {
+  TelemetryStoreState,
+  TelemetryStoreActions,
+} from './useTelemetryStore.js';
+
+// Local (ephemeral key-value state for set_local / compound branch conditions)
+export { useLocalStore } from './useLocalStore.js';
+export type { LocalStoreState, LocalStoreActions } from './useLocalStore.js';
+
+// Tooltip (imperative tooltip display for ui.show_tooltip capability)
+export { useTooltipStore } from './useTooltipStore.js';
+export type {
+  TooltipRequest,
+  TooltipStoreState,
+  TooltipStoreActions,
+} from './useTooltipStore.js';
