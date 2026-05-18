@@ -55,7 +55,36 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime for Creator App: interpreter, action engine, bottom-sheet manager,
+                        loaders, providers, and 43 Tier-2 snippet renderers
 ```
+
+### sdui-runtime snippet registry
+
+The `snippetRegistry` in `packages/sdui-runtime/src/registries/snippets.ts` maps `creator.snippet.*` wire-type strings to renderer functions. As of Task 25, 43 renderers are registered across these categories:
+
+| Category | Count | Examples |
+|---|---|---|
+| Layout / Utility | 12 | GroupConfig, Card, BannerImage, Aerobar, EmptyState, Steps |
+| Headers / Footers | 11 | PageHeader, BottomSheetHeader, Tabs, TabsFooter |
+| Card / Layout containers | 4 | BottomSheet (store-based), Form (with FormContext) |
+| Image | 3 | ImageCarousel, ImageStack, OverlappingImage |
+| Info / List | 6 | InfoRow, InfoProgressRow, InfoIconRow, List |
+| Input / Selection | 6 | Input, PhoneNumberInput, ToggleInput, MultiSelectInput |
+| Chip | 1 | Chip |
+
+**Renderer function signature:** `(node: Node) => React.ReactElement` — not `ComponentType<Node>`.
+
+**Key patterns:**
+- All renderers wrap content in `SduiNode` + pass the Zod schema for the snippet type.
+- `BottomSheet` renderer does **not** render inline — it registers with `useBottomSheetStore` on mount and returns `null`. The `BottomSheetHost` at the app root handles display.
+- `Form` renderer provides `FormContext` (exported as `FormContext` and `useFormContext` from `@amplify-ai/sdui-runtime`) so child field renderers can read/write form state.
+- `renderMedia()` shared helper (exported from `@amplify-ai/sdui-runtime`) handles discriminated `MediaSchema` union rendering; use it in any new snippet that accepts a media field.
+
+**Adding a new snippet renderer:**
+1. Create `packages/sdui-runtime/src/snippets/<Name>/<Name>.renderer.tsx` and `index.ts`.
+2. Register it in `snippets.ts` under the correct `creator.snippet.<wire_type>` key.
+3. Export any public context/hooks from `src/index.ts` under the `// ── Snippets ──` block.
 
 ## Token File Format
 
