@@ -27,7 +27,8 @@
     "@one-impression/sdk-native-sdui": ">=1.0.0",
     "@amplify-ai/ui-native": ">=1.0.0",
     "@amplify-ai/tokens-creator": ">=2.0.3",
-    "@gorhom/bottom-sheet": "^5.0.0"
+    "@gorhom/bottom-sheet": "^5.0.0",
+    "react-native-webview": ">=13.0.0"
   },
   "dependencies": {
     "zustand": "^4.5.0",
@@ -39,6 +40,9 @@
       "optional": true
     },
     "@gorhom/bottom-sheet": {
+      "optional": true
+    },
+    "react-native-webview": {
       "optional": true
     }
   },

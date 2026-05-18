@@ -20,5 +20,7 @@ export default defineConfig({
     "expo-notifications",
     "expo-secure-store",
     "expo-web-browser",
+    // WebView used by page renderers (WebViewPage, WebViewPageWithAction)
+    "react-native-webview",
   ],
 });
