@@ -35,6 +35,7 @@
     "zod": "^3.22.0"
   },
   "peerDependenciesMeta": {
+    "@one-impression/sdk-native-sdui": { "optional": true },
     "@gorhom/bottom-sheet": { "optional": true }
   },
   "devDependencies": {
