@@ -41,6 +41,12 @@ jobs:
       - name: Build @amplify-ai/ui
         run: npm run build -w packages/ui
 
+      - name: Build @amplify-ai/ui-native
+        run: npm run build -w packages/ui-native
+
+      - name: Build @amplify-ai/sdui-runtime
+        run: npm run build -w packages/sdui-runtime
+
       - name: Build @amplify-ai/mcp-server
         run: npm run build -w packages/mcp-server
 
@@ -53,7 +59,7 @@ jobs:
       - name: Verify build outputs
         run: |
           MISSING=""
-          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere tokens-marketing ui mcp-server; do
+          for pkg in tokens-foundation tokens-brand tokens-creator tokens-atmosphere tokens-marketing ui ui-native sdui-runtime mcp-server; do
             DIR="packages/$pkg/dist"
             if [ ! -d "$DIR" ]; then
               MISSING="$MISSING\n  - packages/$pkg/dist/ (directory missing)"
@@ -81,7 +87,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -e
-          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui mcp-server eslint-config; do
+          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui ui-native sdui-runtime mcp-server eslint-config; do
             echo "Publishing @amplify-ai/$pkg..."
             (
               cd packages/$pkg
