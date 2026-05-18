@@ -1,7 +1,7 @@
 {
   "name": "@amplify-ai/sdui-runtime",
   "version": "1.0.0",
-  "description": "SDUI runtime for Amplify Creator App — interpreter, action engine, bottom-sheet manager, loaders, providers",
+  "description": "SDUI runtime for Amplify Creator App \u2014 interpreter, action engine, bottom-sheet manager, loaders, providers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,8 +35,12 @@
     "zod": "^3.22.0"
   },
   "peerDependenciesMeta": {
-    "@one-impression/sdk-native-sdui": { "optional": true },
-    "@gorhom/bottom-sheet": { "optional": true }
+    "@one-impression/sdk-native-sdui": {
+      "optional": true
+    },
+    "@gorhom/bottom-sheet": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "tsup": "^8.0.0",

@@ -54,7 +54,11 @@ export {
   resolveLoader,
 } from "./loaders/index.js";
 
-// ── Registries (empty shells — populated by tasks 023-026) ──
+// ── Snippets ──
+export { renderMedia } from "./snippets/_shared/index.js";
+export { FormContext, useFormContext } from "./snippets/Form/index.js";
+
+// ── Registries ──
 export {
   uiComponentRegistry,
   snippetRegistry,
