@@ -55,7 +55,33 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime: BFF client, Zustand stores, icon store, theme bridge
+    src/bff/          — BFF client (createBffClient), endpoint registry, TanStack Query hooks
+                        (useBffDocument, useBffAction, useBffMutation), interceptors
+                        (auth, retry, error, on-load-action)
+    src/icon-store/   — MMKV-backed icon manifest cache; IconStoreProvider for offline fallback
+                        via bundled essentials.json
 ```
+
+### sdui-runtime BFF client
+
+Create a client via `createBffClient({ bffBaseUrl, getAuthToken, appVersion })`. Requests are dispatched by **endpoint ID** (e.g. `'campaigns.list'`) looked up in `endpointRegistry` (`src/bff/endpoint-registry.ts`). The endpoint registry is manually maintained for now and will be replaced by codegen from the creator-bff OpenAPI spec.
+
+Request pipeline per call:
+1. Resolve endpoint from registry
+2. Build headers — auth interceptor adds `Authorization: Bearer`, `X-Platform`, `X-Version`
+3. Execute with retry — 401 triggers `onAuthRefresh` once; 5xx uses exponential backoff (default 3 retries, 500 ms base)
+4. Check for errors — throws typed `BffError` with `.code` (`UNAUTHORIZED` | `FORBIDDEN` | `NOT_FOUND` | `VALIDATION_ERROR` | `CONFLICT` | `RATE_LIMITED` | `SERVER_ERROR` | `NETWORK_ERROR` | `UNKNOWN`) and `.status`
+5. Extract `onLoadAction` if present and dispatch via `onAction` callback
+
+TanStack Query hooks:
+- `useBffDocument` — fetches on mount, stale-while-revalidate (30 s staleTime)
+- `useBffAction` — disabled by default; call `execute()` to trigger on demand
+- `useBffMutation` — wraps `useMutation`; auto-generates idempotency keys for POST/PUT; accepts `invalidateKeys` to refetch related queries on success
+
+### sdui-runtime icon store
+
+`IconStoreProvider` fetches the icon manifest from `assets.icons-manifest` on mount, persists to MMKV, and re-fetches after 1 hour in background. Children render immediately using the bundled `essentials.json` fallback — manifest fetch is non-blocking. Use `useIconStore` to resolve icon SVGs at runtime.
 
 ## Token File Format
 
