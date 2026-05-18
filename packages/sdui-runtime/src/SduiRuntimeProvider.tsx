@@ -1,0 +1,65 @@
+import React, { useMemo } from "react";
+import type { ReactNode } from "react";
+import { createActionEngine } from "./action-engine/action-engine.js";
+import { ActionEngineContext } from "./action-engine/useActionEngine.js";
+import { TelemetryContext } from "./telemetry/useTelemetry.js";
+import type { TelemetryEmitter } from "./telemetry/useTelemetry.js";
+import type { ActionEngineConfig } from "./action-engine/types.js";
+
+interface BffConfig {
+  baseUrl: string;
+  iconsManifestUrl?: string;
+}
+
+interface AuthConfig {
+  getToken: () => string | null;
+}
+
+interface TelemetryConfig {
+  emitter: TelemetryEmitter;
+}
+
+interface SduiRuntimeProviderProps {
+  bffConfig: BffConfig;
+  authConfig: AuthConfig;
+  telemetryConfig: TelemetryConfig;
+  defaultLoader?: ReactNode;
+  onNavigate: (op: string, target: string, params?: Record<string, unknown>) => void;
+  onToast: (level: string, message: string) => void;
+  onDeeplink: (url: string) => void;
+  children: ReactNode;
+}
+
+/**
+ * Root provider for the SDUI runtime.
+ * Wires action engine, telemetry, and BFF config for the entire render tree.
+ * Mount once in app/_layout.tsx.
+ */
+export function SduiRuntimeProvider({
+  bffConfig,
+  authConfig,
+  telemetryConfig,
+  onNavigate,
+  onToast,
+  onDeeplink,
+  children,
+}: SduiRuntimeProviderProps): React.ReactElement {
+  const actionEngine = useMemo(() => {
+    const config: ActionEngineConfig = {
+      bffBaseUrl: bffConfig.baseUrl,
+      authToken: authConfig.getToken,
+      onNavigate,
+      onToast,
+      onDeeplink,
+    };
+    return createActionEngine(config);
+  }, [bffConfig.baseUrl, authConfig.getToken, onNavigate, onToast, onDeeplink]);
+
+  return (
+    <TelemetryContext.Provider value={telemetryConfig.emitter}>
+      <ActionEngineContext.Provider value={actionEngine}>
+        {children}
+      </ActionEngineContext.Provider>
+    </TelemetryContext.Provider>
+  );
+}
