@@ -103,3 +103,22 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@amplify-ai/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+### Token namespaces in `tokens-oportunities`
+
+| Namespace | Purpose | When to use |
+|---|---|---|
+| `theme.color.*` | Semantic UI roles (text, bg, border, accent states) | All UI components and product surfaces |
+| `gradient.*` | Brand gradients (LOCKED) | Wordmark sweep animations, feature surfaces |
+| `spectrum.*` | Decorative illustration palette (19 colours) | Marketing surfaces only: creator gallery cards, narrative accents, idea-feed effort chips, spectrum strips |
+| `marketing.*` | Tonal variants for marketing/landing surfaces (13 values) | `oportunities.ai` landing page `:root` aliases; landing/announcement pages with higher contrast needs |
+
+**`spectrum.*` rules:**
+- These are **NOT semantic UI roles** — do not use them for interactive or functional UI states.
+- All 19 colours are warm-tuned to coexist with apricot. Do not substitute arbitrary hex values.
+- If a new illustration context genuinely needs a new colour, add it to `spectrum.*` here — do not inline hex in product repos.
+
+**`marketing.*` rules:**
+- Values intentionally differ slightly from their `theme.color.*` counterparts (warmer hairlines, higher contrast) to suit landing/print-feel surfaces.
+- `hairline` and `accent-tint`/`accent-glow`/`ai-tint` are alpha-based (`rgba`) so they adapt to varying card backgrounds — do not flatten to solid equivalents.
+- The `oportunities-landing` repo must consume these exclusively via `var(--amp-oportunities-*)` CSS variables — zero inline hex/rgba in `:root`.
