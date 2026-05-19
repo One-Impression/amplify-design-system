@@ -1,0 +1,65 @@
+{
+  "theme": {
+    "$description": "Oportunities — Light theme. Studio-direction tokens for the creator-intent intelligence platform. Inherits primitives from tokens-foundation; layers Oportunities cockpit semantics (apricot + AI purple, Geist typography, effort palette) on top.",
+    "product": "oportunities",
+    "mode": "light",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "#FDF8F3", "$description": "Cream page background — Oportunities signature surface" },
+      "bg-elev":        { "$value": "#FFFFFF", "$description": "Elevated surface (cards, modals)" },
+      "bg-soft":        { "$value": "#F8F1E8", "$description": "Subtle inset / recessed background" },
+
+      "accent":         { "$value": "#E68F47", "$description": "Apricot — THE Oportunities brand color (wordmark, primary actions)" },
+      "accent-hover":   { "$value": "#D67A35", "$description": "Apricot on hover (darker shade)" },
+      "accent-soft":    { "$value": "#FFE9D2", "$description": "Subtle apricot tint background" },
+
+      "ai-purple":      { "$value": "#7B5BFF", "$description": "AI accent — paired with apricot in brand gradient + Mirror/Map AI surfaces" },
+      "ai-soft":        { "$value": "#EFEAFF", "$description": "Subtle AI purple tint background" },
+
+      "text-primary":   { "$value": "#1C1611", "$description": "Primary text — warm near-black" },
+      "text-secondary": { "$value": "#5C5249", "$description": "Secondary text — warm mid-tone" },
+      "text-tertiary":  { "$value": "#8A7F73", "$description": "Tertiary / muted text" },
+
+      "border":         { "$value": "#EFE4D4", "$description": "Default border — warm cream" },
+      "border-soft":    { "$value": "#F5ECDE", "$description": "Subtle divider" }
+    }
+  },
+  "effort": {
+    "$type": "color",
+    "$description": "Effort palette — Oportunities-specific creator-intent classification (organic / sample / sponsor / paid). Used in dashboards, lists, badges.",
+    "organic":  { "$value": "#5A8E4F", "$description": "Organic content effort — green" },
+    "sample":   { "$value": "#5C82B0", "$description": "Sample / try-before-buy effort — blue" },
+    "sponsor":  { "$value": "#E68F47", "$description": "Sponsored content effort — apricot (same as accent)" },
+    "paid":     { "$value": "#968B7E", "$description": "Paid placement effort — neutral warm" }
+  },
+  "status": {
+    "$type": "color",
+    "$description": "Oportunities status scale — Studio-direction warm-tuned status indicators.",
+    "success":  { "$value": "#2F8A4F", "$description": "Success / approved" },
+    "warning":  { "$value": "#C6892C", "$description": "Warning / needs attention" },
+    "danger":   { "$value": "#B33A3A", "$description": "Error / blocked / rejected" },
+    "info":     { "$value": "#3B6EB5", "$description": "Informational / neutral signal" }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "$description": "Oportunities typography — Geist for display (wordmark, headers), Inter for body, JetBrains Mono for code/numbers.",
+    "display": { "$value": "'Geist', 'Inter Tight', sans-serif", "$description": "Display / wordmark font — Geist at the heart of the Studio direction" },
+    "body":    { "$value": "'Inter', system-ui, sans-serif",     "$description": "Body / UI text font" },
+    "mono":    { "$value": "'JetBrains Mono', monospace",        "$description": "Monospace — numbers, code, data" }
+  },
+  "letter-spacing": {
+    "$type": "dimension",
+    "tight":   { "$value": "-0.04em", "$description": "Tight tracking — signature of the Oportunities wordmark (-0.04em)" }
+  },
+  "weight": {
+    "$type": "fontWeight",
+    "display":         { "$value": "600", "$description": "Display weight — Geist's brand weight" },
+    "body-default":    { "$value": "500", "$description": "Default body weight — Inter Medium for crisp legibility" }
+  },
+  "gradient": {
+    "$type": "other",
+    "$description": "Brand gradient — LOCKED. Apricot → AI purple, used in wordmark sweep animations and feature surfaces.",
+    "ai":        { "$value": "linear-gradient(135deg, #E68F47 0%, #7B5BFF 100%)", "$description": "Apricot → purple brand gradient (135deg)" },
+    "ai-sweep-anim": { "$value": "linear-gradient(90deg, #E68F47 0%, #7B5BFF 50%, #E68F47 100%)", "$description": "Sweep gradient used in the wordmark sweep animation — apricot → purple → apricot, animated via background-position" }
+  }
+}
