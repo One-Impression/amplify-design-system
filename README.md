@@ -35,14 +35,21 @@ Federated design tokens and shared UI components for all One Impression products
                                |
                     npm install @amplify-ai/tokens-*
                                |
-          +--------------------+--------------------+
-          |                    |                    |
-  +-------v------+   +--------v-------+   +-------v--------+
-  |    Brand     |   |   Creator App  |   |  Atmosphere    |
-  | one-dashboard|   |  one_club_app  |   | odin-agent/web |
-  |    -web      |   |                |   |                |
-  +--------------+   +----------------+   +----------------+
+          +---------+----------+----------+----------+
+          |         |          |          |          |
+  +-------v----+ +--v-------+ +v--------+ +v---------+
+  |   Brand    | | Creator  | |Atmosphere| |Oportunities|
+  |one-dashboard| | App      | |odin-agent| | (Studio  |
+  |    -web    | |one_club  | |   /web   | | direction)|
+  |            | |   _app   | |          | |          |
+  +------------+ +----------+ +----------+ +----------+
 ```
+
+The federated model supports per-product themes: each product owns its
+own `tokens-<product>` package that composes the shared `tokens-foundation`
+primitives. New product lines (e.g. **Oportunities**) ship as a new
+`tokens-<product>` + `brand-<product>` pair without touching any other
+product's tokens.
 
 ## This repo is the BUILD SYSTEM. Pixel is the BRAIN.
 
@@ -66,6 +73,8 @@ Federated design tokens and shared UI components for all One Impression products
 | `@amplify-ai/tokens-brand` | Brand platform colors & theme | one-dashboard-web |
 | `@amplify-ai/tokens-atmosphere` | Atmosphere dashboard colors & theme | odin-agent/web |
 | `@amplify-ai/tokens-creator` | Creator app colors & SDUI mapping | one_club_app |
+| `@amplify-ai/tokens-oportunities` | Oportunities theme tokens (Studio direction, apricot palette) | oportunities apps (TBD) |
+| `@amplify-ai/brand-oportunities` | Oportunities brand asset library (logos, app icons, favicons, social, decisions doc) | oportunities apps (TBD) |
 | `@amplify-ai/ui` | Shared React UI components | Web products |
 | `@amplify-ai/eslint-config` | Design system lint rules | All products |
 | `@amplify-ai/feature-flags` | Feature flag utilities | All products |
