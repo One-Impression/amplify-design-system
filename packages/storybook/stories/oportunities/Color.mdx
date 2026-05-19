@@ -1,0 +1,137 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Color" />
+
+# Oportunities — Color System
+
+Warm, intellectual, AI-native. **Apricot** is the brand color, **AI purple** is its
+paired accent for AI-generated surfaces, and the **effort palette** classifies
+creator content by intent (organic / sample / sponsor / paid).
+
+All values authoritative from `@amplify-ai/tokens-oportunities` (`theme-light.json`, `theme-dark.json`).
+
+---
+
+## Brand Colors — Light
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'bg',             hex: '#FDF8F3', desc: 'Cream page background' },
+    { name: 'bg-elev',        hex: '#FFFFFF', desc: 'Elevated cards / modals' },
+    { name: 'bg-soft',        hex: '#F8F1E8', desc: 'Subtle inset' },
+    { name: 'accent',         hex: '#E68F47', desc: 'Apricot — brand color' },
+    { name: 'accent-hover',   hex: '#D67A35', desc: 'Apricot on hover' },
+    { name: 'accent-soft',    hex: '#FFE9D2', desc: 'Subtle apricot tint' },
+    { name: 'ai-purple',      hex: '#7B5BFF', desc: 'AI accent — paired with apricot' },
+    { name: 'ai-soft',        hex: '#EFEAFF', desc: 'Subtle AI purple tint' },
+    { name: 'text-primary',   hex: '#1C1611', desc: 'Primary text — warm near-black' },
+    { name: 'text-secondary', hex: '#5C5249', desc: 'Secondary text' },
+    { name: 'text-tertiary',  hex: '#8A7F73', desc: 'Tertiary / muted' },
+    { name: 'border',         hex: '#EFE4D4', desc: 'Default border' },
+    { name: 'border-soft',    hex: '#F5ECDE', desc: 'Subtle divider' },
+  ].map((c) => (
+    <Swatch key={c.name} {...c} />
+  ))}
+</div>
+
+## Brand Colors — Dark
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'bg',             hex: '#0F0D0B', desc: 'Deep warm-black' },
+    { name: 'bg-elev',        hex: '#1A1714', desc: 'Elevated dark' },
+    { name: 'bg-soft',        hex: '#25201C', desc: 'Subtle inset dark' },
+    { name: 'accent',         hex: '#F0A668', desc: 'Brightened apricot' },
+    { name: 'accent-hover',   hex: '#FFB47A', desc: 'Apricot on hover (brighter)' },
+    { name: 'ai-purple',      hex: '#9B82FF', desc: 'AI purple — brightened' },
+    { name: 'text-primary',   hex: '#F4ECE0', desc: 'Primary on dark' },
+    { name: 'text-secondary', hex: '#A89E92', desc: 'Secondary on dark' },
+    { name: 'text-tertiary',  hex: '#6A6258', desc: 'Tertiary on dark' },
+    { name: 'border',         hex: '#2D2723', desc: 'Default border dark' },
+    { name: 'border-soft',    hex: '#383028', desc: 'Subtle divider dark' },
+  ].map((c) => (
+    <Swatch key={c.name} {...c} dark />
+  ))}
+</div>
+
+---
+
+## Effort Palette
+
+Creator-intent classification — used in dashboards, lists, badges, the IntentFeed.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+  {[
+    { name: 'organic', light: '#5A8E4F', dark: '#7CB070', desc: 'Organic — creator posted unprompted' },
+    { name: 'sample',  light: '#5C82B0', dark: '#7FA4D2', desc: 'Sample — try-before-buy' },
+    { name: 'sponsor', light: '#E68F47', dark: '#F0A668', desc: 'Sponsored — same as accent' },
+    { name: 'paid',    light: '#968B7E', dark: '#B5AB9D', desc: 'Paid placement — neutral' },
+  ].map((c) => (
+    <div key={c.name} style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #EFE4D4' }}>
+      <div style={{ background: c.light, color: '#fff', padding: 16 }}>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, textTransform: 'capitalize' }}>{c.name}</div>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, opacity: 0.95, marginTop: 2 }}>{c.light}</div>
+      </div>
+      <div style={{ background: c.dark, color: '#0F0D0B', padding: 16 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>{c.dark} (dark)</div>
+      </div>
+      <div style={{ background: '#FDF8F3', padding: 12, fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#5C5249' }}>{c.desc}</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Status Scale
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+  {[
+    { name: 'success', hex: '#2F8A4F' },
+    { name: 'warning', hex: '#C6892C' },
+    { name: 'danger',  hex: '#B33A3A' },
+    { name: 'info',    hex: '#3B6EB5' },
+  ].map((c) => (
+    <Swatch key={c.name} {...c} desc={`Status / ${c.name}`} />
+  ))}
+</div>
+
+---
+
+## Brand Gradient (LOCKED)
+
+`linear-gradient(135deg, #E68F47 0%, #7B5BFF 100%)` — used in the wordmark sweep,
+Mirror/Map AI surfaces, and the cockpit hero accent.
+
+<div style={{ height: 96, background: 'linear-gradient(135deg, #E68F47 0%, #7B5BFF 100%)', borderRadius: 8 }} />
+
+Sweep variant (animated): `linear-gradient(90deg, #E68F47 0%, #7B5BFF 50%, #E68F47 100%)` with
+`background-size: 200% 100%` and `background-position` animated.
+
+---
+
+## Combinations & Contrast
+
+| Foreground | Background | Ratio | WCAG |
+|---|---|---|---|
+| `#1C1611` text-primary | `#FDF8F3` bg-cream | 14.8:1 | AAA |
+| `#5C5249` text-secondary | `#FDF8F3` bg-cream | 6.9:1 | AAA |
+| `#8A7F73` text-tertiary | `#FDF8F3` bg-cream | 3.6:1 | AA Large |
+| `#FFFFFF` white | `#E68F47` accent | 2.9:1 | Fail body — use for large text only |
+| `#1C1611` text-primary | `#FFE9D2` accent-soft | 13.1:1 | AAA |
+| `#F4ECE0` text-primary | `#0F0D0B` bg-dark | 14.4:1 | AAA |
+
+**Rule:** never put white body text directly on apricot — use either large/heavy text only, or
+swap to the warm-ink text on apricot-soft for accents.
+
+---
+
+export const Swatch = ({ name, hex, desc, dark = false }) => (
+  <div style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid #EFE4D4', background: '#fff' }}>
+    <div style={{ background: hex, height: 80 }} />
+    <div style={{ padding: 12, fontFamily: 'Inter, sans-serif' }}>
+      <div style={{ fontWeight: 600, fontSize: 13, color: '#1C1611' }}>{name}{dark ? ' (dark)' : ''}</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#5C5249', marginTop: 2 }}>{hex}</div>
+      {desc && <div style={{ fontSize: 12, color: '#8A7F73', marginTop: 4 }}>{desc}</div>}
+    </div>
+  </div>
+);

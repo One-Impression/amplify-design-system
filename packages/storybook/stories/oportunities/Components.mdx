@@ -1,0 +1,174 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Components" />
+
+# Oportunities — Composed Components
+
+Six product-level composed components built on top of the Canvas primitives,
+locked to the Oportunities theme. Each one is a composition of existing
+primitives (Card, Badge, Avatar, etc.) — no new structural patterns,
+just product-specific assembly + voice.
+
+> **Composition rule:** every Oportunities component reuses Canvas primitives.
+> They are NOT new building blocks — they are vertically-integrated examples
+> of brand + tone applied to existing parts.
+
+---
+
+## CreatorIntentCard
+
+Surfaces a creator's recent signals toward a brand. Used in the IntentFeed and Mirror surfaces.
+
+<div style={{ padding: 24, background: '#FDF8F3', borderRadius: 8 }}>
+  <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 12, border: '1px solid #EFE4D4', maxWidth: 480, display: 'flex', gap: 16 }}>
+    <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #E68F47, #7B5BFF)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'Geist, sans-serif', fontWeight: 600, flexShrink: 0 }}>A</div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#1C1611' }}>Aanya Mehra</span>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73' }}>@aanyam</span>
+        <span style={{ marginLeft: 'auto', background: '#FFE9D2', color: '#D67A35', padding: '2px 8px', borderRadius: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fontWeight: 600 }}>0.87</span>
+      </div>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#5C5249', marginBottom: 12 }}>
+        Heads up — she saved your post Tuesday + replied to your story Thursday + viewed 3× today.
+      </div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        <span style={{ background: '#F1F8EF', color: '#5A8E4F', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontFamily: 'Inter, sans-serif' }}>organic</span>
+        <span style={{ background: '#F8F1E8', color: '#8A7F73', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontFamily: 'JetBrains Mono, monospace' }}>7d window</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+```tsx
+import { CreatorIntentCard } from '@amplify-ai/ui';
+
+<CreatorIntentCard
+  creator={{ name: 'Aanya Mehra', handle: 'aanyam', avatarUrl }}
+  signal={{ strength: 0.87, summary: 'saved your post Tuesday…' }}
+  effort="organic"
+  window="7d"
+  onOpen={() => navigate(`/creator/${creator.id}`)}
+/>
+```
+
+Composes: `Card` · `Avatar` · `Badge` · `SignalDot`
+
+---
+
+## BrandInterestCard
+
+Inverse view — a brand surfacing inside a creator's Mirror. Same shape, different perspective.
+
+<div style={{ padding: 24, background: '#FDF8F3', borderRadius: 8 }}>
+  <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 12, border: '1px solid #EFE4D4', maxWidth: 480 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+      <div style={{ width: 40, height: 40, borderRadius: 8, background: '#0F0D0B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#F0A668', fontFamily: 'Geist, sans-serif', fontWeight: 600, fontSize: 18 }}>N</div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#1C1611' }}>Nourish & Co.</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#8A7F73' }}>Plant-based snacks · interested in your audience</div>
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: '#5A8E4F', fontWeight: 600 }}>+₹12K est.</div>
+    </div>
+    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#5C5249', lineHeight: 1.5 }}>
+      Heads up — Nourish has looked at your last 3 reels and wants to send a sample. Want us to draft a reply?
+    </div>
+  </div>
+</div>
+
+```tsx
+<BrandInterestCard
+  brand={{ name: 'Nourish & Co.', logoUrl, tagline: 'Plant-based snacks' }}
+  estValue="₹12K"
+  summary="Nourish has looked at your last 3 reels and wants to send a sample."
+  cta="Draft reply"
+/>
+```
+
+---
+
+## IntentFeed
+
+Chronological stream of CreatorIntentCard + BrandInterestCard, grouped by day.
+
+```tsx
+<IntentFeed
+  items={signals}
+  groupBy="day"
+  emptyState={<EmptyState title="No signals yet" body="The feed will fill as creators engage." />}
+/>
+```
+
+Composes: `CreatorIntentCard` · `BrandInterestCard` · `SignalDot` · `EmptyState` · `Skeleton`
+
+---
+
+## SignalDot
+
+Tiny status dot — colored by effort palette. Used inline in feed items, lists, KPIs.
+
+<div style={{ padding: 24, background: '#FDF8F3', borderRadius: 8, display: 'flex', gap: 32, alignItems: 'center' }}>
+  {[
+    { effort: 'organic', color: '#5A8E4F' },
+    { effort: 'sample',  color: '#5C82B0' },
+    { effort: 'sponsor', color: '#E68F47' },
+    { effort: 'paid',    color: '#968B7E' },
+  ].map((d) => (
+    <div key={d.effort} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <span style={{ width: 8, height: 8, borderRadius: '50%', background: d.color, display: 'inline-block', boxShadow: `0 0 0 4px ${d.color}22` }} />
+      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#1C1611', textTransform: 'capitalize' }}>{d.effort}</span>
+    </div>
+  ))}
+</div>
+
+```tsx
+<SignalDot effort="organic" pulse />
+<SignalDot effort="sponsor" size="lg" />
+```
+
+---
+
+## AppIconOportunities
+
+Native app icon — apricot dot on cream (light) or warm-ink (dark). See **AppIcon** for platform specs.
+
+<div style={{ display: 'flex', gap: 24, padding: 24, background: '#FDF8F3', borderRadius: 8, alignItems: 'flex-end' }}>
+  {[
+    { size: 32, bg: '#FDF8F3', dot: '#E68F47' },
+    { size: 64, bg: '#FDF8F3', dot: '#E68F47' },
+    { size: 128, bg: '#FDF8F3', dot: '#E68F47' },
+    { size: 64, bg: '#0F0D0B', dot: '#F0A668' },
+  ].map((i, idx) => (
+    <div key={idx} style={{ width: i.size, height: i.size, background: i.bg, borderRadius: i.size * 0.22, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.06)' }}>
+      <div style={{ width: i.size * 0.35, height: i.size * 0.35, borderRadius: '50%', background: i.dot }} />
+    </div>
+  ))}
+</div>
+
+```tsx
+<AppIconOportunities size={64} mode="light" />
+<AppIconOportunities size={1024} mode="dark" platform="ios" />
+```
+
+---
+
+## Wordmark
+
+The brand wordmark — see **Logo** for full spec.
+
+```tsx
+<Wordmark variant="withGradient" size={48} />
+<Wordmark variant="onDark" />
+```
+
+---
+
+## Composition Matrix
+
+| Component | Built from | Used in |
+|---|---|---|
+| CreatorIntentCard | Card · Avatar · Badge · SignalDot | IntentFeed · Mirror · Cockpit |
+| BrandInterestCard | Card · Avatar · Badge · SignalDot | Mirror (creator) |
+| IntentFeed | CreatorIntentCard · BrandInterestCard · EmptyState | Cockpit (default) |
+| SignalDot | (primitive — `<span>` + tokens) | every list / feed / KPI |
+| AppIconOportunities | (primitive — SVG) | PWA · iOS · Android · macOS |
+| Wordmark | (primitive — SVG) | Nav · marketing · email · auth |

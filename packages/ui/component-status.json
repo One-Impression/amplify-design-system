@@ -121,6 +121,12 @@
     "DiffOverlay": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — red/green pixel-diff layer over the Live pane; modes: highlight (mix-blend-multiply bands + legend) / swipe (vertical curtain) / side-by-side (1fr/1fr grid)." },
     "FlowContextSidebar": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — left-rail multi-step flow navigator implementing FlowSidebar SPEC v0 (PR #101); 260px expanded / 44px rail; status (default/in-progress/complete/skipped); roving tabindex; href|button chips; sticky Apply-to-all." },
     "RecentChangesPanel": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — right side-panel listing the last N git commits touching a file; 360px width via --amp-studio-theme-layout-history-panel-w; Esc closes." },
-    "ReplyAffordance": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — hover-revealed pill on a VariantCard that pre-fills the composer with @V<n> (Gen <m>): for chained iteration." }
+    "ReplyAffordance": { "status": "beta", "since": "2.13.0", "notes": "Studio v0 Wave 4 — hover-revealed pill on a VariantCard that pre-fills the composer with @V<n> (Gen <m>): for chained iteration." },
+    "Wordmark": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — the 'oportunities.' wordmark in Geist 600 with optional apricot→purple gradient-sweep animation; prefers-reduced-motion gated." },
+    "SignalDot": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — the apricot period as a standalone animated mark; supports pulse, conic-gradient fill, and 'live' presence rings; prefers-reduced-motion gated." },
+    "CreatorIntentCard": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — signature brand-side card surfacing a creator's declared intent + AI fit score + unlock CTA. Composes Card + Avatar + Badge." },
+    "BrandInterestCard": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — creator-side inbox card surfacing brand interest with reply/decline CTAs. Composes Card + Badge." },
+    "IntentFeed": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — container rendering a filter strip + responsive grid of CreatorIntentCards." },
+    "AppIconOportunities": { "status": "alpha", "since": "2.14.0", "notes": "Oportunities product primitive — the locked V1 'op.' app icon in an iOS squircle (border-radius 22.37%); light + dark variants." }
   }
 }
