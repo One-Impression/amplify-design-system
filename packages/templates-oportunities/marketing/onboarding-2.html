@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#E89252" />
+<title>Step 2 — Partnership preferences · oportunities.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --apricot: #E89252; --terracotta: #D87B6E; --purple: #6B4FA0; --ai-purple: #7B5BFF;
+    --cream: #FDF8F3; --cream-light: #F4ECE0; --ink: #0F0D0B; --ink-soft: #4A453F;
+    --display: 'Geist', system-ui, sans-serif; --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cream); color: var(--ink); font-family: var(--body); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  header { padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 28px; letter-spacing: -0.04em; }
+  .wordmark .dot { color: var(--apricot); }
+  .progress { display: flex; gap: 6px; align-items: center; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .progress-bar { width: 200px; height: 4px; background: rgba(15,13,11,0.1); border-radius: 999px; overflow: hidden; }
+  .progress-bar .fill { width: 66.6%; height: 100%; background: var(--apricot); transition: width 0.4s; }
+
+  main { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
+  .step-label { font-family: var(--mono); font-size: 12px; color: var(--apricot); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  h1 { font-family: var(--display); font-size: clamp(32px, 4vw, 42px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.1; }
+  .sub { color: var(--ink-soft); font-size: 17px; margin-bottom: 32px; }
+
+  .group { background: white; border: 1px solid rgba(15,13,11,0.08); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .group h3 { font-family: var(--display); font-size: 17px; font-weight: 600; margin-bottom: 14px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 8px 14px; border: 1px solid rgba(15,13,11,0.15); border-radius: 999px; font-size: 13px; font-weight: 500; cursor: pointer; background: white; transition: all 0.15s; user-select: none; }
+  .chip:hover { border-color: var(--apricot); }
+  .chip.selected { background: var(--apricot); border-color: var(--apricot); color: var(--ink); }
+
+  .slider-row { display: flex; align-items: center; gap: 16px; }
+  .slider-row input[type=range] { flex-grow: 1; }
+  .slider-row .value { font-family: var(--mono); font-weight: 600; color: var(--apricot); min-width: 72px; text-align: right; }
+
+  .nav-row { display: flex; justify-content: space-between; margin-top: 32px; }
+  .btn-primary { background: var(--apricot); color: var(--ink); padding: 14px 26px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; font-family: var(--body); }
+  .btn-text { background: transparent; padding: 14px; font-weight: 500; font-size: 14px; color: var(--ink-soft); border: 0; cursor: pointer; font-family: var(--body); }
+</style>
+</head>
+<body>
+  <header>
+    <a href="landing.html" class="wordmark">oportunities<span class="dot">.</span></a>
+    <div class="progress">
+      <div class="progress-bar"><div class="fill"></div></div>
+      <span>Step 2 of 3</span>
+    </div>
+  </header>
+  <main>
+    <div class="step-label">Step 2 · Partnership preferences</div>
+    <h1>What kind of collabs are you running?</h1>
+    <p class="sub">Pick everything that applies. We'll prioritise signals that match.</p>
+
+    <form action="onboarding-3.html">
+      <div class="group">
+        <h3>Creator tier</h3>
+        <div class="chip-row" data-multi>
+          <span class="chip selected">Nano (10K–50K)</span>
+          <span class="chip selected">Micro (50K–250K)</span>
+          <span class="chip">Macro (250K–1M)</span>
+          <span class="chip">Mega (1M+)</span>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Content formats</h3>
+        <div class="chip-row" data-multi>
+          <span class="chip selected">Instagram Reel</span>
+          <span class="chip selected">Instagram Story</span>
+          <span class="chip">YouTube long-form</span>
+          <span class="chip">YouTube Shorts</span>
+          <span class="chip">LinkedIn post</span>
+          <span class="chip">Podcast feature</span>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Geography</h3>
+        <div class="chip-row" data-multi>
+          <span class="chip selected">Mumbai</span>
+          <span class="chip selected">Delhi NCR</span>
+          <span class="chip selected">Bengaluru</span>
+          <span class="chip">Hyderabad</span>
+          <span class="chip">Chennai</span>
+          <span class="chip">Pan-India</span>
+          <span class="chip">International travel</span>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Per-collab budget (typical)</h3>
+        <div class="slider-row">
+          <input type="range" min="10000" max="500000" step="10000" value="75000" id="budget" />
+          <span class="value" id="budgetValue">₹75,000</span>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <a href="onboarding-1.html" class="btn-text">← Back</a>
+        <button type="submit" class="btn-primary">Continue →</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    document.querySelectorAll('.chip-row[data-multi] .chip').forEach(function (c) {
+      c.addEventListener('click', function () { c.classList.toggle('selected'); });
+    });
+    var slider = document.getElementById('budget');
+    var label = document.getElementById('budgetValue');
+    slider.addEventListener('input', function () {
+      label.textContent = '₹' + Number(slider.value).toLocaleString('en-IN');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#E89252" />
+<title>Step 3 — First intent feed · oportunities.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --apricot: #E89252; --terracotta: #D87B6E; --purple: #6B4FA0; --ai-purple: #7B5BFF;
+    --cream: #FDF8F3; --cream-light: #F4ECE0; --ink: #0F0D0B; --ink-soft: #4A453F;
+    --display: 'Geist', system-ui, sans-serif; --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cream); color: var(--ink); font-family: var(--body); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  header { padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 28px; letter-spacing: -0.04em; }
+  .wordmark .dot { color: var(--apricot); }
+  .progress { display: flex; gap: 6px; align-items: center; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .progress-bar { width: 200px; height: 4px; background: rgba(15,13,11,0.1); border-radius: 999px; overflow: hidden; }
+  .progress-bar .fill { width: 100%; height: 100%; background: var(--apricot); transition: width 0.4s; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 60px 24px; }
+  .step-label { font-family: var(--mono); font-size: 12px; color: var(--apricot); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  h1 { font-family: var(--display); font-size: clamp(32px, 4vw, 42px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.1; }
+  .sub { color: var(--ink-soft); font-size: 17px; margin-bottom: 32px; }
+
+  .signal-list { display: flex; flex-direction: column; gap: 12px; }
+  .signal { background: white; border: 1px solid rgba(15,13,11,0.08); border-radius: 12px; padding: 20px; display: grid; grid-template-columns: 56px 1fr auto; gap: 16px; align-items: center; }
+  .avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--apricot), var(--terracotta)); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; color: white; font-size: 18px; }
+  .signal .name { font-family: var(--display); font-weight: 600; font-size: 17px; }
+  .signal .reason { font-size: 14px; color: var(--ink-soft); }
+  .match-score { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--apricot); background: var(--cream-light); padding: 6px 10px; border-radius: 8px; }
+
+  .cta-row { display: flex; gap: 12px; justify-content: center; margin-top: 40px; }
+  .btn-primary { background: var(--apricot); color: var(--ink); padding: 14px 26px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; font-family: var(--body); }
+  .btn-text { background: transparent; padding: 14px 20px; font-weight: 500; font-size: 14px; color: var(--ink-soft); border: 0; cursor: pointer; font-family: var(--body); }
+
+  .completion { background: var(--cream-light); border-radius: 12px; padding: 24px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; }
+  .completion .check-mark { width: 40px; height: 40px; border-radius: 50%; background: var(--apricot); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; font-weight: 600; flex-shrink: 0; }
+  .completion .text { font-family: var(--display); font-weight: 500; font-size: 15px; }
+</style>
+</head>
+<body>
+  <header>
+    <a href="landing.html" class="wordmark">oportunities<span class="dot">.</span></a>
+    <div class="progress">
+      <div class="progress-bar"><div class="fill"></div></div>
+      <span>Step 3 of 3</span>
+    </div>
+  </header>
+  <main>
+    <div class="step-label">Step 3 · Your first feed</div>
+    <h1>Heads up — 3 creators are signalling now.</h1>
+    <p class="sub">Based on your brand and preferences, here's a preview. The full feed updates every 15 minutes.</p>
+
+    <div class="completion">
+      <div class="check-mark">✓</div>
+      <div class="text">Your account is live. Your first month is free.</div>
+    </div>
+
+    <div class="signal-list">
+      <div class="signal">
+        <div class="avatar">KP</div>
+        <div>
+          <div class="name">Komal Pandey</div>
+          <div class="reason">Heads up — going to Bali next week. Cream-toned aesthetic. Past Mokobara mention in archives.</div>
+        </div>
+        <div class="match-score">94% match</div>
+      </div>
+      <div class="signal">
+        <div class="avatar">MM</div>
+        <div>
+          <div class="name">Masoom Minawala</div>
+          <div class="reason">Walking Lakmé Fashion Week. Editorial portfolio. Travel-luggage-shaped storytelling.</div>
+        </div>
+        <div class="match-score">89% match</div>
+      </div>
+      <div class="signal">
+        <div class="avatar">DK</div>
+        <div>
+          <div class="name">Diipa Khosla</div>
+          <div class="reason">Just announced 3-city Europe tour. Premium brand fit. Speaks to your audience tilt.</div>
+        </div>
+        <div class="match-score">87% match</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#" class="btn-primary">Open my feed →</a>
+      <a href="onboarding-2.html" class="btn-text">← Refine preferences</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#E89252" />
+<title>Sign up — oportunities.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --apricot: #E89252; --terracotta: #D87B6E; --purple: #6B4FA0; --ai-purple: #7B5BFF;
+    --cream: #FDF8F3; --cream-light: #F4ECE0; --ink: #0F0D0B; --ink-soft: #4A453F;
+    --display: 'Geist', system-ui, sans-serif; --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cream); color: var(--ink); font-family: var(--body); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  header { padding: 24px 32px; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 32px; letter-spacing: -0.04em; }
+  .wordmark .dot { color: var(--apricot); }
+  main { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; max-width: 1120px; margin: 0 auto; padding: 40px 24px 80px; }
+  .left h1 { font-family: var(--display); font-size: clamp(32px, 4vw, 48px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .left p { color: var(--ink-soft); font-size: 17px; margin-bottom: 24px; }
+  .url-input { display: flex; gap: 8px; }
+  .url-input input { flex-grow: 1; padding: 14px 16px; border: 1px solid rgba(15,13,11,0.15); border-radius: 10px; font-family: var(--body); font-size: 15px; background: white; }
+  .url-input input:focus { outline: none; border-color: var(--apricot); box-shadow: 0 0 0 3px rgba(232,146,82,0.15); }
+  .btn-primary { background: var(--apricot); color: var(--ink); padding: 14px 22px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; font-family: var(--body); white-space: nowrap; }
+  .hint { font-size: 13px; color: var(--ink-soft); margin-top: 10px; font-family: var(--mono); }
+
+  .right { background: white; border: 1px solid rgba(15,13,11,0.06); border-radius: 16px; padding: 32px; }
+  .right .label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 20px; font-weight: 500; }
+  .scrape-step { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 10px; margin-bottom: 10px; background: var(--cream); opacity: 0.3; transition: opacity 0.5s, background 0.5s; }
+  .scrape-step.done { opacity: 1; background: var(--cream-light); }
+  .scrape-step.done .check { background: var(--apricot); color: white; }
+  .check { width: 28px; height: 28px; border-radius: 50%; background: rgba(15,13,11,0.1); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 600; font-size: 14px; flex-shrink: 0; transition: all 0.3s; }
+  .step-meta { flex-grow: 1; }
+  .step-meta .title { font-family: var(--display); font-weight: 600; font-size: 15px; }
+  .step-meta .value { font-size: 13px; color: var(--ink-soft); font-family: var(--mono); }
+  .continue { width: 100%; margin-top: 20px; background: var(--ink); color: var(--cream); padding: 14px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; opacity: 0.4; pointer-events: none; transition: opacity 0.5s; }
+  .continue.ready { opacity: 1; pointer-events: auto; background: var(--apricot); color: var(--ink); }
+
+  footer { padding: 24px 32px; font-size: 12px; color: var(--ink-soft); text-align: center; }
+
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scrape-step { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <a href="landing.html" class="wordmark">oportunities<span class="dot">.</span></a>
+  </header>
+  <main>
+    <div class="left">
+      <h1>Paste your brand URL.<br/>We do the rest.</h1>
+      <p>Heads up — we scan your site, infer category and aesthetic, and surface past creator partnerships in about 8 seconds. No forms.</p>
+      <form class="url-input" id="scrapeForm">
+        <input type="url" id="brandUrl" placeholder="https://mokobara.com" required />
+        <button type="submit" class="btn-primary">Continue →</button>
+      </form>
+      <div class="hint">e.g. mokobara.com · mamaearth.in · boat-lifestyle.com</div>
+    </div>
+
+    <div class="right">
+      <div class="label">Brand intelligence preview</div>
+      <div class="scrape-step" data-step="1">
+        <div class="check">1</div>
+        <div class="step-meta">
+          <div class="title">Found</div>
+          <div class="value" id="v1">awaiting URL…</div>
+        </div>
+      </div>
+      <div class="scrape-step" data-step="2">
+        <div class="check">2</div>
+        <div class="step-meta">
+          <div class="title">Category</div>
+          <div class="value" id="v2">…</div>
+        </div>
+      </div>
+      <div class="scrape-step" data-step="3">
+        <div class="check">3</div>
+        <div class="step-meta">
+          <div class="title">Aesthetic</div>
+          <div class="value" id="v3">…</div>
+        </div>
+      </div>
+      <div class="scrape-step" data-step="4">
+        <div class="check">4</div>
+        <div class="step-meta">
+          <div class="title">Past partners</div>
+          <div class="value" id="v4">…</div>
+        </div>
+      </div>
+      <button class="continue" id="continueBtn">Continue to dashboard →</button>
+    </div>
+  </main>
+  <footer>© 2026 Oportunities. Already have an account? <a href="login.html" style="color:var(--apricot);font-weight:600;">Sign in</a></footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('scrapeForm');
+      var btn = document.getElementById('continueBtn');
+      var steps = document.querySelectorAll('.scrape-step');
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var demo = {
+        'mokobara.com': { found: 'Mokobara — Premium luggage', category: 'Travel · Lifestyle', aesthetic: 'Minimal · Editorial · Cream-toned', partners: 'Komal Pandey, Masoom Minawala, Diipa Khosla' },
+        'mamaearth.in': { found: 'Mamaearth — Toxin-free personal care', category: 'D2C · Baby + Beauty', aesthetic: 'Warm · Maternal · Pastel', partners: 'Shilpa Shetty, Shaheen Bhatt, Anaysa creators' },
+        'boat-lifestyle.com': { found: 'boAt — Audio + lifestyle', category: 'Consumer electronics', aesthetic: 'Bold · Youth · Music-led', partners: 'Hardik Pandya, KL Rahul, gaming creators' },
+        'default': { found: 'Brand website detected', category: 'D2C · Lifestyle', aesthetic: 'Modern · Premium', partners: '3 micro-influencers, 2 macro creators' }
+      };
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var url = document.getElementById('brandUrl').value.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+        var data = demo[url] || demo['default'];
+        var values = [data.found, data.category, data.aesthetic, data.partners];
+        var delay = reduced ? 0 : 600;
+        steps.forEach(function (s, i) {
+          setTimeout(function () {
+            s.classList.add('done');
+            document.getElementById('v' + (i + 1)).textContent = values[i];
+            if (i === steps.length - 1) btn.classList.add('ready');
+          }, delay * (i + 1));
+        });
+      });
+      btn.addEventListener('click', function () {
+        window.location.href = 'onboarding-1.html';
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "@amplify-ai/templates-oportunities",
+  "version": "1.0.0",
+  "description": "Oportunities brand applications — marketing site templates, email templates, push/Slack/WhatsApp formats, social templates, slide decks, business cards",
+  "main": "index.js",
+  "files": ["marketing/", "email/", "notifications/", "social/", "deck/", "business-cards/", "README.md", "index.js"]
+}

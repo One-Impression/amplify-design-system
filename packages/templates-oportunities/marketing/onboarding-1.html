@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#E89252" />
+<title>Step 1 — Connect brand identity · oportunities.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --apricot: #E89252; --terracotta: #D87B6E; --purple: #6B4FA0; --ai-purple: #7B5BFF;
+    --cream: #FDF8F3; --cream-light: #F4ECE0; --ink: #0F0D0B; --ink-soft: #4A453F;
+    --display: 'Geist', system-ui, sans-serif; --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cream); color: var(--ink); font-family: var(--body); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  header { padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 28px; letter-spacing: -0.04em; }
+  .wordmark .dot { color: var(--apricot); }
+  .progress { display: flex; gap: 6px; align-items: center; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .progress-bar { width: 200px; height: 4px; background: rgba(15,13,11,0.1); border-radius: 999px; overflow: hidden; }
+  .progress-bar .fill { width: 33.3%; height: 100%; background: var(--apricot); transition: width 0.4s; }
+
+  main { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+  .step-label { font-family: var(--mono); font-size: 12px; color: var(--apricot); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  h1 { font-family: var(--display); font-size: clamp(32px, 4vw, 42px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.1; }
+  .sub { color: var(--ink-soft); font-size: 17px; margin-bottom: 40px; }
+
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--ink-soft); }
+  .field input, .field select { width: 100%; padding: 12px 14px; border: 1px solid rgba(15,13,11,0.15); border-radius: 8px; font-family: var(--body); font-size: 15px; background: white; }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--apricot); box-shadow: 0 0 0 3px rgba(232,146,82,0.15); }
+
+  .nav-row { display: flex; justify-content: space-between; margin-top: 32px; }
+  .btn-primary { background: var(--apricot); color: var(--ink); padding: 14px 26px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; font-family: var(--body); }
+  .btn-text { background: transparent; padding: 14px; font-weight: 500; font-size: 14px; color: var(--ink-soft); border: 0; cursor: pointer; font-family: var(--body); }
+</style>
+</head>
+<body>
+  <header>
+    <a href="landing.html" class="wordmark">oportunities<span class="dot">.</span></a>
+    <div class="progress">
+      <div class="progress-bar"><div class="fill"></div></div>
+      <span>Step 1 of 3</span>
+    </div>
+  </header>
+  <main>
+    <div class="step-label">Step 1 · Brand identity</div>
+    <h1>Tell us about your brand.</h1>
+    <p class="sub">We use this to tune your intent feed. Heads up — you can edit any of this later from Settings.</p>
+
+    <form action="onboarding-2.html">
+      <div class="field">
+        <label for="brand">Brand name</label>
+        <input type="text" id="brand" value="Mokobara" />
+      </div>
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category">
+          <option>Travel · Lifestyle</option>
+          <option>D2C · Beauty</option>
+          <option>D2C · Personal care</option>
+          <option>Consumer electronics</option>
+          <option>FinTech</option>
+          <option>EdTech</option>
+          <option>Fashion · Apparel</option>
+          <option>Food · Beverage</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="aesthetic">Aesthetic descriptors (3–5 words)</label>
+        <input type="text" id="aesthetic" value="Minimal · Editorial · Cream-toned · Premium" />
+      </div>
+      <div class="field">
+        <label for="website">Website</label>
+        <input type="url" id="website" value="https://mokobara.com" />
+      </div>
+
+      <div class="nav-row">
+        <button type="button" class="btn-text" onclick="history.back()">← Back</button>
+        <button type="submit" class="btn-primary">Continue →</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
