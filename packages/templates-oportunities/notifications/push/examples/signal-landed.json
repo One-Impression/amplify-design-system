@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "event": "intent.signal.landed",
+    "voice": "tool-curious",
+    "channel_ios": "intent_signals",
+    "channel_android": "intent_signals",
+    "description": "Brand-side push when a new intent signal lands that crosses the user's fit threshold."
+  },
+  "apns": {
+    "aps": {
+      "alert": {
+        "title": "Heads up —",
+        "body": "Komal Pandey is going to Bali Jan 18. AI fit 94% with Mamaearth."
+      },
+      "sound": "default",
+      "badge": 1,
+      "category": "INTENT_NEW",
+      "thread-id": "intent",
+      "mutable-content": 1
+    },
+    "data": {
+      "deeplink": "oportunities://signal/sig_01HXYZ",
+      "signal_id": "sig_01HXYZ",
+      "creator_handle": "komalpandeyofficial",
+      "destination": "Bali",
+      "trip_start": "2026-01-18",
+      "fit_score": 94,
+      "brand_id": "mamaearth"
+    }
+  },
+  "fcm": {
+    "message": {
+      "notification": {
+        "title": "Heads up —",
+        "body": "Komal Pandey is going to Bali Jan 18. AI fit 94% with Mamaearth."
+      },
+      "android": {
+        "priority": "HIGH",
+        "notification": {
+          "channel_id": "intent_signals",
+          "color": "#E68F47",
+          "icon": "ic_notification_op",
+          "click_action": "INTENT_NEW"
+        }
+      },
+      "data": {
+        "deeplink": "oportunities://signal/sig_01HXYZ",
+        "signal_id": "sig_01HXYZ",
+        "creator_handle": "komalpandeyofficial",
+        "destination": "Bali",
+        "trip_start": "2026-01-18",
+        "fit_score": "94",
+        "brand_id": "mamaearth"
+      }
+    }
+  },
+  "actions": [
+    { "id": "view", "label": "View" },
+    { "id": "unlock", "label": "Unlock" }
+  ]
+}

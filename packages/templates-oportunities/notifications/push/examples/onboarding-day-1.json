@@ -1,0 +1,49 @@
+{
+  "_meta": {
+    "event": "onboarding.day_1",
+    "voice": "tool-curious",
+    "channel_ios": "intent_signals",
+    "channel_android": "intent_signals",
+    "description": "Fired 24h after first sign-in. Confirms first 3 signals are surfaced. Skipped if user has 0 signals (falls back to 'broaden filters' nudge handled separately)."
+  },
+  "apns": {
+    "aps": {
+      "alert": {
+        "title": "Heads up —",
+        "body": "Welcome — your first 3 signals are live. Take a look?"
+      },
+      "sound": "default",
+      "badge": 1,
+      "category": "ONBOARDING_DAY1",
+      "thread-id": "onboarding"
+    },
+    "data": {
+      "deeplink": "oportunities://feed?source=onboarding_day1",
+      "signal_count": 3
+    }
+  },
+  "fcm": {
+    "message": {
+      "notification": {
+        "title": "Heads up —",
+        "body": "Welcome — your first 3 signals are live. Take a look?"
+      },
+      "android": {
+        "priority": "HIGH",
+        "notification": {
+          "channel_id": "intent_signals",
+          "color": "#E68F47",
+          "icon": "ic_notification_op",
+          "click_action": "ONBOARDING_DAY1"
+        }
+      },
+      "data": {
+        "deeplink": "oportunities://feed?source=onboarding_day1",
+        "signal_count": "3"
+      }
+    }
+  },
+  "actions": [
+    { "id": "view", "label": "View signals" }
+  ]
+}

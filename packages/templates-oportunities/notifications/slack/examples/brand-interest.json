@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "event": "creator.brand_interest.mirror",
+    "voice": "tool-curious",
+    "channel_default": "DM to brand admin",
+    "description": "Brand-side mirror message: a brand on the same workspace fires interest at a creator. Used by managers tracking outreach pipeline."
+  },
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🔔 Brand interest sent",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Mamaearth* sent interest to *Komal Pandey* for the Bali trip.\nBrief + sample WhatsApp draft are queued for creator response."
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        { "type": "mrkdwn", "text": "*Brand*\nMamaearth" },
+        { "type": "mrkdwn", "text": "*Creator*\nKomal Pandey" },
+        { "type": "mrkdwn", "text": "*Channel*\nWhatsApp + in-app" },
+        { "type": "mrkdwn", "text": "*Awaiting*\nCreator response (48h SLA)" }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "View brief", "emoji": false },
+          "style": "primary",
+          "url": "https://oportunities.in/brief/brf_01HXYZ",
+          "action_id": "view_brief"
+        },
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "View thread", "emoji": false },
+          "url": "https://oportunities.in/thread/th_01HXYZ",
+          "action_id": "view_thread"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  Sent <!date^1737187200^{date_short_pretty} at {time}|just now>" }
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "color": "#E68F47",
+      "fallback": "Brand interest sent: Mamaearth to Komal Pandey for Bali trip."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+name: oportunities_follow_up_en_v1
+category: UTILITY
+language: en
+voice: tool-curious
+purpose: |
+  Sent automatically 48h after a brand-interest message goes out, when the
+  creator has not opened or replied. One-shot — not a loop.
+
+variables:
+  {{1}}: creator_name         # e.g. "Komal"
+  {{2}}: brand_name           # e.g. "Mamaearth"
+  {{3}}: event_or_trip        # e.g. "Bali trip"
+  {{4}}: view_url             # e.g. "https://oportunities.in/b/brf_01HXYZ"
+
+---HEADER---
+Heads up —
+
+---BODY---
+Hi {{1}}, just a quick nudge — {{2}} sent a brief for your {{3}} a couple of days back. Still open if you'd like to take a look: {{4}}
+
+---FOOTER---
+— Oportunities
+
+---BUTTONS---
+- type: URL
+  text: View brief
+  url_suffix: "{{1}}"
+- type: QUICK_REPLY
+  text: Not interested
+
+---NOTES---
+- Sent once. If still no reply 5 days later, the signal expires silently.
+- Quality risk: Meta penalises repeat outreach; we cap at 1 follow-up forever.

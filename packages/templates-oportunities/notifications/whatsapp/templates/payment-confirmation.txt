@@ -1,0 +1,29 @@
+name: oportunities_payment_confirmation_en_v1
+category: UTILITY
+language: en
+voice: direct-confident
+variables:
+  {{1}}: amount_inr           # e.g. "10,000"
+  {{2}}: plan_or_purchase     # e.g. "Oportunities Pro (1 month)"
+  {{3}}: invoice_id           # e.g. "INV-01HXYZ"
+  {{4}}: receipt_url          # e.g. "https://oportunities.in/billing/i/INV-01HXYZ"
+
+---BODY---
+Payment processed.
+
+₹{{1}} charged for {{2}}.
+
+Invoice: {{3}}
+Receipt: {{4}}
+
+---FOOTER---
+— Oportunities
+
+---BUTTONS---
+- type: URL
+  text: View receipt
+  url_suffix: "{{1}}"
+
+---NOTES---
+- Direct-confident register: no "Heads up —", verb-first, declarative.
+- Always send within seconds of charge confirmation (utility template, no opt-in friction).

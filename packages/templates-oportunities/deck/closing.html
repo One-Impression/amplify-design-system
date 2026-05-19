@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Oportunities — Closing Slide</title>
+<style>
+  :root {
+    --cream:      #FDF8F3;
+    --ink:        #0F0D0B;
+    --apricot:    #E89252;
+    --apricot-2:  #F0A668;
+    --terracotta: #D87B6E;
+    --purple:     #6B4FA0;
+    --muted:      rgba(15,13,11,0.6);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; }
+  body {
+    font-family: "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: var(--ink);
+    color: var(--cream);
+    overflow: hidden;
+    position: relative;
+  }
+  .gradient-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(232,146,82,0.30) 0%, rgba(232,146,82,0) 50%),
+      radial-gradient(circle at 80% 80%, rgba(107,79,160,0.32) 0%, rgba(107,79,160,0) 55%),
+      radial-gradient(circle at 60% 40%, rgba(216,123,110,0.20) 0%, rgba(216,123,110,0) 50%);
+    pointer-events: none;
+  }
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 96px 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .top {
+    font-size: 22px;
+    color: rgba(253,248,243,0.5);
+  }
+  .center {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .thanks {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-size: 280px;
+    line-height: 0.9;
+    color: var(--cream);
+  }
+  .thanks .dot { color: var(--apricot); }
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px 96px;
+    font-size: 28px;
+    color: rgba(253,248,243,0.78);
+  }
+  .contact .item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .contact .ka {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--apricot-2);
+    font-weight: 500;
+  }
+  .contact .kv {
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .wordmark {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-size: 56px;
+    color: var(--cream);
+  }
+  .wordmark .dot { color: var(--apricot); }
+  .meta {
+    font-size: 22px;
+    color: rgba(253,248,243,0.5);
+    font-feature-settings: "tnum";
+  }
+</style>
+</head>
+<body>
+  <div class="gradient-bg" aria-hidden="true"></div>
+  <div class="stage">
+    <div class="top">CLOSING · 24 / 24</div>
+
+    <div class="center">
+      <div class="thanks">Thank you<span class="dot">.</span></div>
+      <div class="contact">
+        <div class="item">
+          <div class="ka">Email</div>
+          <div class="kv">apaksh@oportunities.in</div>
+        </div>
+        <div class="item">
+          <div class="ka">Web</div>
+          <div class="kv">oportunities.in</div>
+        </div>
+        <div class="item">
+          <div class="ka">WhatsApp</div>
+          <div class="kv">+91 9XXX XXX XXX</div>
+        </div>
+        <div class="item">
+          <div class="ka">Demo</div>
+          <div class="kv">oportunities.in/demo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="wordmark">oportunities<span class="dot">.</span></div>
+      <div class="meta">MAY 2026</div>
+    </div>
+  </div>
+</body>
+</html>

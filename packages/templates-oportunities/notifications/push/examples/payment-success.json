@@ -1,0 +1,53 @@
+{
+  "_meta": {
+    "event": "payment.success",
+    "voice": "direct-confident",
+    "channel_ios": "account_alerts",
+    "channel_android": "account_alerts",
+    "description": "Transactional confirmation after successful charge — subscription renewal or credit top-up."
+  },
+  "apns": {
+    "aps": {
+      "alert": {
+        "title": "✓ Payment processed",
+        "body": "₹10,000 charged · Oportunities Pro renewed for 1 month."
+      },
+      "sound": "default",
+      "badge": 1,
+      "category": "PAYMENT_OK",
+      "thread-id": "billing"
+    },
+    "data": {
+      "deeplink": "oportunities://billing/invoice/inv_01HXYZ",
+      "invoice_id": "inv_01HXYZ",
+      "amount_inr": 10000,
+      "plan": "pro_monthly"
+    }
+  },
+  "fcm": {
+    "message": {
+      "notification": {
+        "title": "✓ Payment processed",
+        "body": "₹10,000 charged · Oportunities Pro renewed for 1 month."
+      },
+      "android": {
+        "priority": "HIGH",
+        "notification": {
+          "channel_id": "account_alerts",
+          "color": "#E68F47",
+          "icon": "ic_notification_op",
+          "click_action": "PAYMENT_OK"
+        }
+      },
+      "data": {
+        "deeplink": "oportunities://billing/invoice/inv_01HXYZ",
+        "invoice_id": "inv_01HXYZ",
+        "amount_inr": "10000",
+        "plan": "pro_monthly"
+      }
+    }
+  },
+  "actions": [
+    { "id": "view", "label": "View receipt" }
+  ]
+}

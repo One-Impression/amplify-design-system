@@ -1,0 +1,30 @@
+name: oportunities_signal_notification_en_v1
+category: UTILITY
+language: en
+voice: tool-curious
+variables:
+  {{1}}: creator_name        # e.g. "Komal Pandey"
+  {{2}}: destination          # e.g. "Bali"
+  {{3}}: fit_score            # e.g. "94"
+  {{4}}: brand_name           # e.g. "Mamaearth"
+  {{5}}: unlock_url           # e.g. "https://oportunities.in/u/sig_01HXYZ"
+
+---HEADER---
+Heads up —
+
+---BODY---
+{{1}} is going to {{2}}.
+
+AI fit score: {{3}}% with {{4}}.
+
+Unlock contact (5 credits): {{5}}
+
+---FOOTER---
+— Oportunities
+
+---BUTTONS---
+- type: URL
+  text: Unlock now
+  url_suffix: "{{1}}"   # appended to the base URL set during template registration
+- type: QUICK_REPLY
+  text: Save for later
