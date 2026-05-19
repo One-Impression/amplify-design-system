@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="oportunities app icon dark">
+  <title>oportunities app icon (dark) — 1024×1024</title>
+  <defs>
+    <clipPath id="squircleDark">
+      <rect x="0" y="0" width="1024" height="1024" rx="229" ry="229"/>
+    </clipPath>
+    <style>
+      .icon-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 560px;
+        letter-spacing: -0.04em;
+        fill: #F4ECE0;
+      }
+      .icon-dot { fill: #F0A668; }
+    </style>
+  </defs>
+  <g clip-path="url(#squircleDark)">
+    <rect x="0" y="0" width="1024" height="1024" fill="#0F0D0B"/>
+    <text x="180" y="680" class="icon-text">op</text>
+    <text x="700" y="680" class="icon-text icon-dot">.</text>
+  </g>
+</svg>

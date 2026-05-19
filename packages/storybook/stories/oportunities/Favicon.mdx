@@ -1,0 +1,134 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Favicon" />
+
+# Oportunities — Favicon
+
+Browser-tab presence. Same apricot dot as the app icon — _at favicon scale, the dot IS the mark._
+No wordmark, no letters, no gradient: just a clean apricot circle on a warm-surface tile.
+
+---
+
+## Live — Light Theme
+
+<div style={{ display: 'flex', gap: 32, alignItems: 'flex-end', padding: 32, background: '#F5ECDE', borderRadius: 8 }}>
+  {[16, 32, 48, 180, 512].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#FDF8F3', borderRadius: Math.max(size * 0.18, 2), display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.06)', maxWidth: 96 }}>
+        <div style={{ width: size * 0.45, height: size * 0.45, borderRadius: '50%', background: '#E68F47', maxWidth: 44, maxHeight: 44 }} />
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+## Live — Dark Theme
+
+<div style={{ display: 'flex', gap: 32, alignItems: 'flex-end', padding: 32, background: '#F5ECDE', borderRadius: 8 }}>
+  {[16, 32, 48, 180, 512].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#0F0D0B', borderRadius: Math.max(size * 0.18, 2), display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: 96 }}>
+        <div style={{ width: size * 0.45, height: size * 0.45, borderRadius: '50%', background: '#F0A668', maxWidth: 44, maxHeight: 44 }} />
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+> At 16px the favicon reads as a warm-orange dot. That's enough — recognizable, distinct,
+> and not competing with neighboring tabs.
+
+---
+
+## Browser Tab Mocks
+
+### Chrome — Light theme
+
+<div style={{ background: '#F1F3F4', padding: 12, borderRadius: 8, fontFamily: 'system-ui', maxWidth: 720 }}>
+  <div style={{ display: 'flex', gap: 4 }}>
+    <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', padding: '6px 12px 6px 10px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#202124', maxWidth: 220 }}>
+      <div style={{ width: 16, height: 16, background: '#FDF8F3', borderRadius: 3, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#E68F47' }} />
+      </div>
+      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Cockpit · oportunities</span>
+    </div>
+    <div style={{ background: 'rgba(0,0,0,0.06)', borderRadius: '8px 8px 0 0', padding: '6px 12px', fontSize: 12, color: '#5F6368' }}>
+      Inbox · Gmail
+    </div>
+    <div style={{ background: 'rgba(0,0,0,0.06)', borderRadius: '8px 8px 0 0', padding: '6px 12px', fontSize: 12, color: '#5F6368' }}>
+      GitHub
+    </div>
+  </div>
+</div>
+
+### Chrome — Dark theme
+
+<div style={{ background: '#202124', padding: 12, borderRadius: 8, fontFamily: 'system-ui', maxWidth: 720, marginTop: 12 }}>
+  <div style={{ display: 'flex', gap: 4 }}>
+    <div style={{ background: '#292A2D', borderRadius: '8px 8px 0 0', padding: '6px 12px 6px 10px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#E8EAED', maxWidth: 220 }}>
+      <div style={{ width: 16, height: 16, background: '#0F0D0B', borderRadius: 3, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#F0A668' }} />
+      </div>
+      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Cockpit · oportunities</span>
+    </div>
+    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px 8px 0 0', padding: '6px 12px', fontSize: 12, color: '#9AA0A6' }}>
+      Inbox · Gmail
+    </div>
+    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px 8px 0 0', padding: '6px 12px', fontSize: 12, color: '#9AA0A6' }}>
+      GitHub
+    </div>
+  </div>
+</div>
+
+> The favicon is the only color in the row. That's the signal: _"that's us."_
+
+---
+
+## File Inventory
+
+From `@amplify-ai/brand-oportunities/assets/favicons/`:
+
+| File | Use |
+|---|---|
+| `favicon.ico` | Legacy fallback (16+32 multi-res) |
+| `favicon-16.png` | Tabs (some browsers prefer raster) |
+| `favicon-32.png` | Standard favicon, retina tab |
+| `favicon-180.png` | Apple touch icon |
+| `favicon-light.svg` | Modern SVG (light) |
+| `favicon-dark.svg` | Modern SVG (dark — used via `prefers-color-scheme`) |
+| `safari-pinned-tab.svg` | Safari pinned tab (single color, masked) |
+| `site.webmanifest` | PWA manifest with icon entries |
+
+---
+
+## Implementation — HTML `<head>`
+
+```html
+<!-- Modern SVG favicon (light + dark) -->
+<link rel="icon" href="/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/favicon-dark.svg"  type="image/svg+xml" media="(prefers-color-scheme: dark)">
+
+<!-- Raster fallbacks -->
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<!-- Apple touch + Safari pinned -->
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#E68F47">
+
+<!-- Manifest + theme color -->
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#FDF8F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0D0B" media="(prefers-color-scheme: dark)">
+```
+
+---
+
+## Do / Don't
+
+- **Do** use the SVG variant for modern browsers — it stays sharp at any DPR.
+- **Do** ship the dark SVG separately — browsers pick by `prefers-color-scheme`.
+- **Do** set `theme-color` so the address bar inherits cream / warm-ink.
+- **Don't** put a letter "o" inside the favicon — at 16px it becomes mush.
+- **Don't** use the gradient wordmark variant — gradients alias badly at favicon scale.
+- **Don't** ship a transparent-background favicon — the cream/ink tile is part of the mark.

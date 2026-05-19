@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Business card BACK
+  Print spec: 89mm × 54mm at 300 DPI = 1051 × 638 px
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1051 638"
+     width="89mm" height="54mm"
+     role="img" aria-label="oportunities business card back">
+  <title>oportunities business card — BACK (89×54mm)</title>
+  <defs>
+    <style>
+      .bg { fill: #FDF8F3; }
+      .label {
+        font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        fill: #6B4FA0;
+        text-transform: uppercase;
+      }
+      .value {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 500;
+        font-size: 30px;
+        letter-spacing: -0.01em;
+        fill: #0F0D0B;
+      }
+      .dot-mark {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 200px;
+        letter-spacing: -0.04em;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1051" height="638"/>
+
+  <!-- Large apricot period as decorative mark -->
+  <text x="820" y="500" class="dot-mark" fill="#E89252">.</text>
+
+  <!-- Contact block -->
+  <text x="72" y="180" class="label">EMAIL</text>
+  <text x="72" y="230" class="value">apaksh@oportunities.in</text>
+
+  <text x="72" y="320" class="label">PHONE</text>
+  <text x="72" y="370" class="value">+91 98XXX XXXXX</text>
+
+  <text x="72" y="460" class="label">WEB</text>
+  <text x="72" y="510" class="value">oportunities.in</text>
+
+  <!-- Apricot accent bar bottom-left -->
+  <rect x="72" y="580" width="80" height="6" fill="#E89252"/>
+</svg>

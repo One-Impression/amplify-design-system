@@ -84,3 +84,22 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 3. **All token changes** go through direct PR (Pixel will detect drift and auto-cascade)
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
+
+## Oportunities theme (newest product line)
+
+Oportunities is the newest product theme in this monorepo. It ships as the
+Studio-direction brand for One Impression's creator-intent platform.
+
+- **Tokens**: `packages/tokens-oportunities/` — apricot palette, Geist + Inter + JBM, light + dark
+- **Brand assets**: `packages/brand-oportunities/` — logos, app icons, favicons, social templates, business cards, email signature
+- **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
+- **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
+- **Components**: 6 new composed components in `@amplify-ai/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+
+**Composition rule**: Oportunities components compose from `tokens-foundation`
+primitives + existing `@amplify-ai/ui` primitives (Card, Avatar, Badge, etc.).
+**Never invent new primitives for Oportunities** — add a composed component
+that wraps existing primitives instead. If a true primitive is missing, raise
+it in `@amplify-ai/ui` first so all themes benefit.
+
+**Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".

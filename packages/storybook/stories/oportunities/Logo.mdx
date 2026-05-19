@@ -1,0 +1,130 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Logo" />
+
+# Oportunities — Logo
+
+The wordmark is the brand. Single-P **oportunities.** in Geist 600 at `-0.04em` tracking,
+with an apricot terminal dot. The gradient sweep variant (apricot → AI-purple) is the
+hero expression — used at app launch, marketing splash, and the cockpit header.
+
+---
+
+## Hero Wordmark (Gradient Sweep)
+
+<div style={{ padding: 48, background: '#FDF8F3', borderRadius: 12, border: '1px solid #EFE4D4', position: 'relative', overflow: 'hidden' }}>
+  <svg viewBox="0 0 600 120" role="img" aria-label="oportunities wordmark animated sweep" style={{ width: '100%', maxWidth: 480, display: 'block', margin: '0 auto' }}>
+    <defs>
+      <linearGradient id="sweep-anim" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#E68F47">
+          <animate attributeName="stop-color" values="#E68F47;#7B5BFF;#E68F47" dur="3s" repeatCount="indefinite" />
+        </stop>
+        <stop offset="100%" stopColor="#7B5BFF">
+          <animate attributeName="stop-color" values="#7B5BFF;#E68F47;#7B5BFF" dur="3s" repeatCount="indefinite" />
+        </stop>
+      </linearGradient>
+    </defs>
+    <text x="20" y="92" fontFamily="Geist, Inter, sans-serif" fontWeight="600" fontSize="88" letterSpacing="-0.04em" fill="url(#sweep-anim)">oportunities.</text>
+  </svg>
+</div>
+
+The dot pulses subtly on idle (every 4s, opacity 1 → 0.6 → 1) — never fast, never blinky.
+
+---
+
+## Variants (All 6)
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+  {[
+    { id: 'default',      label: 'Default',           bg: '#FDF8F3', path: '/brand-oportunities/wordmark-default.svg' },
+    { id: 'onLight',      label: 'On light',          bg: '#FFFFFF', path: '/brand-oportunities/wordmark-on-light.svg' },
+    { id: 'onDark',       label: 'On dark',           bg: '#0F0D0B', path: '/brand-oportunities/wordmark-on-dark.svg' },
+    { id: 'monochrome',   label: 'Monochrome',        bg: '#F4ECE0', path: '/brand-oportunities/wordmark-monochrome.svg' },
+    { id: 'withGradient', label: 'Apricot → purple', bg: '#FDF8F3', path: '/brand-oportunities/wordmark-with-gradient.svg' },
+    { id: 'spec',         label: 'Construction grid', bg: '#F8F1E8', path: '/brand-oportunities/wordmark-spec.svg' },
+  ].map((v) => (
+    <div key={v.id} style={{ background: v.bg, padding: 24, borderRadius: 8, border: '1px solid rgba(0,0,0,0.06)' }}>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: v.bg === '#0F0D0B' ? '#A89E92' : '#8A7F73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>{v.label}</div>
+      <object data={v.path} type="image/svg+xml" style={{ width: '100%', height: 'auto', display: 'block' }} aria-label={`oportunities wordmark ${v.label}`} />
+    </div>
+  ))}
+</div>
+
+---
+
+## Clear-Space Rule
+
+Minimum clear space = **height of the "o"** on all four sides. Never crowd; the wordmark
+needs room to breathe.
+
+<div style={{ background: '#F8F1E8', padding: 32, borderRadius: 8, position: 'relative' }}>
+  <div style={{ outline: '1px dashed #E68F47', padding: '24px 32px', display: 'inline-block', background: '#FDF8F3' }}>
+    <div style={{ fontFamily: 'Geist, sans-serif', fontWeight: 600, fontSize: 48, letterSpacing: '-0.04em', color: '#1C1611', lineHeight: 1 }}>
+      oportunities<span style={{ color: '#E68F47' }}>.</span>
+    </div>
+  </div>
+  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73', marginTop: 8 }}>
+    Dashed line = clear-space boundary = height of "o" on all sides
+  </div>
+</div>
+
+---
+
+## Min-Size
+
+| Surface | Min wordmark height | Reasoning |
+|---|---|---|
+| Print | 8mm | Letter shapes legible at arm's length |
+| Web (raster) | 24px | Geist hinting clean at 24px |
+| Web (SVG) | 16px | SVG stays sharp |
+| App nav | 20px | Standard nav-bar height |
+| Favicon | use favicon mark, not wordmark | See **Favicon** |
+
+---
+
+## Do / Don't (6 Pairs)
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+  {[
+    { ok: 'Apricot dot stays apricot on every background', no: 'Recolor the dot to "match" your surface' },
+    { ok: 'Lock `-0.04em` tracking on every render', no: 'Use default tracking — letters drift apart' },
+    { ok: 'Geist 600 — never lighter, never bold', no: 'Substitute Inter, Helvetica, or system-ui' },
+    { ok: 'Gradient sweeps apricot → purple, left to right', no: 'Reverse direction or swap accent colors' },
+    { ok: 'Single P — "oportunities"', no: 'Double P — "opportunities" is a different word' },
+    { ok: 'Keep clear-space at minimum 1× "o" height', no: 'Stack icons or text inside clear-space' },
+  ].map((p, i) => (
+    <>
+      <div key={`ok-${i}`} style={{ padding: 16, border: '1px solid #5A8E4F', borderRadius: 8, background: '#F1F8EF' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#5A8E4F', marginBottom: 4 }}>DO</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#1C1611' }}>{p.ok}</div>
+      </div>
+      <div key={`no-${i}`} style={{ padding: 16, border: '1px solid #B33A3A', borderRadius: 8, background: '#FBF0F0' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#B33A3A', marginBottom: 4 }}>DON'T</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#1C1611' }}>{p.no}</div>
+      </div>
+    </>
+  ))}
+</div>
+
+---
+
+## Implementation
+
+```tsx
+import { Wordmark } from '@amplify-ai/ui';
+
+// Default — picks light/dark from theme
+<Wordmark />
+
+// Force variant
+<Wordmark variant="withGradient" size={48} />
+<Wordmark variant="onDark" />
+<Wordmark variant="monochrome" color="#1C1611" />
+```
+
+Raw SVG paths (from `@amplify-ai/brand-oportunities`):
+
+```js
+import { wordmark } from '@amplify-ai/brand-oportunities';
+// wordmark.default | onLight | onDark | monochrome | withGradient | spec
+```

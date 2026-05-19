@@ -1,0 +1,43 @@
+{
+  "theme": {
+    "$description": "Oportunities — Dark theme. Brightened apricot for dark contrast; deep warm backgrounds preserve the Studio cream-on-warm DNA inverted.",
+    "product": "oportunities",
+    "mode": "dark",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "#0F0D0B", "$description": "Deep warm-black page background" },
+      "bg-elev":        { "$value": "#1A1714", "$description": "Elevated surface (cards, modals) — dark" },
+      "bg-soft":        { "$value": "#25201C", "$description": "Subtle inset / recessed background — dark" },
+
+      "accent":         { "$value": "#F0A668", "$description": "Brightened apricot for dark contrast" },
+      "accent-hover":   { "$value": "#FFB47A", "$description": "Apricot on hover — even brighter" },
+      "accent-soft":    { "$value": "rgba(240, 166, 104, 0.12)", "$description": "Subtle apricot tint on dark surfaces" },
+
+      "ai-purple":      { "$value": "#9B82FF", "$description": "AI purple — brightened for dark contrast" },
+      "ai-soft":        { "$value": "rgba(155, 130, 255, 0.14)", "$description": "Subtle AI purple tint on dark surfaces" },
+
+      "text-primary":   { "$value": "#F4ECE0", "$description": "Primary text on dark — warm near-white" },
+      "text-secondary": { "$value": "#A89E92", "$description": "Secondary text on dark" },
+      "text-tertiary":  { "$value": "#6A6258", "$description": "Tertiary / muted text on dark" },
+
+      "border":         { "$value": "#2D2723", "$description": "Default border on dark" },
+      "border-soft":    { "$value": "#383028", "$description": "Subtle divider on dark" }
+    }
+  },
+  "effort": {
+    "$type": "color",
+    "$description": "Effort palette — dark variant. Slightly brightened for legibility on warm-black surfaces.",
+    "organic":  { "$value": "#7CB070", "$description": "Organic content effort — brightened green" },
+    "sample":   { "$value": "#7FA4D2", "$description": "Sample effort — brightened blue" },
+    "sponsor":  { "$value": "#F0A668", "$description": "Sponsored content effort — brightened apricot (matches accent)" },
+    "paid":     { "$value": "#B5AB9D", "$description": "Paid placement effort — brightened neutral" }
+  },
+  "status": {
+    "$type": "color",
+    "$description": "Oportunities status scale — dark variant.",
+    "success":  { "$value": "#52AC71", "$description": "Success / approved — dark" },
+    "warning":  { "$value": "#E0A84A", "$description": "Warning / needs attention — dark" },
+    "danger":   { "$value": "#D5605E", "$description": "Error / blocked / rejected — dark" },
+    "info":     { "$value": "#6090D2", "$description": "Informational — dark" }
+  }
+}

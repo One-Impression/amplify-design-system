@@ -654,3 +654,45 @@ export type {
   ReplyAffordanceProps,
   VariantRef,
 } from './components/ReplyAffordance';
+
+// ─── Oportunities product primitives (2.14.0) ────────────────────────
+// Six composed components specific to the Oportunities (creator-intent)
+// product line. All compose existing primitives (Card, Avatar, Badge);
+// none introduce new visual primitives. Consume the `tokens-oportunities`
+// theme surface via `--amp-oportunities-*` CSS vars.
+
+// Wordmark — the "oportunities." wordmark with optional gradient sweep
+export { Wordmark } from './components/Wordmark';
+export type { WordmarkProps, WordmarkSize } from './components/Wordmark';
+
+// SignalDot — the apricot period as a standalone animated mark
+export { SignalDot } from './components/SignalDot';
+export type { SignalDotProps } from './components/SignalDot';
+
+// CreatorIntentCard — signature product card (brand-side intent feed)
+export { CreatorIntentCard } from './components/CreatorIntentCard';
+export type {
+  CreatorIntentCardProps,
+  CreatorIntentCardCreator,
+  CreatorIntentCardIntent,
+} from './components/CreatorIntentCard';
+
+// BrandInterestCard — creator-side inbox card
+export { BrandInterestCard } from './components/BrandInterestCard';
+export type {
+  BrandInterestCardProps,
+  BrandInterestCardBrand,
+  BrandInterestCardInterest,
+} from './components/BrandInterestCard';
+
+// IntentFeed — filter strip + grid of CreatorIntentCards
+export { IntentFeed } from './components/IntentFeed';
+export type {
+  IntentFeedProps,
+  IntentFeedFilters,
+  IntentFeedFilterChange,
+} from './components/IntentFeed';
+
+// AppIconOportunities — the locked "op." app icon as a React component
+export { AppIconOportunities } from './components/AppIconOportunities';
+export type { AppIconOportunitiesProps } from './components/AppIconOportunities';

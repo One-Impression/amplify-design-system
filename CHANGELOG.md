@@ -2,6 +2,14 @@
 
 All notable changes to the public packages of `amplify-design-system`.
 
+## [Unreleased] feat/oportunities-theme branch
+
+### Added
+- `@amplify-ai/tokens-oportunities@1.0.0` — Oportunities theme tokens (Studio direction)
+- `@amplify-ai/brand-oportunities@1.0.0` — Oportunities brand assets
+- 6 new composed components in `@amplify-ai/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`) — versioning will be 2.12.0 on merge
+- Storybook: Oportunities theme registered + 8 brand guidelines docs added
+
 ## 2.13.0 — 2026-05-08
 
 ### Added (additive — `@amplify-ai/ui`)

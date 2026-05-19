@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" role="img" aria-label="oportunities LinkedIn post template">
+  <title>oportunities — LinkedIn post template (1200×627)</title>
+  <defs>
+    <linearGradient id="lipBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <style>
+      .wm {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 64px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .headline {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 72px;
+        letter-spacing: -0.03em;
+        fill: #0F0D0B;
+      }
+      .sub {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        fill: #4A453F;
+      }
+    </style>
+  </defs>
+  <rect width="1200" height="627" fill="url(#lipBg)"/>
+  <!-- Wordmark top-left -->
+  <text x="80" y="100" class="wm">oportunities</text>
+  <text x="80" y="100" class="wm wm-dot" dx="360">.</text>
+  <!-- Main headline -->
+  <text x="80" y="320" class="headline">{Your headline</text>
+  <text x="80" y="410" class="headline">here.}</text>
+  <!-- Subhead -->
+  <text x="80" y="490" class="sub">{Supporting line — replace with one-sentence pitch.}</text>
+  <!-- Apricot accent dot -->
+  <circle cx="1080" cy="540" r="32" fill="#E89252"/>
+</svg>

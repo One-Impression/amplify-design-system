@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" role="img" aria-label="oportunities wordmark spec with clear-space rules">
+  <title>oportunities wordmark — clear-space spec (1x cap-height padding)</title>
+  <defs>
+    <style>
+      .bg { fill: #FDF8F3; }
+      .wm-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 88px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .clear-space {
+        fill: none;
+        stroke: #E89252;
+        stroke-width: 1.5;
+        stroke-dasharray: 6 4;
+      }
+      .bbox {
+        fill: none;
+        stroke: #6B4FA0;
+        stroke-width: 1;
+        stroke-dasharray: 2 2;
+      }
+      .anno {
+        font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        fill: #6B4FA0;
+      }
+      .dim-line {
+        stroke: #6B4FA0;
+        stroke-width: 1;
+      }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="800" height="260"/>
+
+  <!-- Clear space box (1x cap-height = ~64px padding) -->
+  <rect class="clear-space" x="40" y="40" width="720" height="180" rx="4"/>
+
+  <!-- Wordmark bbox -->
+  <rect class="bbox" x="104" y="104" width="592" height="64"/>
+
+  <!-- Wordmark -->
+  <text x="104" y="158" class="wm-text">oportunities</text>
+  <text x="104" y="158" class="wm-text wm-dot" dx="492">.</text>
+
+  <!-- Annotations -->
+  <line class="dim-line" x1="40" y1="20" x2="104" y2="20"/>
+  <text x="50" y="14" class="anno">1× X</text>
+  <text x="44" y="240" class="anno">Clear-space: 1× cap-height (X) on all sides — minimum</text>
+  <line class="dim-line" x1="104" y1="180" x2="696" y2="180"/>
+  <text x="380" y="195" class="anno" text-anchor="middle">wordmark bbox</text>
+</svg>
