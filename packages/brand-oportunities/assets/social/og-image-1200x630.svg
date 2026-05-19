@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="oportunities open graph default image">
+  <title>oportunities — Open Graph default (1200×630)</title>
+  <defs>
+    <linearGradient id="ogBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <style>
+      .wm {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 120px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .tag {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 32px;
+        fill: #4A453F;
+      }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogBg)"/>
+  <text x="80" y="340" class="wm">oportunities</text>
+  <text x="80" y="340" class="wm wm-dot" dx="676">.</text>
+  <text x="80" y="410" class="tag">Creator-intent intelligence platform.</text>
+  <circle cx="1080" cy="540" r="32" fill="#E89252"/>
+</svg>

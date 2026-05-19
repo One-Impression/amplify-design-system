@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" role="img" aria-label="oportunities with apricot to purple gradient">
+  <title>oportunities wordmark with signature gradient</title>
+  <defs>
+    <linearGradient id="apricotPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E89252"/>
+      <stop offset="50%" stop-color="#D87B6E"/>
+      <stop offset="100%" stop-color="#6B4FA0"/>
+    </linearGradient>
+    <style>
+      .wm-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 88px;
+        letter-spacing: -0.04em;
+        fill: url(#apricotPurple);
+      }
+      .wm-dot { fill: #E89252; }
+    </style>
+  </defs>
+  <text x="20" y="92" class="wm-text">oportunities</text>
+  <text x="20" y="92" class="wm-text wm-dot" dx="492">.</text>
+</svg>

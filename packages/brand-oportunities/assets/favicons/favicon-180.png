@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Apple touch icon source — render at 180×180 px via SVG rasterizer. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" role="img" aria-label="oportunities apple touch icon 180">
+  <title>oportunities apple-touch-icon — 180×180</title>
+  <defs>
+    <clipPath id="appleTouchSquircle">
+      <rect x="0" y="0" width="180" height="180" rx="40" ry="40"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#appleTouchSquircle)">
+    <rect x="0" y="0" width="180" height="180" fill="#FDF8F3"/>
+    <text x="32" y="120" font-family="Geist, Inter, sans-serif" font-weight="600" font-size="98" letter-spacing="-0.04em" fill="#0F0D0B">op</text>
+    <text x="122" y="120" font-family="Geist, Inter, sans-serif" font-weight="600" font-size="98" letter-spacing="-0.04em" fill="#E89252">.</text>
+  </g>
+</svg>

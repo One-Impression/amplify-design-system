@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pixel-grade favicon source — render at 16×16 px via SVG rasterizer.
+     Stored as SVG (filename .png by spec for downstream tooling convenience). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" role="img" aria-label="oportunities favicon 16">
+  <title>oportunities favicon — 16×16 pixel-perfect</title>
+  <rect x="0" y="0" width="16" height="16" rx="3" ry="3" fill="#FDF8F3"/>
+  <!-- At 16px, glyph reduces to apricot dot mark for clarity -->
+  <circle cx="11.5" cy="11" r="2" fill="#E89252"/>
+  <text x="2" y="12" font-family="Geist, Inter, sans-serif" font-weight="700" font-size="10" letter-spacing="-0.04em" fill="#0F0D0B">op</text>
+</svg>

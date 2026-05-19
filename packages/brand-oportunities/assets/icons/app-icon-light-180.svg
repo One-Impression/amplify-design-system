@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="oportunities app icon light 180">
+  <title>oportunities app icon (light) — 180×180 (iOS touch icon)</title>
+  <defs>
+    <clipPath id="squircle180">
+      <rect x="0" y="0" width="180" height="180" rx="40" ry="40"/>
+    </clipPath>
+    <style>
+      .icon-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 98px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .icon-dot { fill: #E89252; }
+    </style>
+  </defs>
+  <g clip-path="url(#squircle180)">
+    <rect x="0" y="0" width="180" height="180" fill="#FDF8F3"/>
+    <text x="32" y="120" class="icon-text">op</text>
+    <text x="122" y="120" class="icon-text icon-dot">.</text>
+  </g>
+</svg>
