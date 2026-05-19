@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities carousel slide 1 of 7 — Cover">
+  <title>oportunities — Carousel 1/7 — Product tour cover</title>
+  <desc>Carousel cover slide introducing the product tour.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 60px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 116px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 32px; fill: #4A453F; }
+      .swipe { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.08em; fill: #7B5BFF; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="140" class="wm">oportunities</text>
+  <text x="80" y="140" class="wm dot" dx="338">.</text>
+
+  <text x="80" y="280" class="kicker">7-slide product tour</text>
+  <text x="80" y="450" class="head">A tour of</text>
+  <text x="80" y="570" class="head">oportunities.</text>
+
+  <text x="80" y="660" class="sub">How creator-intent signals power</text>
+  <text x="80" y="710" class="sub">smarter brand-creator deals.</text>
+
+  <rect x="80" y="960" width="60" height="6" fill="#E68F47"/>
+  <rect x="160" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="240" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="320" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="400" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="480" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="560" y="960" width="60" height="6" fill="#F4ECE0"/>
+
+  <text x="800" y="980" class="swipe">Swipe →</text>
+</svg>

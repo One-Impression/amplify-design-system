@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" role="img" aria-label="oportunities LinkedIn launch cover">
+  <title>oportunities — LinkedIn launch cover — Know what creators are about to do</title>
+  <desc>Launch announcement cover for the oportunities company page. Apricot palette with gradient sweep and signature wordmark.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="50%" stop-color="#D87B6E"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 84px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .wm-dot { fill: #E68F47; }
+      .head { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 44px; letter-spacing: -0.02em; fill: #0F0D0B; }
+      .tag  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 24px; letter-spacing: -0.01em; fill: #4A453F; }
+      .pill { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.06em; fill: #7B5BFF; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1584" height="396" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1584" height="8" fill="url(#sweep)"/>
+  <rect x="0" y="388" width="1584" height="8" fill="url(#sweep)"/>
+
+  <text x="120" y="120" class="pill">Now live · launching India</text>
+  <text x="120" y="200" class="wm">oportunities</text>
+  <text x="120" y="200" class="wm wm-dot" dx="478">.</text>
+  <text x="120" y="270" class="head">Know what creators are about to do.</text>
+  <text x="120" y="320" class="tag">Creator-intent signals · 30 days ahead · Mumbai → India</text>
+
+  <circle cx="1450" cy="200" r="48" fill="#E68F47" opacity="0.95"/>
+  <circle cx="1380" cy="200" r="24" fill="#7B5BFF" opacity="0.85"/>
+</svg>

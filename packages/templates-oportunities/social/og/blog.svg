@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="oportunities blog Open Graph image">
+  <title>oportunities — Open Graph blog (1200×630)</title>
+  <desc>Open Graph image for blog posts with article title placeholder.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 44px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .title { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 72px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .meta  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 24px; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#sweep)"/>
+
+  <text x="80" y="92" class="wm">oportunities</text>
+  <text x="80" y="92" class="wm dot" dx="248">.</text>
+
+  <text x="80" y="190" class="kicker">Blog · oportunities.in</text>
+
+  <text x="80" y="320" class="title">Why cold outreach to</text>
+  <text x="80" y="400" class="title">creators is dead — and</text>
+  <text x="80" y="480" class="title">what comes next.</text>
+
+  <rect x="80" y="510" width="60" height="4" fill="#E68F47"/>
+  <text x="80" y="570" class="meta">By Apaksh Gupta  ·  8 min read  ·  Mumbai</text>
+</svg>

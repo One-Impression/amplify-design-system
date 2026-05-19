@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities carousel slide 3 of 7 — Insight">
+  <title>oportunities — Carousel 3/7 — The insight</title>
+  <desc>Insight slide: creators broadcast intent 30 days early.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 60px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 88px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 30px; fill: #4A453F; }
+      .big   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 220px; letter-spacing: -0.04em; fill: #7B5BFF; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="140" class="wm">oportunities</text>
+  <text x="80" y="140" class="wm dot" dx="338">.</text>
+
+  <text x="80" y="280" class="kicker">The insight</text>
+  <text x="80" y="400" class="head">Creators broadcast</text>
+  <text x="80" y="490" class="head">intent — every day.</text>
+
+  <text x="80" y="760" class="big">30d</text>
+  <text x="500" y="700" class="sub">Average lead time on a creator's</text>
+  <text x="500" y="740" class="sub">next 5 posts.</text>
+  <text x="500" y="810" class="sub">If you listen, you can show up</text>
+  <text x="500" y="850" class="sub">at the right moment.</text>
+
+  <rect x="80" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="160" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="240" y="960" width="60" height="6" fill="#E68F47"/>
+  <rect x="320" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="400" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="480" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="560" y="960" width="60" height="6" fill="#F4ECE0"/>
+</svg>

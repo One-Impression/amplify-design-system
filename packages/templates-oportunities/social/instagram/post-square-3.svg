@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities Instagram square 3 — Behind the scenes">
+  <title>oportunities — Instagram square 3 — Behind the scenes</title>
+  <desc>Behind-the-scenes company moment template.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 88px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 28px; letter-spacing: -0.01em; fill: #4A453F; }
+      .tag   { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.06em; fill: #6B635A; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="130" class="wm">oportunities</text>
+  <text x="80" y="130" class="wm dot" dx="318">.</text>
+
+  <text x="80" y="280" class="kicker">Inside the studio</text>
+  <text x="80" y="400" class="head">Day 47.</text>
+  <text x="80" y="500" class="head">Mumbai.</text>
+  <text x="80" y="600" class="head">Shipping daily.</text>
+
+  <rect x="80" y="660" width="920" height="280" rx="24" fill="#FFFFFF" stroke="#F4ECE0" stroke-width="3"/>
+  <text x="120" y="720" class="tag">Photo placeholder · 16:9</text>
+  <text x="120" y="780" class="sub">A snapshot from the team building</text>
+  <text x="120" y="820" class="sub">creator-intent intelligence in Bandra.</text>
+
+  <rect x="120" y="870" width="60" height="4" fill="#E68F47"/>
+  <text x="120" y="920" class="tag">#buildinginpublic  ·  #mumbai</text>
+
+  <circle cx="990" cy="1010" r="32" fill="#E68F47"/>
+</svg>

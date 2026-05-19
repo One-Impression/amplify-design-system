@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  oportunities — CEO business card (combined front + back)
+  Print spec: 89mm × 54mm per side at 300 DPI = 1051 × 638 px per side
+  Bleed: include 3mm safety margin (35px each side) — see safe-area guides
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1051 1276"
+     width="89mm" height="108mm"
+     role="img" aria-label="oportunities CEO business card (front + back)">
+  <title>oportunities — CEO business card — Apaksh Gupta</title>
+  <desc>Two-sided business card template for CEO role.</desc>
+  <defs>
+    <style>
+      .bg     { fill: #FDF8F3; }
+      .wm     { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot    { fill: #E68F47; }
+      .name   { font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 38px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .role   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 22px; fill: #4A453F; }
+      .label  { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.08em; fill: #7B5BFF; text-transform: uppercase; }
+      .value  { font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 28px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .markBg { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 200px; fill: #E68F47; }
+    </style>
+  </defs>
+
+  <!-- FRONT -->
+  <g>
+    <rect class="bg" x="0" y="0" width="1051" height="638"/>
+    <text x="72" y="180" class="wm">oportunities</text>
+    <text x="72" y="180" class="wm dot" dx="540">.</text>
+
+    <rect x="72" y="430" width="60" height="4" fill="#E68F47"/>
+    <text x="72" y="500" class="name">Apaksh Gupta</text>
+    <text x="72" y="540" class="role">Chief Executive Officer</text>
+
+    <rect x="900" y="540" width="80" height="6" fill="#E68F47"/>
+  </g>
+
+  <!-- Cut line between cards (non-printing guide; comment out for production) -->
+  <line x1="0" y1="638" x2="1051" y2="638" stroke="#F4ECE0" stroke-width="2" stroke-dasharray="8,8"/>
+
+  <!-- BACK -->
+  <g transform="translate(0,638)">
+    <rect class="bg" x="0" y="0" width="1051" height="638"/>
+    <text x="820" y="500" class="markBg">.</text>
+
+    <text x="72" y="160" class="label">Email</text>
+    <text x="72" y="210" class="value">apaksh@oportunities.in</text>
+
+    <text x="72" y="290" class="label">Phone</text>
+    <text x="72" y="340" class="value">+91 98201 12345</text>
+
+    <text x="72" y="420" class="label">Web</text>
+    <text x="72" y="470" class="value">oportunities.in</text>
+
+    <text x="72" y="550" class="label">Mumbai · India</text>
+    <rect x="72" y="580" width="80" height="6" fill="#E68F47"/>
+  </g>
+</svg>

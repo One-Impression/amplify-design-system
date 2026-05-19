@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="oportunities Instagram story 4 — Brand partners">
+  <title>oportunities — Instagram story 4 — Brand partner showcase</title>
+  <desc>Brand partner showcase story.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 64px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 26px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 84px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .brand { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.02em; fill: #0F0D0B; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 32px; letter-spacing: -0.01em; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="200" class="wm">oportunities</text>
+  <text x="80" y="200" class="wm dot" dx="358">.</text>
+
+  <text x="80" y="430" class="kicker">Trusted by India's best</text>
+  <text x="80" y="540" class="head">47 brand desks.</text>
+  <text x="80" y="630" class="sub">Running on oportunities, every day.</text>
+
+  <rect x="80" y="720" width="920" height="120" rx="60" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <text x="140" y="795" class="brand">Mamaearth</text>
+
+  <rect x="80" y="870" width="920" height="120" rx="60" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <text x="140" y="945" class="brand">boAt  ·  Sugar  ·  Plum</text>
+
+  <rect x="80" y="1020" width="920" height="120" rx="60" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <text x="140" y="1095" class="brand">Wakefit  ·  Beardo</text>
+
+  <rect x="80" y="1170" width="920" height="120" rx="60" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <text x="140" y="1245" class="brand">+ 41 more</text>
+
+  <circle cx="540" cy="1780" r="40" fill="#E68F47"/>
+</svg>

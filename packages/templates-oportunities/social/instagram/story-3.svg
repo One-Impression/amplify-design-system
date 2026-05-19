@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="oportunities Instagram story 3 — Signal preview">
+  <title>oportunities — Instagram story 3 — Signal preview card</title>
+  <desc>Sample signal preview card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 64px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 26px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 80px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .name  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 44px; letter-spacing: -0.02em; fill: #0F0D0B; }
+      .meta  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 28px; fill: #4A453F; }
+      .sig   { font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 34px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .small { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.08em; fill: #6B635A; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="200" class="wm">oportunities</text>
+  <text x="80" y="200" class="wm dot" dx="358">.</text>
+
+  <text x="80" y="430" class="kicker">Live signal · just in</text>
+  <text x="80" y="540" class="head">Heads up.</text>
+
+  <rect x="80" y="620" width="920" height="780" rx="36" fill="#FFFFFF" stroke="#E68F47" stroke-width="3"/>
+  <circle cx="180" cy="740" r="56" fill="#E68F47"/>
+  <text x="270" y="730" class="name">Komal Pandey</text>
+  <text x="270" y="780" class="meta">Fashion · 2.1M · Mumbai</text>
+
+  <text x="120" y="900" class="small">Predicted post</text>
+  <text x="120" y="960" class="sig">Sustainable summer fits</text>
+  <text x="120" y="1010" class="sig">drop — 12 June 2026</text>
+
+  <text x="120" y="1110" class="small">Confidence</text>
+  <text x="120" y="1170" class="sig">87% · high-fit for skincare brands</text>
+
+  <text x="120" y="1270" class="small">Suggested brands</text>
+  <text x="120" y="1330" class="sig">Plum  ·  Mamaearth  ·  Wakefit</text>
+
+  <circle cx="540" cy="1780" r="40" fill="#E68F47"/>
+</svg>
