@@ -85,6 +85,32 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## tokens-creator Palette Module
+
+## tokens-creator Palette Module
+
+`packages/tokens-creator` exports a semantic alias layer for SDUI token names:
+
+```ts
+import { palette } from "@amplify-ai/tokens-creator/palette";
+sdui.pageHeader({ title: { text: "Explore", color: palette.text.strong } });
+```
+
+The palette maps engineer-friendly names (e.g. `palette.text.strong`) to canonical SDUI token names (e.g. `"sdui.color.neutral-strong"`). Theme resolution is **client-side only** — the BFF emits token names, the renderer paints values.
+
+**Adding a new alias — required order:**
+1. Add the underlying token to **both** `tokens/theme-light.json` and `tokens/theme-dark.json`.
+2. Add the alias to `palette.js` and the corresponding interface in `palette.d.ts`.
+3. Run `npm run validate:palette` (or just `npm run build`) — the build fails early if any alias does not resolve in every theme.
+
+**Build-time invariant:** `build.js` runs `scripts/validate-palette.js` before the style-dictionary step. A palette entry that references a non-existent token will fail the build with a clear error rather than surfacing as a runtime missing-color in consumer apps.
+
+**Token name contract:** Every palette value must match `sdui.<family>.<name>` and must exist in every theme JSON. The test suite (`palette.test.js`, run via `npm test`) enforces the regex format, shape stability, and immutability separately from the build validator.
+
+**Design rationale:** `packages/tokens-creator/PALETTE-DESIGN.md`.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
