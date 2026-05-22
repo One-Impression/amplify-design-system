@@ -1,0 +1,29 @@
+{
+  "type-scale": {
+    "$description": "Hexcoded typography scale. L05 lock — Outfit 900 display + Inter 400/500 body + JetBrains Mono code. Multi-language: Latin Extended, Devanagari (Hindi), Cyrillic.",
+    "size": {
+      "$type": "dimension",
+      "display-1": { "$value": "96px", "$description": "Cover / billboard headline" },
+      "display-2": { "$value": "80px", "$description": "Hero h1" },
+      "headline":  { "$value": "42px", "$description": "Section h2 (matches brand-book-v1-final §section)" },
+      "title-1":   { "$value": "32px", "$description": "Card heads, dialogs" },
+      "title-2":   { "$value": "22px", "$description": "h3 sub-headings" },
+      "title-3":   { "$value": "17px", "$description": "h4 / component heads" },
+      "body-lg":   { "$value": "17px", "$description": "Lead paragraphs" },
+      "body":      { "$value": "15px", "$description": "Default body" },
+      "body-sm":   { "$value": "13px", "$description": "Captions, helper" },
+      "label":     { "$value": "13px", "$description": "Form labels, button copy" },
+      "caption":   { "$value": "12.5px", "$description": "Footnote, table meta" },
+      "eyebrow":   { "$value": "11px", "$description": "Section eyebrow (uppercase)" },
+      "mono":      { "$value": "12.5px", "$description": "Code, IDs, metadata" }
+    },
+    "line-height": {
+      "$type": "number",
+      "display":  { "$value": "0.95" },
+      "headline": { "$value": "1.05" },
+      "title":    { "$value": "1.2" },
+      "body":     { "$value": "1.55" },
+      "tight":    { "$value": "1.4" }
+    }
+  }
+}

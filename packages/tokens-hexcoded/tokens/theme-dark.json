@@ -1,0 +1,31 @@
+{
+  "theme-dark": {
+    "$description": "Hexcoded — Dark theme. L18 · light is default, dark follows OS preference only (no manual toggle in v1). Brand greens stay identical; neutrals/surfaces/shadows invert.",
+    "product": "hexcoded",
+    "mode": "dark",
+    "lock": "brand-book-v1.0-final",
+    "color": {
+      "$type": "color",
+
+      "bg":             { "$value": "#0B0B0F", "$description": "Dark canvas — same as ink primary on light theme" },
+      "bg-elev":        { "$value": "#1C1C22", "$description": "Elevated surface (cards) on dark" },
+      "bg-soft":        { "$value": "#15151B", "$description": "Soft inset / grouped sections on dark" },
+
+      "accent":         { "$value": "#22C55E", "$description": "Tech Green stays identical across themes — only neutrals/surfaces shift" },
+      "accent-deep":    { "$value": "#16A34A", "$description": "Tech Green deep" },
+      "accent-light":   { "$value": "#86EFAC", "$description": "Tech Green light" },
+      "accent-whisper": { "$value": "#DCFCE7", "$description": "Tech Green whisper (used as text colour on dark too)" },
+
+      "text-primary":   { "$value": "#FAFAFA", "$description": "Primary text — near-white on dark" },
+      "text-secondary": { "$value": "#C8C8CD", "$description": "Body copy on dark" },
+      "text-tertiary":  { "$value": "#86868B", "$description": "Tertiary / muted text (same as light)" },
+
+      "border":         { "$value": "#2C2C30", "$description": "Hairline on dark" },
+      "border-strong":  { "$value": "#3C3C42", "$description": "Stronger border on dark" }
+    }
+  },
+  "gradient-dark": {
+    "$type": "other",
+    "canvas":  { "$value": "linear-gradient(180deg, #0B0B0F 0%, #15151B 100%)", "$description": "Dark canvas page gradient" }
+  }
+}

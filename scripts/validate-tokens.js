@@ -91,7 +91,7 @@ function findBrokenRefs(obj, root, prefix = '') {
 // ── Validation ──
 console.log('\n=== Token Package Validation (W3C DTCG) ===\n');
 
-const packages = ['tokens-foundation', 'tokens-brand', 'tokens-creator', 'tokens-atmosphere', 'tokens-studio'];
+const packages = ['tokens-foundation', 'tokens-brand', 'tokens-creator', 'tokens-atmosphere', 'tokens-studio', 'tokens-oportunities', 'tokens-hexcoded'];
 for (const pkg of packages) {
   const tokensDir = join(PACKAGES_DIR, pkg, 'tokens');
   if (!existsSync(tokensDir)) {
@@ -165,7 +165,7 @@ for (const theme of ['light', 'dark']) {
   }
 
   // Check each product's theme file against foundation
-  for (const pkg of ['tokens-brand', 'tokens-atmosphere', 'tokens-creator', 'tokens-studio']) {
+  for (const pkg of ['tokens-brand', 'tokens-atmosphere', 'tokens-creator', 'tokens-studio', 'tokens-oportunities', 'tokens-hexcoded']) {
     const themeFile = join(PACKAGES_DIR, pkg, 'tokens', `theme-${theme}.json`);
     if (!existsSync(themeFile)) continue;
 

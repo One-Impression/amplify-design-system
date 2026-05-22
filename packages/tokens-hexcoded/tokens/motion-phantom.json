@@ -1,0 +1,54 @@
+{
+  "motion": {
+    "$description": "Phantom — the only motion on the brand mark. L01/L03/L04 · LOCKED. Three (or four) stepped Tech-Green shadows fading solid → transparent on a 3s ease-in-out cycle. Size-aware family — offsets scale with logo size. Wordmark itself stays still; only the shadow staircase breathes.",
+    "duration": {
+      "$type": "duration",
+      "phantom":      { "$value": "3000ms", "$description": "Standard Phantom breath cycle (L04)" },
+      "phantom-slow": { "$value": "6000ms", "$description": "Slow Phantom for hero / OOH (L04)" },
+      "fast":         { "$value": "120ms",  "$description": "Micro-interactions" },
+      "base":         { "$value": "200ms",  "$description": "Default interactions" },
+      "slow":         { "$value": "320ms",  "$description": "Drawer / panel transitions" }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "phantom": { "$value": "ease-in-out",                       "$description": "Phantom breath easing (browser-native)" },
+      "out":     { "$value": "cubic-bezier(0.16, 1, 0.3, 1)",     "$description": "Default ease-out for interactions" }
+    }
+  },
+  "phantom-keyframes": {
+    "$type": "other",
+    "$description": "CSS keyframe definitions for the Phantom shadow family. Consume via variables.css output or apply manually via animation-name.",
+    "shadow":  {
+      "$value": "@keyframes phantomShadow { 0%, 100% { text-shadow: 1px 1px 0 #22C55E, 2px 2px 0 #22C55E, 3px 3px 0 #22C55E; } 50% { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent; } }",
+      "$description": "Default · 3 layers at 1/2/3px · used 32–48px wordmark"
+    },
+    "xl": {
+      "$value": "@keyframes phantomXL { 0%, 100% { text-shadow: 2px 2px 0 #22C55E, 4px 4px 0 #22C55E, 6px 6px 0 #22C55E, 8px 8px 0 #22C55E; } 50% { text-shadow: 2px 2px 0 transparent, 4px 4px 0 transparent, 6px 6px 0 transparent, 8px 8px 0 transparent; } }",
+      "$description": "Cover / billboard · 4 layers at 2/4/6/8px · used 96px+"
+    },
+    "lg": {
+      "$value": "@keyframes phantomLG { 0%, 100% { text-shadow: 2px 2px 0 #22C55E, 3px 3px 0 #22C55E, 5px 5px 0 #22C55E; } 50% { text-shadow: 2px 2px 0 transparent, 3px 3px 0 transparent, 5px 5px 0 transparent; } }",
+      "$description": "Hero · 3 layers at 2/3/5px · used 56–80px"
+    },
+    "sm": {
+      "$value": "@keyframes phantomSm { 0%, 100% { text-shadow: 1px 1px 0 #22C55E, 2px 2px 0 #22C55E; } 50% { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent; } }",
+      "$description": "Small wordmark · 2 layers at 1/2px · used 18–28px"
+    },
+    "xs": {
+      "$value": "@keyframes phantomXs { 0%, 100% { text-shadow: 1px 1px 0 #22C55E; } 50% { text-shadow: 1px 1px 0 transparent; } }",
+      "$description": "Favicon / inline · 1 layer at 1px · ≤16px"
+    },
+    "green": {
+      "$value": "@keyframes phantomGreen { 0%, 100% { text-shadow: 1px 1px 0 rgba(0,0,0,0.25), 2px 2px 0 rgba(0,0,0,0.25), 3px 3px 0 rgba(0,0,0,0.25); } 50% { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent; } }",
+      "$description": "On full-green surfaces · BLACK-rgba shadows (not white) · keeps wordmark legible on Tech Green background"
+    },
+    "color": {
+      "$value": "@keyframes phantomColor { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }",
+      "$description": "Accent text fade · for accent words inside headlines"
+    },
+    "dot": {
+      "$value": "@keyframes phantomDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }",
+      "$description": "Small indicator dot fade"
+    }
+  }
+}

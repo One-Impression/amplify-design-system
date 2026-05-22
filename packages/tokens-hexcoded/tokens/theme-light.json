@@ -1,0 +1,64 @@
+{
+  "theme": {
+    "$description": "Hexcoded — Light theme. Tokens locked to Brand Book v1.0 Final (24 of 25 locked, 1 parked). Inherits primitives from tokens-foundation; layers Hexcoded brand semantics (Tech Green + Apple Premium aesthetic + Phantom motion) on top.",
+    "product": "hexcoded",
+    "mode": "light",
+    "lock": "brand-book-v1.0-final",
+    "color": {
+      "$type": "color",
+
+      "bg":             { "$value": "#FAFAFA", "$description": "Page canvas background — soft warm-cool gradient (linear-gradient 180deg, #FAFAFA → #F0F0F5) applied via body" },
+      "bg-elev":        { "$value": "#FFFFFF", "$description": "Elevated surface (cards, modals)" },
+      "bg-soft":        { "$value": "#F5F5F7", "$description": "Subtle inset / grouped sections" },
+
+      "accent":         { "$value": "#22C55E", "$description": "L02 · Tech Green — THE Hexcoded brand colour. Tailwind green-500 · RGB 34 197 94 · PANTONE 354 C" },
+      "accent-deep":    { "$value": "#16A34A", "$description": "Tech Green deep — pressed / active state" },
+      "accent-light":   { "$value": "#86EFAC", "$description": "Tech Green light — hover bg / soft surfaces" },
+      "accent-whisper": { "$value": "#DCFCE7", "$description": "Tech Green whisper — subtlest tint" },
+
+      "text-primary":   { "$value": "#0B0B0F", "$description": "Primary ink — brand-true black (L02 family neutral)" },
+      "text-secondary": { "$value": "#3B3B42", "$description": "Body copy ink" },
+      "text-tertiary":  { "$value": "#86868B", "$description": "Tertiary / muted text" },
+
+      "border":         { "$value": "#E5E5EA", "$description": "Default hairline" },
+      "border-strong":  { "$value": "#D8D8DD", "$description": "Stronger 1.5px border for input focus" }
+    }
+  },
+  "state": {
+    "$type": "color",
+    "$description": "L19 · UI state colours · LOCKED. Tech Green for success, #EF4444 for error, #FBBF24 for warning. Sky for neutral info only.",
+    "success":  { "$value": "#22C55E", "$description": "Success — same as accent" },
+    "warning":  { "$value": "#FBBF24", "$description": "L19 amber — warning" },
+    "danger":   { "$value": "#EF4444", "$description": "L19 red — error" },
+    "info":     { "$value": "#0EA5E9", "$description": "Sky — neutral info banners only" }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "$description": "L05 · Outfit 900 display + Inter 400/500 body + JetBrains Mono code. Multi-language coverage US · EU · India.",
+    "display": { "$value": "'Outfit', sans-serif", "$description": "Display + wordmark font — Outfit 900 only for the brand mark" },
+    "body":    { "$value": "'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif", "$description": "Body / UI text font" },
+    "mono":    { "$value": "'JetBrains Mono', SFMono-Regular, monospace", "$description": "Monospace — code, IDs, technical labels" }
+  },
+  "weight": {
+    "$type": "fontWeight",
+    "display":      { "$value": "900", "$description": "Display weight — Outfit Black for wordmark + h1/h2" },
+    "heading":      { "$value": "700", "$description": "h3 / sub-headings" },
+    "body-default": { "$value": "400", "$description": "Default body weight — Inter Regular" },
+    "body-medium":  { "$value": "500", "$description": "Inter Medium — labels, buttons" }
+  },
+  "letter-spacing": {
+    "$type": "dimension",
+    "$description": "Wordmark spacing locked to -0.025em per brand book v1.0 lock spec.",
+    "wordmark":  { "$value": "-0.025em", "$description": "HEXCODED wordmark default" },
+    "display":   { "$value": "-0.035em", "$description": "h1.display / cover h1" },
+    "h2":        { "$value": "-0.025em", "$description": "Section headings" },
+    "h3":        { "$value": "-0.015em", "$description": "Sub-headings" },
+    "body-loose":{ "$value": "-0.01em",  "$description": "Body copy slight negative tracking" },
+    "mono":      { "$value": "0.06em",   "$description": "Mono / eyebrow uppercase tracking" }
+  },
+  "gradient": {
+    "$type": "other",
+    "$description": "Soft Apple-Premium canvas gradient — applied to body, background-attachment: fixed.",
+    "canvas":  { "$value": "linear-gradient(180deg, #FAFAFA 0%, #F0F0F5 100%)", "$description": "Light canvas page gradient" }
+  }
+}

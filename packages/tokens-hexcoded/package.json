@@ -1,0 +1,28 @@
+{
+  "name": "@amplify-ai/tokens-hexcoded",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Hexcoded design tokens — Apple Premium aesthetic + Tech Green brand + Phantom motion. Locked to Brand Book v1.0 Final.",
+  "main": "dist/tokens.js",
+  "exports": {
+    "./css": "./dist/variables.css",
+    "./scss": "./dist/variables.scss",
+    "./tailwind": "./dist/tailwind.css",
+    "./json": "./dist/tokens.json",
+    "./js": "./dist/tokens.js",
+    ".": "./dist/tokens.js"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@amplify-ai/tokens-foundation": "^2.1.0"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.3.0"
+  },
+  "files": [
+    "dist/",
+    "tokens/"
+  ]
+}
