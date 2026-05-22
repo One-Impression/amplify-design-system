@@ -10,6 +10,10 @@
     "./json": "./dist/tokens.json",
     "./js": "./dist/tokens.js",
     "./react-native": "./dist/tokens.native.js",
+    "./palette": {
+      "types": "./palette.d.ts",
+      "default": "./palette.js"
+    },
     "./icons": "./dist/icons/manifest.json",
     "./icons/essentials": "./dist/icons/essentials.json",
     "./icons/types": "./dist/icons/manifest.d.ts",
@@ -18,6 +22,8 @@
   "scripts": {
     "build": "node build.js && npx tsx scripts/build-icons.ts",
     "build:icons": "npx tsx scripts/build-icons.ts",
+    "validate:palette": "node scripts/validate-palette.js",
+    "test": "vitest run",
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {
@@ -30,6 +36,8 @@
     "dist/",
     "tokens/",
     "scripts/",
-    "icons/"
+    "icons/",
+    "palette.js",
+    "palette.d.ts"
   ]
 }
