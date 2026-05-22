@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="HEX monogram inverse">
+  <title>HEX monogram inverse · white tile, dark HEX · embroidery / merch / OOH-on-dark</title>
+  <defs>
+    <style>
+      .tile { fill: #FFFFFF; stroke: #E5E5EA; stroke-width: 1; }
+      .hex-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 60px; letter-spacing: -0.025em; fill: #0B0B0F; text-anchor: middle; }
+      .hex-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 60px; letter-spacing: -0.025em; fill: #22C55E; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect class="tile" x="0" y="0" width="200" height="200" rx="45" ry="45"/>
+  <text x="100" y="122" class="hex-shadow" dx="3" dy="3">HEX</text>
+  <text x="100" y="122" class="hex-shadow" dx="2" dy="2">HEX</text>
+  <text x="100" y="122" class="hex-shadow" dx="1" dy="1">HEX</text>
+  <text x="100" y="122" class="hex-text">HEX</text>
+</svg>

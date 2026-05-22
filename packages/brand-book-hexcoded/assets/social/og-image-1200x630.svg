@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Hexcoded · Open Graph">
+  <title>Hexcoded OG card · 1200×630</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FAFAFA"/>
+      <stop offset="1" stop-color="#F0FDF4"/>
+    </linearGradient>
+    <style>
+      .micro { font-family: 'JetBrains Mono', monospace; font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; fill: #15803D; font-weight: 700; }
+      .wm-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 144px; letter-spacing: -0.025em; fill: #0B0B0F; text-anchor: middle; }
+      .wm-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 144px; letter-spacing: -0.025em; fill: #22C55E; text-anchor: middle; }
+      .tag { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 30px; fill: #3B3B42; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="200" class="micro" text-anchor="middle">HEXCODED.AI</text>
+  <text x="600" y="370" class="wm-shadow" dx="5" dy="5">HEXCODED</text>
+  <text x="600" y="370" class="wm-shadow" dx="3" dy="3">HEXCODED</text>
+  <text x="600" y="370" class="wm-shadow" dx="2" dy="2">HEXCODED</text>
+  <text x="600" y="370" class="wm-text">HEXCODED</text>
+  <text x="600" y="470" class="tag">Take your brief. Hexcode it.</text>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 140" role="img" aria-label="HEXCODED">
+  <title>HEXCODED wordmark · on dark surfaces</title>
+  <desc>Outfit 900 wordmark in white with green Phantom shadow · for dark surface placement</desc>
+  <defs>
+    <style>
+      .wm-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.025em; fill: #FFFFFF; }
+      .wm-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.025em; fill: #22C55E; }
+    </style>
+  </defs>
+  <text x="40" y="105" class="wm-shadow" dx="3" dy="3">HEXCODED</text>
+  <text x="40" y="105" class="wm-shadow" dx="2" dy="2">HEXCODED</text>
+  <text x="40" y="105" class="wm-shadow" dx="1" dy="1">HEXCODED</text>
+  <text x="40" y="105" class="wm-text">HEXCODED</text>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 140" role="img" aria-label="HEXCODED">
+  <title>HEXCODED wordmark · monochrome</title>
+  <desc>Single-colour HEXCODED · for fax, b/w print, single-ink stamp, embossing</desc>
+  <defs>
+    <style>
+      .wm-mono { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 104px; letter-spacing: -0.025em; fill: #0B0B0F; }
+    </style>
+  </defs>
+  <text x="40" y="105" class="wm-mono">HEXCODED</text>
+</svg>

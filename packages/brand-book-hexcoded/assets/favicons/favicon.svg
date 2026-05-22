@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hexcoded favicon">
+  <title>Hexcoded favicon · 32px · white HEX on black, green Phantom shadow</title>
+  <defs>
+    <style>
+      .tile { fill: #0B0B0F; }
+      .hex-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: -0.015em; fill: #FFFFFF; text-anchor: middle; }
+      .hex-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: -0.015em; fill: #22C55E; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect class="tile" x="0" y="0" width="32" height="32" rx="6" ry="6"/>
+  <text x="16" y="20" class="hex-shadow" dx="1" dy="1">HEX</text>
+  <text x="16" y="20" class="hex-text">HEX</text>
+</svg>

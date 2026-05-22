@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Hexcoded app icon">
+  <title>Hexcoded app icon · 180×180 · apple-touch-icon · iOS Safari pinned</title>
+  <defs>
+    <style>
+      .tile { fill: #0B0B0F; }
+      .hex-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 56px; letter-spacing: -0.025em; fill: #FFFFFF; text-anchor: middle; }
+      .hex-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 56px; letter-spacing: -0.025em; fill: #22C55E; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect class="tile" x="0" y="0" width="180" height="180" rx="40" ry="40"/>
+  <text x="90" y="112" class="hex-shadow" dx="3" dy="3">HEX</text>
+  <text x="90" y="112" class="hex-shadow" dx="2" dy="2">HEX</text>
+  <text x="90" y="112" class="hex-shadow" dx="1" dy="1">HEX</text>
+  <text x="90" y="112" class="hex-text">HEX</text>
+</svg>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 140" role="img" aria-label="HEXCODED">
+  <title>HEXCODED wordmark · default (phantom breath)</title>
+  <desc>Outfit 900 wordmark with green Phantom stepped-shadow animation · brand-book-v1.0 lock</desc>
+  <defs>
+    <style>
+      .wm-text {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 900;
+        font-size: 104px;
+        letter-spacing: -0.025em;
+        fill: #0B0B0F;
+      }
+      .wm-shadow {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 900;
+        font-size: 104px;
+        letter-spacing: -0.025em;
+        fill: #22C55E;
+        animation: phantomShadow 3s ease-in-out infinite;
+      }
+      @keyframes phantomShadow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <!-- Three shadow layers · 1/2/3px offsets · L03 lock -->
+  <text x="40" y="105" class="wm-shadow" dx="3" dy="3">HEXCODED</text>
+  <text x="40" y="105" class="wm-shadow" dx="2" dy="2">HEXCODED</text>
+  <text x="40" y="105" class="wm-shadow" dx="1" dy="1">HEXCODED</text>
+  <!-- Wordmark on top -->
+  <text x="40" y="105" class="wm-text">HEXCODED</text>
+</svg>

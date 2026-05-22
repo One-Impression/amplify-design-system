@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Hexcoded app icon">
+  <title>Hexcoded app icon · 1024×1024 · App Store / Play Store / marketing</title>
+  <defs>
+    <style>
+      .tile { fill: #0B0B0F; }
+      .hex-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 320px; letter-spacing: -0.025em; fill: #FFFFFF; text-anchor: middle; }
+      .hex-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 320px; letter-spacing: -0.025em; fill: #22C55E; text-anchor: middle; }
+    </style>
+  </defs>
+  <!-- iOS squircle radius = 22.37% of width -->
+  <rect class="tile" x="0" y="0" width="1024" height="1024" rx="229" ry="229"/>
+  <!-- 4-layer phantomXL stepped shadow (2/4/6/8 scaled to icon dims = 16/32/48/64) -->
+  <text x="512" y="640" class="hex-shadow" dx="64" dy="64">HEX</text>
+  <text x="512" y="640" class="hex-shadow" dx="48" dy="48">HEX</text>
+  <text x="512" y="640" class="hex-shadow" dx="32" dy="32">HEX</text>
+  <text x="512" y="640" class="hex-shadow" dx="16" dy="16">HEX</text>
+  <text x="512" y="640" class="hex-text">HEX</text>
+</svg>

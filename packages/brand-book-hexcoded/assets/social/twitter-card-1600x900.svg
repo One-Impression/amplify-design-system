@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Hexcoded · Twitter / X card">
+  <title>Hexcoded X/Twitter card · 1600×900</title>
+  <defs>
+    <style>
+      .wm-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 180px; letter-spacing: -0.025em; fill: #FFFFFF; text-anchor: middle; }
+      .wm-shadow { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 180px; letter-spacing: -0.025em; fill: #22C55E; text-anchor: middle; }
+      .tag { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 36px; fill: #C8C8CD; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#0B0B0F"/>
+  <text x="800" y="500" class="wm-shadow" dx="6" dy="6">HEXCODED</text>
+  <text x="800" y="500" class="wm-shadow" dx="4" dy="4">HEXCODED</text>
+  <text x="800" y="500" class="wm-shadow" dx="2" dy="2">HEXCODED</text>
+  <text x="800" y="500" class="wm-text">HEXCODED</text>
+  <text x="800" y="620" class="tag">Ship in minutes, not weeks.</text>
+</svg>

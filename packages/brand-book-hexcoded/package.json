@@ -1,0 +1,15 @@
+{
+  "name": "@amplify-ai/brand-book-hexcoded",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Hexcoded brand book — consolidated v1.0 lock + wordmark SVGs + HEX monogram + app icons + favicons + voice/tone guidelines",
+  "main": "index.js",
+  "files": [
+    "index.html",
+    "index.js",
+    "BRAND-DECISIONS.md",
+    "guidelines/",
+    "assets/",
+    "README.md"
+  ]
+}

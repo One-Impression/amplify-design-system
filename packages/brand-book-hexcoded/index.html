@@ -1,0 +1,2364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hexcoded · Design System · v1.0 · Locked to Brand Book v1.0 Final</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════════════
+   HEXCODED · DESIGN SYSTEM · v1.0
+   Anchored to brand-book-v1-final · 24 of 25 decisions locked · 1 parked (sonic)
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── L02 · Tech Green · Tailwind green-500 · RGB 34 197 94 · PANTONE 354 C ── */
+  --accent:         #22C55E;   /* Tech Green · the brand colour */
+  --accent-deep:    #16A34A;   /* deep · interactive pressed */
+  --accent-light:   #86EFAC;   /* light · hover bg / soft surfaces */
+  --accent-whisper: #DCFCE7;   /* whisper · subtlest tint */
+
+  /* Neutrals · ink scale */
+  --ink:        #0B0B0F;       /* primary ink · brand-true black */
+  --ink-2:      #3B3B42;       /* body copy */
+  --muted:      #86868B;       /* secondary text · captions */
+  --line:       #E5E5EA;       /* hairlines · 1px borders */
+  --soft:       #F5F5F7;       /* soft surfaces · grouped sections */
+  --bg:         #FAFAFA;       /* page bg */
+  --white:      #FFFFFF;
+
+  /* Dark surfaces */
+  --dark:       #0B0B0F;
+  --dark-2:     #15151B;
+  --dark-line:  #2C2C30;
+
+  /* ── L19 · UI state colours ── */
+  --success: #22C55E;          /* === accent */
+  --warning: #FBBF24;          /* L19 amber */
+  --danger:  #EF4444;          /* L19 red */
+  --info:    #0EA5E9;          /* sky · for neutral info banners */
+
+  /* Spacing · 4-base */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+  --s-7: 32px; --s-8: 40px; --s-9: 56px; --s-10: 72px; --s-11: 96px; --s-12: 120px;
+
+  /* Radii · r-lg 16px restores the Apple-soft card default */
+  --r-xs: 4px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-2xl: 28px; --r-pill: 999px;
+
+  /* Shadow scale · neutral */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 24px 56px rgba(0,0,0,0.08), 0 6px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 32px 80px rgba(0,0,0,0.12), 0 12px 24px rgba(0,0,0,0.06);
+
+  /* Type stack · L05 · Outfit display + Inter body + JetBrains Mono code */
+  --font-display: 'Outfit', sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', SFMono-Regular, monospace;
+
+  /* Motion · L04 · 3s ease-in-out base · 6s for hero / OOH */
+  --ease: cubic-bezier(.16,1,.3,1);
+  --d-fast: 120ms;
+  --d-base: 200ms;
+  --d-slow: 320ms;
+
+  --max: 1400px;
+}
+
+/* ── L18 · Dark mode · OS preference only · NO manual toggle in v1 ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:    #0B0B0F;
+    --soft:  #15151B;
+    --white: #1C1C22;
+    --ink:   #FAFAFA;
+    --ink-2: #C8C8CD;
+    --muted: #86868B;
+    --line:  #2C2C30;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.5);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+    --shadow-lg: 0 24px 56px rgba(0,0,0,0.6);
+  }
+}
+
+/* ── Reset ── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: linear-gradient(180deg, #FAFAFA 0%, #F0F0F5 100%);   /* Apple-style soft canvas gradient */
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-color-scheme: dark) {
+  body { background: linear-gradient(180deg, #0B0B0F 0%, #15151B 100%); background-attachment: fixed; }
+}
+a { color: var(--accent-deep); text-decoration: none; transition: color var(--d-fast); }
+a:hover { color: var(--accent); }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ════════════════════════════════════════════════════════════════
+   PHANTOM · L01/L03/L04 · the only motion on the mark
+   3 layers stepped offsets scaling with logo size · 3s ease-in-out
+   Wordmark itself stays solid ink · only shadows breathe.
+   ════════════════════════════════════════════════════════════════ */
+@keyframes phantomShadow {
+  0%, 100% { text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent), 3px 3px 0 var(--accent); }
+  50%      { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent; }
+}
+@keyframes phantomXL {
+  0%, 100% { text-shadow: 2px 2px 0 var(--accent), 4px 4px 0 var(--accent), 6px 6px 0 var(--accent), 8px 8px 0 var(--accent); }
+  50%      { text-shadow: 2px 2px 0 transparent, 4px 4px 0 transparent, 6px 6px 0 transparent, 8px 8px 0 transparent; }
+}
+@keyframes phantomLG {
+  0%, 100% { text-shadow: 2px 2px 0 var(--accent), 3px 3px 0 var(--accent), 5px 5px 0 var(--accent); }
+  50%      { text-shadow: 2px 2px 0 transparent, 3px 3px 0 transparent, 5px 5px 0 transparent; }
+}
+@keyframes phantomSm {
+  0%, 100% { text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent); }
+  50%      { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent; }
+}
+@keyframes phantomXs {
+  0%, 100% { text-shadow: 1px 1px 0 var(--accent); }
+  50%      { text-shadow: 1px 1px 0 transparent; }
+}
+@keyframes phantomGreen {
+  0%, 100% { text-shadow: 1px 1px 0 rgba(0,0,0,.25), 2px 2px 0 rgba(0,0,0,.25), 3px 3px 0 rgba(0,0,0,.25); }
+  50%      { text-shadow: 1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent; }
+}
+@keyframes phantomColor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+@keyframes phantomDot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* ── Wordmark · base · always plain UPPERCASE HEXCODED (L06) ── */
+.wm {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.025em;   /* canonical lock spec */
+  color: var(--ink);
+  display: inline-block;
+  animation: phantomShadow 3s ease-in-out infinite;
+}
+.wm-xl { font-size: 96px; animation-name: phantomXL; }
+.wm-lg { font-size: 64px; animation-name: phantomLG; }
+.wm-md { font-size: 40px; animation-name: phantomShadow; }
+.wm-sm { font-size: 24px; animation-name: phantomSm; }
+.wm-xs { font-size: 16px; animation-name: phantomXs; }
+.wm-slow { animation-duration: 6s; }     /* L04 · hero / OOH */
+.wm-static { animation: none; text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent), 3px 3px 0 var(--accent); }   /* print */
+.wm-inverse { color: var(--white); }
+.wm-on-green { color: var(--white); animation-name: phantomGreen; }
+
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════════════════════════════ */
+.app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: rgba(250,250,250,0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid var(--line);
+  padding: 28px 20px 60px;
+  z-index: 50;
+}
+@media (prefers-color-scheme: dark) {
+  .sidebar { background: rgba(11,11,15,0.92); }
+}
+.sidebar-brand {
+  padding: 0 12px 22px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.sidebar-brand .wm { font-size: 20px; }
+.sidebar-brand .tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.sidebar h6 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 22px 12px 6px;
+}
+.sidebar h6:first-of-type { margin-top: 4px; }
+.sidebar a.nav {
+  display: block;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--ink-2);
+  border-radius: var(--r-sm);
+  font-weight: 500;
+  transition: all var(--d-fast);
+}
+.sidebar a.nav:hover { background: var(--soft); color: var(--ink); }
+.sidebar a.nav.active { background: var(--accent-whisper); color: var(--accent-deep); font-weight: 600; }
+@media (prefers-color-scheme: dark) {
+  .sidebar a.nav.active { background: rgba(34,197,94,0.14); color: var(--accent-light); }
+}
+.main { min-width: 0; }
+
+/* ════════════════════════════════════════════════════════════════
+   TYPOGRAPHY · L05 · Outfit display + Inter body + JetBrains Mono code
+   ════════════════════════════════════════════════════════════════ */
+h1.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 80px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.012em;
+}
+.lead {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--ink-2);
+  max-width: 760px;
+  line-height: 1.55;
+}
+.body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+.caption { font-family: var(--font-body); font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.mono { font-family: var(--font-mono); font-size: 12.5px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow .accent { color: var(--accent-deep); }
+code.code, .code-inline {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SECTION SHELL
+   ════════════════════════════════════════════════════════════════ */
+section.surf {
+  padding: 72px 56px;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 0;
+}
+.surf-head { max-width: 880px; margin-bottom: 44px; }
+.surf-head .eyebrow { margin-bottom: 10px; display: block; }
+.surf-head h2 { margin-bottom: 12px; }
+.surf-head p { color: var(--ink-2); font-size: 17px; line-height: 1.55; }
+.subhead {
+  margin: 40px 0 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.subhead h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.015em; margin: 0; }
+.subhead .pad { color: var(--muted); font-size: 12.5px; font-family: var(--font-mono); letter-spacing: 0.04em; }
+
+/* ════════════════════════════════════════════════════════════════
+   COVER
+   ════════════════════════════════════════════════════════════════ */
+.cover {
+  padding: 110px 56px 80px;
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+  position: relative;
+}
+@media (prefers-color-scheme: dark) {
+  .cover { background: var(--dark-2); }
+}
+.cover .marker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cover .marker .accent { color: var(--accent-deep); }
+.cover h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 88px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 900px;
+  margin-bottom: 22px;
+}
+.cover h1 .accent { color: var(--accent); animation: phantomColor 3s ease-in-out infinite; }
+.cover p { font-size: 17px; color: var(--ink-2); max-width: 760px; line-height: 1.55; margin-bottom: 36px; }
+.cover .mark-strip { margin: 28px 0 36px; }
+.cover-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.cover-meta b { display: block; color: var(--ink); margin-bottom: 4px; }
+.cover-toc {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.cover-toc a {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--ink);
+  transition: all var(--d-fast);
+}
+@media (prefers-color-scheme: dark) {
+  .cover-toc a { background: var(--dark-2); }
+}
+.cover-toc a:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent-light); }
+.cover-toc a .num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--accent-deep); font-weight: 700; }
+.cover-toc a .name { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+.cover-toc a .meta { font-size: 12px; color: var(--muted); }
+
+/* ════════════════════════════════════════════════════════════════
+   LOCK SUMMARY TABLE — straight from brand-book-v1-final
+   ════════════════════════════════════════════════════════════════ */
+.lock-table {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  .lock-table { background: var(--dark-2); }
+}
+.lock-row {
+  display: grid;
+  grid-template-columns: 80px 1.4fr 2.6fr 90px;
+  gap: 0;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+.lock-row:last-child { border-bottom: 0; }
+@media (max-width: 880px) {
+  .lock-row { grid-template-columns: 1fr; padding: 14px; }
+  .lock-row > * { margin-bottom: 6px; }
+}
+.lock-row .id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.lock-row .what {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+.lock-row .val {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.lock-row .val b { font-weight: 700; color: var(--ink); }
+.lock-row .status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 5px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.lock-row .status.locked { background: var(--accent-whisper); color: #15803d; }
+.lock-row .status.open   { background: #fef3c7; color: #854d0e; }
+
+/* ════════════════════════════════════════════════════════════════
+   LOGO STAGES · brand architecture
+   ════════════════════════════════════════════════════════════════ */
+.stage {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  overflow: hidden;
+}
+@media (prefers-color-scheme: dark) {
+  .stage { background: var(--dark-2); }
+}
+.stage.dark  { background: var(--dark); }
+.stage.green { background: var(--accent); }
+.stage.cream { background: #FAF9F5; }
+.stage .lbl {
+  position: absolute;
+  bottom: 12px; left: 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Monogram · L08 · HEX (white letters) on black, breathing green Phantom shadow.
+   Letters: WHITE. Background: BLACK. Shadow: GREEN stepped Phantom (canonical lock). */
+.mono-grid { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.mono-tile {
+  background: var(--dark);
+  color: var(--white);                  /* white letters (canonical) */
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: phantomSm 3s ease-in-out infinite;   /* green Phantom shadow breathes */
+}
+.mono-tile.size-xl { width: 108px; height: 108px; font-size: 36px; border-radius: 22px; animation-name: phantomLG; }
+.mono-tile.size-lg { width: 80px; height: 80px; font-size: 26px; border-radius: 18px; animation-name: phantomShadow; }
+.mono-tile.size-md { width: 56px; height: 56px; font-size: 18px; border-radius: var(--r-md); animation-name: phantomSm; }
+.mono-tile.size-sm { width: 32px; height: 32px; font-size: 11px; border-radius: 8px; animation-name: phantomXs; }
+.mono-tile.size-xs { width: 16px; height: 16px; font-size: 7px; border-radius: 4px; animation: none; color: var(--accent); background: var(--dark); font-weight: 900; letter-spacing: 0; }   /* L08 · "H" fallback at 16px · green letter (shadow can't render at this scale) */
+
+/* White-inverse monogram · for embroidery / OOH on dark / apparel / dark-mode chrome.
+   Letters: DARK. Background: WHITE. Shadow: GREEN Phantom (still breathes). */
+.mono-tile.inverse {
+  background: var(--white);
+  color: var(--dark);
+  border: 1px solid var(--line);
+}
+
+/* ── Icon-in-context mockups · light surfaces ───────────────── */
+.ios-home {
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d4f0 35%, #c6d9f0 70%, #d9e8c6 100%);
+  border-radius: 38px;
+  padding: 28px 22px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.18), 0 0 0 12px #0B0B0F, 0 0 0 14px #2C2C30;
+  width: 280px;
+}
+.ios-home .status { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px 18px; font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.85); }
+.ios-home .grid-icons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px 12px;
+  margin-bottom: 24px;
+}
+.ios-home .ico {
+  aspect-ratio: 1;
+  border-radius: 22.37%;        /* iOS squircle approximation */
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: -0.015em;
+  color: var(--white);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+}
+.ios-home .ico.hex {
+  background: var(--dark);
+  color: var(--white);                  /* white letters · canonical */
+  animation: phantomSm 3s ease-in-out infinite;   /* green Phantom shadow */
+}
+.ios-home .ico .lbl { display: none; }
+.ios-home .ico-label { font-size: 10px; color: rgba(255,255,255,0.95); text-align: center; margin-top: 4px; font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.ios-home .ico-wrap { display: flex; flex-direction: column; align-items: center; }
+.ios-home .dock {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 28px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* macOS Dock context */
+.macos-dock {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 8px;
+  display: inline-flex;
+  gap: 6px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+}
+.macos-dock .ico {
+  width: 60px; height: 60px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--white);
+  font-size: 16px;
+  letter-spacing: -0.015em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.macos-dock .ico.hex { background: var(--dark); color: var(--white); animation: phantomSm 3s ease-in-out infinite; }
+
+/* Browser tab context */
+.browser-frame {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px 12px 8px 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+@media (prefers-color-scheme: dark) {
+  .browser-frame { background: var(--dark-2); border-color: var(--dark-line); }
+}
+.browser-bar {
+  background: #ECECEF;
+  padding: 8px 12px 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  .browser-bar { background: #232328; }
+}
+.browser-tab {
+  background: var(--white);
+  border-radius: 8px 8px 0 0;
+  padding: 8px 14px 10px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+  color: var(--ink);
+  font-weight: 500;
+  max-width: 240px;
+}
+@media (prefers-color-scheme: dark) {
+  .browser-tab { background: var(--dark-2); color: var(--ink); }
+}
+.browser-tab.inactive { background: transparent; color: var(--muted); }
+/* Favicon · 16px = green "H" on black (no shadow at this scale).
+   Favicon 32px+ = WHITE HEX on black with breathing green Phantom shadow. */
+.fav {
+  width: 16px; height: 16px;
+  background: var(--dark);
+  color: var(--accent);                 /* 16px green letter · no shadow */
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 7px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0;
+}
+.fav-32 { width: 32px; height: 32px; font-size: 12px; border-radius: 5px; color: var(--white); letter-spacing: -0.015em; animation: phantomXs 3s ease-in-out infinite; }
+.fav-48 { width: 48px; height: 48px; font-size: 18px; border-radius: 10px; color: var(--white); letter-spacing: -0.018em; animation: phantomSm 3s ease-in-out infinite; }
+.fav-64 { width: 64px; height: 64px; font-size: 24px; border-radius: 12px; color: var(--white); letter-spacing: -0.02em; animation: phantomSm 3s ease-in-out infinite; }
+.browser-url {
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+@media (prefers-color-scheme: dark) {
+  .browser-url { background: var(--dark-2); border-color: var(--dark-line); }
+}
+
+/* Standalone "icon on light card" preview */
+.icon-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  .icon-card { background: var(--dark-2); border-color: var(--dark-line); }
+}
+.icon-card .label-pair { text-align: center; }
+.icon-card .label-pair b { display: block; font-family: var(--font-display); font-size: 13px; font-weight: 700; }
+.icon-card .label-pair .px { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Production size table */
+.size-table { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+@media (prefers-color-scheme: dark) { .size-table { background: var(--dark-2); border-color: var(--dark-line); } }
+.size-row {
+  display: grid;
+  grid-template-columns: 80px 1.4fr 1.6fr 1fr;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+}
+.size-row:last-child { border-bottom: none; }
+.size-row.head { background: var(--soft); font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.size-row .px { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+.size-row .where { color: var(--ink-2); }
+.size-row .file { font-family: var(--font-mono); color: var(--muted); font-size: 11.5px; }
+.size-row .which { font-size: 11px; color: var(--muted); font-family: var(--font-mono); }
+
+/* ════════════════════════════════════════════════════════════════
+   DO / DON'T
+   ════════════════════════════════════════════════════════════════ */
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 880px) { .do-dont { grid-template-columns: 1fr; } }
+.dd { padding: 22px 24px; border-radius: var(--r-lg); border: 1px solid; }
+.dd .pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.dd.do   { background: var(--accent-whisper); border-color: var(--accent-light); }
+.dd.do   .pill { background: var(--accent); color: var(--white); }
+.dd.dont { background: #fef2f2; border-color: #fecaca; }
+.dd.dont .pill { background: var(--danger); color: var(--white); }
+.dd p { color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
+@media (prefers-color-scheme: dark) {
+  .dd.do { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
+  .dd.dont { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ════════════════════════════════════════════════════════════════ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+@media (max-width: 980px) { .grid-3, .grid-4, .grid-6 { grid-template-columns: repeat(2, 1fr); } .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; } }
+
+.row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start; }
+
+/* ════════════════════════════════════════════════════════════════
+   COLOR SWATCHES
+   ════════════════════════════════════════════════════════════════ */
+.token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.swatch { display: flex; flex-direction: column; gap: 8px; }
+.swatch .chip { height: 88px; border-radius: var(--r-md); border: 1px solid var(--line); box-shadow: var(--shadow-xs); }
+.swatch .info { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; }
+.swatch .name { font-size: 12.5px; font-weight: 600; }
+.swatch .hex { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* Type specimen */
+.type-spec {
+  display: grid;
+  grid-template-columns: 180px 1fr 220px;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+@media (max-width: 880px) { .type-spec { grid-template-columns: 1fr; gap: 6px; } }
+.type-spec .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-deep); font-weight: 700; }
+.type-spec .role span { color: var(--muted); display: block; margin-top: 4px; font-weight: 500; }
+.type-spec .spec-meta { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.type-spec .spec-meta b { color: var(--ink); font-weight: 600; }
+
+/* Spacing / radius scale */
+.scale-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.scale-item {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 14px;
+  text-align: center;
+}
+@media (prefers-color-scheme: dark) { .scale-item { background: var(--dark-2); } }
+.scale-item .block { background: var(--accent-light); border-radius: 4px; margin: 0 auto 10px; }
+.scale-item .name { font-size: 12px; font-weight: 600; }
+.scale-item .val { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+
+/* Shadow grid */
+.shadow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 24px; background: var(--soft); border-radius: var(--r-lg); }
+.shadow-item { height: 110px; background: var(--white); border-radius: var(--r-md); display: flex; align-items: flex-end; padding: 14px; }
+.shadow-item .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════
+   COMPONENTS · per @amplify-ai/ui contract
+   ════════════════════════════════════════════════════════════════ */
+
+/* Buttons · pill 44px default (Apple HIG) · primary green-gradient · loading state */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--d-base);
+  white-space: nowrap;
+}
+.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-deep)); color: var(--white); box-shadow: 0 6px 18px rgba(34,197,94,0.22); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(34,197,94,0.28); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn-secondary { background: var(--white); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow-xs); }
+@media (prefers-color-scheme: dark) { .btn-secondary { background: var(--dark-2); border-color: var(--dark-line); color: var(--ink); } }
+.btn-secondary:hover { border-color: var(--ink-2); }
+.btn-ghost { background: transparent; color: var(--ink-2); }
+.btn-ghost:hover { background: var(--soft); }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-tertiary { background: transparent; color: var(--accent-deep); padding: 0 12px; }
+.btn-tertiary::after { content: '→'; margin-left: 4px; transition: transform var(--d-base); }
+.btn-tertiary:hover::after { transform: translateX(3px); }
+.btn-xs { height: 28px; padding: 0 12px; font-size: 12px; }
+.btn-sm { height: 36px; padding: 0 18px; font-size: 14px; }
+.btn-lg { height: 56px; padding: 0 30px; font-size: 17px; }
+.btn-xl { height: 64px; padding: 0 36px; font-size: 18px; }
+
+/* Form controls */
+.input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font-size: 15px;
+  color: var(--ink);
+  transition: all var(--d-base);
+}
+@media (prefers-color-scheme: dark) { .input { background: var(--dark-2); border-color: var(--dark-line); } }
+.input::placeholder { color: var(--muted); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
+
+/* WCAG 2.2 AA · focus-visible ring on every interactive element */
+.btn:focus-visible,
+button:focus-visible,
+select:focus-visible,
+a:focus-visible,
+.sidebar a.nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn:focus { outline: none; }   /* mouse-click clears, kbd users get focus-visible */
+.input:disabled { background: var(--soft); cursor: not-allowed; }
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font: inherit;
+  font-size: 14px;
+  resize: vertical;
+  color: var(--ink);
+}
+@media (prefers-color-scheme: dark) { .textarea { background: var(--dark-2); border-color: var(--dark-line); } }
+.textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
+.field { margin-bottom: 18px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+.field-help { display: block; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.field-error { display: block; font-size: 12px; color: var(--danger); margin-top: 6px; }
+
+/* Card */
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-xs);
+}
+@media (prefers-color-scheme: dark) { .card { background: var(--dark-2); border-color: var(--dark-line); } }
+.card-soft { background: var(--soft); border: none; box-shadow: none; }
+.card-emphasis { background: linear-gradient(135deg, var(--accent-whisper), var(--white)); border-color: var(--accent-light); }
+@media (prefers-color-scheme: dark) { .card-emphasis { background: linear-gradient(135deg, rgba(34,197,94,0.12), var(--dark-2)); border-color: rgba(34,197,94,0.3); } }
+
+/* Badge · semantic colours via L19 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-success { background: var(--accent-whisper); color: #15803d; }
+.badge-warning { background: #FEF3C7; color: #854d0e; }
+.badge-danger  { background: #FEE2E2; color: #991b1b; }
+.badge-info    { background: #E0F2FE; color: #075985; }
+.badge-ink     { background: var(--soft); color: var(--ink); }
+.badge-mono    { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+/* Banner · semantic colours via L19 */
+.banner {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid;
+  align-items: flex-start;
+}
+.banner .ic { width: 22px; height: 22px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; color: var(--white); font-size: 13px; }
+.banner .body { flex: 1; font-size: 13px; }
+.banner .ttl { font-weight: 600; margin-bottom: 2px; color: var(--ink); }
+.banner-success { background: var(--accent-whisper); border-color: var(--accent-light); }
+.banner-success .ic { background: var(--accent); }
+.banner-warning { background: #FEF3C7; border-color: #FDE68A; }
+.banner-warning .ic { background: var(--warning); }
+.banner-danger  { background: #FEE2E2; border-color: #FECACA; }
+.banner-danger  .ic { background: var(--danger); }
+.banner-info    { background: #E0F2FE; border-color: #BAE6FD; }
+.banner-info    .ic { background: var(--info); }
+
+/* Tabs */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.tabs button { padding: 10px 14px; border: none; background: transparent; font-size: 13.5px; font-weight: 500; color: var(--muted); cursor: pointer; position: relative; }
+.tabs button.active { color: var(--ink); font-weight: 600; }
+.tabs button.active::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; background: var(--accent); border-radius: 2px 2px 0 0; }
+
+/* Table */
+.tbl-wrap { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-xs); }
+@media (prefers-color-scheme: dark) { .tbl-wrap { background: var(--dark-2); border-color: var(--dark-line); } }
+table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.t th { text-align: left; padding: 11px 16px; background: var(--soft); border-bottom: 1px solid var(--line); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+table.t td { padding: 11px 16px; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+table.t tr:last-child td { border-bottom: none; }
+table.t tr:hover td { background: var(--soft); }
+
+/* Pre / code block */
+pre.code-block {
+  background: var(--dark);
+  color: #DDD;
+  border-radius: var(--r-md);
+  padding: 18px 22px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+  overflow-x: auto;
+  border: 1px solid var(--dark-line);
+}
+pre.code-block .c { color: #86efac; font-style: italic; }
+pre.code-block .k { color: #86efac; }
+pre.code-block .s { color: #FFD479; }
+pre.code-block .v { color: #82AAFF; }
+
+/* Verb-card grid (voice) */
+.verb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.verb-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); padding: 18px 22px; }
+@media (prefers-color-scheme: dark) { .verb-card { background: var(--dark-2); border-color: var(--dark-line); } }
+.verb-card .ctx { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 8px; }
+.verb-card .copy { font-family: var(--font-body); font-size: 15px; color: var(--ink); line-height: 1.55; font-weight: 500; }
+.verb-card .copy b { font-weight: 700; color: var(--accent-deep); }
+
+/* Banned-words grid */
+.banned-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.banned {
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+@media (prefers-color-scheme: dark) { .banned { background: var(--dark-2); border-color: var(--dark-line); } }
+.banned::before {
+  content: '';
+  position: absolute;
+  left: 14px; right: 14px;
+  top: 50%;
+  height: 1.5px;
+  background: var(--danger);
+  transform: rotate(-4deg);
+  transform-origin: left;
+}
+
+/* Voice samples (error voice) */
+.voice-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 28px; }
+@media (prefers-color-scheme: dark) { .voice-card { background: var(--dark-2); border-color: var(--dark-line); } }
+.voice-card.rec { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.voice-card .v-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.voice-card .v-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+.voice-card .pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; padding: 4px 8px; border-radius: 5px; background: var(--accent); color: var(--white); }
+.voice-card .desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; margin-bottom: 14px; }
+.voice-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 700px) { .voice-samples { grid-template-columns: 1fr; } }
+.voice-samples .sample { padding: 14px 16px; background: var(--soft); border-radius: var(--r-md); }
+.voice-samples .sample-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; margin-bottom: 6px; }
+.voice-samples .sample-text { font-family: var(--font-body); font-size: 13px; color: var(--ink); line-height: 1.5; font-weight: 500; }
+
+/* Product shell (in-doc mini browser) */
+.product-shell {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  min-height: 480px;
+}
+.product-shell .side {
+  background: rgba(255,255,255,0.92);
+  border-right: 1px solid var(--line);
+  padding: 14px 10px;
+}
+@media (prefers-color-scheme: dark) { .product-shell .side { background: rgba(28,28,34,0.92); } }
+.product-shell .side .logo {
+  padding: 6px 10px 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10px;
+}
+.product-shell .side .logo .wm { font-size: 16px; }
+.product-shell .side .lk { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: var(--r-sm); font-size: 12.5px; color: var(--ink-2); cursor: pointer; margin-bottom: 1px; }
+.product-shell .side .lk:hover { background: var(--soft); }
+.product-shell .side .lk.active { background: var(--accent-whisper); color: var(--accent-deep); font-weight: 600; }
+.product-shell .body { padding: 20px 24px; }
+
+/* Asset tile (gallery, library) */
+.asset-tile {
+  aspect-ratio: 9/16;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  color: var(--white);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.asset-tile.dark { background: linear-gradient(135deg, var(--ink-2), var(--ink)); color: var(--accent-light); }
+.asset-tile.cream { background: linear-gradient(135deg, #FAFAFA, var(--accent-light)); color: #14532d; }
+.asset-tile .ttl { font-family: var(--font-display); font-weight: 900; font-size: 14px; letter-spacing: -0.01em; }
+
+/* Phone frame */
+.phone { width: 280px; height: 580px; background: black; border-radius: 40px; padding: 10px; box-shadow: var(--shadow-lg); }
+.phone .screen { width: 100%; height: 100%; background: var(--bg); border-radius: 30px; overflow: hidden; display: flex; flex-direction: column; }
+.phone-bar { display: flex; justify-content: space-between; padding: 12px 18px 8px; font-size: 11px; font-weight: 600; }
+.phone-content { flex: 1; padding: 8px 16px; overflow: hidden; }
+.phone-tabbar { display: flex; padding: 8px 0 18px; justify-content: space-around; border-top: 1px solid var(--line); background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); }
+.phone-tabbar .tab { font-size: 9px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.phone-tabbar .tab.active { color: var(--accent-deep); }
+
+/* Logo deliverables grid (L17) */
+.deliv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.deliv {
+  padding: 14px 12px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+@media (prefers-color-scheme: dark) { .deliv { background: var(--dark-2); border-color: var(--dark-line); } }
+.deliv .ic { font-size: 22px; margin-bottom: 8px; display: block; }
+.deliv b { font-size: 12px; color: var(--ink); font-family: var(--font-display); display: block; margin-bottom: 2px; letter-spacing: -0.01em; }
+.deliv .sub { color: var(--muted); font-size: 10px; }
+
+/* Footer */
+.site-footer {
+  margin: 0;
+  background: var(--dark);
+  color: var(--muted);
+  padding: 56px 56px 36px;
+  border-radius: 0;
+}
+.site-footer .ft-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 28px; margin-bottom: 32px; }
+@media (max-width: 880px) { .site-footer .ft-grid { grid-template-columns: 1fr 1fr; } }
+.site-footer h6 { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #71717a; margin-bottom: 12px; }
+.site-footer a { display: block; padding: 4px 0; color: #d4d4d8; font-size: 13.5px; }
+.site-footer a:hover { color: var(--white); }
+.site-footer .ft-mark { font-family: var(--font-display); font-weight: 900; font-size: 28px; letter-spacing: -0.025em; color: var(--white); margin-bottom: 12px; display: inline-block; animation: phantomShadow 3s ease-in-out infinite; }
+.site-footer .ft-mission { font-size: 13.5px; color: #a1a1aa; max-width: 280px; line-height: 1.55; }
+.site-footer .ft-base { display: flex; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--dark-line); font-size: 12px; color: #71717a; flex-wrap: wrap; gap: 14px; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  section.surf { padding: 56px 28px; }
+  .cover { padding: 80px 28px 56px; }
+  .cover h1 { font-size: 56px; }
+  .site-footer { padding: 40px 28px 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ════════════════════════════════════════════════════════════
+     SIDEBAR
+     ════════════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="wm wm-sm">HEXCODED</span>
+    <span class="tag">Design System · v1.0</span>
+  </div>
+
+  <h6>00 · Foundations</h6>
+  <a class="nav" href="#cover">Cover</a>
+  <a class="nav" href="#lock">Lock summary · 24/25</a>
+  <a class="nav" href="#brand">Brand architecture</a>
+  <a class="nav" href="#icons-section">↳ App icon · favicon</a>
+  <a class="nav" href="#phantom">Phantom motion</a>
+  <a class="nav" href="#voice">Voice &amp; tone</a>
+
+  <h6>01 · Tokens</h6>
+  <a class="nav" href="#color">Colour</a>
+  <a class="nav" href="#typography">Typography</a>
+  <a class="nav" href="#spacing">Spacing &amp; radius</a>
+  <a class="nav" href="#shadows">Shadows &amp; motion</a>
+
+  <h6>02 · Components</h6>
+  <a class="nav" href="#buttons">Buttons</a>
+  <a class="nav" href="#forms">Forms</a>
+  <a class="nav" href="#cards">Cards</a>
+  <a class="nav" href="#badges">Badges &amp; banners</a>
+  <a class="nav" href="#tables">Tables &amp; tabs</a>
+
+  <h6>03 · Patterns</h6>
+  <a class="nav" href="#errors">Error pages</a>
+  <a class="nav" href="#auth">Auth</a>
+  <a class="nav" href="#email">Email</a>
+
+  <h6>04 · Surfaces</h6>
+  <a class="nav" href="#landing">Marketing landing</a>
+  <a class="nav" href="#dashboard">Product dashboard</a>
+  <a class="nav" href="#creator">Creator app preview</a>
+
+  <h6>05 · Reference</h6>
+  <a class="nav" href="#donts">Don'ts</a>
+  <a class="nav" href="#deliverables">Logo deliverables</a>
+  <a class="nav" href="#export">Token export</a>
+  <a class="nav" href="#hosting">Repo &amp; hosting</a>
+</aside>
+
+<main class="main">
+
+<!-- ════════════════════════════════════════════════════════════
+     COVER
+     ════════════════════════════════════════════════════════════ -->
+<section class="cover" id="cover">
+  <div class="marker">v1.0 final · <span class="accent">Tech Green locked</span> · 2026-05-22</div>
+  <h1>The design system <span class="accent">is</span> locked.</h1>
+  <p>Anchored to <b>Brand Book v1.0 Final</b>. Tech Green <code class="code">#22C55E</code> is the brand colour. Outfit display + Inter body + JetBrains Mono code is the type stack. <b>HEX</b> is the monogram. Phantom is the only motion on the mark. Hexcoded is a verb. Voice for errors is direct &amp; minimal. <b>24 of 25 decisions locked. 1 parked (sonic identity).</b></p>
+
+  <div class="mark-strip">
+    <span class="wm wm-xl">HEXCODED</span>
+  </div>
+
+  <div class="cover-meta">
+    <span><b>System</b> Tech Green</span>
+    <span><b>Lock</b> v1.0</span>
+    <span><b>Anchor</b> brand-book-v1-final</span>
+    <span><b>Status</b> Production</span>
+    <span><b>Pantone</b> 354 C</span>
+  </div>
+
+  <div class="cover-toc">
+    <a href="#lock"><span class="num">01</span><span class="name">Lock summary</span><span class="meta">All 24 decisions + 1 parked</span></a>
+    <a href="#brand"><span class="num">02</span><span class="name">Brand architecture</span><span class="meta">Wordmark · monogram · stages</span></a>
+    <a href="#phantom"><span class="num">03</span><span class="name">Phantom motion</span><span class="meta">Size-aware family + green-on-green</span></a>
+    <a href="#voice"><span class="num">04</span><span class="name">Voice &amp; tone</span><span class="meta">Verb usage · 12 banned · errors</span></a>
+    <a href="#color"><span class="num">05</span><span class="name">Tokens</span><span class="meta">Colour · type · spacing · motion</span></a>
+    <a href="#buttons"><span class="num">06</span><span class="name">Components</span><span class="meta">Buttons · forms · cards · tables</span></a>
+    <a href="#errors"><span class="num">07</span><span class="name">Patterns</span><span class="meta">Errors · auth · email</span></a>
+    <a href="#hosting"><span class="num">08</span><span class="name">Repo &amp; hosting</span><span class="meta">amplify-design-system · two packages</span></a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     LOCK SUMMARY (mirrors brand-book-v1-final exactly)
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="lock">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 01 · LOCK SUMMARY</span>
+    <h2>Everything that's locked.</h2>
+    <p class="lead">24 decisions locked · 1 parked (sonic identity — needs audio samples to decide). The table below mirrors <code class="code">brand-book-v1-final/index.html</code> 1:1. Any drift between this design system and the values below is a bug.</p>
+  </div>
+
+  <div class="lock-table">
+    <div class="lock-row"><span class="id">L01</span><span class="what">Logo motion variant</span><span class="val"><b>Phantom</b> — Outfit 900 wordmark + green stepped shadow that breathes opacity on a 3s ease-in-out cycle</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L02</span><span class="what">Brand green</span><span class="val"><b>Tech Green #22C55E</b> — Tailwind green-500 · RGB 34 197 94 · PANTONE 354 C</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L03</span><span class="what">Shadow depth</span><span class="val"><b>3 layers</b> — 1px / 2px / 3px stepped offsets · scales proportionally with logo size</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L04</span><span class="what">Breath cycle</span><span class="val"><b>3s ease-in-out</b> · 6s slow for hero / OOH · static variant for print</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L05</span><span class="what">Typography</span><span class="val"><b>Outfit 900 display + Inter 400/500 body + JetBrains Mono code</b> — multi-language coverage for US · EU · India</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L06</span><span class="what">Wordmark casing</span><span class="val"><b>Always UPPERCASE</b> in the logo · accept variants only in search input · no separators, dots, or dashes inside HEXCODED</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L07</span><span class="what">Logo lockup</span><span class="val"><b>L1 · Wordmark alone</b> primary · +URL/descriptor for letterheads &amp; OOH only</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L08</span><span class="what">Monogram</span><span class="val"><b>HEX</b> (three letters) on black with breathing green shadow · "H" fallback at 16px only</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L09</span><span class="what">App icon</span><span class="val"><b>HEX on black</b> · iOS-native corner radius · breathing shadow</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L10</span><span class="what">Brand voice register</span><span class="val"><b>Confident-direct</b> · "Hexcoded turns one brief into…" · no marketing fluff</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L11</span><span class="what">Self-reference</span><span class="val"><b>VERB</b> — "Get hexcoded" · "Take your brief, hexcode it, ship it"</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L12</span><span class="what">Forbidden words</span><span class="val">12 banned: synergy · leverage · ecosystem · revolutionize · game-changing · disrupt · cutting-edge · solution · empower · seamless · world-class · next-generation</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L13</span><span class="what">Token exports</span><span class="val"><b>All formats</b> — JSON (W3C) + CSS variables + Tailwind config + Figma Variables spec + Swift/Kotlin · cross-platform-ready</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L14</span><span class="what">Brand book hosting</span><span class="val"><b>Inside amplify-design-system</b> · new <code class="code">tokens-hexcoded</code> + <code class="code">brand-book-hexcoded</code> packages alongside existing 6 product packages</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L15</span><span class="what">Versioning</span><span class="val"><b>Lock v1.0 now</b> · changes require version bump + brand owner approval</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L16</span><span class="what">Trademark</span><span class="val"><b>No symbols yet</b> · apply for ® registration immediately (US + EU + India)</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L17</span><span class="what">Logo deliverables</span><span class="val"><b>All formats</b> — SVG (primary) + PNG @1×/2×/3× + PDF + Lottie + MP4 for breath motion</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L18</span><span class="what">Dark mode</span><span class="val"><b>Light default</b> · dark via OS system preference · <b>no manual toggle in v1</b></span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L19</span><span class="what">UI state colours</span><span class="val"><b>Tech Green for success</b> · Red <code class="code">#EF4444</code> for error · Amber <code class="code">#FBBF24</code> for warning</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L20</span><span class="what">Photography</span><span class="val"><b>Brand photos: sparingly</b> · case studies, team pages only. <b>Product imagery: extensively</b> — Hexcoded is a content platform, generated content is the canvas.</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L21</span><span class="what">Easter eggs</span><span class="val"><b>Skip for v1</b> · revisit in v2</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L22</span><span class="what">Anniversary marks</span><span class="val"><b>Leave slot</b> · define template when needed</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L23</span><span class="what">Co-branding rules</span><span class="val"><b>Equal-height wordmarks</b> · vertical separator · <b>1× cap-height clear space</b> between brands</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">L24</span><span class="what">Voice for errors / support</span><span class="val"><b>A · Direct &amp; minimal</b> · "Couldn't generate. Try again." · evolve toward E (hybrid) post-launch</span><span class="status locked">Locked</span></div>
+    <div class="lock-row"><span class="id">O01</span><span class="what">Sonic identity</span><span class="val"><b>Parked</b> · can't decide from text descriptions · revisit when an audio sample can be commissioned</span><span class="status open">Open</span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     BRAND ARCHITECTURE
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="brand">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 02 · BRAND ARCHITECTURE</span>
+    <h2>Wordmark, monogram, lockups.</h2>
+    <p class="lead">The Hexcoded wordmark is one locked unit — Outfit 900, plain UPPERCASE, never split or separated. The HEX monogram replaces it only where the wordmark won't fit (favicons, app icons, small social avatars). Phantom motion runs on both.</p>
+  </div>
+
+  <!-- Wordmark on four surfaces -->
+  <div class="subhead"><h3>Wordmark on standard surfaces</h3><span class="pad">L01 · L02 · L06 · L07</span></div>
+  <div class="grid-4" style="gap:14px">
+    <div class="stage" style="position:relative"><span class="wm wm-lg">HEXCODED</span><span class="lbl">Light · default</span></div>
+    <div class="stage dark" style="position:relative"><span class="wm wm-lg wm-inverse">HEXCODED</span><span class="lbl" style="color:#71717a">Dark</span></div>
+    <div class="stage cream" style="position:relative"><span class="wm wm-lg">HEXCODED</span><span class="lbl">Cream · letterhead</span></div>
+    <div class="stage green" style="position:relative"><span class="wm wm-lg wm-on-green">HEXCODED</span><span class="lbl" style="color:rgba(255,255,255,0.7)">On Tech Green</span></div>
+  </div>
+
+  <!-- Wordmark — wrong examples -->
+  <div class="subhead"><h3>Wordmark do / don't</h3><span class="pad">L06</span></div>
+  <div class="do-dont">
+    <div class="dd do">
+      <span class="pill">✓ DO</span>
+      <p><b>Always UPPERCASE, never split.</b> Plain HEXCODED, Outfit 900, letter-spacing -0.025em, ink colour on light surfaces / white on dark. Phantom shadow breathes behind it. That's the whole logo.</p>
+    </div>
+    <div class="dd dont">
+      <span class="pill">✗ DON'T</span>
+      <p>Never write the wordmark as <code class="code">HEX·CODED</code>, <code class="code">HEX-CODED</code>, <code class="code">HEX CODED</code>, <code class="code">hex coded</code>, or with any separator. Never recolour the letters. Never italicise. Never apply a gradient to the letterforms.</p>
+    </div>
+  </div>
+
+  <!-- Monogram L08 + App icon L09 -->
+  <div class="subhead"><h3>HEX monogram · app icon</h3><span class="pad">L08 · L09</span></div>
+  <div class="card">
+    <p class="body" style="margin-bottom:18px"><b>HEX</b> on black with breathing green shadow. Three letters always (not just "H") except at 16px where "H" alone is the fallback. iOS-native corner radius on the app icon.</p>
+    <div class="mono-grid">
+      <div style="text-align:center"><div class="mono-tile size-xl">HEX</div><div class="caption" style="margin-top:8px">App icon · iOS / Android · 108px</div></div>
+      <div style="text-align:center"><div class="mono-tile size-lg">HEX</div><div class="caption" style="margin-top:8px">Social avatar · 80px</div></div>
+      <div style="text-align:center"><div class="mono-tile size-md">HEX</div><div class="caption" style="margin-top:8px">Profile chip · 56px</div></div>
+      <div style="text-align:center"><div class="mono-tile size-sm">HEX</div><div class="caption" style="margin-top:8px">Inline badge · 32px</div></div>
+      <div style="text-align:center"><div class="mono-tile size-xs">H</div><div class="caption" style="margin-top:8px">Favicon fallback · 16px ("H" only)</div></div>
+    </div>
+  </div>
+
+  <!-- ─── App icon on light surfaces (production contexts) ─── -->
+  <div class="subhead"><h3>App icon · on light surfaces</h3><span class="pad">L09 · production contexts</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">How the icon actually appears in the wild. The icon body stays black-with-green-Phantom-shadow per L08; what changes is the surrounding context — iOS home screen wallpaper, macOS Dock translucency, store thumbnails. Phantom breath continues to animate in app-icon contexts where the OS permits (animated home-screen mockups, marketing motion).</p>
+
+  <div class="grid-2">
+    <!-- iOS home screen mockup -->
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;gap:14px;background:#F0F4F8">
+      <div class="ios-home">
+        <div class="status"><span>9:41</span><span style="display:inline-flex;gap:4px;align-items:center"><span style="font-size:9px">● ● ● ●</span><span style="font-size:9px">▭</span></span></div>
+        <div class="grid-icons">
+          <div class="ico-wrap"><div class="ico hex">HEX</div><div class="ico-label">Hexcoded</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#34C759">📷</div><div class="ico-label">Camera</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#007AFF">💬</div><div class="ico-label">Messages</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:linear-gradient(135deg,#FF2D55,#FF9500)">📷</div><div class="ico-label">Photos</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#5856D6">⚙</div><div class="ico-label">Settings</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#FF9500">📅</div><div class="ico-label">Calendar</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#FF3B30">🎵</div><div class="ico-label">Music</div></div>
+          <div class="ico-wrap"><div class="ico" style="background:#000;color:#fff">𝕏</div><div class="ico-label">Twitter</div></div>
+        </div>
+        <div class="dock">
+          <div class="ico" style="background:#007AFF">📞</div>
+          <div class="ico" style="background:#34C759">💬</div>
+          <div class="ico" style="background:#FF9500">📧</div>
+          <div class="ico" style="background:linear-gradient(135deg,#FF2D55,#AF52DE)">🎵</div>
+        </div>
+      </div>
+      <div class="caption" style="text-align:center;margin-top:6px">iOS home screen · 60pt @3x · iOS squircle radius (22.37%)</div>
+    </div>
+
+    <!-- macOS Dock + marketing-size preview -->
+    <div class="card" style="display:flex;flex-direction:column;gap:24px;justify-content:center;background:linear-gradient(135deg,#F0F4F8,#E8EEF5)">
+      <div style="text-align:center">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px">macOS Dock · 60×60 · 14px radius</div>
+        <div class="macos-dock">
+          <div class="ico" style="background:linear-gradient(135deg,#5BC8F9,#0064E0)">🌐</div>
+          <div class="ico hex">HEX</div>
+          <div class="ico" style="background:linear-gradient(135deg,#FFD60A,#FF9500)">📅</div>
+          <div class="ico" style="background:linear-gradient(135deg,#FF2D55,#FF9500)">📷</div>
+          <div class="ico" style="background:#000;color:#fff">𝕏</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;border-top:1px solid var(--line);padding-top:24px">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px">App Store · 1024×1024 · marketing</div>
+        <div style="width:144px;height:144px;background:var(--dark);color:var(--accent);font-family:var(--font-display);font-weight:900;font-size:46px;letter-spacing:-0.025em;border-radius:32px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 16px 40px rgba(0,0,0,0.18);animation:phantomLG 3s ease-in-out infinite">HEX</div>
+        <div class="caption" style="margin-top:10px">Renders down to all store + home-screen sizes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Favicon · browser chrome ─── -->
+  <div class="subhead"><h3>Favicon · in browser chrome</h3><span class="pad">production contexts</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">In tabs, bookmarks, and pinned-tab contexts. Three letters at 32px+, "H" fallback at 16px (the tab favicon · L08 lock). Light-mode preview on the left; dark-mode preview on the right.</p>
+
+  <div class="grid-2">
+    <!-- Light browser chrome -->
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-tab">
+          <span class="fav">H</span>
+          <span>Hexcoded · Take a brief…</span>
+          <span style="margin-left:auto;color:var(--muted);font-size:11px">×</span>
+        </div>
+        <div class="browser-tab inactive">
+          <span style="width:16px;height:16px;background:#007AFF;border-radius:3px"></span>
+          <span>Stripe</span>
+        </div>
+        <div class="browser-tab inactive">
+          <span style="width:16px;height:16px;background:#000;color:#fff;font-family:var(--font-mono);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700">L</span>
+          <span>Linear</span>
+        </div>
+      </div>
+      <div class="browser-url">
+        <span style="display:inline-flex;gap:4px"><span style="width:14px;height:14px">←</span><span>→</span><span>⟳</span></span>
+        <span style="background:#F5F5F7;padding:6px 10px;border-radius:6px;display:inline-flex;align-items:center;gap:8px;flex:1"><span style="color:#34C759">🔒</span>hexcoded.ai</span>
+      </div>
+      <div style="padding:24px;text-align:center;background:linear-gradient(180deg,var(--white),var(--bg))">
+        <span class="wm wm-md">HEXCODED</span>
+        <p class="caption" style="margin-top:10px">hexcoded.ai · Light browser tab</p>
+      </div>
+    </div>
+
+    <!-- Dark browser chrome -->
+    <div class="browser-frame" style="background:#1c1c22;border-color:#2C2C30">
+      <div class="browser-bar" style="background:#232328">
+        <div class="browser-tab" style="background:#1c1c22;color:#FAFAFA">
+          <span class="fav">H</span>
+          <span>Hexcoded · Take a brief…</span>
+          <span style="margin-left:auto;color:#86868B;font-size:11px">×</span>
+        </div>
+        <div class="browser-tab inactive" style="color:#86868B">
+          <span style="width:16px;height:16px;background:#5856D6;border-radius:3px"></span>
+          <span>Notion</span>
+        </div>
+      </div>
+      <div class="browser-url" style="background:#1c1c22;border-color:#2C2C30">
+        <span style="display:inline-flex;gap:4px"><span style="width:14px;height:14px">←</span><span>→</span><span>⟳</span></span>
+        <span style="background:#2C2C30;padding:6px 10px;border-radius:6px;display:inline-flex;align-items:center;gap:8px;flex:1;color:#86868B"><span style="color:#34C759">🔒</span>hexcoded.ai</span>
+      </div>
+      <div style="padding:24px;text-align:center;background:#1c1c22">
+        <span style="font-family:var(--font-display);font-weight:900;font-size:40px;letter-spacing:-0.025em;color:#FAFAFA;display:inline-block;animation:phantomShadow 3s ease-in-out infinite">HEXCODED</span>
+        <p class="caption" style="margin-top:10px;color:#86868B">hexcoded.ai · Dark browser tab</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── App icon · presented on light surfaces (the explicit one) ─── -->
+  <div id="icons-section" style="scroll-margin-top:0;height:1px;margin-top:32px"></div>
+  <div class="subhead"><h3>App icon · presented on white</h3><span class="pad">primary spec</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">The canonical app icon as shipped: <b>black tile, white "HEX" letters, breathing green Phantom shadow</b>. Shown on plain white card so the icon is read on its own without any backdrop interference. Hover any tile to see Phantom breath if your reduced-motion preference allows.</p>
+  <div class="grid-4">
+    <div class="icon-card">
+      <div class="mono-tile" style="width:148px;height:148px;font-size:48px;border-radius:32px;animation-name:phantomLG">HEX</div>
+      <div class="label-pair"><b>1024×1024</b><span class="px">App Store · Play Store · marketing</span></div>
+    </div>
+    <div class="icon-card">
+      <div class="mono-tile" style="width:108px;height:108px;font-size:36px;border-radius:22px;animation-name:phantomLG">HEX</div>
+      <div class="label-pair"><b>180×180</b><span class="px">apple-touch-icon · iOS pinned</span></div>
+    </div>
+    <div class="icon-card">
+      <div class="mono-tile size-lg">HEX</div>
+      <div class="label-pair"><b>80×80</b><span class="px">Social avatar · profile chip</span></div>
+    </div>
+    <div class="icon-card">
+      <div class="mono-tile size-md">HEX</div>
+      <div class="label-pair"><b>56×56</b><span class="px">Inline · sidebar mark</span></div>
+    </div>
+  </div>
+
+  <!-- ─── Favicon · close-ups on white card ─── -->
+  <div class="subhead"><h3>Favicon · presented on white</h3><span class="pad">L08 · pixel scaling</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">Browser tab + bookmark icon. White HEX letters at 32px+ (breathing green Phantom shadow), with the "H" green-letter fallback at 16px where the shadow can't render legibly.</p>
+  <div class="grid-4">
+    <div class="icon-card">
+      <span class="fav fav-64">HEX</span>
+      <div class="label-pair"><b>64×64</b><span class="px">High-DPI · pinned tab @2×</span></div>
+    </div>
+    <div class="icon-card">
+      <span class="fav fav-48">HEX</span>
+      <div class="label-pair"><b>48×48</b><span class="px">Windows taskbar · shortcut</span></div>
+    </div>
+    <div class="icon-card">
+      <span class="fav fav-32">HEX</span>
+      <div class="label-pair"><b>32×32</b><span class="px">Pinned tab · bookmark</span></div>
+    </div>
+    <div class="icon-card">
+      <span class="fav">H</span>
+      <div class="label-pair"><b>16×16</b><span class="px">Browser tab · "H" only · green</span></div>
+    </div>
+  </div>
+
+  <!-- Side-by-side scale comparison -->
+  <div class="card" style="margin-top:14px;background:var(--white);text-align:center;padding:36px">
+    <div style="display:inline-flex;align-items:flex-end;gap:18px;margin-bottom:14px">
+      <span class="fav fav-64">HEX</span>
+      <span class="fav fav-48">HEX</span>
+      <span class="fav fav-32">HEX</span>
+      <span class="fav">H</span>
+    </div>
+    <p class="caption">Scale-down progression · 64 → 48 → 32 → 16px · letters stay white until the 16px fallback</p>
+  </div>
+
+  <!-- ─── Inverse · white background variant ─── -->
+  <div class="subhead"><h3>Inverse · white-background variant</h3><span class="pad">special use only</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">A white-tile, dark-HEX inverse for embroidery, screen-printed apparel on dark fabric, OOH on a black backdrop, or chrome that needs the icon to read inverted. The green Phantom shadow still breathes — only the tile + letter polarity flip. <b>Never use the inverse online — always the canonical (black tile, white letters) for digital.</b></p>
+  <div class="grid-4">
+    <div class="icon-card" style="background:var(--soft)">
+      <div class="mono-tile inverse" style="width:108px;height:108px;font-size:36px;border-radius:22px;animation-name:phantomLG">HEX</div>
+      <div class="label-pair"><b>Inverse · 180px</b><span class="px">Embroidery · merch</span></div>
+    </div>
+    <div class="icon-card" style="background:var(--soft)">
+      <div class="mono-tile inverse size-lg">HEX</div>
+      <div class="label-pair"><b>Inverse · 80px</b><span class="px">Print on dark</span></div>
+    </div>
+    <div class="icon-card" style="background:var(--soft)">
+      <div class="mono-tile inverse size-md">HEX</div>
+      <div class="label-pair"><b>Inverse · 56px</b><span class="px">OOH · backdrop ink</span></div>
+    </div>
+    <div class="icon-card" style="background:var(--soft)">
+      <div class="mono-tile inverse size-sm">HEX</div>
+      <div class="label-pair"><b>Inverse · 32px</b><span class="px">Embossing minimum</span></div>
+    </div>
+  </div>
+
+  <!-- ─── Dark surface inverse pair · how white-letter HEX reads in dark mode ─── -->
+  <div class="subhead"><h3>Dark-mode &amp; dark-surface placement</h3><span class="pad">L18</span></div>
+  <p class="body" style="margin-bottom:18px;max-width:760px">When the surrounding surface is dark (OS dark mode, dark dashboard chrome, photo backdrops), the canonical icon stays the same — black tile, white HEX, green Phantom shadow. The contrast against the surrounding dark surface comes from the green breath, not from inverting the icon.</p>
+  <div class="grid-2">
+    <div style="background:#0B0B0F;border-radius:var(--r-lg);padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div class="mono-tile" style="width:108px;height:108px;font-size:36px;border-radius:22px;animation-name:phantomLG">HEX</div>
+      <div style="text-align:center"><b style="color:var(--white);font-family:var(--font-display);font-size:13px;font-weight:700">On true black</b><div style="font-family:var(--font-mono);font-size:11px;color:#86868B;margin-top:2px">surface = ink #0B0B0F</div></div>
+    </div>
+    <div style="background:#15151B;border-radius:var(--r-lg);padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div class="mono-tile" style="width:108px;height:108px;font-size:36px;border-radius:22px;animation-name:phantomLG">HEX</div>
+      <div style="text-align:center"><b style="color:var(--white);font-family:var(--font-display);font-size:13px;font-weight:700">On dark-2</b><div style="font-family:var(--font-mono);font-size:11px;color:#86868B;margin-top:2px">surface = #15151B · OS dark mode</div></div>
+    </div>
+  </div>
+
+  <!-- ─── Production delivery sizes ─── -->
+  <div class="subhead"><h3>Production delivery sizes</h3><span class="pad">L17 · ships in brand-book-hexcoded/logos/app-icons/</span></div>
+  <div class="size-table">
+    <div class="size-row head"><span>Px</span><span>Where</span><span>Filename</span><span>HEX or H</span></div>
+    <div class="size-row"><span class="px">16×16</span><span class="where">Browser tab favicon</span><span class="file">favicon-16.png</span><span class="which">"H" fallback</span></div>
+    <div class="size-row"><span class="px">32×32</span><span class="where">Browser bookmark · pinned tab</span><span class="file">favicon-32.png</span><span class="which">HEX (3 letters)</span></div>
+    <div class="size-row"><span class="px">48×48</span><span class="where">Windows shortcut · taskbar</span><span class="file">favicon-48.png</span><span class="which">HEX</span></div>
+    <div class="size-row"><span class="px">180×180</span><span class="where">Apple touch icon · iOS Safari pinned</span><span class="file">apple-touch-icon.png</span><span class="which">HEX · iOS squircle</span></div>
+    <div class="size-row"><span class="px">192×192</span><span class="where">Android PWA · Chrome install</span><span class="file">android-192.png</span><span class="which">HEX</span></div>
+    <div class="size-row"><span class="px">512×512</span><span class="where">Android adaptive · PWA splash</span><span class="file">android-512.png</span><span class="which">HEX</span></div>
+    <div class="size-row"><span class="px">1024×1024</span><span class="where">App Store · Play Store · marketing</span><span class="file">app-icon-1024.png</span><span class="which">HEX</span></div>
+    <div class="size-row"><span class="px">SVG</span><span class="where">PWA / web manifest scalable</span><span class="file">icon.svg</span><span class="which">HEX (vector)</span></div>
+    <div class="size-row"><span class="px">ICO</span><span class="where">Legacy Windows favicon</span><span class="file">favicon.ico</span><span class="which">multi-size (16/32/48)</span></div>
+  </div>
+
+  <p class="caption" style="margin-top:14px"><b>HTML reference</b> · <code class="code">&lt;link rel="icon" href="/favicon.svg" type="image/svg+xml"&gt;</code> · <code class="code">&lt;link rel="apple-touch-icon" href="/apple-touch-icon.png"&gt;</code> · <code class="code">&lt;link rel="manifest" href="/manifest.webmanifest"&gt;</code></p>
+
+  <!-- Co-branding L23 -->
+  <div class="subhead"><h3>Co-branding lockup</h3><span class="pad">L23</span></div>
+  <div class="card">
+    <p class="body" style="margin-bottom:18px"><b>Equal-height wordmarks</b>, a vertical hairline separator, <b>1× cap-height clear space</b> on both sides of the divider.</p>
+    <div style="display:flex;align-items:center;justify-content:center;padding:36px;background:var(--soft);border-radius:var(--r-md);gap:32px">
+      <span class="wm wm-md">HEXCODED</span>
+      <span style="width:1px;height:32px;background:var(--ink-2)"></span>
+      <span style="font-family:var(--font-display);font-weight:900;font-size:40px;letter-spacing:-0.025em;color:var(--ink-2)">PARTNER</span>
+    </div>
+  </div>
+
+  <!-- Clear space + minimum size -->
+  <div class="subhead"><h3>Clear space &amp; minimum size</h3><span class="pad">L07</span></div>
+  <div class="grid-2">
+    <div class="card" style="display:flex;align-items:center;justify-content:center;padding:48px 32px;position:relative">
+      <div style="position:relative;padding:42px">
+        <div style="position:absolute;inset:0;border:1px dashed var(--accent-light);border-radius:8px"></div>
+        <span class="wm wm-lg">HEXCODED</span>
+        <span style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:10px;color:var(--muted)">↕ 1× cap height</span>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:10px">Minimum sizes</h4>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px"><span class="caption">Screen · digital</span><span><code class="code">64px wide</code></span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px"><span class="caption">Print</span><span><code class="code">18mm wide</code></span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px"><span class="caption">Favicon</span><span><code class="code">HEX monogram</code></span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px"><span class="caption">16px+ favicon</span><span><code class="code">"H" letter only</code></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     PHANTOM MOTION
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="phantom">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 03 · PHANTOM MOTION</span>
+    <h2>The breathing shadow.</h2>
+    <p class="lead">A staircase of solid Tech-Green shadows behind the Outfit 900 wordmark, fading <i>solid → transparent → solid</i> on a 3s ease-in-out cycle. The wordmark itself stays still in ink colour; only the shadows breathe. <b>3 stepped layers</b> by default; offsets <b>scale proportionally with logo size</b>.</p>
+  </div>
+
+  <div class="subhead"><h3>Variant family · scales with size</h3><span class="pad">L03 · L04</span></div>
+  <div class="card">
+    <div class="tbl-wrap" style="margin-bottom:18px"><table class="t">
+      <thead><tr><th>Variant</th><th>Layers</th><th>Offsets</th><th>Used at</th></tr></thead>
+      <tbody>
+        <tr><td><code class="code">phantomXs</code></td><td>1</td><td>1px</td><td>Favicon · ≤16px</td></tr>
+        <tr><td><code class="code">phantomSm</code></td><td>2</td><td>1px · 2px</td><td>Sidebar mark · 18–28px</td></tr>
+        <tr><td><code class="code">phantomShadow</code> (default)</td><td>3</td><td>1px · 2px · 3px</td><td>Footer · inline · 32–48px</td></tr>
+        <tr><td><code class="code">phantomLG</code></td><td>3</td><td>2px · 3px · 5px</td><td>Hero · 56–80px</td></tr>
+        <tr><td><code class="code">phantomXL</code></td><td>4</td><td>2px · 4px · 6px · 8px</td><td>Cover · billboard · 96px+</td></tr>
+        <tr><td><code class="code">phantomGreen</code></td><td>3</td><td>1px · 2px · 3px in rgba(0,0,0,0.25)</td><td>Wordmark on green-bg</td></tr>
+        <tr><td><code class="code">phantomColor</code></td><td>—</td><td>opacity 1 ↔ 0.35</td><td>Accent words in headlines</td></tr>
+        <tr><td><code class="code">phantomDot</code></td><td>—</td><td>opacity 1 ↔ 0.3</td><td>Small status / indicator dots</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid-3">
+      <div class="stage" style="height:140px"><span class="wm wm-xs">HEXCODED</span></div>
+      <div class="stage" style="height:140px"><span class="wm wm-sm">HEXCODED</span></div>
+      <div class="stage" style="height:140px"><span class="wm wm-md">HEXCODED</span></div>
+      <div class="stage" style="height:160px"><span class="wm wm-lg">HEXCODED</span></div>
+      <div class="stage" style="height:160px"><span class="wm wm-xl">HEXCODED</span></div>
+      <div class="stage green" style="height:160px;position:relative"><span class="wm wm-lg wm-on-green">HEXCODED</span></div>
+    </div>
+  </div>
+
+  <div class="subhead"><h3>Slow variant · 6s · hero / OOH</h3><span class="pad">L04</span></div>
+  <div class="card" style="text-align:center">
+    <span class="wm wm-xl wm-slow">HEXCODED</span>
+    <p class="caption" style="margin-top:14px">For billboards, hero films, and 4K marketing video: use 6s duration so the breath reads as deliberate, not anxious.</p>
+  </div>
+
+  <div class="subhead"><h3>Static · print</h3><span class="pad">L04</span></div>
+  <div class="card" style="text-align:center">
+    <span class="wm wm-lg wm-static">HEXCODED</span>
+    <p class="caption" style="margin-top:14px">Print, business cards, letterheads, and stickers carry the locked shadow without animation. The three stepped layers stay solid Tech Green.</p>
+  </div>
+
+  <div class="subhead"><h3>The CSS · canonical reference</h3><span class="pad">L01 · L03 · L04</span></div>
+  <pre class="code-block"><span class="c">/* Phantom · canonical lock per brand-book-v1-final */</span>
+<span class="c">/* Default · 32–48px wordmark */</span>
+<span class="k">@keyframes</span> phantomShadow {
+  <span class="v">0%</span>, <span class="v">100%</span> { text-shadow: <span class="s">1px 1px 0 #22C55E, 2px 2px 0 #22C55E, 3px 3px 0 #22C55E</span>; }
+  <span class="v">50%</span>      { text-shadow: <span class="s">1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent</span>; }
+}
+
+<span class="c">/* Cover / billboard · 96px+ */</span>
+<span class="k">@keyframes</span> phantomXL {
+  <span class="v">0%</span>, <span class="v">100%</span> { text-shadow: <span class="s">2px 2px 0 #22C55E, 4px 4px 0 #22C55E, 6px 6px 0 #22C55E, 8px 8px 0 #22C55E</span>; }
+  <span class="v">50%</span>      { text-shadow: <span class="s">2px 2px 0 transparent, 4px 4px 0 transparent, 6px 6px 0 transparent, 8px 8px 0 transparent</span>; }
+}
+
+<span class="c">/* On green-on-green surfaces · black-rgba (NOT white) */</span>
+<span class="k">@keyframes</span> phantomGreen {
+  <span class="v">0%</span>, <span class="v">100%</span> { text-shadow: <span class="s">1px 1px 0 rgba(0,0,0,.25), 2px 2px 0 rgba(0,0,0,.25), 3px 3px 0 rgba(0,0,0,.25)</span>; }
+  <span class="v">50%</span>      { text-shadow: <span class="s">1px 1px 0 transparent, 2px 2px 0 transparent, 3px 3px 0 transparent</span>; }
+}
+
+<span class="k">.hexcoded-mark</span> {
+  font-family: <span class="s">'Outfit'</span>;
+  font-weight: <span class="v">900</span>;
+  letter-spacing: <span class="s">-0.025em</span>;
+  color: <span class="s">#0B0B0F</span>;
+  animation: phantomShadow <span class="v">3s</span> ease-in-out infinite;
+}</pre>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     VOICE & TONE
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="voice">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 04 · VOICE &amp; TONE</span>
+    <h2>Hexcode is a verb.</h2>
+    <p class="lead">Confident-direct register. Short sentences. Concrete verbs. No marketing fluff. Hexcode is a verb — lowercase when used as one, UPPERCASE only as the brand mark. Twelve specific words are banned across every Hexcoded surface.</p>
+  </div>
+
+  <!-- Verb usage -->
+  <div class="subhead"><h3>Verb usage · sample copy</h3><span class="pad">L10 · L11</span></div>
+  <div class="verb-grid">
+    <div class="verb-card"><div class="ctx">Hero · website</div><div class="copy">Take your brief.<br><b>Hexcode it.</b></div></div>
+    <div class="verb-card"><div class="ctx">Onboarding CTA</div><div class="copy">Get <b>hexcoded</b> in under two minutes.</div></div>
+    <div class="verb-card"><div class="ctx">Product page</div><div class="copy">One brief in. A whole campaign out. That's how you <b>hexcode</b>.</div></div>
+    <div class="verb-card"><div class="ctx">Push notification</div><div class="copy">Your reels are <b>hexcoded</b>. Tap to review.</div></div>
+    <div class="verb-card"><div class="ctx">Email subject</div><div class="copy">3 new ways to <b>hexcode</b> your next launch.</div></div>
+    <div class="verb-card"><div class="ctx">Social campaign</div><div class="copy">Don't make it. <b>Hexcode</b> it.</div></div>
+    <div class="verb-card"><div class="ctx">Tagline · OOH</div><div class="copy"><b>Hexcoded.</b></div></div>
+    <div class="verb-card"><div class="ctx">Sales deck cover</div><div class="copy">Twelve creators. One brand voice. <b>Hexcoded</b> in seconds.</div></div>
+  </div>
+
+  <!-- Verb writing rule -->
+  <div class="card card-emphasis" style="margin-top:18px">
+    <h4 style="margin-bottom:8px;display:flex;align-items:center;gap:8px"><span style="color:var(--accent-deep)">★</span>Writing rule</h4>
+    <p class="body" style="color:var(--ink-2)"><b>Verb conjugations allowed:</b> hexcode (present) · hexcoded (past) · hexcoding (gerund). <b>Always lowercase</b> when used as a verb — UPPERCASE <code class="code">HEXCODED</code> is reserved for the brand mark. Don't force it — if a sentence reads better with "use Hexcoded," use that. Aim for ~50% verb use across marketing copy, falling to ~30% in product UI where functional language wins.</p>
+  </div>
+
+  <!-- Voice A error pattern (L24) -->
+  <div class="subhead"><h3>Error voice · A · Direct &amp; minimal</h3><span class="pad">L24</span></div>
+  <div class="voice-card rec">
+    <div class="v-head"><span class="v-name">Voice A · Direct &amp; minimal</span><span class="pill">LOCKED FOR v1</span></div>
+    <div class="desc">Functional. Tells you what happened + what to do. No filler. Matches the brand's confident-direct register. Evolve toward Voice E (hybrid) post-launch.</div>
+    <div class="voice-samples">
+      <div class="sample"><div class="sample-label">Generation failed</div><div class="sample-text">Couldn't generate. Try again.</div></div>
+      <div class="sample"><div class="sample-label">Network timeout</div><div class="sample-text">Slow connection. Retrying in 10s.</div></div>
+      <div class="sample"><div class="sample-label">Out of credits</div><div class="sample-text">Out of credits. Add more to continue.</div></div>
+      <div class="sample"><div class="sample-label">Server error 500</div><div class="sample-text">Something broke on our side. We're on it.</div></div>
+    </div>
+  </div>
+
+  <!-- 12 banned words (L12 · exact list) -->
+  <div class="subhead"><h3>Banned words · 12 exact</h3><span class="pad">L12</span></div>
+  <p class="caption" style="margin-bottom:14px">Never appears in any Hexcoded surface — UI, marketing, support, social, sales decks, contracts. Anything below kills the brand's confident-direct voice on contact.</p>
+  <div class="banned-grid">
+    <div class="banned">synergy</div>
+    <div class="banned">leverage</div>
+    <div class="banned">ecosystem</div>
+    <div class="banned">revolutionize</div>
+    <div class="banned">game-changing</div>
+    <div class="banned">disrupt</div>
+    <div class="banned">cutting-edge</div>
+    <div class="banned">solution</div>
+    <div class="banned">empower</div>
+    <div class="banned">seamless</div>
+    <div class="banned">world-class</div>
+    <div class="banned">next-generation</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     COLOUR TOKENS
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="color">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 05 · DESIGN TOKENS · COLOUR</span>
+    <h2>Tech Green is the brand.</h2>
+    <p class="lead">Tech Green <code class="code">#22C55E</code> is the only brand colour. Tailwind green-500, RGB 34 / 197 / 94, PANTONE 354 C. Everything else is neutral ink or system semantic.</p>
+  </div>
+
+  <!-- Brand greens -->
+  <div class="subhead"><h3>Brand green · Tech Green</h3><span class="pad">L02</span></div>
+  <div class="card">
+    <div class="grid-4">
+      <div class="swatch"><div class="chip" style="background:var(--accent-whisper)"></div><div class="info"><span class="name">accent-whisper</span><span class="hex">#DCFCE7</span></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--accent-light)"></div><div class="info"><span class="name">accent-light</span><span class="hex">#86EFAC</span></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--accent);box-shadow:0 0 0 2px rgba(34,197,94,0.2)"></div><div class="info"><span class="name" style="color:var(--accent-deep)">accent ★ PRIMARY</span><span class="hex">#22C55E</span></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--accent-deep)"></div><div class="info"><span class="name">accent-deep</span><span class="hex">#16A34A</span></div></div>
+    </div>
+    <div style="background:var(--soft);border-radius:var(--r-md);padding:14px 18px;margin-top:18px;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-2);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      <div><b style="font-family:var(--font-display)">HEX</b> · #22C55E</div>
+      <div><b style="font-family:var(--font-display)">RGB</b> · 34 · 197 · 94</div>
+      <div><b style="font-family:var(--font-display)">HSL</b> · 142° · 71% · 45%</div>
+      <div><b style="font-family:var(--font-display)">Tailwind</b> · green-500</div>
+      <div><b style="font-family:var(--font-display)">Pantone</b> · 354 C</div>
+      <div><b style="font-family:var(--font-display)">CMYK</b> · 75 · 0 · 90 · 0</div>
+    </div>
+  </div>
+
+  <!-- Neutrals -->
+  <div class="subhead"><h3>Neutrals · ink scale</h3></div>
+  <div class="token-grid">
+    <div class="swatch"><div class="chip" style="background:var(--white);border-color:var(--line)"></div><div class="info"><span class="name">white</span><span class="hex">#FFFFFF</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--bg)"></div><div class="info"><span class="name">bg</span><span class="hex">#FAFAFA</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--soft)"></div><div class="info"><span class="name">soft</span><span class="hex">#F5F5F7</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--line)"></div><div class="info"><span class="name">line</span><span class="hex">#E5E5EA</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--muted)"></div><div class="info"><span class="name">muted</span><span class="hex">#86868B</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ink-2)"></div><div class="info"><span class="name">ink-2</span><span class="hex">#3B3B42</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ink)"></div><div class="info"><span class="name" style="color:var(--accent-deep)">ink ★</span><span class="hex">#0B0B0F</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--dark-2)"></div><div class="info"><span class="name">dark-2</span><span class="hex">#15151B</span></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--dark-line)"></div><div class="info"><span class="name">dark-line</span><span class="hex">#2C2C30</span></div></div>
+  </div>
+
+  <!-- L19 semantic colours -->
+  <div class="subhead"><h3>UI state colours · semantic</h3><span class="pad">L19</span></div>
+  <div class="grid-4">
+    <div class="swatch"><div class="chip" style="background:var(--success)"></div><div class="info"><span class="name">success</span><span class="hex">#22C55E</span></div><div class="caption" style="font-size:11px">= Tech Green</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--warning)"></div><div class="info"><span class="name">warning</span><span class="hex">#FBBF24</span></div><div class="caption" style="font-size:11px">Amber</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--danger)"></div><div class="info"><span class="name">danger</span><span class="hex">#EF4444</span></div><div class="caption" style="font-size:11px">Red</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--info)"></div><div class="info"><span class="name">info</span><span class="hex">#0EA5E9</span></div><div class="caption" style="font-size:11px">Sky · for neutral info only</div></div>
+  </div>
+
+  <!-- Dark mode note (L18) -->
+  <div class="banner banner-info" style="margin-top:18px">
+    <div class="ic">i</div>
+    <div class="body"><div class="ttl">Dark mode · L18 · OS preference only</div>This document and every Hexcoded surface follow <code class="code">prefers-color-scheme</code>. <b>No manual toggle in v1.</b> Try toggling your OS appearance setting to see this document flip.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     TYPOGRAPHY
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="typography">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 05 · DESIGN TOKENS · TYPOGRAPHY</span>
+    <h2>Outfit · Inter · JetBrains Mono.</h2>
+    <p class="lead">Outfit 900 for display + brand mark. Inter 400/500 for body. JetBrains Mono for code, IDs, technical labels. Multi-language coverage across US, EU, India.</p>
+  </div>
+
+  <div class="card" style="padding:8px 28px">
+    <div class="type-spec">
+      <div class="role">Brand mark<span>HEXCODED wordmark</span></div>
+      <div><span class="wm wm-md">HEXCODED</span></div>
+      <div class="spec-meta">Outfit <b>900</b> · 40+ size scales<br>letter-spacing -0.025em</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Display 1<span>Hero, cover</span></div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:80px;line-height:0.95;letter-spacing:-0.035em">Hexcode it.</div>
+      <div class="spec-meta">Outfit <b>900</b> · 80 / 0.95<br>letter-spacing -0.035em</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">H2 · Section head<span>Section openers</span></div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:42px;letter-spacing:-0.025em;line-height:1.05">A new way to make content.</div>
+      <div class="spec-meta">Outfit <b>900</b> · 42 / 1.05<br>letter-spacing -0.025em</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">H3 · Sub head<span>Card heads</span></div>
+      <div style="font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:-0.015em">Your library, organised.</div>
+      <div class="spec-meta">Outfit <b>700</b> · 22 / 1.2<br>letter-spacing -0.015em</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Body large<span>Lead paragraphs</span></div>
+      <div style="font-family:var(--font-body);font-weight:400;font-size:17px;line-height:1.55;color:var(--ink-2)">Take your brief. Hexcode it. Ship in minutes, not weeks.</div>
+      <div class="spec-meta">Inter <b>400</b> · 17 / 1.55<br>ink-2 color</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Body<span>Default UI</span></div>
+      <div style="font-family:var(--font-body);font-weight:400;font-size:15px;line-height:1.55">Default body text for product surfaces, dashboards, settings, forms.</div>
+      <div class="spec-meta">Inter <b>400</b> · 15 / 1.55<br>ink color</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Label · medium<span>Buttons, form labels</span></div>
+      <div style="font-family:var(--font-body);font-weight:500;font-size:14px">Brief name</div>
+      <div class="spec-meta">Inter <b>500</b> · 14 / 1.4<br>medium</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Caption<span>Helper, captions</span></div>
+      <div style="font-family:var(--font-body);font-weight:400;font-size:12.5px;color:var(--muted)">Last updated 4 hours ago</div>
+      <div class="spec-meta">Inter <b>400</b> · 12.5 / 1.45<br>muted</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Mono<span>Code · IDs · metadata</span></div>
+      <div style="font-family:var(--font-mono);font-size:13px">brief_id = "br_8x91kgz"</div>
+      <div class="spec-meta">JetBrains Mono <b>500</b> · 13 / 1.5</div>
+    </div>
+    <div class="type-spec">
+      <div class="role">Eyebrow<span>Section markers</span></div>
+      <div class="eyebrow">v1.0 final · <span class="accent">Tech Green locked</span></div>
+      <div class="spec-meta">JetBrains Mono <b>700</b> · 11 / 1.4<br>uppercase · 0.14em · accent-deep</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SPACING & RADIUS
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="spacing">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 05 · DESIGN TOKENS · SPACING + RADIUS</span>
+    <h2>4-base spacing, generous radii.</h2>
+    <p class="lead">Twelve-step scale built on a 4px base. Eight radius tokens with a generous default to keep surfaces feeling considered, not industrial.</p>
+  </div>
+
+  <div class="subhead"><h3>Spacing scale</h3></div>
+  <div class="scale-grid">
+    <div class="scale-item"><div class="block" style="width:4px;height:4px"></div><div class="name">s-1</div><div class="val">4px</div></div>
+    <div class="scale-item"><div class="block" style="width:8px;height:8px"></div><div class="name">s-2</div><div class="val">8px</div></div>
+    <div class="scale-item"><div class="block" style="width:12px;height:12px"></div><div class="name">s-3</div><div class="val">12px</div></div>
+    <div class="scale-item"><div class="block" style="width:16px;height:16px"></div><div class="name">s-4</div><div class="val">16px</div></div>
+    <div class="scale-item"><div class="block" style="width:20px;height:20px"></div><div class="name">s-5</div><div class="val">20px</div></div>
+    <div class="scale-item"><div class="block" style="width:24px;height:24px"></div><div class="name">s-6</div><div class="val">24px</div></div>
+    <div class="scale-item"><div class="block" style="width:32px;height:32px"></div><div class="name">s-7</div><div class="val">32px</div></div>
+    <div class="scale-item"><div class="block" style="width:40px;height:40px"></div><div class="name">s-8</div><div class="val">40px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:48px"></div><div class="name">s-9</div><div class="val">56px</div></div>
+    <div class="scale-item"><div class="block" style="width:72px;height:48px"></div><div class="name">s-10</div><div class="val">72px</div></div>
+    <div class="scale-item"><div class="block" style="width:96px;height:48px"></div><div class="name">s-11</div><div class="val">96px</div></div>
+    <div class="scale-item"><div class="block" style="width:120px;height:48px"></div><div class="name">s-12</div><div class="val">120px</div></div>
+  </div>
+
+  <div class="subhead"><h3>Radius scale</h3></div>
+  <div class="scale-grid">
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:4px"></div><div class="name">r-xs</div><div class="val">4px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:8px"></div><div class="name">r-sm</div><div class="val">8px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:12px"></div><div class="name">r-md</div><div class="val">12px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:14px"></div><div class="name">r-lg ★</div><div class="val">14px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:18px"></div><div class="name">r-xl</div><div class="val">18px</div></div>
+    <div class="scale-item"><div class="block" style="width:56px;height:56px;border-radius:24px"></div><div class="name">r-2xl</div><div class="val">24px</div></div>
+    <div class="scale-item"><div class="block" style="width:64px;height:32px;border-radius:999px"></div><div class="name">r-pill</div><div class="val">999px</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SHADOWS & MOTION
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="shadows">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 05 · DESIGN TOKENS · SHADOWS + MOTION</span>
+    <h2>Five neutral shadows. Three durations.</h2>
+    <p class="lead">Warm-neutral shadows, no green tint (Phantom is the only place green-shadow lives). Three motion durations + the brand's signature 3s breath.</p>
+  </div>
+
+  <div class="subhead"><h3>Shadow scale</h3></div>
+  <div class="shadow-grid">
+    <div class="shadow-item" style="box-shadow:var(--shadow-xs)"><span class="lbl">shadow-xs</span></div>
+    <div class="shadow-item" style="box-shadow:var(--shadow-sm)"><span class="lbl">shadow-sm</span></div>
+    <div class="shadow-item" style="box-shadow:var(--shadow-md)"><span class="lbl">shadow-md</span></div>
+    <div class="shadow-item" style="box-shadow:var(--shadow-lg)"><span class="lbl">shadow-lg</span></div>
+    <div class="shadow-item" style="box-shadow:var(--shadow-xl)"><span class="lbl">shadow-xl</span></div>
+  </div>
+
+  <div class="subhead"><h3>Motion · durations &amp; easings</h3></div>
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-bottom:14px">Durations</h4>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px"><code class="code">--d-fast</code><span>120ms · micro-interactions</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px"><code class="code">--d-base</code><span>200ms · default</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px"><code class="code">--d-slow</code><span>320ms · drawer · panel</span></div>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:14px">Phantom cycle · brand motion</h4>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px"><span><b>Default</b></span><span>3s ease-in-out infinite</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px"><span><b>Slow · OOH</b></span><span>6s ease-in-out infinite</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px"><span><b>Static · print</b></span><span>animation: none · keep shadow</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     COMPONENTS · BUTTONS
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="buttons">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 06 · COMPONENTS</span>
+    <h2>Buttons.</h2>
+    <p class="lead">Pill-shaped. 40px default height. Five variants. Primary uses the green-gradient + branded shadow. One primary per surface.</p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:14px"><span class="caption" style="min-width:140px">Primary</span><button class="btn btn-primary">Get hexcoded</button><button class="btn btn-primary">Hexcode it →</button><button class="btn btn-primary" disabled>Disabled</button></div>
+    <div class="row" style="margin-bottom:14px"><span class="caption" style="min-width:140px">Secondary</span><button class="btn btn-secondary">Learn more</button><button class="btn btn-secondary">Filter</button><button class="btn btn-secondary" disabled>Disabled</button></div>
+    <div class="row" style="margin-bottom:14px"><span class="caption" style="min-width:140px">Tertiary</span><button class="btn btn-tertiary">Read changelog</button><button class="btn btn-tertiary">View all</button></div>
+    <div class="row" style="margin-bottom:14px"><span class="caption" style="min-width:140px">Ghost</span><button class="btn btn-ghost">Cancel</button><button class="btn btn-ghost">Skip for now</button></div>
+    <div class="row" style="margin-bottom:14px"><span class="caption" style="min-width:140px">Danger</span><button class="btn btn-danger">Delete brief</button></div>
+    <div class="row"><span class="caption" style="min-width:140px">Sizes</span><button class="btn btn-primary btn-xs">XS</button><button class="btn btn-primary btn-sm">Small</button><button class="btn btn-primary">Default</button><button class="btn btn-primary btn-lg">Large</button><button class="btn btn-primary btn-xl">Extra large</button></div>
+  </div>
+</section>
+
+<!-- FORMS -->
+<section class="surf" id="forms">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 06 · COMPONENTS</span>
+    <h2>Forms.</h2>
+    <p class="lead">Input, textarea, select. Three states. Field label above, helper text below. Error text in <code class="code">#EF4444</code> per L19.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="field"><label class="field-label">Work email</label><input class="input" placeholder="name@company.com" type="email"></div>
+      <div class="field"><label class="field-label">Brief title</label><input class="input" value="Sleep gummy launch · 15s reel"><span class="field-help">Markdown supported · 28 / 200 characters</span></div>
+      <div class="field"><label class="field-label">Password</label><input class="input" type="password" value="passwd" style="border-color:var(--danger);box-shadow:0 0 0 4px rgba(239,68,68,0.12)"><span class="field-error">Password must be 12+ characters.</span></div>
+      <div class="field"><label class="field-label">Disabled</label><input class="input" placeholder="Locked field" disabled></div>
+    </div>
+    <div class="card">
+      <div class="field"><label class="field-label">Brief description</label><textarea class="textarea" placeholder="What does this brief cover? Audience, tone, must-include moments…">UGC reels for our ashwagandha sleep gummy launch. Calm-energetic tone, focus on "tomorrow morning you'll thank yourself".</textarea><span class="field-help">186 / 2000 characters</span></div>
+      <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-ghost">Discard</button><button class="btn btn-primary">Hexcode it →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="surf" id="cards">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 06 · COMPONENTS</span>
+    <h2>Cards.</h2>
+    <p class="lead">Three primary variants — default, soft, emphasis. 24px padding by default. r-lg (14px) radius.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:8px">BASIC</div>
+      <h4 style="margin-bottom:6px">Default card</h4>
+      <p class="body">For most content surfaces. White background, hairline border, subtle shadow.</p>
+    </div>
+    <div class="card card-soft">
+      <div class="eyebrow" style="margin-bottom:8px">SOFT</div>
+      <h4 style="margin-bottom:6px">Soft card</h4>
+      <p class="body">Subtle gray surface for nested elements, grouped settings, low-priority data.</p>
+    </div>
+    <div class="card card-emphasis">
+      <div class="eyebrow" style="margin-bottom:8px;color:var(--accent-deep)">EMPHASIS</div>
+      <h4 style="margin-bottom:6px">Emphasis card</h4>
+      <p class="body">Tech Green tint. Used for upsells, callouts, recommended actions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BADGES & BANNERS -->
+<section class="surf" id="badges">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 06 · COMPONENTS</span>
+    <h2>Badges &amp; banners.</h2>
+    <p class="lead">Semantic colours via L19. Success = Tech Green. Warning = #FBBF24 amber. Danger = #EF4444 red. Info = #0EA5E9 sky.</p>
+  </div>
+
+  <div class="subhead"><h3>Badges</h3></div>
+  <div class="card">
+    <div class="row">
+      <span class="badge badge-success"><span class="dot"></span>Active</span>
+      <span class="badge badge-info"><span class="dot"></span>In review</span>
+      <span class="badge badge-warning"><span class="dot"></span>Pending</span>
+      <span class="badge badge-danger"><span class="dot"></span>Failed</span>
+      <span class="badge badge-ink"><span class="dot"></span>Archived</span>
+      <span class="badge badge-mono badge-ink">br_8x91kgz</span>
+    </div>
+  </div>
+
+  <div class="subhead"><h3>Banners · with Voice A copy</h3><span class="pad">L19 · L24</span></div>
+  <div class="banner banner-success"><div class="ic">✓</div><div class="body"><div class="ttl">Hexcoded</div>Three variants ready. Tap to review.</div></div>
+  <div class="banner banner-info" style="margin-top:10px"><div class="ic">i</div><div class="body"><div class="ttl">Heads up</div>Your trial ends in 3 days. Add a payment method to keep your library.</div></div>
+  <div class="banner banner-warning" style="margin-top:10px"><div class="ic">!</div><div class="body"><div class="ttl">Out of credits</div>Out of credits. Add more to continue.</div></div>
+  <div class="banner banner-danger" style="margin-top:10px"><div class="ic">×</div><div class="body"><div class="ttl">Couldn't generate</div>Something broke on our side. We're on it.</div></div>
+</section>
+
+<!-- TABLES & TABS -->
+<section class="surf" id="tables">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 06 · COMPONENTS</span>
+    <h2>Tables &amp; tabs.</h2>
+    <p class="lead">Default table for structured data. Tabs for sibling views with a green underline on the active tab.</p>
+  </div>
+
+  <div class="subhead"><h3>Tabs</h3></div>
+  <div class="card" style="padding:0">
+    <div class="tabs" style="margin:0;padding:0 18px">
+      <button class="active">Overview</button>
+      <button>Activity</button>
+      <button>Creators</button>
+      <button>Settings</button>
+    </div>
+    <div style="padding:20px"><p class="body">Tab panel content. Keyboard navigable with arrow keys.</p></div>
+  </div>
+
+  <div class="subhead"><h3>Table</h3></div>
+  <div class="tbl-wrap">
+    <table class="t">
+      <thead><tr><th>Brief</th><th>Owner</th><th>Status</th><th>Last update</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sleep gummy launch</b><div class="caption">15s reel · IG</div></td><td>Riya A.</td><td><span class="badge badge-success"><span class="dot"></span>Live</span></td><td>4h ago</td></tr>
+        <tr><td><b>Diwali campaign carousel</b><div class="caption">7 slides · IN tier-1</div></td><td>Apaksh G.</td><td><span class="badge badge-warning"><span class="dot"></span>Pending</span></td><td>Yesterday</td></tr>
+        <tr><td><b>Holiday gift guide</b><div class="caption">Static × 3 · pan-India</div></td><td>Karan D.</td><td><span class="badge badge-info"><span class="dot"></span>In review</span></td><td>2d ago</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     ERROR PAGES · Voice A
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="errors">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 07 · PATTERNS</span>
+    <h2>Error &amp; empty pages.</h2>
+    <p class="lead">Every error follows Voice A · Direct &amp; minimal. What happened + what to do. No filler. No "Oops!".</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="text-align:center;padding:48px 28px">
+      <div style="font-family:var(--font-display);font-weight:900;font-size:88px;letter-spacing:-0.035em;color:var(--accent);line-height:1;margin-bottom:14px">404</div>
+      <h3>This brief doesn't exist</h3>
+      <p class="body" style="margin-bottom:20px">Maybe it was archived, or the link is from an older draft.</p>
+      <button class="btn btn-primary">Back to dashboard</button>
+    </div>
+    <div class="card" style="text-align:center;padding:48px 28px">
+      <div style="font-family:var(--font-display);font-weight:900;font-size:88px;letter-spacing:-0.035em;color:var(--danger);line-height:1;margin-bottom:14px">500</div>
+      <h3>Something broke on our side</h3>
+      <p class="body" style="margin-bottom:20px">We're on it. Refresh in a minute — usually that's enough.</p>
+      <button class="btn btn-secondary">Refresh</button>
+    </div>
+    <div class="card" style="text-align:center;padding:48px 28px">
+      <div style="font-size:64px;margin-bottom:12px">🛠</div>
+      <h3>Quick maintenance window</h3>
+      <p class="body" style="margin-bottom:14px">Hexcoded is back online in about 8 minutes. Active jobs are paused, nothing's lost.</p>
+      <span class="badge badge-warning"><span class="dot"></span>ETA · 8 min</span>
+    </div>
+    <div class="card" style="text-align:center;padding:48px 28px">
+      <div style="font-size:64px;margin-bottom:12px">🔒</div>
+      <h3>You don't have access to this workspace</h3>
+      <p class="body" style="margin-bottom:20px">Ask the owner to invite you, or sign in with a different account.</p>
+      <button class="btn btn-secondary">Switch account</button>
+    </div>
+  </div>
+</section>
+
+<!-- AUTH -->
+<section class="surf" id="auth">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 07 · PATTERNS</span>
+    <h2>Auth.</h2>
+    <p class="lead">Magic link by default. Centered card, generous whitespace, single primary action, OS-preference dark mode (no toggle).</p>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="max-width:440px;margin:0 auto;padding:40px;text-align:center">
+      <span class="wm wm-md" style="margin-bottom:28px;display:inline-block">HEXCODED</span>
+      <h3 style="margin-bottom:6px;text-align:left">Welcome back</h3>
+      <p class="caption" style="text-align:left;margin-bottom:22px">Sign in to your workspace</p>
+      <div class="field" style="text-align:left"><label class="field-label">Work email</label><input class="input" placeholder="name@company.com"></div>
+      <button class="btn btn-primary" style="width:100%;margin-bottom:10px">Send magic link →</button>
+      <button class="btn btn-secondary" style="width:100%;margin-bottom:18px">Continue with Google</button>
+      <p class="caption">No account? <a href="#">Get hexcoded.</a></p>
+    </div>
+    <div class="card" style="max-width:440px;margin:0 auto;padding:40px;text-align:center">
+      <span class="wm wm-md" style="margin-bottom:28px;display:inline-block">HEXCODED</span>
+      <div style="font-size:48px;margin-bottom:14px">📧</div>
+      <h3 style="margin-bottom:6px">Check your email</h3>
+      <p class="body" style="margin-bottom:20px">We sent a magic link to <b>riya@oi.io</b>. Click it to sign in. The link expires in 15 minutes.</p>
+      <button class="btn btn-secondary" style="width:100%">Use a different email</button>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL -->
+<section class="surf" id="email">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 07 · PATTERNS</span>
+    <h2>Transactional email.</h2>
+    <p class="lead">600px wide, Outfit display + Inter body fallbacks (email clients), Tech Green header band, single primary CTA, Voice A copy.</p>
+  </div>
+  <div style="background:var(--soft);padding:36px;border-radius:var(--r-lg)">
+    <div style="max-width:560px;margin:0 auto;background:var(--white);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-md)">
+      <div style="background:var(--accent);padding:24px;text-align:center"><span class="wm wm-md wm-on-green" style="color:#fff">HEXCODED</span></div>
+      <div style="padding:32px">
+        <h3 style="margin-bottom:10px">Welcome to Hexcoded, Riya.</h3>
+        <p style="font-family:var(--font-body);font-size:15px;color:var(--ink-2);line-height:1.55;margin-bottom:18px">Your workspace <b>Sunset Beauty</b> is set up. Drop your first brief — a doc, a link, or a paragraph — and Hexcoded turns it into a ready-to-ship draft in under 90 seconds.</p>
+        <div style="text-align:center;margin:24px 0"><a href="#" style="display:inline-block;padding:14px 28px;background:var(--accent);color:var(--white);border-radius:var(--r-pill);font-weight:600;font-size:15px;text-decoration:none">Hexcode your first brief →</a></div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.55">Or watch the 2-min walkthrough → <a href="#">hexcoded.ai/demo</a></p>
+      </div>
+      <div style="padding:18px 32px;border-top:1px solid var(--line);background:var(--bg);font-size:11.5px;color:var(--muted);text-align:center">Hexcoded · hexcoded.ai · <a href="#">Unsubscribe</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     SURFACES · LANDING
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="landing">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 08 · SURFACES</span>
+    <h2>Marketing landing.</h2>
+    <p class="lead">Hero with breathing wordmark and accent breath on the verb, trust band, four-step "how it works", pricing teaser, footer.</p>
+  </div>
+
+  <div class="card" style="padding:64px 48px;text-align:center;position:relative;overflow:hidden">
+    <span class="badge badge-success" style="margin-bottom:18px"><span class="dot"></span>Now in early access · 50 free credits</span>
+    <h1 class="display" style="margin-bottom:18px">Take a brief.<br>Get a <span style="color:var(--accent);animation:phantomColor 3s ease-in-out infinite">campaign</span>.</h1>
+    <p class="lead" style="margin:0 auto 28px;max-width:580px">Reels, statics, carousels, copy, captions, thumbnails — generated from one brief. Locked to your brand voice. Approval-workflow native.</p>
+    <div class="row" style="justify-content:center">
+      <button class="btn btn-primary btn-lg">Get hexcoded →</button>
+      <button class="btn btn-secondary btn-lg">Watch 90s demo</button>
+    </div>
+    <p class="caption" style="margin-top:18px">No card required. ₹0 → ship your first reel in 5 min.</p>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="surf" id="dashboard">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 08 · SURFACES</span>
+    <h2>Product dashboard.</h2>
+    <p class="lead">Brand-app home screen: plan card, active jobs, awaiting approval, recent gallery. Every wordmark in the chrome is plain HEXCODED — no separator, no dot.</p>
+  </div>
+
+  <div class="product-shell">
+    <div class="side">
+      <div class="logo"><span class="wm wm-xs">HEXCODED</span></div>
+      <div class="lk active">▦  Dashboard</div>
+      <div class="lk">＋  New brief</div>
+      <div class="lk">📋  Briefs</div>
+      <div class="lk">🎬  Library</div>
+      <div class="lk">🎤  Brand voice</div>
+      <div class="lk">🎨  Brand style</div>
+      <div style="height:1px;background:var(--line);margin:10px 0"></div>
+      <div class="lk">👥  Team</div>
+      <div class="lk">💳  Billing</div>
+      <div class="lk">⚙  Settings</div>
+    </div>
+    <div class="body">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <div><h3 style="margin:0">Good morning, Riya</h3><p class="caption">Sunset Beauty · Standard plan</p></div>
+        <button class="btn btn-primary btn-sm">＋ New brief</button>
+      </div>
+      <div class="card card-emphasis" style="margin-bottom:14px">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div><div class="eyebrow" style="color:var(--accent-deep)">CURRENT PLAN · ANNUAL</div><h3 style="margin:6px 0">Brand DIY · Standard</h3><p class="caption">Renews 12 Jun 2026 · ₹14,999/mo</p></div>
+          <div style="flex:1;max-width:240px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>Credits this month</span><b>4,250 / 7,500</b></div><div style="width:100%;height:6px;background:var(--soft);border-radius:99px;overflow:hidden"><div style="width:57%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-deep))"></div></div></div>
+        </div>
+      </div>
+      <div class="grid-4" style="margin-bottom:14px">
+        <div class="card" style="padding:14px"><div class="caption">Briefs MTD</div><h3 style="margin:4px 0">28</h3><span class="badge badge-success" style="font-size:10px">↑ 32%</span></div>
+        <div class="card" style="padding:14px"><div class="caption">Active jobs</div><h3 style="margin:4px 0">3</h3><span class="caption">2 reel · 1 static</span></div>
+        <div class="card" style="padding:14px"><div class="caption">Awaiting approval</div><h3 style="margin:4px 0">5</h3><span class="badge badge-warning" style="font-size:10px">Oldest 18h</span></div>
+        <div class="card" style="padding:14px"><div class="caption">Spend MTD</div><h3 style="margin:4px 0">₹12,490</h3><span class="caption">incl. GST</span></div>
+      </div>
+      <h4 style="margin-bottom:10px">Recent generations</h4>
+      <div class="grid-6">
+        <div class="asset-tile"><span style="font-size:10px">REEL · 15s</span><span class="ttl">Glow serum</span></div>
+        <div class="asset-tile dark"><span style="font-size:10px">STATIC × 3</span><span class="ttl">Toner duo</span></div>
+        <div class="asset-tile cream"><span style="font-size:10px">CAROUSEL</span><span class="ttl">5-step routine</span></div>
+        <div class="asset-tile"><span style="font-size:10px">REEL · 30s</span><span class="ttl">Hand wash</span></div>
+        <div class="asset-tile dark"><span style="font-size:10px">CUTDOWN × 4</span><span class="ttl">Sleep gummy</span></div>
+        <div class="asset-tile cream"><span style="font-size:10px">COPY × 10</span><span class="ttl">Meta ads</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREATOR APP PREVIEW -->
+<section class="surf" id="creator">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 08 · SURFACES</span>
+    <h2>Creator app preview · Phase 5.</h2>
+    <p class="lead">Mobile-first creator surface where the wordmark stays plain HEXCODED — never a separator-styled label like the wrong variant I'd shipped earlier. Bottom tab bar in glass.</p>
+  </div>
+
+  <div class="row" style="justify-content:center">
+    <div class="phone">
+      <div class="screen">
+        <div class="phone-bar"><span>9:41</span><span>•••</span></div>
+        <div class="phone-content">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0 12px"><span class="wm wm-sm">HEXCODED</span><span class="badge badge-success" style="font-size:10px"><span class="dot"></span>12 briefs</span></div>
+          <p class="caption" style="margin-bottom:14px">Briefs that match you today</p>
+          <div class="card" style="padding:14px;margin-bottom:8px">
+            <span class="badge badge-success" style="font-size:9.5px"><span class="dot"></span>94% match</span>
+            <h4 style="font-size:14px;margin:6px 0 4px">Sleep gummy launch · 15s reel</h4>
+            <p class="caption" style="font-size:11px">Sunset Beauty · ₹3,500</p>
+            <button class="btn btn-primary btn-sm" style="width:100%;margin-top:8px">Apply →</button>
+          </div>
+          <div class="card" style="padding:14px">
+            <span class="badge badge-success" style="font-size:9.5px"><span class="dot"></span>87% match</span>
+            <h4 style="font-size:14px;margin:6px 0 4px">Hand wash · 3 statics</h4>
+            <p class="caption" style="font-size:11px">Bloom &amp; Brew · ₹1,800</p>
+          </div>
+        </div>
+        <div class="phone-tabbar">
+          <div class="tab active">⌕<br>Discover</div>
+          <div class="tab">📥<br>Inbox</div>
+          <div class="tab">🎬<br>Work</div>
+          <div class="tab">💰<br>Earn</div>
+          <div class="tab">👤<br>Profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     DON'TS
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="donts">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 09 · REFERENCE</span>
+    <h2>System-wide don'ts.</h2>
+    <p class="lead">Ten rules that govern every Hexcoded surface. Violations of any of these are bugs — push back when you see them.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="dd dont"><span class="pill">✗ 01 · WORDMARK</span><p><b>Never split the wordmark.</b> Always plain UPPERCASE <code class="code">HEXCODED</code>. No <code class="code">HEX·CODED</code>, <code class="code">HEX-CODED</code>, <code class="code">HEX CODED</code>, <code class="code">HEX_CODED</code>, or any separator. (L06)</p></div>
+    <div class="dd dont"><span class="pill">✗ 02 · COLOUR</span><p><b>Never use a non-green accent.</b> The brand is Tech Green + neutrals. No purple, blue, or orange decoration — even in marketing. Semantic warning/danger are functional UI only. (L02)</p></div>
+    <div class="dd dont"><span class="pill">✗ 03 · TYPE</span><p><b>Never substitute Outfit, Inter, or JetBrains Mono.</b> No alternates, no system-font fallbacks at design time. (L05)</p></div>
+    <div class="dd dont"><span class="pill">✗ 04 · MOTION</span><p><b>Never add ambient animation.</b> Phantom breath on the brand mark is the only persistent loop. No parallax, no auto-play hero videos, no decorative loops. (L01)</p></div>
+    <div class="dd dont"><span class="pill">✗ 05 · DARK MODE</span><p><b>Never ship a manual dark-mode toggle.</b> Light is default; dark follows OS preference only. Revisit in v2. (L18)</p></div>
+    <div class="dd dont"><span class="pill">✗ 06 · BUTTONS</span><p><b>Never put two primary buttons side by side.</b> One primary per surface, always. Pair with a secondary or ghost for the next action.</p></div>
+    <div class="dd dont"><span class="pill">✗ 07 · VOICE</span><p><b>Never use a banned word.</b> The 12-word ban list (synergy · leverage · ecosystem · revolutionize · game-changing · disrupt · cutting-edge · solution · empower · seamless · world-class · next-generation) violates the brand voice on contact. (L12)</p></div>
+    <div class="dd dont"><span class="pill">✗ 08 · ERROR COPY</span><p><b>Never apologise theatrically.</b> No "Oops!". No "We're sorry — something went terribly wrong!". Voice A: what happened + what to do. (L24)</p></div>
+    <div class="dd dont"><span class="pill">✗ 09 · LOGO DECORATION</span><p><b>Never decorate the wordmark.</b> No gradients on the letters, no outlines, no italics, no stretched ratios. Phantom breath is the only allowed treatment. (L01)</p></div>
+    <div class="dd dont"><span class="pill">✗ 10 · HARDCODING</span><p><b>Never hardcode values downstream.</b> All colors, spacing, radii must come from <code class="code">@amplify-ai/tokens-hexcoded</code>. Caught at CI via design-system lint.</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     LOGO DELIVERABLES (L17)
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="deliverables">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 09 · REFERENCE</span>
+    <h2>Logo deliverables.</h2>
+    <p class="lead">Per L17: every export format that downstream teams (marketing, partners, press, app stores) need. All ship from <code class="code">brand-book-hexcoded/logos/</code>.</p>
+  </div>
+  <div class="deliv-grid">
+    <div class="deliv"><span class="ic">📐</span><b>SVG</b><span class="sub">primary · vector</span></div>
+    <div class="deliv"><span class="ic">🖼</span><b>PNG @1×</b><span class="sub">standard density</span></div>
+    <div class="deliv"><span class="ic">🖼</span><b>PNG @2×</b><span class="sub">retina</span></div>
+    <div class="deliv"><span class="ic">🖼</span><b>PNG @3×</b><span class="sub">high-density mobile</span></div>
+    <div class="deliv"><span class="ic">📄</span><b>PDF</b><span class="sub">print / vector</span></div>
+    <div class="deliv"><span class="ic">🎬</span><b>Lottie</b><span class="sub">animated · web/app</span></div>
+    <div class="deliv"><span class="ic">🎞</span><b>MP4</b><span class="sub">phantom breath loop</span></div>
+    <div class="deliv"><span class="ic">📱</span><b>App icon</b><span class="sub">iOS · Android · favicons (16/32/192/512/1024)</span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     TOKEN EXPORT
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="export">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 09 · REFERENCE</span>
+    <h2>Token export.</h2>
+    <p class="lead">Every token exports to CSS variables (in this file), W3C DTCG JSON, Tailwind config, Figma Variables, Swift, and Kotlin per L13.</p>
+  </div>
+
+  <div class="subhead"><h3>CSS variables · canonical</h3></div>
+  <pre class="code-block">:root {
+  <span class="c">/* L02 · Tech Green */</span>
+  --accent:         <span class="s">#22C55E</span>;  <span class="c">/* primary */</span>
+  --accent-deep:    <span class="s">#16A34A</span>;
+  --accent-light:   <span class="s">#86EFAC</span>;
+  --accent-whisper: <span class="s">#DCFCE7</span>;
+
+  <span class="c">/* Ink scale */</span>
+  --ink:        <span class="s">#0B0B0F</span>;
+  --ink-2:      <span class="s">#3B3B42</span>;
+  --muted:      <span class="s">#86868B</span>;
+  --line:       <span class="s">#E5E5EA</span>;
+  --soft:       <span class="s">#F5F5F7</span>;
+  --bg:         <span class="s">#FAFAFA</span>;
+  --white:      <span class="s">#FFFFFF</span>;
+
+  <span class="c">/* L19 · UI state */</span>
+  --success:    <span class="s">#22C55E</span>;
+  --warning:    <span class="s">#FBBF24</span>;
+  --danger:     <span class="s">#EF4444</span>;
+  --info:       <span class="s">#0EA5E9</span>;
+
+  <span class="c">/* L05 · type stack */</span>
+  --font-display: <span class="s">'Outfit', sans-serif</span>;
+  --font-body:    <span class="s">'Inter', sans-serif</span>;
+  --font-mono:    <span class="s">'JetBrains Mono', monospace</span>;
+}</pre>
+
+  <div class="subhead"><h3>W3C DTCG JSON</h3></div>
+  <pre class="code-block">{
+  <span class="k">"$schema"</span>: <span class="s">"https://design-tokens.github.io/community-group/format/"</span>,
+  <span class="k">"color"</span>: {
+    <span class="k">"accent"</span>: { <span class="k">"$value"</span>: <span class="s">"#22C55E"</span>, <span class="k">"$type"</span>: <span class="s">"color"</span>, <span class="k">"$description"</span>: <span class="s">"Tech Green · L02"</span> },
+    <span class="k">"ink"</span>:    { <span class="k">"$value"</span>: <span class="s">"#0B0B0F"</span>, <span class="k">"$type"</span>: <span class="s">"color"</span> },
+    <span class="k">"warning"</span>: { <span class="k">"$value"</span>: <span class="s">"#FBBF24"</span>, <span class="k">"$type"</span>: <span class="s">"color"</span>, <span class="k">"$description"</span>: <span class="s">"L19 amber"</span> },
+    <span class="k">"danger"</span>:  { <span class="k">"$value"</span>: <span class="s">"#EF4444"</span>, <span class="k">"$type"</span>: <span class="s">"color"</span>, <span class="k">"$description"</span>: <span class="s">"L19 red"</span> }
+  },
+  <span class="k">"font"</span>: {
+    <span class="k">"display"</span>: { <span class="k">"$value"</span>: <span class="s">"Outfit"</span>, <span class="k">"$type"</span>: <span class="s">"fontFamily"</span> },
+    <span class="k">"body"</span>:    { <span class="k">"$value"</span>: <span class="s">"Inter"</span>,  <span class="k">"$type"</span>: <span class="s">"fontFamily"</span> }
+  }
+}</pre>
+
+  <div class="subhead"><h3>Tailwind v4 config</h3></div>
+  <pre class="code-block"><span class="c">// tokens-hexcoded · tailwind preset</span>
+<span class="k">module.exports</span> = {
+  theme: {
+    extend: {
+      colors: {
+        accent: <span class="s">'#22C55E'</span>,
+        ink:    <span class="s">'#0B0B0F'</span>,
+        warning: <span class="s">'#FBBF24'</span>,
+        danger:  <span class="s">'#EF4444'</span>,
+      },
+      fontFamily: {
+        display: [<span class="s">'Outfit'</span>, <span class="s">'sans-serif'</span>],
+        sans:    [<span class="s">'Inter'</span>, <span class="s">'sans-serif'</span>],
+        mono:    [<span class="s">'JetBrains Mono'</span>, <span class="s">'monospace'</span>],
+      },
+      animation: { <span class="v">phantom</span>: <span class="s">'phantomShadow 3s ease-in-out infinite'</span> },
+    },
+  },
+};</pre>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     REPO & HOSTING (L14)
+     ════════════════════════════════════════════════════════════ -->
+<section class="surf" id="hosting">
+  <div class="surf-head">
+    <span class="eyebrow">SECTION 09 · REFERENCE</span>
+    <h2>Repo &amp; hosting.</h2>
+    <p class="lead">Hexcoded ships as two packages inside <code class="code">amplify-design-system</code> — the existing multi-product monorepo. Pixel governance picks them up automatically. Zero new infrastructure.</p>
+  </div>
+
+  <pre class="code-block">📦 amplify-design-system / packages
+├── tokens-foundation/              <span class="c">(existing · Hexcoded inherits primitives)</span>
+├── tokens-brand/                   <span class="c">(existing · Amplify brand)</span>
+├── tokens-atmosphere/              <span class="c">(existing)</span>
+├── tokens-creator/                 <span class="c">(existing)</span>
+├── tokens-marketing/               <span class="c">(existing)</span>
+├── tokens-studio/                  <span class="c">(existing)</span>
+│
+├── <span class="k">tokens-hexcoded/</span>              <span class="c">← NEW · machine-consumable tokens</span>
+│   ├── tokens/
+│   │   ├── theme-light.json        <span class="c"># light-mode colour mappings</span>
+│   │   ├── theme-dark.json         <span class="c"># dark-mode (OS preference only)</span>
+│   │   ├── motion-phantom.json     <span class="c"># Phantom keyframes · 8 variants</span>
+│   │   ├── typography.json         <span class="c"># Outfit + Inter + JetBrains Mono</span>
+│   │   └── shadow-stepped.json     <span class="c"># 1/2/3px green stepped shadow</span>
+│   ├── dist/                       <span class="c"># CSS · SCSS · JS · JSON · Tailwind</span>
+│   ├── build.js                    <span class="c"># Style Dictionary build</span>
+│   └── package.json                <span class="c"># @amplify-ai/tokens-hexcoded</span>
+│
+├── <span class="k">brand-book-hexcoded/</span>          <span class="c">← NEW · human-readable book + assets</span>
+│   ├── index.html                  <span class="c"># consolidated v1.0 brand book</span>
+│   ├── logos/
+│   │   ├── wordmark/               <span class="c"># SVG · PNG @1×/2×/3× · PDF</span>
+│   │   ├── monogram-hex/           <span class="c"># HEX monogram all sizes</span>
+│   │   ├── animated/               <span class="c"># Lottie · MP4 · animated SVG</span>
+│   │   └── app-icons/              <span class="c"># 16/32/192/512/1024</span>
+│   ├── guidelines/
+│   │   ├── voice-and-tone.md
+│   │   ├── banned-words.md         <span class="c"># the 12-word list</span>
+│   │   ├── verb-usage.md
+│   │   ├── error-voice.md          <span class="c"># Voice A</span>
+│   │   ├── photography.md
+│   │   ├── co-branding.md
+│   │   └── accessibility.md
+│   └── package.json                <span class="c"># @amplify-ai/brand-book-hexcoded</span>
+│
+├── ui/                             <span class="c">(existing · extends with new components)</span>
+└── storybook/                      <span class="c">(existing · adds Hexcoded theme story)</span></pre>
+
+  <p class="body" style="margin-top:18px">Apps consume via:</p>
+  <pre class="code-block"><span class="k">import</span> <span class="s">'@amplify-ai/tokens-hexcoded/css'</span>;
+<span class="k">import</span> { Button, Input, Modal } <span class="k">from</span> <span class="s">'@amplify-ai/ui'</span>;</pre>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<div class="site-footer">
+  <div class="ft-grid">
+    <div>
+      <div class="ft-mark">HEXCODED</div>
+      <p class="ft-mission">Take your brief. Hexcode it. The AI content platform for businesses and creators.</p>
+    </div>
+    <div>
+      <h6>Product</h6>
+      <a href="#">Features</a><a href="#">Pricing</a><a href="#">Changelog</a><a href="#">Roadmap</a>
+    </div>
+    <div>
+      <h6>Company</h6>
+      <a href="#">About</a><a href="#">Customers</a><a href="#">Careers</a>
+    </div>
+    <div>
+      <h6>Resources</h6>
+      <a href="#">Docs</a><a href="#">API</a><a href="#">Brand kit</a><a href="#">Status</a>
+    </div>
+    <div>
+      <h6>Legal</h6>
+      <a href="#">Terms</a><a href="#">Privacy</a><a href="#">DPA</a>
+    </div>
+  </div>
+  <div class="ft-base">
+    <span>© 2026 Hexcoded · A One Impression product</span>
+    <span>Brand Book v1.0 · 24/25 locked · 1 parked</span>
+    <span>hexcoded.ai · 2026-05-22</span>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+  // Scroll-spy only — no theme toggle (L18 · OS preference only)
+  const navs = document.querySelectorAll('.sidebar a.nav');
+  const sects = document.querySelectorAll('section[id]');
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-30% 0% -60% 0%' });
+  sects.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "Hexcoded",
+  "short_name": "Hexcoded",
+  "description": "Take your brief. Hexcode it.",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/favicon-32.png", "type": "image/png", "sizes": "32x32" },
+    { "src": "/favicon-16.png", "type": "image/png", "sizes": "16x16" },
+    { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" },
+    { "src": "/android-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/android-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "/pwa-maskable-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ],
+  "theme_color": "#22C55E",
+  "background_color": "#FAFAFA",
+  "display": "standalone",
+  "start_url": "/"
+}
