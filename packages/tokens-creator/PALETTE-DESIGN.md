@@ -1,7 +1,7 @@
-# Palette — design proposal (Brief #264 prereq)
+# Palette — semantic token alias module (design proposal)
 
 > **Status:** design proposal — implementation follows engineer sign-off on shape.
-> **Origin:** Brief #264 BFF coding principles, principle #2 (design tokens come from the design system, not from BFF code). See zenith-coding-agent `Brief-264.../bff-coding-principles.md` §2.
+> **Principle:** Design tokens must originate from the design system package, not from BFF or app handler code. This module is the single source of truth for semantic token aliases (`text.strong`, `font.lg`, `radius.md`) consumed by BFF handlers, so theme resolution stays entirely client-side and the BFF never knows which theme is active.
 > **Why this PR is doc-only:** the shape has several decisions that benefit from review before implementation. The actual code is ~150 LOC across `palette.js`, a build-time validator, and the export wiring — small once the shape is locked, painful if reshaped mid-implementation.
 
 ## The problem this solves
@@ -228,7 +228,7 @@ Lightweight sanity tests:
    - **(a)** One palette per package — `@amplify-ai/tokens-creator/palette`, `@amplify-ai/tokens-brand/palette`, etc. — each curates the names that product's BFFs use.
    - **(b)** Shared `@amplify-ai/sdui-palette` package — one universal palette, all themes from all packages must satisfy it.
 
-   I lean **(a)** — keeps palette scoped to its product, allows per-product semantic differences (e.g. creator's "energy" color might not exist in brand). Brief #264 is creator-only so this PR adds it just to `tokens-creator`. Other packages get their own palette PR when they need it.
+   I lean **(a)** — keeps palette scoped to its product, allows per-product semantic differences (e.g. creator's "energy" color might not exist in brand). Initial implementation adds the palette only to `tokens-creator` since that's the first consumer. Other packages get their own palette module when their consumers need one.
 
 3. **Naming convention for nested palette keys?**
    - **(a)** Multi-level dotted: `palette.text.strong`, `palette.status.positiveWeak` (PROPOSED).
@@ -261,7 +261,7 @@ Lightweight sanity tests:
 - BFF migration to use the palette (separate PR per BFF — first one is on `amplify-gateway` once this lands)
 - Per-product palettes for `tokens-brand`, `tokens-atmosphere`, etc. (each gets its own PR when their consumers need it)
 - Type-union of all theme token names (separate build step, separate PR)
-- Migration of inline token strings in existing BFF code to palette references (Phase 2 of Brief #264, separate PR per sub-module)
+- Migration of inline token strings in existing BFF code to palette references (separate PR per sub-module, scheduled by the consuming repo's roadmap)
 
 ## Approval gate
 
