@@ -2,7 +2,7 @@
 
 > **Status:** design proposal — implementation follows engineer sign-off on shape.
 > **Principle:** Design tokens must originate from the design system package, not from BFF or app handler code. This module is the single source of truth for semantic token aliases (`text.strong`, `font.lg`, `radius.md`) consumed by BFF handlers, so theme resolution stays entirely client-side and the BFF never knows which theme is active.
-> **Why this PR is doc-only:** the shape has several decisions that benefit from review before implementation. The actual code is ~150 LOC across `palette.js`, a build-time validator, and the export wiring — small once the shape is locked, painful if reshaped mid-implementation.
+> **Why design-doc-first:** the shape has several decisions that benefit from review before implementation. The actual code is ~150 LOC across `palette.js`, a build-time validator, and the export wiring — small once the shape is locked, painful if reshaped mid-implementation.
 
 ## The problem this solves
 
@@ -239,7 +239,7 @@ Lightweight sanity tests:
 4. **What to do about token-NAMES vs token-PATHS?**
    The theme JSON nests as `sdui.color.text-neutral-strong` — that's `sdui` → `color` → `text-neutral-strong`. The palette emits the dotted string. The renderer reads the string and walks the same path. **No build transformation needed** — the dotted string IS the token name as it appears in the dist tokens.js.
 
-   Open: do we want to expose the token paths in a typed-union form (e.g. `type SduiColorToken = "sdui.color.text-neutral-strong" | "sdui.color.text-neutral-medium" | ...`)? If yes, that's auto-generated from the theme JSONs as a separate build step. Out of scope for this PR but worth flagging.
+   Open: do we want to expose the token paths in a typed-union form (e.g. `type SduiColorToken = "sdui.color.text-neutral-strong" | "sdui.color.text-neutral-medium" | ...`)? If yes, that's auto-generated from the theme JSONs as a separate build step. Out of scope for the initial palette module but worth flagging as a follow-on.
 
 5. **Where does palette versioning come from?**
    The palette's shape is part of the public API of `@amplify-ai/tokens-creator`. A breaking change (renaming `palette.text.strong` to `palette.color.text.strong`) needs a major version bump. Test #5.3 (snapshot) catches accidental breakage; intentional breaking changes go through normal package versioning.
@@ -256,7 +256,7 @@ Lightweight sanity tests:
 - `package.json` export: 1 LOC
 - Total: ~200 LOC, ~2 hours focused work post-design-approval
 
-## Out of scope for this PR
+## Out of scope for the initial palette module
 
 - BFF migration to use the palette (separate PR per BFF — first one is on `amplify-gateway` once this lands)
 - Per-product palettes for `tokens-brand`, `tokens-atmosphere`, etc. (each gets its own PR when their consumers need it)
