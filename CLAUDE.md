@@ -55,7 +55,16 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — Server-Driven UI runtime; ships three standalone subpath bundles:
+                          @amplify-ai/sdui-runtime/bff          — BFF client
+                          @amplify-ai/sdui-runtime/icon-store   — Icon store (react-native-svg + react-native-mmkv are peer/external)
+                          @amplify-ai/sdui-runtime/action-engine — Action engine
 ```
+
+**Adding a new `sdui-runtime` subpath export:**
+1. Create `packages/sdui-runtime/src/<name>/index.ts`
+2. Add `"src/<name>/index.ts"` to `entry[]` in `packages/sdui-runtime/tsup.config.ts`
+3. Add `./<name>` to `exports` in `packages/sdui-runtime/package.json` (types/import/default pointing to `dist/<name>/index.*`)
 
 ## Token File Format
 
