@@ -15,6 +15,7 @@ import { handleEmitTelemetry } from "./emit-telemetry.js";
 import { handleCompound } from "./compound.js";
 import { handleCapability } from "./capability.js";
 import { handleDeeplink } from "./deeplink.js";
+import { handleBranch } from "./branch.js";
 
 export {
   handleNavigate,
@@ -30,6 +31,7 @@ export {
   handleCompound,
   handleCapability,
   handleDeeplink,
+  handleBranch,
 };
 
 /**
@@ -50,4 +52,5 @@ export const actionHandlerMap: Record<string, ActionHandler> = {
   emit_telemetry: handleEmitTelemetry,
   compound: handleCompound,
   deeplink: handleDeeplink,
+  branch: handleBranch,
 };
