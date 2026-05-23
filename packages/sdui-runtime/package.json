@@ -10,6 +10,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./bff": {
+      "types": "./dist/bff/index.d.ts",
+      "import": "./dist/bff/index.js",
+      "default": "./dist/bff/index.js"
+    },
+    "./icon-store": {
+      "types": "./dist/icon-store/index.d.ts",
+      "import": "./dist/icon-store/index.js",
+      "default": "./dist/icon-store/index.js"
+    },
+    "./action-engine": {
+      "types": "./dist/action-engine/index.d.ts",
+      "import": "./dist/action-engine/index.js",
+      "default": "./dist/action-engine/index.js"
     }
   },
   "files": [
