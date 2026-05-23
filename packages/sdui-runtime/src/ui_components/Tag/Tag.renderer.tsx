@@ -21,6 +21,7 @@ export function TagRenderer(node: Node): React.ReactElement {
       {(v) => (
         <DSTag
           label={v.label.data.text}
+          variant={v.variant ?? "default"}
           icon={v.icon ? <Interpreter node={v.icon} /> : undefined}
         />
       )}

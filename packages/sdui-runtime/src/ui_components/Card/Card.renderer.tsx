@@ -23,6 +23,8 @@ export function CardRenderer(node: Node): React.ReactElement {
           bg={v.bg_color}
           padding={v.padding}
           rounded={v.border_radius}
+          borderColor={v.border_color}
+          elevation={v.elevation}
         >
           {v.items?.map((item, i) => (
             <Interpreter key={item.id || i} node={item} />
