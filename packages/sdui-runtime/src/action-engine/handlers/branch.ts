@@ -39,8 +39,15 @@ async function loadLocalReader(): Promise<(key: string) => unknown> {
   try {
     const { useLocalStore } = await import("../../state/useLocalStore.js");
     return (key: string) => useLocalStore.getState().get(key);
-  } catch {
-    // Local store unavailable — every key reads as undefined.
+  } catch (error) {
+    // Local store unavailable (bundler misconfig, missing peer, etc.) — surface
+    // the failure so it's diagnosable rather than silently producing falsy
+    // branch evaluations. Reader still returns undefined so callers degrade
+    // gracefully (cond:local evaluates as falsy, else-branch fires).
+    console.warn(
+      "[sdui-runtime] cond:local store unavailable — all keys will read as undefined",
+      error,
+    );
     return () => undefined;
   }
 }

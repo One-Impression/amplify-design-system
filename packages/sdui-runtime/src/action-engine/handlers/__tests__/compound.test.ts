@@ -127,6 +127,10 @@ test("compound — parallel wait:first resolves on first settle", async () => {
 
 test("compound — parallel with all rejections throws aggregate", async () => {
   const engine = makeSpyEngine({}, ["bad1", "bad2"]);
+  // Lock in: when every child rejects, the error surfaced is the first
+  // child's reason (not a wrapper, not a Zod error). Asserting identity
+  // prevents a future regression where the handler throws something
+  // unrelated and the bare `assert.rejects` still passes.
   await assert.rejects(
     handleCompound(
       {
@@ -139,6 +143,7 @@ test("compound — parallel with all rejections throws aggregate", async () => {
       noopConfig,
       engine,
     ),
+    /spy: bad1 failed/,
   );
 });
 
