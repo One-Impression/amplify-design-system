@@ -127,10 +127,11 @@ test("compound — parallel wait:first resolves on first settle", async () => {
 
 test("compound — parallel with all rejections throws aggregate", async () => {
   const engine = makeSpyEngine({}, ["bad1", "bad2"]);
-  // Lock in: when every child rejects, the error surfaced is the first
-  // child's reason (not a wrapper, not a Zod error). Asserting identity
-  // prevents a future regression where the handler throws something
-  // unrelated and the bare `assert.rejects` still passes.
+  // Lock in: when every child rejects, the value thrown is the raw Error
+  // from the first rejection's `reason` — not a wrapper class, not an
+  // AggregateError, not a Zod parse error. A regex match would pass even
+  // if the handler later wrapped the error; the predicate form pins the
+  // type + message identity.
   await assert.rejects(
     handleCompound(
       {
@@ -143,7 +144,8 @@ test("compound — parallel with all rejections throws aggregate", async () => {
       noopConfig,
       engine,
     ),
-    /spy: bad1 failed/,
+    (err: unknown) =>
+      err instanceof Error && err.message === "spy: bad1 failed",
   );
 });
 
