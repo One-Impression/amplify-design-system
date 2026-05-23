@@ -6,6 +6,17 @@
  */
 import type { Action } from "@one-impression/sdk-native-sdui";
 
+/**
+ * Optional structured logger surface — when supplied by the host, runtime
+ * handlers route diagnostic warnings here instead of `console.warn`, so the
+ * host's log-aggregation pipeline (CloudWatch / Sentry / Datadog) captures
+ * them. When omitted, handlers fall back to `console.warn` for visibility in
+ * dev consoles.
+ */
+export interface ActionEngineLogger {
+  warn: (message: string, context?: Record<string, unknown>) => void;
+}
+
 export interface ActionEngineConfig {
   bffBaseUrl: string;
   authToken: () => string | null;
@@ -16,6 +27,7 @@ export interface ActionEngineConfig {
   ) => void;
   onToast: (level: string, message: string) => void;
   onDeeplink: (url: string) => void;
+  logger?: ActionEngineLogger;
 }
 
 export interface ActionEngine {

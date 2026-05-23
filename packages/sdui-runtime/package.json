@@ -19,7 +19,7 @@
     "build": "tsup && tsc --emitDeclarationOnly --noCheck",
     "dev": "tsup --watch",
     "lint": "eslint src/",
-    "test": "jest"
+    "test": "tsx --test src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
