@@ -127,11 +127,14 @@ test("compound — parallel wait:first resolves on first settle", async () => {
 
 test("compound — parallel with all rejections throws aggregate", async () => {
   const engine = makeSpyEngine({}, ["bad1", "bad2"]);
-  // Lock in: when every child rejects, the value thrown is the raw Error
-  // from the first rejection's `reason` — not a wrapper class, not an
-  // AggregateError, not a Zod parse error. A regex match would pass even
-  // if the handler later wrapped the error; the predicate form pins the
-  // type + message identity.
+  // Pin two contracts:
+  //   1. The thrown value is the raw Error from the first rejection's
+  //      `reason` — not a wrapper class, not an AggregateError, not a Zod
+  //      parse error.
+  //   2. Both children must be awaited before the rejection surfaces
+  //      (the `Promise.allSettled` contract). A `Promise.race`-based
+  //      implementation would throw immediately on bad1 without dispatching
+  //      bad2 — `engine.log` containing both tags proves both ran.
   await assert.rejects(
     handleCompound(
       {
@@ -146,6 +149,12 @@ test("compound — parallel with all rejections throws aggregate", async () => {
     ),
     (err: unknown) =>
       err instanceof Error && err.message === "spy: bad1 failed",
+  );
+  const tags = engine.log.map((e) => e.type).sort();
+  assert.deepEqual(
+    tags,
+    ["bad1", "bad2"],
+    "allSettled contract: both siblings must dispatch before the rejection surfaces",
   );
 });
 

@@ -12,12 +12,12 @@ import { evaluateCond } from "../cond/eval-cond.js";
  */
 export async function handleBranch(
   action: Action,
-  _config: ActionEngineConfig,
+  config: ActionEngineConfig,
   engine: ActionEngine,
 ): Promise<void> {
   const payload = BranchPayloadSchema.parse(action.payload);
 
-  const read = await loadLocalReader();
+  const read = await loadLocalReader(config);
   const condResult = evaluateCond(payload.if, read);
 
   if (condResult) {
@@ -35,19 +35,27 @@ export async function handleBranch(
  * engine module-graph free of state imports (matches the established pattern
  * in `set-local.ts` / `compound.ts`).
  */
-async function loadLocalReader(): Promise<(key: string) => unknown> {
+async function loadLocalReader(
+  config: ActionEngineConfig,
+): Promise<(key: string) => unknown> {
   try {
     const { useLocalStore } = await import("../../state/useLocalStore.js");
     return (key: string) => useLocalStore.getState().get(key);
   } catch (error) {
     // Local store unavailable (bundler misconfig, missing peer, etc.) — surface
     // the failure so it's diagnosable rather than silently producing falsy
-    // branch evaluations. Reader still returns undefined so callers degrade
-    // gracefully (cond:local evaluates as falsy, else-branch fires).
-    console.warn(
-      "[sdui-runtime] cond:local store unavailable — all keys will read as undefined",
-      error,
-    );
+    // branch evaluations. Prefer the host's structured logger (visible to log
+    // aggregation pipelines like CloudWatch / Sentry) when supplied; otherwise
+    // fall back to `console.warn` for dev-console visibility. Reader still
+    // returns undefined so callers degrade gracefully (cond:local evaluates as
+    // falsy, else-branch fires).
+    const message =
+      "[sdui-runtime] cond:local store unavailable — all keys will read as undefined";
+    if (config.logger) {
+      config.logger.warn(message, { error });
+    } else {
+      console.warn(message, error);
+    }
     return () => undefined;
   }
 }
