@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/tokens-atmosphere",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Amplify Atmosphere (internal tools) design tokens",
   "main": "dist/tokens.js",
   "exports": {
@@ -15,7 +15,7 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@one-impression/tokens-foundation": "^2.0.1"
+    "@one-impression/tokens-foundation": "^3.0.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"
