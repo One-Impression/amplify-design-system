@@ -1,5 +1,5 @@
 ---
-"@amplify-ai/sdui-runtime": minor
+"@one-impression/sdui-runtime": minor
 ---
 
 Add SDUI action handlers and capability handlers (Task 23, Brief #264)

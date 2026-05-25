@@ -11,12 +11,12 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "storybook",
+    "@one-impression/storybook",
     "@one-impression/templates",
-    "brand-oportunities",
-    "feature-flags",
+    "@one-impression/brand-oportunities",
+    "@one-impression/feature-flags",
     "@amplify/tokens-marketing",
-    "tokens-oportunities",
-    "tokens-studio"
+    "@one-impression/tokens-oportunities",
+    "@one-impression/tokens-studio"
   ]
 }

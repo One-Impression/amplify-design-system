@@ -1,5 +1,5 @@
 ---
-"@amplify-ai/tokens-creator": minor
+"@one-impression/tokens-creator": minor
 ---
 
 feat(tokens-creator): extend sdui.* token contract + icon manifest pipeline

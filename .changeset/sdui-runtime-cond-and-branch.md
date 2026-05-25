@@ -1,5 +1,5 @@
 ---
-"@amplify-ai/sdui-runtime": minor
+"@one-impression/sdui-runtime": minor
 ---
 
 Add runtime handlers for the new SDUI primitives shipped in
