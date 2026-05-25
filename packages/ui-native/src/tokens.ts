@@ -1,6 +1,6 @@
 /**
  * Token type definitions — string literal unions matching SDUI token keys
- * from @amplify-ai/tokens-creator/react-native.
+ * from @one-impression/tokens-creator/react-native.
  *
  * Components accept these as props (e.g. <Box bg="primary" p="md" />)
  * and resolve them to concrete values via theme/resolvers.ts.

@@ -9,7 +9,7 @@ import {
   Card as DSCard,
   Tag as DSTag,
   ProgressIndicator as DSProgressIndicator,
-} from "@amplify-ai/ui-native";
+} from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { renderMedia } from "../_shared/render-media.js";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { BannerImageSchema } from "@one-impression/sdk-native-sdui";
-import { Image as DSImage } from "@amplify-ai/ui-native";
+import { Image as DSImage } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function BannerImageRenderer(node: Node): React.ReactElement {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Stagger, Card, CardContent, Button } from '@amplify-ai/ui';
+import { Stagger, Card, CardContent, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Motion/Stagger',

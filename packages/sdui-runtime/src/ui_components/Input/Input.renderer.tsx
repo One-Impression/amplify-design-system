@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InputComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Input as DSInput } from "@amplify-ai/ui-native";
+import { Input as DSInput } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function InputRenderer(node: Node): React.ReactElement {

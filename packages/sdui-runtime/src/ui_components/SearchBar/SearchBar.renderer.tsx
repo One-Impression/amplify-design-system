@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { SearchBarComponentSchema } from "@one-impression/sdk-native-sdui";
-import { SearchBar as DSSearchBar } from "@amplify-ai/ui-native";
+import { SearchBar as DSSearchBar } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function SearchBarRenderer(node: Node): React.ReactElement {

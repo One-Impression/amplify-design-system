@@ -1,35 +1,35 @@
 # Oportunities — Engineer hand-off guide
 
 ## What's been built (all in this PR)
-- `@amplify-ai/tokens-oportunities@1.0.0`
-- `@amplify-ai/brand-oportunities@1.0.0`
-- New components in `@amplify-ai/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- `@one-impression/tokens-oportunities@1.0.0`
+- `@one-impression/brand-oportunities@1.0.0`
+- New components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
 - Storybook theme + 8 brand guidelines docs
 
 ## How to consume in a product app
 
 ### Step 1: install tokens + UI
 ```bash
-npm install @amplify-ai/tokens-oportunities @amplify-ai/ui @amplify-ai/brand-oportunities
+npm install @one-impression/tokens-oportunities @one-impression/ui @one-impression/brand-oportunities
 ```
 
 ### Step 2: load CSS or Tailwind
 
 Option A (CSS vars):
 ```ts
-import '@amplify-ai/tokens-oportunities/css';
+import '@one-impression/tokens-oportunities/css';
 ```
 
 Option B (Tailwind preset):
 ```ts
 // tailwind.config.ts
-import oportunitiesPreset from '@amplify-ai/tokens-oportunities/tailwind';
+import oportunitiesPreset from '@one-impression/tokens-oportunities/tailwind';
 export default { presets: [oportunitiesPreset], ... };
 ```
 
 ### Step 3: use components
 ```tsx
-import { Wordmark, SignalDot, CreatorIntentCard } from '@amplify-ai/ui';
+import { Wordmark, SignalDot, CreatorIntentCard } from '@one-impression/ui';
 
 <Wordmark size="xl" animated />
 <SignalDot size={24} live />
@@ -38,9 +38,9 @@ import { Wordmark, SignalDot, CreatorIntentCard } from '@amplify-ai/ui';
 
 ### Step 4: brand assets
 ```ts
-import { wordmark, appIcon } from '@amplify-ai/brand-oportunities';
+import { wordmark, appIcon } from '@one-impression/brand-oportunities';
 // Or reference directly:
-<img src="/node_modules/@amplify-ai/brand-oportunities/assets/logo/wordmark-default.svg" />
+<img src="/node_modules/@one-impression/brand-oportunities/assets/logo/wordmark-default.svg" />
 ```
 
 ## What you still need to build (product code, not design system)

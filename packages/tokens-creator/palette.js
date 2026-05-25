@@ -7,7 +7,7 @@
  * theme resolution happens client-side in the renderer at paint time.
  *
  * Consumers (BFF handlers, server-driven UI emitters):
- *   import { palette } from "@amplify-ai/tokens-creator/palette";
+ *   import { palette } from "@one-impression/tokens-creator/palette";
  *   sdui.pageHeader({ title: { text: "Explore", color: palette.text.strong } });
  *
  * Maintenance:

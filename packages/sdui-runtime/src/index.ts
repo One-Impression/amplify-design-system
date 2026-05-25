@@ -1,4 +1,4 @@
-// @amplify-ai/sdui-runtime — SDUI runtime for Amplify Creator App
+// @one-impression/sdui-runtime — SDUI runtime for Amplify Creator App
 // Renderers + runtime + state + action engine + bottom-sheet manager + loaders.
 // React Native code — NOT Node-safe. Backend consumers use @one-impression/sdk-native-sdui instead.
 

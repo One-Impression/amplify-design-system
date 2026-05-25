@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   // Multi-entry: emit a standalone bundle at each subpath the package
   // advertises in its `exports` map. This lets consumers do
-  // `import { x } from "@amplify-ai/sdui-runtime/bff"` without falling
+  // `import { x } from "@one-impression/sdui-runtime/bff"` without falling
   // through to `dist/index.js` (which would pull the entire bundle into
   // every consumer chunk that only needs the bff client).
   //
@@ -23,8 +23,8 @@ export default defineConfig({
     "react",
     "react-native",
     "@one-impression/sdk-native-sdui",
-    "@amplify-ai/ui-native",
-    "@amplify-ai/tokens-creator",
+    "@one-impression/ui-native",
+    "@one-impression/tokens-creator",
     "@gorhom/bottom-sheet",
     // Expo / React Native packages used via dynamic imports in capabilities/
     "expo-clipboard",

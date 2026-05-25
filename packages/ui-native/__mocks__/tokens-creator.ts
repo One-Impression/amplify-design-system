@@ -1,4 +1,4 @@
-/** Mock tokens for testing — mirrors @amplify-ai/tokens-creator/react-native */
+/** Mock tokens for testing — mirrors @one-impression/tokens-creator/react-native */
 export const sdui = {
   color: {
     neutralStrong: '#1C1917',

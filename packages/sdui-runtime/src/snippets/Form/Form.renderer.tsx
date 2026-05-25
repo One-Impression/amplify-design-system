@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef, useCallback } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { FormSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack } from "@amplify-ai/ui-native";
+import { Box, Stack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";

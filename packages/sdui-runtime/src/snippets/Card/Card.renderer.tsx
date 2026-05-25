@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { CardSnippetSchema } from "@one-impression/sdk-native-sdui";
-import { Card as DSCard } from "@amplify-ai/ui-native";
+import { Card as DSCard } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

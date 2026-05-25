@@ -33,7 +33,7 @@ Federated design tokens and shared UI components for all One Impression products
                     |  - Figma sync          |
                     +----------+-------------+
                                |
-                    npm install @amplify-ai/tokens-*
+                    npm install @one-impression/tokens-*
                                |
           +---------+----------+----------+----------+
           |         |          |          |          |
@@ -57,7 +57,7 @@ product's tokens.
 |----------------|------------|
 | Stores token JSON source files | Governs token changes (approval workflows) |
 | Builds CSS/JS/RN output via Style Dictionary | Detects token drift (Pixel vs code) |
-| Publishes npm packages (@amplify-ai/*) | Cascades brand changes across products |
+| Publishes npm packages (@one-impression/*) | Cascades brand changes across products |
 | Houses React UI components | Reviews PR design compliance |
 | Runs Storybook for component docs | Audits accessibility (WCAG 2.1 AA) |
 | Provides ESLint rules | Generates design mockups & handoff specs |
@@ -69,15 +69,15 @@ product's tokens.
 
 | Package | Purpose | Consumer |
 |---------|---------|----------|
-| `@amplify-ai/tokens-foundation` | Shared primitives (spacing, radii, shadows, typography) | All products |
-| `@amplify-ai/tokens-brand` | Brand platform colors & theme | one-dashboard-web |
-| `@amplify-ai/tokens-atmosphere` | Atmosphere dashboard colors & theme | odin-agent/web |
-| `@amplify-ai/tokens-creator` | Creator app colors & SDUI mapping | one_club_app |
-| `@amplify-ai/tokens-oportunities` | Oportunities theme tokens (Studio direction, apricot palette) | oportunities apps (TBD) |
-| `@amplify-ai/brand-oportunities` | Oportunities brand asset library (logos, app icons, favicons, social, decisions doc) | oportunities apps (TBD) |
-| `@amplify-ai/ui` | Shared React UI components | Web products |
-| `@amplify-ai/eslint-config` | Design system lint rules | All products |
-| `@amplify-ai/feature-flags` | Feature flag utilities | All products |
+| `@one-impression/tokens-foundation` | Shared primitives (spacing, radii, shadows, typography) | All products |
+| `@one-impression/tokens-brand` | Brand platform colors & theme | one-dashboard-web |
+| `@one-impression/tokens-atmosphere` | Atmosphere dashboard colors & theme | odin-agent/web |
+| `@one-impression/tokens-creator` | Creator app colors & SDUI mapping | one_club_app |
+| `@one-impression/tokens-oportunities` | Oportunities theme tokens (Studio direction, apricot palette) | oportunities apps (TBD) |
+| `@one-impression/brand-oportunities` | Oportunities brand asset library (logos, app icons, favicons, social, decisions doc) | oportunities apps (TBD) |
+| `@one-impression/ui` | Shared React UI components | Web products |
+| `@one-impression/eslint-config` | Design system lint rules | All products |
+| `@one-impression/feature-flags` | Feature flag utilities | All products |
 
 ## Token Flow
 
@@ -86,7 +86,7 @@ product's tokens.
 3. **GitHub Actions** builds all packages, validates, creates PR
 4. On merge: npm publish + **Pixel** detects update via scheduled drift check
 5. Pixel runs brand cascade → identifies affected products → generates fix PRs
-6. Products `npm update @amplify-ai/tokens-*` to adopt changes
+6. Products `npm update @one-impression/tokens-*` to adopt changes
 
 ## Pixel Integration Points
 

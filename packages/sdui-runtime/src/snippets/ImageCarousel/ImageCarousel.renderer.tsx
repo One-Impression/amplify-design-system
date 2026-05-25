@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ImageCarouselSchema } from "@one-impression/sdk-native-sdui";
-import { ScrollView, Box, Image as DSImage } from "@amplify-ai/ui-native";
+import { ScrollView, Box, Image as DSImage } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function ImageCarouselRenderer(node: Node): React.ReactElement {

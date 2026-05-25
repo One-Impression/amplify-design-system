@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Testimonial, Avatar } from '@amplify-ai/ui';
+import { Testimonial, Avatar } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/Testimonial',

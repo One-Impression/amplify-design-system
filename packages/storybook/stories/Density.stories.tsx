@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button, DensityProvider, type Density } from '@amplify-ai/ui';
+import { Button, DensityProvider, type Density } from '@one-impression/ui';
 
 const meta = {
   title: 'Foundation/Density',
@@ -14,7 +14,7 @@ Select, Chip, etc. follow) read the ambient density via \`useDensity()\`
 and select the density-appropriate row from their size table.
 
 \`\`\`tsx
-import { DensityProvider, Button } from '@amplify-ai/ui';
+import { DensityProvider, Button } from '@one-impression/ui';
 
 <DensityProvider density="compact">
   <Button size="sm">Save</Button>     {/* renders h-7 */}

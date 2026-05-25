@@ -6,7 +6,7 @@ import {
   Stack,
   Text,
   ProgressIndicator as DSProgressIndicator,
-} from "@amplify-ai/ui-native";
+} from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function InfoProgressRowRenderer(node: Node): React.ReactElement {

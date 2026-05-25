@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Reveal, Card, CardContent, Button } from '@amplify-ai/ui';
+import { Reveal, Card, CardContent, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Motion/Reveal',

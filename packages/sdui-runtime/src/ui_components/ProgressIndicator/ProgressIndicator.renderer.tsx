@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ProgressIndicatorComponentSchema } from "@one-impression/sdk-native-sdui";
-import { ProgressIndicator as DSProgressIndicator } from "@amplify-ai/ui-native";
+import { ProgressIndicator as DSProgressIndicator } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function ProgressIndicatorRenderer(node: Node): React.ReactElement {

@@ -1,6 +1,6 @@
-# @amplify-ai/ui-native — Package Context
+# @one-impression/ui-native — Package Context
 
-React Native primitives for the Amplify Creator App. Every component resolves SDUI tokens from `@amplify-ai/tokens-creator/react-native` — no hardcoded colors, spacing, or sizing.
+React Native primitives for the Amplify Creator App. Every component resolves SDUI tokens from `@one-impression/tokens-creator/react-native` — no hardcoded colors, spacing, or sizing.
 
 ## Architecture
 
@@ -26,7 +26,7 @@ packages/ui-native/
 ## Boundaries
 
 - **NO Zod schemas** — those live in `@one-impression/sdk-native-sdui`
-- **NO SDUI renderers** — those live in `@amplify-ai/sdui-runtime`
+- **NO SDUI renderers** — those live in `@one-impression/sdui-runtime`
 - **NO BFF logic, action engine, or creator business logic**
 - **NO `react-dom` imports** — this is React Native only
 - **NO `@one-impression/*` imports** — this package is in the `@amplify-ai` namespace
@@ -75,4 +75,4 @@ npm run lint -w packages/ui-native    # eslint
 
 - `react` >= 18.0.0
 - `react-native` >= 0.72.0
-- `@amplify-ai/tokens-creator` >= 2.1.0
+- `@one-impression/tokens-creator` >= 2.1.0

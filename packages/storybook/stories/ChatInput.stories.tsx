@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { ChatInput, IconButton } from '@amplify-ai/ui';
+import { ChatInput, IconButton } from '@one-impression/ui';
 
 const meta = {
   title: 'Conversational/ChatInput',

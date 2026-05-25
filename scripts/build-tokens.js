@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Shared token build script for all @amplify-ai/tokens-* packages.
+ * Shared token build script for all @one-impression/tokens-* packages.
  *
  * Reads W3C DTCG-format token JSON files, resolves {references},
  * and generates platform-specific outputs:
@@ -211,7 +211,7 @@ function buildJS() {
 function buildTailwindPreset() {
   const lines = [
     '/* Auto-generated Tailwind v4 preset — do not edit */',
-    '/* Import in your globals.css: @import "@amplify-ai/tokens-' + pkg + '/dist/tailwind.css"; */',
+    '/* Import in your globals.css: @import "@one-impression/tokens-' + pkg + '/dist/tailwind.css"; */',
     '',
     '@theme {',
   ];
@@ -248,7 +248,7 @@ function buildTailwindPreset() {
 // 5b. Tailwind v4 consumer preset (Issue #88)
 // Brand-style packages only. Maps Canvas's class names (bg-brand, text-primary,
 // etc.) to the existing theme-color / semantic tier so consumers can
-// `@import "@amplify-ai/tokens-<pkg>/preset"` instead of inlining a hand-rolled
+// `@import "@one-impression/tokens-<pkg>/preset"` instead of inlining a hand-rolled
 // @theme bridge. Self-contained — re-emits the same primitives + semantic +
 // theme-color block as tailwind.css plus the consumer alias layer below.
 function buildConsumerPreset() {
@@ -258,8 +258,8 @@ function buildConsumerPreset() {
     '/* Auto-generated Tailwind v4 consumer preset — do not edit */',
     '/* Closes Issue #88: ship semantic class names (bg-brand, text-primary, ...)',
     ' * for Canvas component consumers. Self-contained — no need to also',
-    ' * @import "@amplify-ai/tokens-' + pkg + '/tailwind". */',
-    '/* Usage: @import "@amplify-ai/tokens-' + pkg + '/preset"; */',
+    ' * @import "@one-impression/tokens-' + pkg + '/tailwind". */',
+    '/* Usage: @import "@one-impression/tokens-' + pkg + '/preset"; */',
     '',
     '@theme {',
   ];
@@ -327,7 +327,7 @@ function buildConsumerPreset() {
 
   for (const [aliasName, sourceKey] of Object.entries(aliasMap)) {
     if (flat[sourceKey] === undefined) {
-      console.warn(`@amplify-ai/tokens-${pkg}: preset alias "${aliasName}" → "${sourceKey}" not found in flat tree, skipping`);
+      console.warn(`@one-impression/tokens-${pkg}: preset alias "${aliasName}" → "${sourceKey}" not found in flat tree, skipping`);
       continue;
     }
     lines.push(`  --color-${aliasName}: var(--color-${sourceKey});`);
@@ -431,7 +431,7 @@ export const spacing = ${JSON.stringify(spacing, null, 2)};
 
 /**
  * SDUI token namespace — all sdui.* tokens grouped for useToken() resolution.
- * Usage: import { sdui } from '@amplify-ai/tokens-creator/react-native';
+ * Usage: import { sdui } from '@one-impression/tokens-creator/react-native';
  *        const value = sdui.spacing.xs; // 4
  */
 export const sdui = ${JSON.stringify(sdui, null, 2)};
@@ -440,7 +440,7 @@ export const sdui = ${JSON.stringify(sdui, null, 2)};
 
 // 7. Product-agnostic semantic aliases — emits --amp-semantic-* aliases that
 //    resolve to whichever product theme is loaded. Canvas v2 primitives in
-//    @amplify-ai/ui (BriefStrip, HistoryStrip, CouncilRail, VariantCard,
+//    @one-impression/ui (BriefStrip, HistoryStrip, CouncilRail, VariantCard,
 //    StatusBar, SegmentedControl) hard-code Tailwind arbitrary classes
 //    referencing the agnostic --amp-semantic-* family. Without these aliases,
 //    every primitive renders unstyled in every consumer.
@@ -511,7 +511,7 @@ function buildSemanticAliases() {
     '',
     '/* ──────────────────────────────────────────────────────────────────',
     '   Product-agnostic semantic aliases — resolve to active product theme.',
-    '   Consumed by Canvas v2 primitives in @amplify-ai/ui via Tailwind',
+    '   Consumed by Canvas v2 primitives in @one-impression/ui via Tailwind',
     '   arbitrary classes (e.g. bg-[var(--amp-semantic-bg-accent-subtle)]).',
     '   Dark mode cascades through var() indirection automatically.',
     '   ────────────────────────────────────────────────────────────────── */',
@@ -593,7 +593,7 @@ const suffix = extras.length ? ` (${extras.join(', ')})` : '';
 if (pkg === 'creator') {
   writeFileSync(join(distDir, 'tokens.native.js'), buildReactNative());
 }
-console.log(`@amplify-ai/tokens-${pkg}: built ${total} artifacts${suffix}`);
+console.log(`@one-impression/tokens-${pkg}: built ${total} artifacts${suffix}`);
 
 // Fail build if any references could not be resolved
 if (unresolvedRefs.length > 0) {

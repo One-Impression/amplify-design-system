@@ -1,5 +1,5 @@
 {
-  "name": "@amplify-ai/ui-native",
+  "name": "@one-impression/ui-native",
   "version": "1.0.0",
   "description": "React Native primitives for Amplify Creator App — SDUI-driven, token-resolved components",
   "type": "module",
@@ -24,11 +24,14 @@
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
-    "@amplify-ai/tokens-creator": ">=2.0.3"
+    "@one-impression/tokens-creator": ">=2.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

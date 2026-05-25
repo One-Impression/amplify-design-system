@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ChipComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Chip as DSChip } from "@amplify-ai/ui-native";
+import { Chip as DSChip } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

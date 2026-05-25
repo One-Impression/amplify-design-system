@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateRangePicker, type DateRange } from '@amplify-ai/ui';
+import { DateRangePicker, type DateRange } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Forms/DateRangePicker',

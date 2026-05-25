@@ -1,5 +1,5 @@
 /**
- * @amplify-ai/eslint-config — prefer-token-import
+ * @one-impression/eslint-config — prefer-token-import
  *
  * Flags direct color/token imports from product-local or legacy modules that
  * should be Amplify token imports instead.
@@ -12,9 +12,9 @@
  *   import x from '../design-tokens';
  *
  * Acceptable:
- *   import tokens from '@amplify-ai/tokens-foundation/js';
- *   import { colors } from '@amplify-ai/tokens-creator';
- *   @import "@amplify-ai/tokens-foundation/css";
+ *   import tokens from '@one-impression/tokens-foundation/js';
+ *   import { colors } from '@one-impression/tokens-creator';
+ *   @import "@one-impression/tokens-foundation/css";
  */
 'use strict';
 
@@ -31,13 +31,13 @@ const SUSPECT_PATTERNS = [
 
 // Legacy patterns with explicit replacement suggestions
 const LEGACY_PATTERNS = [
-  { pattern: /^@oneimpression\/tokens/, suggested: '@amplify-ai/tokens-brand' },
-  { pattern: /\.\.\/.*styles\/colors/, suggested: '@amplify-ai/tokens-creator or @amplify-ai/tokens-brand' },
-  { pattern: /\.\.\/.*design-tokens/, suggested: '@amplify-ai/tokens-brand' },
+  { pattern: /^@oneimpression\/tokens/, suggested: '@one-impression/tokens-brand' },
+  { pattern: /\.\.\/.*styles\/colors/, suggested: '@one-impression/tokens-creator or @one-impression/tokens-brand' },
+  { pattern: /\.\.\/.*design-tokens/, suggested: '@one-impression/tokens-brand' },
 ];
 
 const ALLOWED_PREFIXES = [
-  '@amplify-ai/',
+  '@one-impression/',
   '@amplify/',
 ];
 
@@ -54,13 +54,13 @@ module.exports = {
     type: 'suggestion',
     docs: {
       description:
-        'Prefer @amplify-ai/tokens-* imports over product-local or legacy color/palette/token modules',
+        'Prefer @one-impression/tokens-* imports over product-local or legacy color/palette/token modules',
       recommended: true,
     },
     schema: [],
     messages: {
       preferTokenImport:
-        'Local color import "{{source}}" — prefer @amplify-ai/tokens-foundation (or product token package).',
+        'Local color import "{{source}}" — prefer @one-impression/tokens-foundation (or product token package).',
       preferAmplifyTokens:
         'Import from "{{suggested}}" instead of legacy path "{{source}}".',
     },

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ActionCard } from '@amplify-ai/ui';
+import { ActionCard } from '@one-impression/ui';
 
 const meta = {
   title: 'Recipes/ActionCard',

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { PageFloaterHeaderSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack, Text, Icon as DSIcon } from "@amplify-ai/ui-native";
+import { Box, Stack, Text, Icon as DSIcon } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function PageFloaterHeaderRenderer(node: Node): React.ReactElement {

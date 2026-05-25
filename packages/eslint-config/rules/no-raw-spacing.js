@@ -1,5 +1,5 @@
 /**
- * @amplify-ai/eslint-config — no-raw-spacing
+ * @one-impression/eslint-config — no-raw-spacing
  *
  * Flags raw pixel/em/rem literals used as spacing in JSX style props or
  * style objects, e.g.:
@@ -57,7 +57,7 @@ module.exports = {
     schema: [],
     messages: {
       noRawSpacing:
-        'Raw spacing value `{{value}}` for `{{prop}}` — use a token like var(--amp-spacing-md) or @amplify-ai/tokens-foundation/js.',
+        'Raw spacing value `{{value}}` for `{{prop}}` — use a token like var(--amp-spacing-md) or @one-impression/tokens-foundation/js.',
     },
   },
   create(context) {

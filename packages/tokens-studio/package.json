@@ -1,5 +1,5 @@
 {
-  "name": "@amplify-ai/tokens-studio",
+  "name": "@one-impression/tokens-studio",
   "version": "1.0.4",
   "description": "Amplify Magic Studio design tokens \u2014 Studio cockpit chrome, mirror/Map-mode voices, status scale; consumed only by studio.amplify.club",
   "main": "dist/tokens.js",
@@ -15,7 +15,7 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@amplify-ai/tokens-foundation": "^2.1.0"
+    "@one-impression/tokens-foundation": "^2.1.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StepHeader, Button } from '@amplify-ai/ui';
+import { StepHeader, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Recipes/StepHeader',

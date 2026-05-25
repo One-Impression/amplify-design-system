@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BarChart } from '@amplify-ai/ui';
+import { BarChart } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/BarChart',

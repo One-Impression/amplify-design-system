@@ -1,5 +1,5 @@
 {
-  "name": "@amplify-ai/tokens-foundation",
+  "name": "@one-impression/tokens-foundation",
   "version": "2.1.3",
   "type": "module",
   "description": "Amplify Design System — shared foundation tokens (spacing, radii, shadows, motion, surfaces, borders, fluid type, breakpoints, z-index)",
@@ -28,5 +28,8 @@
     "dist/",
     "src/",
     "tokens/"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { SelectableItemComponentSchema } from "@one-impression/sdk-native-sdui";
-import { SelectableItem as DSSelectableItem } from "@amplify-ai/ui-native";
+import { SelectableItem as DSSelectableItem } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

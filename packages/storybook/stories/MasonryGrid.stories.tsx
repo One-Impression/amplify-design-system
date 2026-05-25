@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MasonryGrid } from '@amplify-ai/ui';
+import { MasonryGrid } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Layout/MasonryGrid',

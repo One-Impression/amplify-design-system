@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { LoadingState } from '@amplify-ai/ui';
+import { LoadingState } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/LoadingState',

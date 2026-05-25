@@ -1,7 +1,7 @@
 {
-  "name": "@amplify-ai/sdui-runtime",
+  "name": "@one-impression/sdui-runtime",
   "version": "1.0.0",
-  "description": "SDUI runtime for Amplify Creator App \u2014 interpreter, action engine, bottom-sheet manager, loaders, providers",
+  "description": "SDUI runtime for Amplify Creator App — interpreter, action engine, bottom-sheet manager, loaders, providers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,8 +40,8 @@
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
     "@one-impression/sdk-native-sdui": ">=1.0.0",
-    "@amplify-ai/ui-native": ">=1.0.0",
-    "@amplify-ai/tokens-creator": ">=2.0.3",
+    "@one-impression/ui-native": ">=1.0.0",
+    "@one-impression/tokens-creator": ">=2.0.3",
     "@gorhom/bottom-sheet": "^5.0.0",
     "react-native-webview": ">=13.0.0"
   },
@@ -64,5 +64,8 @@
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

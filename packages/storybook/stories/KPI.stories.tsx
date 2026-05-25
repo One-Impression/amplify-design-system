@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { KPI } from '@amplify-ai/ui';
+import { KPI } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/KPI',

@@ -2,7 +2,7 @@
  * useToken — hook to resolve token strings at render time.
  *
  * Accepts a dot-notation token path and returns the resolved value.
- * Uses the token map built from @amplify-ai/tokens-creator.
+ * Uses the token map built from @one-impression/tokens-creator.
  *
  * @example
  * ```tsx

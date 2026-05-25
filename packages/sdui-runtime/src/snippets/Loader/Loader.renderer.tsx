@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { LoaderSchema } from "@one-impression/sdk-native-sdui";
-import { Box } from "@amplify-ai/ui-native";
+import { Box } from "@one-impression/ui-native";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 import { SduiNode } from "../../sdui-node/index.js";
 

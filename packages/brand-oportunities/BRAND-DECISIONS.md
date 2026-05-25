@@ -2,7 +2,7 @@
 
 Final record of every brand decision for **Oportunities** as of 2026-05-19.
 This file is the source-of-truth for the asset package. Token values live in
-`@amplify-ai/tokens-oportunities`.
+`@one-impression/tokens-oportunities`.
 
 ---
 
@@ -153,5 +153,5 @@ but for the **brand assets** specifically:
 
 Pending decisions (NOT in this asset package):
 - Long-form brand voice doc (separate concern, lives in marketing wiki)
-- Motion grammar for in-product transitions (handled by `@amplify-ai/tokens-foundation/motion`)
+- Motion grammar for in-product transitions (handled by `@one-impression/tokens-foundation/motion`)
 - Sound / haptics (deferred until mobile app GA)

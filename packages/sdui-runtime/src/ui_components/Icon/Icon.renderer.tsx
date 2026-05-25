@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { IconComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Icon as DSIcon } from "@amplify-ai/ui-native";
+import { Icon as DSIcon } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { useIconStore } from "../../icon-store/index.js";
 import { parseSvg } from "../../icon-store/parseSvg.js";
