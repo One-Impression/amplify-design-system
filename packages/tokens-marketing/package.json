@@ -17,7 +17,7 @@
     "build": "node build.js"
   },
   "peerDependencies": {
-    "@one-impression/tokens-foundation": "^2.1.0"
+    "@one-impression/tokens-foundation": "^3.0.0"
   },
   "files": [
     "src/",

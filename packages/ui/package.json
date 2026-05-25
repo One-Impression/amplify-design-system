@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/ui",
-  "version": "2.13.0",
+  "version": "3.0.0",
   "description": "Shared UI components for Amplify products — Brand, Creator, and Atmosphere",
   "type": "module",
   "main": "dist/index.js",
