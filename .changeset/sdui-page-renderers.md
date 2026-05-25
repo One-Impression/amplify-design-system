@@ -1,5 +1,5 @@
 ---
-"@amplify-ai/sdui-runtime": minor
+"@one-impression/sdui-runtime": minor
 ---
 
 feat(sdui-runtime): add 5 page layout container renderers

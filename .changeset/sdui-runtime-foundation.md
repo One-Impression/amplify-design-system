@@ -1,8 +1,8 @@
 ---
-"@amplify-ai/sdui-runtime": major
+"@one-impression/sdui-runtime": major
 ---
 
-feat(sdui-runtime): add @amplify-ai/sdui-runtime@1.0.0 — SDUI runtime foundation
+feat(sdui-runtime): add @one-impression/sdui-runtime@1.0.0 — SDUI runtime foundation
 
 New package providing the foundation layer for the SDUI runtime in amplify-creator-app:
 - SduiNode base wrapper (Zod validation, error boundary, click/view/load/dismount lifecycle, telemetry)
