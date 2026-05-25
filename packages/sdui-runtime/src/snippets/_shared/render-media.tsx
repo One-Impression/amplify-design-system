@@ -4,7 +4,7 @@ import {
   Icon as DSIcon,
   ImageStack as DSImageStack,
   ProgressIndicator as DSProgressIndicator,
-} from "@amplify-ai/ui-native";
+} from "@one-impression/ui-native";
 
 interface MediaImage {
   type: "image";

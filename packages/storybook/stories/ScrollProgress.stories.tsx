@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScrollProgress } from '@amplify-ai/ui';
+import { ScrollProgress } from '@one-impression/ui';
 
 const meta = {
   title: 'Motion/ScrollProgress',

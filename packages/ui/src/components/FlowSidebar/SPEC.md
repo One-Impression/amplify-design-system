@@ -1,7 +1,7 @@
 # FlowSidebar — Canvas Primitive Spec
 
 **Status:** Spec (v0 contract — no code in this PR)
-**Owner:** `@amplify-ai/ui`
+**Owner:** `@one-impression/ui`
 **Date:** 2026-05-08
 **Consumer:** Magic Studio (initially), any product with a multi-step flow
 
@@ -164,7 +164,7 @@ All dimensions are token-driven. CSS variables are set at the `:root` of the con
 | `LongList` | 12 steps to demonstrate sticky header / footer + scrolling |
 | `BrandOrderRealistic` | The 7 actual `brand-order` flow steps from the Studio registry — used as the "happy path" visual reference for Pixel review |
 
-All stories use the `@amplify-ai/tokens-studio` theme; a controls table is exposed for `flowName`, `activeStepId`, `collapsed`.
+All stories use the `@one-impression/tokens-studio` theme; a controls table is exposed for `flowName`, `activeStepId`, `collapsed`.
 
 ---
 
@@ -260,4 +260,4 @@ packages/ui/src/components/FlowSidebar/
 export * from './components/FlowSidebar';
 ```
 
-**Token build trigger:** the three layout tokens land alongside the implementation PR (or just before it), so consumers picking up `@amplify-ai/ui` and `@amplify-ai/tokens-studio` together get a consistent release.
+**Token build trigger:** the three layout tokens land alongside the implementation PR (or just before it), so consumers picking up `@one-impression/ui` and `@one-impression/tokens-studio` together get a consistent release.

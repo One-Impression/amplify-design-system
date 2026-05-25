@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { sdui } from '@amplify-ai/tokens-creator/react-native';
+import { sdui } from '@one-impression/tokens-creator/react-native';
 
 type SduiTokens = typeof sdui;
 

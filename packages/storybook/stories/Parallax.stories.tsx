@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Parallax, Card, CardContent } from '@amplify-ai/ui';
+import { Parallax, Card, CardContent } from '@one-impression/ui';
 
 const meta = {
   title: 'Motion/Parallax',

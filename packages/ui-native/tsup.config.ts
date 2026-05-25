@@ -7,6 +7,6 @@ export default defineConfig({
   // with @types/react@19 in the monorepo root, and tsup's rollup-plugin-dts
   // doesn't honor skipLibCheck. tsc respects tsconfig.json's skipLibCheck.
   dts: false,
-  external: ['react', 'react-native', '@amplify-ai/tokens-creator'],
+  external: ['react', 'react-native', '@one-impression/tokens-creator'],
   clean: true,
 });

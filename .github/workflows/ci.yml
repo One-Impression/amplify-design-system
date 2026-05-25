@@ -24,8 +24,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          registry-url: https://registry.npmjs.org
-          scope: '@amplify-ai'
 
       - name: Install dependencies
         run: npm ci
@@ -38,16 +36,16 @@ jobs:
           npm run build -w packages/tokens-atmosphere
           npm run build -w packages/tokens-marketing
 
-      - name: Build @amplify-ai/ui
+      - name: Build @one-impression/ui
         run: npm run build -w packages/ui
 
-      - name: Build @amplify-ai/ui-native
+      - name: Build @one-impression/ui-native
         run: npm run build -w packages/ui-native
 
-      - name: Build @amplify-ai/sdui-runtime
+      - name: Build @one-impression/sdui-runtime
         run: npm run build -w packages/sdui-runtime
 
-      - name: Build @amplify-ai/mcp-server
+      - name: Build @one-impression/mcp-server
         run: npm run build -w packages/mcp-server
 
       - name: Validate cross-package consistency
@@ -79,37 +77,6 @@ jobs:
 
       - name: Build Storybook
         run: npm run build -w packages/storybook
-
-      - name: Publish packages
-        if: github.ref == 'refs/heads/main' && env.NPM_TOKEN_SET == 'true'
-        env:
-          NPM_TOKEN_SET: ${{ secrets.NPM_TOKEN != '' }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -e
-          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui ui-native sdui-runtime mcp-server eslint-config; do
-            echo "Publishing @amplify-ai/$pkg..."
-            (
-              cd packages/$pkg
-              OUTPUT=$(npm publish --access public 2>&1) && echo "$OUTPUT" || {
-                EXIT_CODE=$?
-                echo "$OUTPUT"
-                if echo "$OUTPUT" | grep -qE 'EPUBLISHCONFLICT|already been published|You cannot publish over the previously published versions|cannot publish over the previously published'; then
-                  echo "Package already published at this version — skipping"
-                else
-                  echo "::error::Publish failed for $pkg"
-                  exit $EXIT_CODE
-                fi
-              }
-            )
-          done
-
-      - name: Publish skipped (NPM_TOKEN not set)
-        if: github.ref == 'refs/heads/main' && env.NPM_TOKEN_SET != 'true'
-        env:
-          NPM_TOKEN_SET: ${{ secrets.NPM_TOKEN != '' }}
-        run: |
-          echo "::notice title=Publish skipped::NPM_TOKEN secret is not set on this repo. Build + tests passed but @amplify-ai/* was NOT published. To enable publishing: (1) create npm org 'amplify-ai' at npmjs.com/org/create, (2) generate an automation token with publish scope, (3) gh secret set NPM_TOKEN -R One-Impression/amplify-design-system. Then re-run this workflow."
 
   secret-scan:
     name: Secret Scan

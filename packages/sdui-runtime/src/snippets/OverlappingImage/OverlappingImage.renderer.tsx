@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { OverlappingImageSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Image as DSImage } from "@amplify-ai/ui-native";
+import { Box, Image as DSImage } from "@one-impression/ui-native";
 import { View, StyleSheet } from "react-native";
 import { SduiNode } from "../../sdui-node/index.js";
 

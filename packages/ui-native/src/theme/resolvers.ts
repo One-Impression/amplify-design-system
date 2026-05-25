@@ -1,11 +1,11 @@
 /**
  * Token resolvers — convert token names to concrete values using
- * the sdui namespace from @amplify-ai/tokens-creator/react-native.
+ * the sdui namespace from @one-impression/tokens-creator/react-native.
  *
  * Every resolver accepts either a token name OR a raw value (number/string).
  * This lets components work with both token-driven SDUI props and one-off overrides.
  */
-import { sdui } from '@amplify-ai/tokens-creator/react-native';
+import { sdui } from '@one-impression/tokens-creator/react-native';
 import type {
   ColorToken,
   SpacingToken,

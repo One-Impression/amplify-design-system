@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { IconGrid, IconCallout } from '@amplify-ai/ui';
+import { IconGrid, IconCallout } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/IconGrid',

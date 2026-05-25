@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { GroupChipsSchema } from "@one-impression/sdk-native-sdui";
-import { ScrollView } from "@amplify-ai/ui-native";
+import { ScrollView } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { GroupStepsSchema } from "@one-impression/sdk-native-sdui";
-import { Stack } from "@amplify-ai/ui-native";
+import { Stack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

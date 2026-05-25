@@ -1,10 +1,10 @@
-# @amplify-ai/brand-oportunities
+# @one-impression/brand-oportunities
 
 Locked brand assets for **Oportunities** — the creator-intent intelligence platform.
 Theme direction: **Studio** (Geist + apricot period).
 
 This package ships ready-to-use SVG/HTML assets — no build step, no token wiring.
-For runtime tokens (colors, type, spacing), use `@amplify-ai/tokens-oportunities`.
+For runtime tokens (colors, type, spacing), use `@one-impression/tokens-oportunities`.
 
 ---
 
@@ -91,7 +91,7 @@ locked.
 ## Programmatic access
 
 ```js
-import { wordmark, appIcon, favicon, brandColors } from '@amplify-ai/brand-oportunities';
+import { wordmark, appIcon, favicon, brandColors } from '@one-impression/brand-oportunities';
 
 // Returns asset paths relative to the package root.
 console.log(wordmark.default); // 'assets/logo/wordmark-default.svg'
@@ -102,5 +102,5 @@ console.log(brandColors.apricot); // '#E89252'
 
 ## Related packages
 
-- **`@amplify-ai/tokens-oportunities`** — runtime tokens (colors, type, spacing) as CSS / SCSS / JS
-- **`@amplify-ai/ui`** — shared components themed via tokens-oportunities
+- **`@one-impression/tokens-oportunities`** — runtime tokens (colors, type, spacing) as CSS / SCSS / JS
+- **`@one-impression/ui`** — shared components themed via tokens-oportunities

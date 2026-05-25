@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { LineChart } from '@amplify-ai/ui';
+import { LineChart } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/LineChart',

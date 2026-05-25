@@ -1,5 +1,5 @@
 /**
- * Recipes — small compositions of @amplify-ai/ui primitives.
+ * Recipes — small compositions of @one-impression/ui primitives.
  *
  * A recipe is a thin wrapper that combines 2–4 primitives into a
  * higher-level pattern. Recipes contain minimal new logic; they are

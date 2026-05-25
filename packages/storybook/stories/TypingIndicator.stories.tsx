@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TypingIndicator, MessageBubble, Avatar } from '@amplify-ai/ui';
+import { TypingIndicator, MessageBubble, Avatar } from '@one-impression/ui';
 
 const meta = {
   title: 'Conversational/TypingIndicator',

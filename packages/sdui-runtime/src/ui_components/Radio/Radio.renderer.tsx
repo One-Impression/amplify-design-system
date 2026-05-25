@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { RadioComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Radio as DSRadio } from "@amplify-ai/ui-native";
+import { Radio as DSRadio } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PieChart } from '@amplify-ai/ui';
+import { PieChart } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/PieChart',

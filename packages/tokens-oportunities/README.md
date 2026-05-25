@@ -1,4 +1,4 @@
-# @amplify-ai/tokens-oportunities
+# @one-impression/tokens-oportunities
 
 Oportunities design tokens — the Studio direction (Geist + apricot period) for the creator-intent intelligence platform.
 
@@ -35,21 +35,21 @@ These are **not negotiable** at the package level:
 Install:
 
 ```bash
-npm install @amplify-ai/tokens-oportunities
+npm install @one-impression/tokens-oportunities
 ```
 
 ### Tailwind v4
 
 ```css
 /* globals.css */
-@import "@amplify-ai/tokens-oportunities/tailwind";
+@import "@one-impression/tokens-oportunities/tailwind";
 ```
 
 ### Plain CSS
 
 ```css
 /* globals.css */
-@import "@amplify-ai/tokens-oportunities/css";
+@import "@one-impression/tokens-oportunities/css";
 
 .button {
   background: var(--amp-oportunities-theme-color-accent);
@@ -63,7 +63,7 @@ npm install @amplify-ai/tokens-oportunities
 ### JS / TS
 
 ```ts
-import * as tokens from '@amplify-ai/tokens-oportunities/js';
+import * as tokens from '@one-impression/tokens-oportunities/js';
 
 console.log(tokens.themeColorAccent); // '#E68F47'
 ```
@@ -71,7 +71,7 @@ console.log(tokens.themeColorAccent); // '#E68F47'
 ### SCSS
 
 ```scss
-@use '@amplify-ai/tokens-oportunities/scss' as oportunities;
+@use '@one-impression/tokens-oportunities/scss' as oportunities;
 
 .button {
   background: oportunities.$amp-oportunities-theme-color-accent;
@@ -81,12 +81,12 @@ console.log(tokens.themeColorAccent); // '#E68F47'
 ### JSON
 
 ```ts
-import tokens from '@amplify-ai/tokens-oportunities/json';
+import tokens from '@one-impression/tokens-oportunities/json';
 ```
 
 ## Foundation dependency
 
-This package depends on `@amplify-ai/tokens-foundation` for the primitive scales (spacing, radius, shadow, typography scale). Foundation primitives are **inherited as-is** — Oportunities only overrides semantic + cockpit layers.
+This package depends on `@one-impression/tokens-foundation` for the primitive scales (spacing, radius, shadow, typography scale). Foundation primitives are **inherited as-is** — Oportunities only overrides semantic + cockpit layers.
 
 ## Build
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AppIconOportunities } from '@amplify-ai/ui';
+import { AppIconOportunities } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/AppIconOportunities',

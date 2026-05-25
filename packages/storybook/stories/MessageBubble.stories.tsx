@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MessageBubble, Avatar } from '@amplify-ai/ui';
+import { MessageBubble, Avatar } from '@one-impression/ui';
 
 const meta = {
   title: 'Conversational/MessageBubble',

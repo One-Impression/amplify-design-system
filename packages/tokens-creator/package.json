@@ -1,5 +1,5 @@
 {
-  "name": "@amplify-ai/tokens-creator",
+  "name": "@one-impression/tokens-creator",
   "version": "2.0.3",
   "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
   "main": "dist/tokens.js",
@@ -27,7 +27,7 @@
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {
-    "@amplify-ai/tokens-foundation": "^2.0.1"
+    "@one-impression/tokens-foundation": "^2.0.1"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"
@@ -39,5 +39,8 @@
     "icons/",
     "palette.js",
     "palette.d.ts"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

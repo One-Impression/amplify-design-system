@@ -1,0 +1,102 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+concurrency:
+  group: publish-main
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release (Changesets)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: "@one-impression"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: |
+          npm run build -w packages/tokens-foundation
+          npm run build -w packages/tokens-brand
+          npm run build -w packages/tokens-creator
+          npm run build -w packages/tokens-atmosphere
+          npm run build -w packages/tokens-marketing
+          npm run build -w packages/ui
+          npm run build -w packages/ui-native
+          npm run build -w packages/sdui-runtime
+          npm run build -w packages/mcp-server
+
+      - name: Version or publish
+        id: version_or_publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          CHANGESETS=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | wc -l | tr -d ' ')
+
+          if [ "$CHANGESETS" -gt 0 ]; then
+            echo "Found $CHANGESETS changeset(s) — bumping versions and opening Version PR"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            npx changeset version
+            git checkout -b changesets-release
+            git add -A
+            git diff --staged --quiet || git commit -m "chore: release packages"
+            git push origin changesets-release --force
+
+            EXISTING=$(gh pr list --head changesets-release --base main \
+              --state open --json number -q '.[0].number' 2>/dev/null || true)
+            if [ -z "$EXISTING" ]; then
+              gh pr create --base main --head changesets-release \
+                --title "chore: release packages" \
+                --body "Automated version bump from Changesets. Merge to publish to GitHub Packages." \
+                || echo "PR creation skipped — org policy blocks Actions from creating PRs. Open manually from changesets-release branch."
+            else
+              echo "Version PR #$EXISTING already open — branch updated"
+            fi
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "No unconsumed changesets — publishing packages"
+            npx changeset publish
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify packages published
+        if: steps.version_or_publish.outputs.published == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          echo "@one-impression:registry=https://npm.pkg.github.com" > ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}" >> ~/.npmrc
+          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui ui-native sdui-runtime mcp-server eslint-config; do
+            EXPECTED=$(jq -r .version packages/$pkg/package.json)
+            ACTUAL=$(npm view @one-impression/$pkg version 2>/dev/null || echo "MISSING")
+            if [ "$EXPECTED" != "$ACTUAL" ]; then
+              echo "::warning::@one-impression/$pkg expected $EXPECTED but registry has $ACTUAL"
+            else
+              echo "OK @one-impression/$pkg@$EXPECTED published"
+            fi
+          done

@@ -94,12 +94,12 @@ Studio-direction brand for One Impression's creator-intent platform.
 - **Brand assets**: `packages/brand-oportunities/` — logos, app icons, favicons, social templates, business cards, email signature
 - **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
 - **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
-- **Components**: 6 new composed components in `@amplify-ai/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Components**: 6 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
 
 **Composition rule**: Oportunities components compose from `tokens-foundation`
-primitives + existing `@amplify-ai/ui` primitives (Card, Avatar, Badge, etc.).
+primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.).
 **Never invent new primitives for Oportunities** — add a composed component
 that wraps existing primitives instead. If a true primitive is missing, raise
-it in `@amplify-ai/ui` first so all themes benefit.
+it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".

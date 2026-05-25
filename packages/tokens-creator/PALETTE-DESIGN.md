@@ -35,7 +35,7 @@ Three layers — and only ONE owns the semantic palette:
 |---|---|---|
 | Token values (hex/px/rem) | `amplify-design-system/packages/tokens-creator/tokens/theme-*.json` | Unchanged |
 | Token contract (regex/literal Zod schemas) | `amplify-schemas/packages/sdk-native-sdui/src/schemas/tokens.ts` | Unchanged |
-| **Semantic palette** (`textStrong → "sdui.color.text-neutral-strong"`) | **Duplicated per-handler in amplify-gateway** | **New `palette.js` export in `@amplify-ai/tokens-creator`** |
+| **Semantic palette** (`textStrong → "sdui.color.text-neutral-strong"`) | **Duplicated per-handler in amplify-gateway** | **New `palette.js` export in `@one-impression/tokens-creator`** |
 
 Theme resolution stays entirely client-side. The BFF imports the palette and emits canonical token *names*; the renderer resolves the name → theme-correct *value* at paint time. **The BFF must never know which theme is active and must never branch on theme.**
 
@@ -161,7 +161,7 @@ Add a new export path:
 Consumers import as:
 
 ```ts
-import { palette } from "@amplify-ai/tokens-creator/palette";
+import { palette } from "@one-impression/tokens-creator/palette";
 
 return sdui.pageHeader({
   title: { text: "Explore", color: palette.text.strong },
@@ -225,8 +225,8 @@ Lightweight sanity tests:
 
 2. **Per-product palettes vs single palette?**
    The org has multiple `tokens-*` packages (brand, atmosphere, creator, marketing, etc.). Each has its own theme JSONs. Question:
-   - **(a)** One palette per package — `@amplify-ai/tokens-creator/palette`, `@amplify-ai/tokens-brand/palette`, etc. — each curates the names that product's BFFs use.
-   - **(b)** Shared `@amplify-ai/sdui-palette` package — one universal palette, all themes from all packages must satisfy it.
+   - **(a)** One palette per package — `@one-impression/tokens-creator/palette`, `@one-impression/tokens-brand/palette`, etc. — each curates the names that product's BFFs use.
+   - **(b)** Shared `@one-impression/sdui-palette` package — one universal palette, all themes from all packages must satisfy it.
 
    I lean **(a)** — keeps palette scoped to its product, allows per-product semantic differences (e.g. creator's "energy" color might not exist in brand). Initial implementation adds the palette only to `tokens-creator` since that's the first consumer. Other packages get their own palette module when their consumers need one.
 
@@ -242,7 +242,7 @@ Lightweight sanity tests:
    Open: do we want to expose the token paths in a typed-union form (e.g. `type SduiColorToken = "sdui.color.text-neutral-strong" | "sdui.color.text-neutral-medium" | ...`)? If yes, that's auto-generated from the theme JSONs as a separate build step. Out of scope for the initial palette module but worth flagging as a follow-on.
 
 5. **Where does palette versioning come from?**
-   The palette's shape is part of the public API of `@amplify-ai/tokens-creator`. A breaking change (renaming `palette.text.strong` to `palette.color.text.strong`) needs a major version bump. Test #5.3 (snapshot) catches accidental breakage; intentional breaking changes go through normal package versioning.
+   The palette's shape is part of the public API of `@one-impression/tokens-creator`. A breaking change (renaming `palette.text.strong` to `palette.color.text.strong`) needs a major version bump. Test #5.3 (snapshot) catches accidental breakage; intentional breaking changes go through normal package versioning.
 
 6. **What about palette additions that DON'T resolve in a theme yet?**
    Build-time check fails. The fix order is: theme JSON gets the new token → palette gets the alias → BFFs consume. NOT: palette gets the alias → BFFs consume → theme gets backfilled (BFF ships broken in the meantime).

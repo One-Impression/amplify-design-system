@@ -1,6 +1,6 @@
-# `@amplify-ai/ui` Changelog
+# `@one-impression/ui` Changelog
 
-Per-package changelog for `@amplify-ai/ui`. The full cross-package
+Per-package changelog for `@one-impression/ui`. The full cross-package
 changelog lives at the repository root (`CHANGELOG.md`); this file
 mirrors the entries that touch this package only.
 
@@ -31,7 +31,7 @@ no breaking changes to existing primitives.
 ### Token references
 
 - All primitives consume the `--amp-studio-theme-*` + `--amp-semantic-*`
-  token surface already shipping from `@amplify-ai/tokens-studio` 1.0.2.
+  token surface already shipping from `@one-impression/tokens-studio` 1.0.2.
 - `FlowContextSidebar` references three new layout tokens (declared in
   `magic-studio/docs/mockups/OPTION_D_SPEC.md` §7 and in the sibling
   `tokens-studio` PR):
@@ -45,14 +45,14 @@ no breaking changes to existing primitives.
 
 ### Versioned
 
-- `@amplify-ai/ui`: `2.12.0` → `2.13.0`
+- `@one-impression/ui`: `2.12.0` → `2.13.0`
 
 ### Publish gating
 
-This PR does NOT publish `@amplify-ai/ui@2.13.0` to npm. Publish is
+This PR does NOT publish `@one-impression/ui@2.13.0` to npm. Publish is
 gated on the matching `tokens-studio` PR merging first so consumers
-picking up `@amplify-ai/ui` 2.13.0 alongside
-`@amplify-ai/tokens-studio` get a consistent token surface. The
+picking up `@one-impression/ui` 2.13.0 alongside
+`@one-impression/tokens-studio` get a consistent token surface. The
 orchestrating coordinator handles the sequence.
 
 ## Earlier versions

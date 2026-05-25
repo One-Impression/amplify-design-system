@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ContextMenu } from '@amplify-ai/ui';
-import type { ContextMenuItem } from '@amplify-ai/ui';
+import { ContextMenu } from '@one-impression/ui';
+import type { ContextMenuItem } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/ContextMenu',

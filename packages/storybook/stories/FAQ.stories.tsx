@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { FAQ } from '@amplify-ai/ui';
+import { FAQ } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/FAQ',

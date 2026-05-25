@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { TagComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Tag as DSTag } from "@amplify-ai/ui-native";
+import { Tag as DSTag } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

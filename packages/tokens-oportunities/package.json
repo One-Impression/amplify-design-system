@@ -1,5 +1,5 @@
 {
-  "name": "@amplify-ai/tokens-oportunities",
+  "name": "@one-impression/tokens-oportunities",
   "version": "1.0.0",
   "type": "module",
   "description": "Oportunities design tokens — Studio direction (Geist + apricot period) for the creator-intent intelligence platform",
@@ -16,7 +16,7 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@amplify-ai/tokens-foundation": "^2.1.0"
+    "@one-impression/tokens-foundation": "^2.1.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"

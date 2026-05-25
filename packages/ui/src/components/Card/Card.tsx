@@ -344,7 +344,7 @@ Card.Actions = CardActionsImpl;
 // ─── Backward-compat top-level exports ───────────────────────────────────────
 //
 // v1 of this file exported these as separate top-level symbols. Products import
-// them as `import { CardHeader, CardTitle, ... } from '@amplify-ai/ui'`. Keep
+// them as `import { CardHeader, CardTitle, ... } from '@one-impression/ui'`. Keep
 // them exported and pointed at the same implementations.
 
 export const CardHeader = CardHeaderImpl;

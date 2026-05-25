@@ -1,18 +1,18 @@
 /**
- * @amplify-ai/eslint-config — Shared ESLint flat config (recommended preset)
+ * @one-impression/eslint-config — Shared ESLint flat config (recommended preset)
  *
  * Enforces Amplify design token usage across consuming projects.
  *
  * Usage (eslint.config.js):
- *   import amplifyConfig from '@amplify-ai/eslint-config';
+ *   import amplifyConfig from '@one-impression/eslint-config';
  *   export default [...amplifyConfig];
  *
  * Or CommonJS:
- *   const amplifyConfig = require('@amplify-ai/eslint-config');
+ *   const amplifyConfig = require('@one-impression/eslint-config');
  *   module.exports = [...amplifyConfig];
  *
  * For hard CI enforcement (every violation = error), use the strict preset:
- *   import amplifyStrict from '@amplify-ai/eslint-config/strict';
+ *   import amplifyStrict from '@one-impression/eslint-config/strict';
  *   export default [...amplifyStrict];
  */
 'use strict';
@@ -27,7 +27,7 @@ const noHardcodedTypography = require('./rules/no-hardcoded-typography');
 
 const plugin = {
   meta: {
-    name: '@amplify-ai/eslint-plugin',
+    name: '@one-impression/eslint-plugin',
     version: '2.1.0',
   },
   rules: {
@@ -48,13 +48,13 @@ module.exports = [
       '@amplify-ai': plugin,
     },
     rules: {
-      '@amplify-ai/no-hardcoded-colors': 'warn',
-      '@amplify-ai/no-raw-spacing': 'warn',
-      '@amplify-ai/prefer-token-import': 'warn',
-      '@amplify-ai/no-inline-styles': 'warn',
-      '@amplify-ai/no-raw-surface': 'warn',
-      '@amplify-ai/no-hardcoded-radius': 'warn',
-      '@amplify-ai/no-hardcoded-typography': 'warn',
+      '@one-impression/no-hardcoded-colors': 'warn',
+      '@one-impression/no-raw-spacing': 'warn',
+      '@one-impression/prefer-token-import': 'warn',
+      '@one-impression/no-inline-styles': 'warn',
+      '@one-impression/no-raw-surface': 'warn',
+      '@one-impression/no-hardcoded-radius': 'warn',
+      '@one-impression/no-hardcoded-typography': 'warn',
     },
   },
 ];

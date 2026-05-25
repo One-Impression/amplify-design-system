@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AlertBanner } from '@amplify-ai/ui';
+import { AlertBanner } from '@one-impression/ui';
 
 const meta = {
   title: 'Recipes/AlertBanner',

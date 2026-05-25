@@ -1,5 +1,5 @@
 /**
- * @amplify-ai/brand-oportunities
+ * @one-impression/brand-oportunities
  * Asset path exports — resolve from package root.
  */
 
