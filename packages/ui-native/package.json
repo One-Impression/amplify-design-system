@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/ui-native",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "React Native primitives for Amplify Creator App — SDUI-driven, token-resolved components",
   "type": "module",
   "main": "dist/index.js",
