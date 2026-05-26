@@ -103,3 +103,18 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+## SDUI Runtime & ui-native — Recent Releases
+
+## SDUI Runtime & ui-native — Recent Releases
+
+### `@one-impression/sdui-runtime` 2.2.0
+
+- **`bff_call` dev identity header** — A new `useDevConfigStore` (exported from the runtime) exposes `setDevIdentity(value: string | null)`. When set, `bff_call` injects an `X-Dev-Identity` request header **only** when the BFF base URL targets `localhost` or `127.0.0.1`. The URL gate is enforced inside the runtime; production traffic is never augmented. Remove any external header-injection patches in product apps (e.g. the creator-app workaround this replaces).
+- **`PageFeedRenderer` store subscription** — On mount, `PageFeedRenderer` calls `setPageTree(page)` to sync the server-provided page tree into `usePageStore`. The FlatList reads `items` reactively via a `useShallow` selector scoped by `page.id`, falling back to the prop value when the store is unpopulated. This makes `replaceNode` and `appendItems` take effect end-to-end; infinite-scroll and section-reload now re-render the feed correctly.
+- **`resolveRenderer` graceful degradation** — Returns `null` (never `undefined`, never throws) for unregistered node types. The first occurrence of each unknown type emits a `sdui.renderer.unknown_type` telemetry event via the sink wired in `SduiRuntimeProvider`; repeated occurrences are deduplicated via an internal `Set`.
+- **`StepsRenderer` token compliance** — Active/inactive step bars now use semantic tokens `"primary"` / `"neutralWeak"` from `@one-impression/tokens-creator` instead of hardcoded hex values. Theme switching and brand cascades are now respected.
+
+### `@one-impression/ui-native` 2.0.2
+
+- **`Box` additional style props** — Now forwards `position`, `zIndex`, `opacity`, `overflow`, and individual border widths (`borderTopWidth`, `borderBottomWidth`, `borderLeftWidth`, `borderRightWidth`). Each border-width prop accepts a `BorderWidthToken` or a raw number. Previously these were silently dropped, causing absolute-positioned overlays, animated fades, and one-sided dividers emitted by SDUI handlers to render unstyled. Additive only — no existing props changed.
