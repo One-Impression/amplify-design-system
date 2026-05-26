@@ -1,5 +1,11 @@
 # @one-impression/ui-native
 
+## 2.0.1
+
+### Patch Changes
+
+- [#148](https://github.com/One-Impression/amplify-design-system/pull/148) [`9fa7a74`](https://github.com/One-Impression/amplify-design-system/commit/9fa7a74fc0a1bd2aa556fc27a280b70997159f7a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Forwards `onPress` explicitly on `DSButton` and `DSTab` props so the outer Clickable wrapper used by SDUI renderers can wire it through. The inner `<Pressable>` was swallowing taps from the outer wrapper, leaving every SDUI button and tab inert. JSDoc on both new prop declarations explains the SDUI nested-Pressable problem so future maintainers know why the prop is explicit instead of relying on `...props`.
+
 ## 2.0.0
 
 ### Major Changes

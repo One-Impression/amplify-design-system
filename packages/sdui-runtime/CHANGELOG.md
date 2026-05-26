@@ -1,5 +1,26 @@
 # @one-impression/sdui-runtime
 
+## 2.1.0
+
+### Minor Changes
+
+- [#146](https://github.com/One-Impression/amplify-design-system/pull/146) [`a5cdf99`](https://github.com/One-Impression/amplify-design-system/commit/a5cdf993ace287a0b58c83dd2425a9f326e5630a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Rewires the bottom-sheet runtime to match gorhom's imperative `BottomSheetModal` API. `useBottomSheetStore` is reorganised around `registry` / `openSheets` / `openOrder` / `contexts` with `register`, `unregister`, `open`, `close`, `closeAll` actions; reopening an already-open sheet promotes it to topmost. `BottomSheetHost` renders one `BottomSheetHostSheet` per registered sheet, each owning its own ref and calling `present()` / `dismiss()` via a `useEffect` keyed on the open flag. Page renderers (`PageStandard`, `PageFeed`, `PageStickyFooter`) and the `BottomSheet` snippet renderer pre-register on mount and unregister on unmount, so navigating away no longer leaks orphan entries. `useBottomSheetData` reads through `useShallow` for an atomic snapshot under React 18 concurrent rendering. The `sheet` action handler now calls `open(sheet_id)` (registry lookup) instead of stamping a sheet inline.
+
+- [#150](https://github.com/One-Impression/amplify-design-system/pull/150) [`00df31b`](https://github.com/One-Impression/amplify-design-system/commit/00df31b3599747f205290efbda8beec4366981f7) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Wires `Form` and `Input` together through a `FormContext` so submit-time `bff_call` actions see the latest input values. `Input` reads `data.field_name` and propagates each keystroke to `FormContext.setValue(field_name, value)`; `Form` wraps its submit button in `FormSubmitWrapper`, which intercepts the `bff_call` action and merges the ref-backed values snapshot into `payload.request_body` at click time. The merge logic + state factory are extracted into a framework-free `form-values.ts` so the contract is unit-testable without React Native. Mount-time seeding of FormContext captures refs to keep the empty-deps useEffect lint-clean. Without this, OTP entry and every form submit fired with empty bodies.
+
+- [#149](https://github.com/One-Impression/amplify-design-system/pull/149) [`0d3595f`](https://github.com/One-Impression/amplify-design-system/commit/0d3595f48bc9891a200866d8aa9d84bc5a01dd9f) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Adds `replaceNode(targetId, node)` and `appendItems(targetId, items)` methods to `usePageStore`, plus a new `page: Page | null` field with `setPageTree()`. Closes the gap where `reload_section`, `replace_section`, and `append_items` action handlers called methods that didn't exist on the store — every dispatch was silently crashing. Tree walks are immutable so unmodified siblings preserve their references for React's shallow-equality bail-out. Existing `sections`/`replaceSection`/`appendSection` API is preserved.
+
+### Patch Changes
+
+- [#145](https://github.com/One-Impression/amplify-design-system/pull/145) [`46b1e2f`](https://github.com/One-Impression/amplify-design-system/commit/46b1e2f7c1c695c73cd33184aad08c40b84f7fc2) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - The `bff_call` action handler now parses the response JSON body and dispatches `body.action` (if present) before any declared `on_success` chain. Re-enables server-driven action chaining the runtime had previously discarded — required for `append_items` on infinite scroll, post-submit navigation, and any BFF response that carries its own follow-up action. Defensive `.catch(() => null)` on the body parse tolerates non-JSON / empty responses.
+
+- [#151](https://github.com/One-Impression/amplify-design-system/pull/151) [`c7c979f`](https://github.com/One-Impression/amplify-design-system/commit/c7c979f4469dc8ca6542584c24f2f7c4498676ea) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `SduiNode` now parses node data defensively: a `ZodError` from the schema validation renders a `SduiFallback` element (dev mode shows node type + id, prod is blank) and surfaces the failure through the telemetry hook, rather than crashing the entire page. Non-Zod errors continue to propagate. Migration-period resilience — bad or stale handler emit no longer takes down the whole tree.
+
+- [#147](https://github.com/One-Impression/amplify-design-system/pull/147) [`b66dddb`](https://github.com/One-Impression/amplify-design-system/commit/b66dddbd1cd8e31e386055a3099d2c0f3debf987) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Fixes `renderMedia` to read `MediaSchema` as a nested discriminated union (`media.image.src`, `media.icon.name`, `media.image_stack`, `media.progress`) instead of treating it as a flat object. The previous flat read produced `undefined` for every valid wire payload — icons rendered blank and cover images were missing on aerobar, cards, info-rows. Pure logic is extracted into a framework-free `describeMedia` helper so the mapping is unit-testable without React Native.
+
+- Updated dependencies [[`9fa7a74`](https://github.com/One-Impression/amplify-design-system/commit/9fa7a74fc0a1bd2aa556fc27a280b70997159f7a)]:
+  - @one-impression/ui-native@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/tokens-hexcoded",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Hexcoded design tokens — Tech Green direction (Outfit + Phantom motion) for the AI content platform. Locked to Brand Book v1.0 Final (2026-05-22).",
   "main": "dist/tokens.js",
