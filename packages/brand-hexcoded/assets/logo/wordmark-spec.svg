@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" role="img" aria-label="HEXCODED wordmark specification">
+  <title>HEXCODED wordmark spec — clear-space rule (1× cap-height all sides) + bounding box (reference only)</title>
+  <defs>
+    <style>
+      .wm-text {
+        font-family: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 900;
+        font-size: 104px;
+        letter-spacing: -0.025em;
+        fill: #0B0B0F;
+      }
+      .clear-space { fill: none; stroke: #DCFCE7; stroke-width: 1; stroke-dasharray: 4 4; }
+      .bbox       { fill: none; stroke: #22C55E; stroke-width: 1; }
+      .annot      { font-family: "JetBrains Mono", monospace; font-size: 11px; fill: #86868B; }
+    </style>
+  </defs>
+  <!-- Clear-space (104px cap-height) -->
+  <rect x="16" y="36" width="848" height="208" class="clear-space"/>
+  <!-- Bounding box of the wordmark glyphs -->
+  <rect x="120" y="140" width="640" height="104" class="bbox"/>
+  <text x="120" y="104" class="wm-text">HEXCODED</text>
+  <text x="120" y="270" class="annot">cap-height 104px · clear-space 104px (1× cap-height all sides) · bbox shown</text>
+</svg>
