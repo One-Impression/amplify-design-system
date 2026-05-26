@@ -1,5 +1,22 @@
 # @one-impression/sdui-runtime
 
+## 2.2.0
+
+### Minor Changes
+
+- [#165](https://github.com/One-Impression/amplify-design-system/pull/165) [`8477de3`](https://github.com/One-Impression/amplify-design-system/commit/8477de3245435edeb38de0f47fa52c883d4227fa) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - The `bff_call` action handler now injects an `X-Dev-Identity` request header when the BFF base URL targets `localhost` or `127.0.0.1`. The header value is sourced from a new `useDevConfigStore` (exposes `setDevIdentity(value: string | null)`); when unset the header is silently skipped, and the URL gate ensures production traffic is never augmented even if the value is accidentally populated. Replaces the manual creator-app patch that injected the header from outside the runtime.
+
+### Patch Changes
+
+- [#167](https://github.com/One-Impression/amplify-design-system/pull/167) [`9552f2e`](https://github.com/One-Impression/amplify-design-system/commit/9552f2ef65309f2e10422e00f10c040bc2fc5f1a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `PageFeedRenderer` now subscribes to `usePageStore` for its `items` data so `replaceNode` and `appendItems` (added in [#149](https://github.com/One-Impression/amplify-design-system/issues/149)) take effect end-to-end. On mount the renderer syncs the server-provided page tree into the store via `setPageTree(page)`; the FlatList then reads `items` reactively with a `useShallow` selector scoped by `page.id`, falling back to the prop value when the store hasn't been populated yet or holds a different page. Without this, infinite-scroll `append_items` and section reload were updating the store but never re-rendering the feed.
+
+- [#166](https://github.com/One-Impression/amplify-design-system/pull/166) [`2cc554a`](https://github.com/One-Impression/amplify-design-system/commit/2cc554aa42e8ced90acb987b3360e1b1594c0283) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `resolveRenderer` now returns `null` (not `undefined`, never throws) when a node type isn't registered, so one bad node degrades gracefully instead of taking down the page. The first occurrence of each unknown type emits `sdui.renderer.unknown_type` through the telemetry sink wired by `SduiRuntimeProvider`; subsequent occurrences are silenced via an internal `Set` to avoid flooding telemetry. Sibling pattern to `SduiNode`'s defensive `ZodError` handling.
+
+- [#168](https://github.com/One-Impression/amplify-design-system/pull/168) [`1b14c96`](https://github.com/One-Impression/amplify-design-system/commit/1b14c965574291a85b13620b2d659e1f965088ca) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `StepsRenderer` no longer hardcodes `#6531FF` / `#E0E0E0` for the active and inactive step bars. It now passes the semantic tokens `"primary"` and `"neutralWeak"` (from `@one-impression/tokens-creator`) to the `Box` `bg` prop, so the step indicator respects theme switching and brand cascades instead of bypassing the token system.
+
+- Updated dependencies [[`4e62f87`](https://github.com/One-Impression/amplify-design-system/commit/4e62f877281043d7ec00ea360450fde2cd454d8c)]:
+  - @one-impression/ui-native@2.0.2
+
 ## 2.1.0
 
 ### Minor Changes

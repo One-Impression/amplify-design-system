@@ -1,5 +1,11 @@
 # @one-impression/ui-native
 
+## 2.0.2
+
+### Patch Changes
+
+- [#169](https://github.com/One-Impression/amplify-design-system/pull/169) [`4e62f87`](https://github.com/One-Impression/amplify-design-system/commit/4e62f877281043d7ec00ea360450fde2cd454d8c) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `Box` now forwards five additional React Native style props that were previously silently dropped: `position`, `zIndex`, `opacity`, `overflow`, and the four individual border widths (`borderTopWidth`, `borderBottomWidth`, `borderLeftWidth`, `borderRightWidth`, all of which accept either a `BorderWidthToken` or a raw number). SDUI handlers emit these on Box nodes for absolute-positioned overlays, animated fades, and one-sided dividers — without forwarding, those layouts rendered without their styling. Additive only — existing props are untouched.
+
 ## 2.0.1
 
 ### Patch Changes
