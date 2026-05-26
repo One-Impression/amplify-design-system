@@ -20,28 +20,34 @@ interface PageProps {
  */
 export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const actionEngine = useActionEngine();
-  const bottomSheetStore = useBottomSheetStore();
+  const register = useBottomSheetStore((s) => s.register);
+  const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
 
-  // Register inline bottom sheets so sheet actions can open them later
+  // Register inline bottom sheets so sheet actions can open them later.
+  // Sheets are pre-registered (not opened) — the sheet action handler
+  // resolves them from the store registry by id. The cleanup path
+  // unregisters them on page unmount so navigating away does not leave
+  // orphan entries in the registry.
   useEffect(() => {
-    if (page.bottom_sheets) {
-      for (const sheet of page.bottom_sheets) {
-        // Sheets are pre-registered in the store keyed by their id.
-        // The sheet action handler resolves them from this store.
-        bottomSheetStore.open({
-          id: sheet.id,
-          title: sheet.title,
-          size: sheet.size ?? "medium",
-          items: sheet.items ?? [],
-          on_dismiss: sheet.on_dismiss,
-          on_open: sheet.on_open,
-        });
-        // Immediately close — we only need them registered, not visible.
-        bottomSheetStore.close(sheet.id);
-      }
+    if (!page.bottom_sheets) return;
+    for (const sheet of page.bottom_sheets) {
+      register(sheet.id, {
+        id: sheet.id,
+        title: sheet.title,
+        size: sheet.size ?? "medium",
+        items: sheet.items ?? [],
+        on_dismiss: sheet.on_dismiss,
+        on_open: sheet.on_open,
+      });
     }
-  }, [page.bottom_sheets, bottomSheetStore]);
+    return () => {
+      if (!page.bottom_sheets) return;
+      for (const sheet of page.bottom_sheets) {
+        unregister(sheet.id);
+      }
+    };
+  }, [page.bottom_sheets, register, unregister]);
 
   // Page lifecycle: on_load / on_dismount
   useEffect(() => {
