@@ -52,6 +52,12 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native components. `Box` is the core layout primitive; accepts token-backed
+                        props for spacing, radius, border, flex, dimensions, plus `position`, `zIndex`,
+                        `opacity`, `overflow`, and individual border widths (`borderTopWidth`,
+                        `borderBottomWidth`, `borderLeftWidth`, `borderRightWidth` — each accepts a
+                        `BorderWidthToken` or raw number). New props are forwarded to the underlying
+                        View style; unset props do not leak onto the View.
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
