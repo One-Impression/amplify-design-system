@@ -38,7 +38,11 @@
       "offset-strong":   { "$value": "{color.stone.200}" },
       "offset-medium":   { "$value": "#F1F6FE" },
       "offset-weak":     { "$value": "#F6FAFF" },
-      "transparent":     { "$value": "transparent" }
+      "transparent":     { "$value": "transparent" },
+      "gradient-home-start": { "$value": "#E2E7FE", "$description": "Home page background gradient — start anchor (top)" },
+      "gradient-home-mid-1": { "$value": "#DEE2FE", "$description": "Home page background gradient — first mid anchor" },
+      "gradient-home-mid-2": { "$value": "#EBF9FF", "$description": "Home page background gradient — second mid anchor" },
+      "gradient-home-end":   { "$value": "#FFFFFF", "$description": "Home page background gradient — end anchor (bottom)" }
     },
     "spacing": {
       "$type": "dimension",
