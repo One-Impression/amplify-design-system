@@ -57,22 +57,27 @@ function BottomSheetRegistrar({
   items: unknown[];
   apiEndpoint?: string;
 }): React.ReactElement | null {
-  const open = useBottomSheetStore((s) => s.open);
-  const close = useBottomSheetStore((s) => s.close);
+  const register = useBottomSheetStore((s) => s.register);
+
+  const unregister = useBottomSheetStore((s) => s.unregister);
 
   useEffect(() => {
-    open({
+    // Re-registration is idempotent (the store overwrites by id), so
+    // honoring prop changes here keeps the registry in sync if the
+    // hosting page re-renders with new sheet data.
+    register(id, {
       id,
       title,
       size,
-      items,
+      items: items as Node[],
     });
-
+    // Cleanup on unmount removes the entry so navigating away does
+    // not leave a stale sheet registered (and so the host stops
+    // rendering its BottomSheetHostSheet child).
     return () => {
-      close(id);
+      unregister(id);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id, title, size, items, register, unregister]);
 
   // This renderer does not render inline — the BottomSheetHost handles display.
   return null;

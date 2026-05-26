@@ -19,6 +19,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
       iconPosition = 'left',
       children,
       style,
+      onPress,
       ...props
     },
     ref,
@@ -45,6 +46,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
           isDisabled && styles.disabled,
           style,
         ]}
+        onPress={onPress}
         {...props}
       >
         {loading ? (
