@@ -18,6 +18,8 @@ export { Fallback } from "./interpreter/index.js";
 // ── HOCs ──
 export { Clickable } from "./clickable/index.js";
 export { Viewable } from "./viewable/index.js";
+export { Gradient } from "./gradient/index.js";
+export type { GradientItem } from "./gradient/index.js";
 
 // ── Action engine ──
 export { createActionEngine, useActionEngine, ActionEngineContext } from "./action-engine/index.js";
