@@ -34,7 +34,7 @@
     "build": "tsup && tsc --emitDeclarationOnly --noCheck",
     "dev": "tsup --watch",
     "lint": "eslint src/",
-    "test": "tsx --test src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts src/bottom-sheet/__tests__/*.test.ts src/snippets/_shared/__tests__/*.test.ts src/state/__tests__/*.test.ts src/snippets/Form/__tests__/*.test.ts src/sdui-node/__tests__/*.test.ts"
+    "test": "tsx --test src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts src/bottom-sheet/__tests__/*.test.ts src/snippets/_shared/__tests__/*.test.ts src/state/__tests__/*.test.ts src/snippets/Form/__tests__/*.test.ts src/sdui-node/__tests__/*.test.ts src/interpreter/__tests__/*.test.ts"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
