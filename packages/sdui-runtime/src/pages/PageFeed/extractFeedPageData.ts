@@ -11,6 +11,7 @@ import type { GradientItem } from "../../gradient/index.js";
  * shape. Once the upstream types catch up the cast becomes a no-op.
  */
 export interface FeedPageData {
+  header?: Node;
   filters?: Node[];
   on_load_more?: Action;
   loader?: Node;

@@ -67,11 +67,24 @@ test("reads footer slot", () => {
   assert.equal(out.footer?.type, "creator.snippet.tabs_footer");
 });
 
-test("missing config + footer leaves them undefined (no regression)", () => {
+test("reads header slot (sticky top region, distinct from items)", () => {
+  const out = extractFeedPageData({
+    header: {
+      id: "home-header",
+      type: "creator.ui_component.search_bar",
+      data: { placeholder: { text: "Search" } },
+    },
+  });
+  assert.equal(out.header?.id, "home-header");
+  assert.equal(out.header?.type, "creator.ui_component.search_bar");
+});
+
+test("missing config + footer + header leaves them undefined (no regression)", () => {
   const out = extractFeedPageData({
     filters: [],
     loader: { id: "l", type: "creator.snippet.loader", data: {} },
   });
   assert.equal(out.config, undefined);
   assert.equal(out.footer, undefined);
+  assert.equal(out.header, undefined);
 });

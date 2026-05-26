@@ -34,6 +34,14 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
   },
+  /**
+   * Sticky top header region — rendered above the scrolling body, distinct
+   * from `items`. Legacy PageType3 keeps `header` (searchBar / profileHeader)
+   * outside the scroll view so it stays pinned.
+   */
+  header: {
+    width: "100%",
+  },
   /** Body column that scrolls (FlatList) — sits above the gradient. */
   body: {
     flex: 1,
@@ -95,7 +103,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const loadingMoreRef = useRef(false);
 
   const pageData = extractFeedPageData(page.data);
-  const { filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
+  const { header, filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
     pageData;
   const gradient = config?.gradient as GradientItem | undefined;
   const bgColorToken = config?.bg_color?.type;
@@ -253,6 +261,14 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   return (
     <View style={containerStyle}>
       {gradient ? <Gradient item={gradient} /> : null}
+      {/* Sticky top region above the scrolling body — distinct from `items`.
+          Legacy pageType3 renders `header` (searchBar / profileHeader) outside
+          the scroll view so it stays pinned. */}
+      {header ? (
+        <View style={styles.header}>
+          <Interpreter node={header} />
+        </View>
+      ) : null}
       <View style={styles.body}>
         <FlatList
           data={items}
