@@ -24,7 +24,7 @@ export function StepsRenderer(node: Node): React.ReactElement {
               <Box
                 height={4}
                 rounded={2}
-                bg={i < v.current ? "#6531FF" : "#E0E0E0"}
+                bg={i < v.current ? "primary" : "neutralWeak"}
               />
               {v.labels?.[i] && (
                 <Text
