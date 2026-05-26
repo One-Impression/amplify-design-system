@@ -77,6 +77,42 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — PageFeed & Gradient
+
+## SDUI Runtime — PageFeed & Gradient
+
+`packages/sdui-runtime/` contains the SDUI page/snippet rendering runtime for React Native products.
+
+### PageFeed renderer (`src/pages/PageFeed/`)
+
+The `PageFeedRenderer` matches legacy `PageType3` visual hierarchy. It reads optional fields from `page.data` via `extractFeedPageData(page.data)` (a type-safe cast helper; becomes a no-op once `@one-impression/sdk-native-sdui` republishes with the full schema).
+
+| `page.data` field | Behaviour |
+|---|---|
+| `config.gradient` | Absolute-positioned gradient backdrop rendered behind the scroll body |
+| `config.bg_color.type` | Solid token-name background when no gradient is present |
+| `config.scroll_header_color.type` | Tints the filter-chips bar background after the user has scrolled (binary toggle) |
+| `header` | Single SDUI Node pinned **above** the FlatList (sticky; does not scroll) |
+| `filters` | Horizontal filter chip nodes rendered as FlatList header |
+| `footer` | Single SDUI Node pinned **below** the FlatList (does not scroll); designed for `creator.snippet.tabs_footer` |
+| `on_load_more`, `loader`, `empty_state` | Unchanged from previous behaviour |
+
+### `Gradient` component (`src/gradient/`)
+
+Exported from `@one-impression/sdui-runtime` as a reusable primitive for any renderer that needs a gradient backdrop.
+
+- Uses `react-native-linear-gradient` when the **host app** has it installed (optional peer dep — **not** declared in `package.json`).
+- Falls back to a solid first-color `View` when the native dep is absent — no JS error, visual hierarchy preserved.
+- `LinearGradient` module resolution is hoisted to **module scope** (resolved once at import time, not per render).
+- Accepts a `GradientItem` prop: `{ angle: number; colors: string[]; screen_portion?: number }`.
+- `angle` follows CSS convention (0 = up, 90 = right, 180 = down) and is converted to RN `start`/`end` coords internally.
+
+### Tests
+
+PageFeed tests live in `src/pages/PageFeed/__tests__/` and are included in the `npm test` command in `packages/sdui-runtime/package.json`.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
