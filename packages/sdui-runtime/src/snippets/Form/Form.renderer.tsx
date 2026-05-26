@@ -1,16 +1,16 @@
 import React, { createContext, useContext, useRef, useCallback } from "react";
+import { Pressable } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { FormSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Stack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+import { mergeFormValuesIntoAction } from "./form-values.js";
+import type { FormState } from "./form-values.js";
 
-interface FormState {
-  values: Record<string, unknown>;
-  setValue: (key: string, value: unknown) => void;
-  getValues: () => Record<string, unknown>;
-}
+export { mergeFormValuesIntoAction } from "./form-values.js";
+export type { FormState } from "./form-values.js";
 
 export const FormContext = createContext<FormState>({
   values: {},
@@ -49,8 +49,11 @@ function FormInner({
   fields: Node[];
   submitButton?: Node;
 }): React.ReactElement {
+  // Ref-backed values store — avoids re-rendering the whole Form
+  // (and every controlled Input) on every keystroke. Inputs read
+  // their local UI state from their own useState; FormContext just
+  // collects the latest snapshot for submit-time merge.
   const valuesRef = useRef<Record<string, unknown>>({});
-  const actionEngine = useActionEngine();
 
   const setValue = useCallback((key: string, value: unknown) => {
     valuesRef.current[key] = value;
@@ -74,10 +77,55 @@ function FormInner({
         </Stack>
         {submitButton && (
           <Box paddingTop={16}>
-            <Interpreter node={submitButton} />
+            <FormSubmitWrapper
+              submitButton={submitButton}
+              getValues={getValues}
+            />
           </Box>
         )}
       </Box>
     </FormContext.Provider>
   );
 }
+
+/**
+ * FormSubmitWrapper — intercepts the submit button's `on_click` so that
+ * at click time we merge `getValues()` into a `bff_call` action's
+ * `payload.request_body`. The button's own dispatch chain is removed
+ * from the rendered node (so the inner Clickable becomes a no-op) and
+ * we dispatch the transformed action from this outer Pressable.
+ *
+ * For non-bff_call actions, the original action is dispatched as-is.
+ * When the button has no `on_click` (rare — typically misconfigured),
+ * rendering falls through unchanged.
+ */
+export function FormSubmitWrapper({
+  submitButton,
+  getValues,
+}: {
+  submitButton: Node;
+  getValues: () => Record<string, unknown>;
+}): React.ReactElement {
+  const actionEngine = useActionEngine();
+  const onClick = submitButton.on_click;
+
+  if (!onClick) {
+    return <Interpreter node={submitButton} />;
+  }
+
+  // Clone with on_click stripped — the inner SduiNode/Clickable should
+  // not also fire the action; we own dispatch here.
+  const buttonWithoutClick: Node = { ...submitButton, on_click: undefined };
+
+  const handlePress = (): void => {
+    const merged = mergeFormValuesIntoAction(onClick, getValues());
+    actionEngine.dispatch(merged);
+  };
+
+  return (
+    <Pressable onPress={handlePress} accessibilityRole="button">
+      <Interpreter node={buttonWithoutClick} />
+    </Pressable>
+  );
+}
+
