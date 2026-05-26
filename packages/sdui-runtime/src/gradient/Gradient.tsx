@@ -48,6 +48,12 @@ function loadLinearGradient(): React.ComponentType<{
   }
 }
 
+// Resolve the optional native module once at import time. The native binding
+// is either linked or it isn't for the lifetime of the JS bundle — calling
+// the loader per-render would add a try/catch + module-registry lookup on
+// every paint cycle, which RN's registry lookup is not free.
+const LinearGradient = loadLinearGradient();
+
 /**
  * Convert a CSS-style angle (0 = up, 90 = right, 180 = down) into
  * `start` / `end` unit-space coords expected by `react-native-linear-gradient`.
@@ -82,7 +88,6 @@ export function Gradient({ item }: GradientProps): React.ReactElement | null {
   if (!item || !item.colors || item.colors.length === 0) return null;
 
   const { angle, colors, screen_portion } = item;
-  const LinearGradient = loadLinearGradient();
 
   if (LinearGradient) {
     const locations = colors.map((_, i) =>

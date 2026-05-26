@@ -242,9 +242,8 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   // - When a gradient is present the gradient itself paints the backdrop.
   // - Else if a token bg_color was provided we apply it as a solid fill.
   // - Else: fall back to default transparent (host page / theme decides).
-  const containerStyle = gradient
-    ? styles.outer
-    : bgColorToken
+  const containerStyle =
+    !gradient && bgColorToken
       ? [styles.outer, { backgroundColor: bgColorToken }]
       : styles.outer;
 
