@@ -77,6 +77,27 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Form + Input Wiring
+
+## SDUI Form + Input Wiring
+
+The `Form` and `Input` snippets in `packages/sdui-runtime` are wired together through `FormContext` so that `bff_call` submit actions receive the latest user-entered values.
+
+**Key files:**
+- `src/snippets/Form/form-values.ts` — framework-free `mergeFormValuesIntoAction`, `createFormState`, `FormState` interface
+- `src/snippets/Form/Form.renderer.tsx` — `FormContext` (ref-backed), `FormSubmitWrapper`
+- `src/ui_components/Input/Input.renderer.tsx` — `InputInner` with local `useState` + `FormContext` propagation
+
+**`field_name` extension field**: `Input` reads `data.field_name` off the raw node *before* schema validation (the strict zod schema strips unknown keys). When set, each keystroke calls `formCtx.setValue(field_name, value)`. When absent, the Input behaves as a stand-alone controlled input — nothing writes to `FormContext`.
+
+**Submit flow**: `FormSubmitWrapper` wraps the submit button, strips its own `on_click`, and at click time calls `mergeFormValuesIntoAction(onClick, getValues())`. For `bff_call` actions this merges the ref-backed values snapshot into `payload.request_body` (form values overlay existing keys). Non-`bff_call` actions pass through unchanged.
+
+**Ref-backed state**: `FormContext` stores values in a `useRef` — not `useState` — so keystrokes do not re-render the whole Form. `InputInner` manages its own `useState` for cursor stability, and seeds `FormContext` with the server-provided `data.value` on mount via a ref-captured `useEffect` (empty deps, no lint suppression needed).
+
+**Unit tests**: `src/snippets/Form/__tests__/form-values.test.ts` covers the full contract (setValue/getValues propagation, merge logic, overlay behaviour, pass-through for non-bff_call) without a React Native runtime.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
