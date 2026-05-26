@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/AppIcon" />
+
+# Hexcoded — App Icon
+
+The home-screen presence. **HEX** (three-letter monogram) on `#0B0B0F` with
+breathing green Phantom shadow — canonical per L08/L09.
+
+> The dark variant is canonical. At 16px the shadow can't render — use the
+> `H` fallback favicon at that scale instead.
+
+---
+
+## Canonical — Dark (HEX on black with Phantom shadow)
+
+<div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', padding: 32, background: '#15151B', borderRadius: 12 }}>
+  {[40, 64, 96, 128, 192].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#0B0B0F', borderRadius: size * 0.2237, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: size >= 96 ? '0 8px 24px rgba(0,0,0,0.5)' : 'none', position: 'relative' }}>
+        <svg viewBox="0 0 180 180" style={{ width: size * 0.85, height: size * 0.85 }}>
+          <text x="92" y="122" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="98" letterSpacing="-0.025em" textAnchor="middle" fill="#22C55E" opacity="0.55">HEX</text>
+          <text x="91" y="121" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="98" letterSpacing="-0.025em" textAnchor="middle" fill="#22C55E" opacity="0.85">HEX</text>
+          <text x="90" y="120" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="98" letterSpacing="-0.025em" textAnchor="middle" fill="#FFFFFF">HEX</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Light variant — HEX on cream
+
+<div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', padding: 32, background: '#F5F5F7', borderRadius: 12 }}>
+  {[40, 64, 96, 128, 192].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#FAFAFA', borderRadius: size * 0.2237, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.04)', boxShadow: size >= 96 ? '0 8px 24px rgba(0,0,0,0.06)' : 'none' }}>
+        <svg viewBox="0 0 180 180" style={{ width: size * 0.85, height: size * 0.85 }}>
+          <text x="90" y="120" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="98" letterSpacing="-0.025em" textAnchor="middle" fill="#0B0B0F">HEX</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Spec
+
+| Property | Value |
+|---|---|
+| Glyph | `HEX` (three letters) |
+| Typeface | Outfit 900 |
+| Tracking | `-0.025em` |
+| Background (dark canonical) | `#0B0B0F` |
+| Background (light) | `#FAFAFA` |
+| Shadow | Tech Green stepped, breathes on 3s cycle |
+| Corner radius | `22.37%` of canvas (iOS-native squircle) |
+| Safe-zone (maskable) | 80% of canvas |
+| Fallback at 16px | `H` (single letter, see Favicon) |
+
+---
+
+## Available assets
+
+| Asset | Use case |
+|---|---|
+| `app-icon-dark-1024.svg` | **Canonical**. App stores, marketing, OOH |
+| `app-icon-dark-180.svg` | iOS touch icon (`apple-touch-icon`) |
+| `app-icon-light-1024.svg` | Light-mode home screen / brand asset |
+| `app-icon-light-180.svg` | Light-mode iOS touch icon |
+| `pwa-maskable-icon-512.svg` | PWA manifest (`purpose="maskable"`, 80% safe-zone) |
+| `app-icon-spec.svg` | Reference: squircle r=22.37%, safe-zone, glyph alignment |
+
+All paths exported from `@one-impression/brand-hexcoded` → `appIcon`.

@@ -1,0 +1,85 @@
+/* ──────────────────────────────────────────────────────────────────
+ * Hexcoded theme — Storybook stub.
+ *
+ * Mirrors the CSS variables that @one-impression/tokens-hexcoded/css
+ * publishes from tokens/theme-light.json + tokens/theme-dark.json.
+ *
+ * This stub exists so the Storybook theme switcher renders the
+ * Hexcoded surface even before tokens-hexcoded is built.
+ * When the package is built, you can swap this file for an
+ * `@import` of the real dist artifact.
+ * ────────────────────────────────────────────────────────────── */
+
+:root[data-theme='hexcoded'] {
+  /* color — light (default) */
+  --color-bg: #FAFAFA;
+  --color-bg-elev: #FFFFFF;
+  --color-bg-soft: #F5F5F7;
+
+  --color-accent: #22C55E;
+  --color-accent-deep: #16A34A;
+  --color-accent-light: #86EFAC;
+  --color-accent-whisper: #DCFCE7;
+
+  --color-text-primary: #0B0B0F;
+  --color-text-secondary: #3B3B42;
+  --color-text-tertiary: #86868B;
+
+  --color-border: #E5E5EA;
+
+  /* status — L19 */
+  --color-status-success: #22C55E;
+  --color-status-warning: #FBBF24;
+  --color-status-danger: #EF4444;
+  --color-status-info: #0EA5E9;
+
+  /* typography — L05 */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, monospace;
+
+  --letter-spacing-tight: -0.025em;
+  --weight-display: 900;
+  --weight-body-default: 400;
+  --weight-body-emphasis: 500;
+
+  /* motion — L04 */
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-d-fast: 120ms;
+  --motion-d-base: 200ms;
+  --motion-d-slow: 320ms;
+}
+
+:root[data-theme='hexcoded'][data-mode='dark'] {
+  --color-bg: #0B0B0F;
+  --color-bg-elev: #1C1C22;
+  --color-bg-soft: #15151B;
+
+  /* accent is CONSTANT across modes (brand is constant; only surfaces invert) */
+  --color-accent: #22C55E;
+  --color-accent-deep: #16A34A;
+  --color-accent-light: #86EFAC;
+  --color-accent-whisper: #DCFCE7;
+
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #C8C8CD;
+  --color-text-tertiary: #86868B;
+
+  --color-border: #2C2C30;
+}
+
+/* Phantom keyframe — the brand's only canonical animation (L01).
+   Used by HEXCODED wordmark surfaces. Scales by --phantom-opacity custom prop. */
+@keyframes hexcoded-phantom-breath {
+  0%, 100% { opacity: var(--phantom-opacity, 0.85); }
+  50%      { opacity: calc(var(--phantom-opacity, 0.85) * 0.4); }
+}
+
+/* Paint the Storybook canvas to match the Hexcoded surface */
+:root[data-theme='hexcoded'] body,
+:root[data-theme='hexcoded'] .docs-story,
+:root[data-theme='hexcoded'] .sb-show-main {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}

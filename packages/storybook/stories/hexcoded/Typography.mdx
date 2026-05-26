@@ -1,0 +1,93 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/Typography" />
+
+# Hexcoded — Typography
+
+Three-font stack. **Outfit** for display + the wordmark (the signature, always weight 900).
+**Inter** for body + UI. **JetBrains Mono** for numbers, code, and data — anywhere precision matters.
+
+> Pairing rule: Outfit for moments of brand presence; Inter everywhere else;
+> JetBrains Mono only for numerical/system data.
+
+---
+
+## Outfit — Display Scale (always weight 900)
+
+Letter-spacing `-0.025em` on display sizes (≥40px). Use for the wordmark, hero headlines,
+section headers, and any "this is the brand speaking" moment.
+
+<div style={{ display: 'grid', gap: 16, padding: 24, background: '#FAFAFA', borderRadius: 8, border: '1px solid #E5E5EA' }}>
+  {[
+    { size: 104, label: 'wordmark · 104/900 (canonical)' },
+    { size: 72,  label: 'display-1 · 72/900' },
+    { size: 56,  label: 'display-2 · 56/900' },
+    { size: 40,  label: 'h1 · 40/900' },
+    { size: 32,  label: 'h2 · 32/700' },
+    { size: 24,  label: 'h3 · 24/700' },
+    { size: 18,  label: 'h4 · 18/700' },
+  ].map((s) => (
+    <div key={s.label}>
+      <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: s.size >= 40 ? 900 : 700, fontSize: s.size, letterSpacing: '-0.025em', color: '#0B0B0F', lineHeight: 1.1 }}>HEXCODED</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 4 }}>{s.label}</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Inter — Body Scale (weight 400 default · 500 emphasis)
+
+<div style={{ display: 'grid', gap: 12, padding: 24, background: '#FAFAFA', borderRadius: 8, border: '1px solid #E5E5EA' }}>
+  {[
+    { size: 18, w: 400, label: 'body-lg · 18/400' },
+    { size: 16, w: 400, label: 'body · 16/400' },
+    { size: 16, w: 500, label: 'body-emphasis · 16/500' },
+    { size: 14, w: 400, label: 'body-sm · 14/400' },
+    { size: 13, w: 500, label: 'label · 13/500' },
+    { size: 12, w: 400, label: 'caption · 12/400' },
+  ].map((s) => (
+    <div key={s.label}>
+      <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', fontWeight: s.w, fontSize: s.size, color: '#0B0B0F', lineHeight: 1.5 }}>
+        Take a brief. Get a campaign. Reels, statics, carousels, copy, captions, thumbnails — generated from one brief.
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 4 }}>{s.label}</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## JetBrains Mono — Data Scale
+
+For: prices · counts · timestamps · IDs · code · CLI output · any value where alignment matters.
+
+<div style={{ display: 'grid', gap: 12, padding: 24, background: '#FAFAFA', borderRadius: 8, border: '1px solid #E5E5EA' }}>
+  {[
+    { size: 24, w: 700, label: 'data-display · 24/700', sample: '4,250 / 7,500 credits' },
+    { size: 18, w: 500, label: 'data · 18/500',         sample: '₹14,999 / mo' },
+    { size: 14, w: 400, label: 'data-sm · 14/400',      sample: 'brief_id: hxc_2k8b3p1' },
+    { size: 12, w: 400, label: 'data-xs · 12/400',      sample: '2026-05-26T15:55:18Z' },
+  ].map((s) => (
+    <div key={s.label}>
+      <div style={{ fontFamily: 'JetBrains Mono, SFMono-Regular, monospace', fontWeight: s.w, fontSize: s.size, color: '#0B0B0F' }}>{s.sample}</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 4 }}>{s.label}</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Pairing rules
+
+| Context | Typeface |
+|---|---|
+| Wordmark, hero headlines | Outfit 900, `-0.025em` |
+| Section headers | Outfit 700 |
+| Body copy, UI text, paragraphs | Inter 400 |
+| Field labels, button text, emphasis | Inter 500 |
+| Prices, dates, IDs, counts | JetBrains Mono 400/500 |
+| Code blocks, CLI, raw data | JetBrains Mono 400 |
+
+Do not mix Outfit and Inter on the same line. Do not use Outfit below 18px (loses
+its signature weight). Do not use JetBrains Mono for prose.
