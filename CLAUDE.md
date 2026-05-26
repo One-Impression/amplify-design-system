@@ -77,6 +77,26 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — Defensive Node Parsing
+
+## SDUI Runtime — Defensive Node Parsing
+
+`@one-impression/sdui-runtime` (`packages/sdui-runtime/`) contains the SDUI interpreter. Key behaviours added in #151:
+
+- **`parseNodeData(schema, data)`** — defensive wrapper around `schema.parse()`. Returns a discriminated `ParseResult<T>` (`{ ok: true, value }` or `{ ok: false, error: ZodError }`). Non-Zod errors are re-thrown (real bugs must not be silenced).
+- **`SduiNode`** — now accepts an optional `type` prop (node type string, e.g. `"snippet.info_row"`). On a `ZodError` it renders `<SduiFallback>` and emits `sdui.node.parse_error` telemetry (`{ id, type, error: message }`); on success it emits `sdui.node.rendered` with `{ id, type }`. Lifecycle actions (`on_load`, `on_view`, `on_dismount`) are **skipped** on a failed parse.
+- **`SduiFallback`** — now accepts `nodeId`, `nodeType`, and `error` props. In dev (`__DEV__` / `NODE_ENV !== 'production'`) it renders a dashed-red placeholder showing the failing node label and error message. In production it remains an empty `<View />`.
+
+**When extending `SduiNode`**: always pass `type` so telemetry and dev fallbacks are labelled correctly.
+
+**Telemetry events emitted by `SduiNode`**:
+| Event | When |
+|---|---|
+| `sdui.node.rendered` | Successful parse + mount |
+| `sdui.node.parse_error` | `ZodError` from schema validation |
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
