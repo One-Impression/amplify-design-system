@@ -51,11 +51,19 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+    tokens/theme-light.json & theme-dark.json — sdui.color namespace includes:
+      gradient-home-start (#E2E7FE), gradient-home-mid-1 (#DEE2FE),
+      gradient-home-mid-2 (#EBF9FF), gradient-home-end (#FFFFFF)
+      Dark theme mirrors light values (home gradient is brand-fixed, not dark-mode-inverted).
+      CSS vars: --amp-creator-sdui-color-gradient-home-{start,mid-1,mid-2,end}
+      Native (camelCase): gradientHomeStart, gradientHomeMid1, gradientHomeMid2, gradientHomeEnd
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**Pattern**: When a consumer hardcodes raw hex literals for a repeating UI motif (e.g. page background gradients), promote the values to named tokens in `tokens-creator` (both `theme-light.json` and `theme-dark.json`) so brand cascades and theme switching work correctly. Do not add new primitives to `tokens-foundation` unless the value is truly theme-agnostic.
 
 ## Token File Format
 
