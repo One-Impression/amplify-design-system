@@ -1,5 +1,30 @@
 # @one-impression/sdui-runtime
 
+## 2.2.1
+
+### Patch Changes
+
+- [#177](https://github.com/One-Impression/amplify-design-system/pull/177) [`d5c6678`](https://github.com/One-Impression/amplify-design-system/commit/d5c6678c5cdb6836bf02026a5f5147046d023e0a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - PageFeed renderer now reads `data.config` (gradient / bg_color / scroll_header_color) and `data.footer` to match the legacy PageType3 visual hierarchy:
+  - `config.gradient` — absolute-positioned gradient backdrop. Uses `react-native-linear-gradient` when the host app installs it (optional peer); falls back to a solid first-color View otherwise so the runtime still works without the native dep.
+  - `config.bg_color.type` — solid token-name background when no gradient is provided.
+  - `config.scroll_header_color.type` — header tint applied to the filters bar once the user has scrolled (binary toggle; legacy uses an interpolated animation).
+  - `data.footer` — a single SDUI Node rendered pinned at the bottom of the page, OUTSIDE the FlatList, so it does not scroll with the body. Designed for `creator.snippet.tabs_footer` on the home page.
+
+  Existing `filters`, `loader`, `empty_state`, and `on_load_more` behavior is unchanged.
+
+  Also exports a new `Gradient` component (`@one-impression/sdui-runtime`) for renderers that want to reuse the same gradient backdrop primitive.
+
+  The matching `config` / `footer` schema fields are added on the upstream `@one-impression/sdk-native-sdui` PageFeed schema; until that package republishes, the renderer reads them through an `extractFeedPageData` helper that casts `page.data` to the augmented shape.
+
+- [#178](https://github.com/One-Impression/amplify-design-system/pull/178) [`c92de1f`](https://github.com/One-Impression/amplify-design-system/commit/c92de1f1918c64a43df9614db9d0eb7a94c499a8) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `TabsFooter` renderer is now legacy-faithful and supports active-index styling:
+  - Renders each tab Node in an equal-width slot (`flex: 1` per tab), matching legacy `TabsFooterSnippetType1.styles.ts`.
+  - Adds the top border + soft top-edge shadow from the legacy snippet so the footer reads as a pinned bottom navigation.
+  - Reads `data.active_index` and overrides each tab Node's `data.active` flag accordingly — the inner `Tab` renderer (`creator.ui_component.tab`) already paints the active state via `data.active`, so the active tab gets the primary-color tint automatically.
+  - `on_click` is dispatched per-tab via the existing Tab → `SduiNode` → `Clickable` chain — no extra wrapping layer here. Producers can therefore keep all per-tab navigation/state mutations on the Tab Node itself.
+  - Active-index override is non-mutating: tabs without `active_index` keep their producer-supplied `data.active`.
+
+  Designed to live inside the new `PageFeed` `data.footer` slot for the home page bottom-tabs use case.
+
 ## 2.2.0
 
 ### Minor Changes

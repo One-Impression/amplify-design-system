@@ -1,5 +1,11 @@
 # @one-impression/tokens-creator
 
+## 3.1.0
+
+### Minor Changes
+
+- [#176](https://github.com/One-Impression/amplify-design-system/pull/176) [`44895cc`](https://github.com/One-Impression/amplify-design-system/commit/44895cc89db278d64dcf0456faa30a49ba26a936) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Add four gradient anchor color tokens for the home page background: `gradientHomeStart` (`#E2E7FE`), `gradientHomeMid1` (`#DEE2FE`), `gradientHomeMid2` (`#EBF9FF`), and `gradientHomeEnd` (`#FFFFFF`). These mirror the legacy hex values used in the home page `pageConfig.gradient.colors` and unblock a legacy-faithful SDUI rebuild that currently bypasses the token system with raw hex literals. Purely additive — no existing token names or values change — and the names are reusable across any future page that wants a similar light-violet → off-white background ramp.
+
 ## 3.0.0
 
 ### Major Changes
