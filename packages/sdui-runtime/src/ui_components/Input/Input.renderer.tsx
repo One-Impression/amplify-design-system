@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InputComponentSchema } from "@one-impression/sdk-native-sdui";
 import { Input as DSInput } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
+import { useFormContext } from "../../snippets/Form/Form.renderer.js";
 
 export function InputRenderer(node: Node): React.ReactElement {
+  // `field_name` is a runtime extension: not part of the strict zod
+  // schema (which strips unknown keys), so we read it off the raw node
+  // data before SduiNode validates. When the Input is inside a Form
+  // and `field_name` is set, its value is propagated to FormContext on
+  // every keystroke; otherwise it behaves as a stand-alone controlled
+  // input.
+  const fieldName = (node.data as { field_name?: unknown } | undefined)
+    ?.field_name;
+  const fieldNameStr = typeof fieldName === "string" ? fieldName : undefined;
+
   return (
     <SduiNode
       data={node.data}
@@ -17,16 +28,62 @@ export function InputRenderer(node: Node): React.ReactElement {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v) => (
-        <DSInput
-          placeholder={v.placeholder}
-          value={v.value}
-          label={v.label ? v.label.data.text : undefined}
-          disabled={v.disabled}
-          maxLength={v.max_length}
-          multiline={v.multiline}
-        />
-      )}
+      {(v) => <InputInner fieldName={fieldNameStr} validated={v} />}
     </SduiNode>
+  );
+}
+
+interface InputInnerProps {
+  fieldName?: string;
+  validated: {
+    placeholder?: string;
+    value?: string;
+    label?: { data: { text: string } };
+    disabled?: boolean;
+    max_length?: number;
+    multiline?: boolean;
+  };
+}
+
+function InputInner({
+  fieldName,
+  validated: v,
+}: InputInnerProps): React.ReactElement {
+  // Local UI state — keeps the controlled component cursor-stable
+  // without re-rendering the whole Form on every keystroke.
+  const [localValue, setLocalValue] = useState<string>(v.value ?? "");
+  const formCtx = useFormContext();
+
+  // Seed FormContext with the initial value once on mount, so that
+  // submit-time merge sees the server-provided default if the user
+  // never edits the field.
+  React.useEffect(() => {
+    if (fieldName && v.value !== undefined) {
+      formCtx.setValue(fieldName, v.value);
+    }
+    // Run once on mount; we do not want to re-seed on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleChangeText = useCallback(
+    (next: string) => {
+      setLocalValue(next);
+      if (fieldName) {
+        formCtx.setValue(fieldName, next);
+      }
+    },
+    [fieldName, formCtx],
+  );
+
+  return (
+    <DSInput
+      placeholder={v.placeholder}
+      value={localValue}
+      onChangeText={handleChangeText}
+      label={v.label ? v.label.data.text : undefined}
+      disabled={v.disabled}
+      maxLength={v.max_length}
+      multiline={v.multiline}
+    />
   );
 }
