@@ -85,6 +85,38 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Runtime & UI Native packages
+
+## SDUI Runtime & UI Native packages
+
+### Current versions
+| Package | Version |
+|---|---|
+| `@one-impression/sdui-runtime` | `2.1.0` |
+| `@one-impression/ui-native` | `2.0.1` |
+| `@one-impression/tokens-hexcoded` | `1.1.0` |
+| `@one-impression/brand-hexcoded` | `1.1.0` |
+
+### sdui-runtime 2.1.0 — key behavioural changes
+
+**Bottom-sheet (imperative registry)** — `useBottomSheetStore` now uses a `registry`/`openSheets`/`openOrder`/`contexts` model. Page renderers and the `BottomSheet` snippet renderer must `register` on mount and `unregister` on unmount. The `sheet` action handler calls `open(sheet_id)` (registry lookup); stamping a sheet inline no longer works.
+
+**FormContext** — `Form` and `Input` are wired through `FormContext`. `Input` requires `data.field_name`; `Form` wraps its submit button in `FormSubmitWrapper`, which merges ref-backed field values into `payload.request_body` at click time. Logic lives in framework-free `form-values.ts`.
+
+**usePageStore additions** — new `replaceNode(targetId, node)`, `appendItems(targetId, items)`, and `setPageTree()` / `page: Page | null` field. Previously `reload_section`, `replace_section`, and `append_items` action dispatches were silently crashing because these methods didn't exist. Existing `sections`/`replaceSection`/`appendSection` API is preserved.
+
+**BFF action chaining** — `bff_call` now parses the response body and dispatches `body.action` (if present) before the `on_success` chain. Non-JSON / empty responses are swallowed via `.catch(() => null)`.
+
+**SduiNode fallback** — `ZodError` during node parse now renders a `SduiFallback` (dev: shows node type + id; prod: blank) and reports via telemetry instead of crashing the page. Non-Zod errors still propagate.
+
+**renderMedia fix** — `MediaSchema` is read as a nested discriminated union (`media.image.src`, `media.icon.name`, `media.image_stack`, `media.progress`). Flat reads no longer work. Pure mapping extracted to `describeMedia` helper.
+
+### ui-native 2.0.1
+
+`DSButton` and `DSTab` now accept an explicit `onPress` prop so SDUI outer Clickable wrappers can wire through taps. Inner `<Pressable>` was previously swallowing all taps from the outer wrapper.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
