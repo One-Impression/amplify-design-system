@@ -1,9 +1,12 @@
-import React, { useCallback } from "react";
-import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useBottomSheetStore } from "./useBottomSheetStore.js";
+import React, { useCallback, useEffect, useRef } from "react";
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
+import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { useBottomSheetStore, type SheetEntry } from "./useBottomSheetStore.js";
 import { BottomSheetContext } from "./BottomSheetContext.js";
 import { Interpreter } from "../interpreter/Interpreter.js";
-import type { Node } from "@one-impression/sdk-native-sdui";
 
 const SIZE_TO_SNAP: Record<string, string[]> = {
   small: ["25%"],
@@ -12,13 +15,64 @@ const SIZE_TO_SNAP: Record<string, string[]> = {
   full: ["95%"],
 };
 
+interface BottomSheetHostSheetProps {
+  sheet: SheetEntry;
+  open: boolean;
+  onDismiss: () => void;
+}
+
 /**
- * Singleton host component — mount once at app root in _layout.tsx.
- * Subscribes to the Zustand bottom-sheet store and renders BottomSheetModals
- * for each entry in the stack.
+ * Per-sheet renderer that owns its own gorhom modal ref.
+ *
+ * gorhom's `BottomSheetModal` is an imperative API — it does NOT take a
+ * `visible` / `open` prop. To present a sheet you must call `ref.present()`,
+ * and to hide it you call `ref.dismiss()`. This child component bridges the
+ * declarative `open` flag from `useBottomSheetStore` to those imperative
+ * calls via a `useEffect` keyed on `open`.
+ */
+function BottomSheetHostSheet({
+  sheet,
+  open,
+  onDismiss,
+}: BottomSheetHostSheetProps): React.ReactElement {
+  const ref = useRef<BottomSheetModalMethods>(null);
+
+  useEffect(() => {
+    if (open) {
+      ref.current?.present();
+    } else {
+      ref.current?.dismiss();
+    }
+  }, [open]);
+
+  return (
+    <BottomSheetModal
+      ref={ref}
+      snapPoints={SIZE_TO_SNAP[sheet.size] ?? SIZE_TO_SNAP["medium"]}
+      enableDynamicSizing={sheet.size === "dynamic"}
+      onDismiss={onDismiss}
+    >
+      <BottomSheetScrollView>
+        <BottomSheetContext.Provider value={{ insideSheet: true }}>
+          {sheet.items.map((node, i) => (
+            <Interpreter key={node.id ?? i} node={node} />
+          ))}
+        </BottomSheetContext.Provider>
+      </BottomSheetScrollView>
+    </BottomSheetModal>
+  );
+}
+
+/**
+ * Singleton host component — mount once at app root in `_layout.tsx`.
+ *
+ * Subscribes to the Zustand bottom-sheet store and renders a child
+ * `BottomSheetHostSheet` for every sheet currently in the registry. Each
+ * child holds its own gorhom modal ref and reacts to its open state.
  */
 export function BottomSheetHost(): React.ReactElement {
-  const stack = useBottomSheetStore((s) => s.stack);
+  const registry = useBottomSheetStore((s) => s.registry);
+  const openSheets = useBottomSheetStore((s) => s.openSheets);
   const close = useBottomSheetStore((s) => s.close);
 
   const handleDismiss = useCallback(
@@ -28,23 +82,17 @@ export function BottomSheetHost(): React.ReactElement {
     [close],
   );
 
+  const entries = Object.values(registry);
+
   return (
     <>
-      {stack.map((sheet) => (
-        <BottomSheetModal
+      {entries.map((sheet) => (
+        <BottomSheetHostSheet
           key={sheet.id}
-          snapPoints={SIZE_TO_SNAP[sheet.size] ?? SIZE_TO_SNAP["medium"]}
-          enableDynamicSizing={sheet.size === "dynamic"}
+          sheet={sheet}
+          open={openSheets[sheet.id] === true}
           onDismiss={() => handleDismiss(sheet.id)}
-        >
-          <BottomSheetScrollView>
-            <BottomSheetContext.Provider value={{ insideSheet: true }}>
-              {(sheet.items as Node[]).map((node, i) => (
-                <Interpreter key={node.id ?? i} node={node} />
-              ))}
-            </BottomSheetContext.Provider>
-          </BottomSheetScrollView>
-        </BottomSheetModal>
+        />
       ))}
     </>
   );

@@ -8,7 +8,10 @@ import { styles } from './Tab.styles';
  * for a tab bar. Active state is controlled by the consumer.
  */
 export const Tab = React.forwardRef<View, TabProps>(
-  ({ label, active = false, disabled = false, icon, style, ...props }, ref) => {
+  (
+    { label, active = false, disabled = false, icon, style, onPress, ...props },
+    ref,
+  ) => {
     return (
       <Pressable
         ref={ref}
@@ -21,6 +24,7 @@ export const Tab = React.forwardRef<View, TabProps>(
           disabled && styles.disabled,
           style,
         ]}
+        onPress={onPress}
         {...props}
       >
         {icon}
