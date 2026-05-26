@@ -55,7 +55,28 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI rendering engine (action engine, snippets, renderMedia)
 ```
+
+### sdui-runtime architectural pattern
+
+`MediaSchema` from `@one-impression/sdk-native-sdui` is a **nested** discriminated union on `type`:
+
+```ts
+{ type: "image",       image:    ImageSchema }
+{ type: "icon",        icon:     IconSchema }
+{ type: "image_stack", images:   ImageSchema[], max_display?: number }
+{ type: "progress",    progress: ProgressSchema }
+```
+
+Always read leaf fields from the nested object (`media.image.src`, `media.icon.name`, etc.). **Never read as flat** (`media.src`, `media.name`) — that returns `undefined` on valid wire payloads.
+
+Pure dispatch logic lives in `packages/sdui-runtime/src/snippets/_shared/describe-media.ts` (`describeMedia` / `MediaDescriptor`) — a React-Native-free module, testable under plain Node. The React layer (`render-media.tsx`) only maps the descriptor to ui-native primitives. Follow this split for any new media-like rendering logic.
+
+Exported from `@one-impression/sdui-runtime`:
+- `renderMedia(media: Media): ReactElement | null`
+- `describeMedia(media: Media): MediaDescriptor | null`
+- `MediaDescriptor` (type)
 
 ## Token File Format
 
