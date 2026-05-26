@@ -55,7 +55,20 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — Server-Driven UI runtime (action engine, state stores, component registry)
 ```
+
+### sdui-runtime — notable internals
+
+**`bff_call` handler** (`src/action-engine/handlers/bff-call.ts`)  
+Fetches a BFF endpoint with auth and dispatches `on_success`/`on_error` actions. When the configured `bffBaseUrl` targets `localhost` or `127.0.0.1`, it reads `useDevConfigStore.getState().devIdentity` and injects it as an `X-Dev-Identity` request header. The header is silently skipped if unset, and is **never injected for non-local URLs** even if the value is populated — production traffic is not augmented.
+
+**`useDevConfigStore`** (`src/state/useDevConfigStore.ts`)  
+Zustand store for developer-only configuration. Exported from `src/state/index.ts`.
+- `devIdentity: string | null` — base64-encoded identity payload for the `X-Dev-Identity` header
+- `setDevIdentity(value: string | null)` — set or clear the value at app boot when running against a local/mocked gateway
+
+Product apps (e.g. creator-app) should call `useDevConfigStore.getState().setDevIdentity(payload)` at boot when targeting a local BFF, replacing any previous manual header-patching outside the runtime.
 
 ## Token File Format
 
