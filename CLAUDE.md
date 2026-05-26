@@ -85,6 +85,54 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Bottom-Sheet System (`packages/sdui-runtime`)
+
+## SDUI Bottom-Sheet System (`packages/sdui-runtime`)
+
+### Store shape (`useBottomSheetStore`)
+
+| Field | Type | Purpose |
+|---|---|---|
+| `registry` | `Record<string, SheetEntry>` | All sheets declared by the active page, keyed by `sheet_id`. |
+| `openSheets` | `Record<string, boolean>` | Which registered sheets are currently presented. |
+| `openOrder` | `string[]` | Explicit oldest→newest open history. Last entry = topmost sheet. |
+| `contexts` | `Record<string, Record<string, unknown>>` | Per-sheet runtime context payload stamped at `open()` time. |
+
+### Actions
+
+- `register(sheetId, sheet)` — adds a sheet definition without opening it. Idempotent (overwrites by id).
+- `unregister(sheetId)` — removes entry from registry, openSheets, openOrder, and contexts atomically.
+- `open(sheetId, contextPayload?)` — looks up sheet from registry; no-op + `console.warn` if not found. Reopening an already-open sheet promotes it to topmost in `openOrder` without duplicating.
+- `close(sheetId?)` — clears open flag for one sheet; omit id to close the most-recently opened (pops `openOrder`).
+- `closeAll()` — clears openSheets, openOrder, contexts; registry survives.
+
+### Lifecycle contract
+
+Page renderers (`PageStandard`, `PageFeed`, `PageStickyFooter`) and the `BottomSheet` snippet renderer **must**:
+1. Call `register(id, sheet)` for each `page.bottom_sheets[]` entry in a `useEffect` on mount.
+2. Return a cleanup function that calls `unregister(id)` for each sheet on unmount — prevents orphan registry entries when navigating away.
+
+The `sheet` action handler calls `open(sheet_id)` (registry lookup). It does **not** stamp a new sheet definition.
+
+### `BottomSheetHost` rendering model
+
+gorhom's `BottomSheetModal` is an **imperative** API (no `visible`/`open` prop). `BottomSheetHost` renders one `BottomSheetHostSheet` child per registry entry. Each child owns its own `ref<BottomSheetModalMethods>` and bridges the declarative `openSheets[id]` flag to `ref.current?.present()` / `ref.current?.dismiss()` via a `useEffect` keyed on `open`.
+
+Mount `<BottomSheetHost />` **once** at the app root (`_layout.tsx`).
+
+### `useBottomSheetData`
+
+Returns the `SheetEntry` for the topmost open sheet (`openOrder` tail → registry lookup), or `null`. Uses `useShallow` to take an atomic snapshot of both `openOrder` and `registry` in a single selector — required under React 18 concurrent rendering to avoid torn state.
+
+### Tests
+
+Unit tests live at `src/bottom-sheet/__tests__/useBottomSheetStore.test.ts` and are included in the package test command:
+```bash
+npm --workspace packages/sdui-runtime test
+```
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
