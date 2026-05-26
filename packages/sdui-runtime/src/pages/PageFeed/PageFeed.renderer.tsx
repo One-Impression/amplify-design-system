@@ -78,9 +78,12 @@ export type { FeedPageData };
  * - Empty state node when items is empty
  * - Pull-to-refresh via page.on_refresh
  *
- * NOTE: CR-19 lands the matching schema fields on @one-impression/sdk-native-sdui.
- * Until that publishes, fields are read through {@link extractFeedPageData}
- * which casts the page `data` to the augmented shape.
+ * NOTE: the matching `config` / `footer` schema fields are added on the
+ * upstream `@one-impression/sdk-native-sdui` PageFeed schema. Until that
+ * package republishes, the renderer reads them through
+ * {@link extractFeedPageData} which casts the page `data` to the
+ * augmented shape — the cast becomes a no-op once the upstream types
+ * catch up.
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const actionEngine = useActionEngine();

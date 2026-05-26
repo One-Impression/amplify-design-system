@@ -4,11 +4,11 @@ import type { GradientItem } from "../../gradient/index.js";
 /**
  * Bag of optional fields the feed renderer reads off `page.data`.
  *
- * `config` / `footer` are additive fields landing in amplify-schemas CR-19.
- * Until that publishes the renderer reads them through {@link extractFeedPageData}
- * which casts the bag from the parent schema's `data?: object` to this shape.
- *
- * Once CR-19 is on npm the cast becomes a no-op (real types flow through).
+ * `config` / `footer` are additive fields on the upstream PageFeed schema.
+ * Until the schema package republishes with those fields exposed, the
+ * renderer reads them through {@link extractFeedPageData}, which casts the
+ * bag from the parent schema's loose `data?: object` to this augmented
+ * shape. Once the upstream types catch up the cast becomes a no-op.
  */
 export interface FeedPageData {
   filters?: Node[];

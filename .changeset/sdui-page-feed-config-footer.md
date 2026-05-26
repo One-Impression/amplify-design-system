@@ -13,4 +13,4 @@ Existing `filters`, `loader`, `empty_state`, and `on_load_more` behavior is unch
 
 Also exports a new `Gradient` component (`@one-impression/sdui-runtime`) for renderers that want to reuse the same gradient backdrop primitive.
 
-The matching `config` / `footer` schema fields land in amplify-schemas CR-19 — until that publishes, the renderer reads them through an `extractFeedPageData` helper that casts `page.data` to the augmented shape.
+The matching `config` / `footer` schema fields are added on the upstream `@one-impression/sdk-native-sdui` PageFeed schema; until that package republishes, the renderer reads them through an `extractFeedPageData` helper that casts `page.data` to the augmented shape.
