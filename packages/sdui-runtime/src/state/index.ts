@@ -73,3 +73,7 @@ export type {
   TooltipStoreState,
   TooltipStoreActions,
 } from './useTooltipStore.js';
+
+// Dev config (localhost-only request augmentation, e.g. X-Dev-Identity header)
+export { useDevConfigStore } from './useDevConfigStore.js';
+export type { DevConfigState, DevConfigActions } from './useDevConfigStore.js';

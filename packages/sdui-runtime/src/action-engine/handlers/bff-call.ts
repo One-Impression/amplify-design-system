@@ -1,6 +1,16 @@
 import { BffCallPayloadSchema } from "@one-impression/sdk-native-sdui";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
+import { useDevConfigStore } from "../../state/useDevConfigStore.js";
+
+/**
+ * Returns true if the given BFF base URL targets a local development
+ * gateway (localhost / 127.0.0.1). Used to gate dev-only request
+ * augmentation such as the X-Dev-Identity header.
+ */
+function isLocalhostBffUrl(bffBaseUrl: string): boolean {
+  return bffBaseUrl.includes("localhost") || bffBaseUrl.includes("127.0.0.1");
+}
 
 /**
  * bff_call — fetches a BFF endpoint with auth, dispatches on_success/on_error
@@ -38,6 +48,19 @@ export async function handleBffCall(
   }
   if (payload.idempotency_key) {
     headers["Idempotency-Key"] = payload.idempotency_key;
+  }
+
+  // Dev-only: inject X-Dev-Identity header for requests against a local
+  // BFF (localhost / 127.0.0.1). The creator-app sets this via
+  // useDevConfigStore.setDevIdentity(...) at boot when running against
+  // a mocked / locally-running gateway. Silently skipped when unset
+  // or when the URL is non-localhost — production traffic is never
+  // augmented even if the value happens to be populated.
+  if (isLocalhostBffUrl(config.bffBaseUrl)) {
+    const devIdentity = useDevConfigStore.getState().devIdentity;
+    if (devIdentity) {
+      headers["X-Dev-Identity"] = devIdentity;
+    }
   }
 
   // Fire optimistic on_success before the network call.

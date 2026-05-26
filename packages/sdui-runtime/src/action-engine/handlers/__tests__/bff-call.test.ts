@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { handleBffCall } from "../bff-call.ts";
 import type { ActionEngine, ActionEngineConfig } from "../../types.ts";
 import type { Action } from "@one-impression/sdk-native-sdui";
+import { useDevConfigStore } from "../../../state/useDevConfigStore.ts";
 
 const noopConfig: ActionEngineConfig = {
   bffBaseUrl: "https://bff.example.test",
@@ -132,6 +133,82 @@ test("bff_call — 200 with empty / non-JSON body — nothing fires, no throw", 
   const engine = makeSpyEngine();
   await handleBffCall(bffAction(), noopConfig, engine);
   assert.equal(engine.log.length, 0);
+});
+
+test("bff_call — localhost BFF + devIdentity set → X-Dev-Identity header injected", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useDevConfigStore.getState().setDevIdentity("base64-identity-payload");
+  try {
+    await handleBffCall(
+      bffAction(),
+      { ...noopConfig, bffBaseUrl: "http://localhost:3000" },
+      makeSpyEngine(),
+    );
+    assert.equal(capturedHeaders?.["X-Dev-Identity"], "base64-identity-payload");
+  } finally {
+    useDevConfigStore.getState().setDevIdentity(null);
+  }
+});
+
+test("bff_call — 127.0.0.1 BFF + devIdentity set → X-Dev-Identity header injected", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useDevConfigStore.getState().setDevIdentity("loopback-identity");
+  try {
+    await handleBffCall(
+      bffAction(),
+      { ...noopConfig, bffBaseUrl: "http://127.0.0.1:3000" },
+      makeSpyEngine(),
+    );
+    assert.equal(capturedHeaders?.["X-Dev-Identity"], "loopback-identity");
+  } finally {
+    useDevConfigStore.getState().setDevIdentity(null);
+  }
+});
+
+test("bff_call — localhost BFF + devIdentity unset → no X-Dev-Identity header", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useDevConfigStore.getState().setDevIdentity(null);
+  await handleBffCall(
+    bffAction(),
+    { ...noopConfig, bffBaseUrl: "http://localhost:3000" },
+    makeSpyEngine(),
+  );
+  assert.equal(capturedHeaders?.["X-Dev-Identity"], undefined);
+});
+
+test("bff_call — prod BFF + devIdentity set → no X-Dev-Identity header (defensive)", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useDevConfigStore.getState().setDevIdentity("should-not-leak");
+  try {
+    await handleBffCall(
+      bffAction(),
+      { ...noopConfig, bffBaseUrl: "https://bff.example.test" },
+      makeSpyEngine(),
+    );
+    assert.equal(capturedHeaders?.["X-Dev-Identity"], undefined);
+  } finally {
+    useDevConfigStore.getState().setDevIdentity(null);
+  }
 });
 
 test("bff_call — 200 with body.action and on_success — both dispatched in order, with telemetry between", async () => {

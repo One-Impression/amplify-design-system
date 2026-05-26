@@ -6,12 +6,14 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import { useShallow } from "zustand/react/shallow";
 import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
+import { usePageStore } from "../../state/usePageStore.js";
 
 interface PageProps {
   page: Page;
@@ -63,6 +65,29 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const onLoadMore = pageData.on_load_more;
   const loader = pageData.loader;
   const emptyState = pageData.empty_state;
+
+  // Sync the server-provided page tree into usePageStore on mount / whenever
+  // the page prop reference changes. This makes `replaceNode` / `appendItems`
+  // (dispatched from action handlers like reload_section / append_items)
+  // reactively flow back into this renderer below.
+  useEffect(() => {
+    usePageStore.getState().setPageTree(page);
+  }, [page]);
+
+  // Subscribe to the store for live updates to items. We fall back to the
+  // prop value when the store hasn't been populated yet (first render before
+  // the setPageTree effect commits) or when the store currently holds a
+  // different page (e.g. during a navigation transition). useShallow keeps
+  // the read atomic — pageId + items together — so the renderer can't see a
+  // torn snapshot under React 18 concurrent rendering.
+  const items = usePageStore(
+    useShallow((s) => {
+      if (s.pageId === page.id && s.page) {
+        return s.page.items;
+      }
+      return page.items;
+    }),
+  );
 
   // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
@@ -170,7 +195,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   return (
     <View style={styles.container}>
       <FlatList
-        data={page.items}
+        data={items}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListHeaderComponent={renderHeader}
