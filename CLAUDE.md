@@ -77,6 +77,28 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — `bff_call` Action Handler
+
+## SDUI Runtime — `bff_call` Action Handler
+
+Package: `packages/sdui-runtime/` (`@one-impression/sdui-runtime`)
+
+### `bff_call` response-body action chaining
+
+The handler now parses the BFF response JSON and dispatches actions in this order:
+
+1. **`body.action`** (if the response JSON contains an `action` key) — server-driven follow-up
+2. **`payload.on_success`** (if declared on the action in the SDUI payload) — caller-declared chain
+3. On non-2xx: **`payload.on_error`** only (no body dispatch)
+
+Non-JSON and empty response bodies are tolerated (`.catch(() => null)`) — no throw, no dispatch.
+
+**Use cases for `body.action`:** `append_items` on infinite scroll, `navigate` after form submit, any BFF-driven follow-up that the server decides at runtime.
+
+**Ordering guarantee:** `body.action` always fires before `on_success`. Design BFF responses and SDUI action payloads accordingly.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
