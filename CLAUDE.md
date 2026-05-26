@@ -103,3 +103,21 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+## Hexcoded theme (AI content platform)
+
+## Hexcoded theme (AI content platform)
+
+Hexcoded is an AI content platform (brief → multi-format content). Brand direction: **Tech Green** (`#22C55E`), Outfit 900 wordmark, Phantom motion.
+
+- **Brand assets**: `packages/brand-hexcoded/` — logos, app icons, favicons, social templates, business cards, email signatures
+- **Brand decisions**: `packages/brand-hexcoded/BRAND-DECISIONS.md` — 24/25 decisions locked (L01–L24); L25 sonic identity parked. Do not change without sign-off.
+- **Engineer hand-off**: `packages/brand-hexcoded/ENGINEER-HANDOFF.md` — Phantom CSS replica, favicon render, CSP notes, token wiring
+- **Tokens**: `@one-impression/tokens-hexcoded` — separate package, install independently alongside `brand-hexcoded`
+- **Validate**: `npm run -w @one-impression/brand-hexcoded validate` — runs on every PR, failures block merge
+
+**Phantom motion** (`wordmark-with-phantom.svg`): 3-layer Tech Green stepped shadow breathing opacity on 3s ease-in-out cycle. CSS keyframe-based, no JS. Respects `prefers-reduced-motion`. See `ENGINEER-HANDOFF.md` for the CSS replica pattern.
+
+**Favicon `.png` files are SVG sources** — render to PNG via Sharp/Resvg before deploy.
+
+**Spelling**: HEXCODED (all caps in logo/wordmark). "Hexcoded" (title case) in prose.
