@@ -60,7 +60,21 @@ export async function handleBffCall(
       throw new Error(`BFF ${payload.method} ${endpointPath} returned ${res.status}`);
     }
 
+    // Server may bundle a follow-up action chain in the response body
+    // (e.g. append_items for pagination, navigate after submit).
+    // Parse defensively — non-JSON / empty bodies are tolerated.
+    const body = await res.json().catch(() => null);
+    if (
+      body &&
+      typeof body === "object" &&
+      "action" in body &&
+      (body as { action?: unknown }).action
+    ) {
+      await engine.dispatch((body as { action: Action }).action);
+    }
+
     // Non-optimistic success dispatch (or confirm optimistic).
+    // Body-driven action runs first; on_success is the caller-declared chain.
     if (!payload.optimistic && payload.on_success) {
       await engine.dispatch(payload.on_success as Action);
     }
