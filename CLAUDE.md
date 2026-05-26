@@ -55,7 +55,17 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — Server-Driven UI runtime (renderers, action engine, page store, interpreter)
 ```
+
+### SDUI Runtime — PageFeedRenderer reactive pattern
+
+`PageFeedRenderer` (`packages/sdui-runtime/src/pages/PageFeed/PageFeed.renderer.tsx`) uses a two-step reactive pattern that all page renderer work must follow:
+
+1. **Sync on mount**: `useEffect(() => { usePageStore.getState().setPageTree(page); }, [page])` — seeds the store with the server-provided page tree whenever the `page` prop reference changes.
+2. **Read reactively via selector**: items are read from `usePageStore` with a `useShallow` selector scoped by `page.id`. Falls back to `page.items` (the prop) when the store is empty or holds a different page (e.g. mid-navigation transition).
+
+This wires `replaceNode` and `appendItems` (dispatched by `reload_section` / `append_items` action handlers) end-to-end — store mutations now cause the FlatList to re-render. **Do not read `page.items` directly in `FlatList.data`** — always go through the store selector.
 
 ## Token File Format
 
