@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1051 638" role="img" aria-label="HEXCODED business card front">
+  <title>HEXCODED business card front (89×54mm @ 300 DPI = 1051×638px)</title>
+  <defs>
+    <style>
+      .wm { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 88px; letter-spacing: -0.025em; fill: #FFFFFF; }
+      .wm-shadow-1 { fill: #22C55E; opacity: 0.85; }
+      .wm-shadow-2 { fill: #22C55E; opacity: 0.55; }
+      .tagline { font-family: "Inter", sans-serif; font-size: 18px; fill: #86868B; letter-spacing: 0.04em; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1051" height="638" fill="#0B0B0F"/>
+  <text x="83" y="362" class="wm wm-shadow-2">HEXCODED</text>
+  <text x="81" y="360" class="wm wm-shadow-1">HEXCODED</text>
+  <text x="80" y="359" class="wm">HEXCODED</text>
+  <text x="80" y="416" class="tagline">Take a brief. Get a campaign.</text>
+</svg>

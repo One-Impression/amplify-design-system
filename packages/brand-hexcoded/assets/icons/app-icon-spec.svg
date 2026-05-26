@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="HEXCODED app icon specification">
+  <title>HEXCODED app icon spec — squircle radius 22.37%, 80% safe-zone, glyph alignment (reference only)</title>
+  <defs>
+    <style>
+      .canvas-bg   { fill: #FAFAFA; }
+      .squircle    { fill: none; stroke: #22C55E; stroke-width: 4; }
+      .safe-zone   { fill: none; stroke: #16A34A; stroke-width: 2; stroke-dasharray: 8 8; }
+      .glyph-baseline { stroke: #EF4444; stroke-width: 2; stroke-dasharray: 2 2; }
+      .annot       { font-family: "JetBrains Mono", monospace; font-size: 22px; fill: #3B3B42; }
+      .ink         { fill: #0B0B0F; font-family: "Outfit", sans-serif; font-weight: 900; font-size: 560px; letter-spacing: -0.025em; text-anchor: middle; opacity: 0.25; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1200" height="1200" class="canvas-bg"/>
+  <rect x="88" y="88" width="1024" height="1024" rx="229" ry="229" class="squircle"/>
+  <rect x="190" y="190" width="820" height="820" rx="180" ry="180" class="safe-zone"/>
+  <line x1="600" y1="88" x2="600" y2="1112" class="glyph-baseline"/>
+  <text x="600" y="768" class="ink">HEX</text>
+  <text x="88" y="68" class="annot">canvas 1024 · squircle r=229 (22.37%) · safe-zone 820×820 (80%)</text>
+  <text x="88" y="1160" class="annot">glyph centred · cap-height ~560 · baseline 768</text>
+</svg>

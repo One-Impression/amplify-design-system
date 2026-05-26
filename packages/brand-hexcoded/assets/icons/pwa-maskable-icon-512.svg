@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="HEXCODED PWA maskable icon">
+  <title>HEXCODED PWA maskable icon (512×512) — HEX on black, 80% safe-zone respected (purpose=maskable)</title>
+  <defs>
+    <style>
+      .icon-text {
+        font-family: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 900;
+        font-size: 220px;
+        letter-spacing: -0.025em;
+        text-anchor: middle;
+      }
+      .icon-ink     { fill: #FFFFFF; }
+      .icon-shadow  { fill: #22C55E; opacity: 0.8; }
+    </style>
+  </defs>
+  <!-- Full bleed bg (maskable allows full canvas) -->
+  <rect x="0" y="0" width="512" height="512" fill="#0B0B0F"/>
+  <!-- Glyph sized to fit within 80% safe-zone (centre 410×410) -->
+  <text x="258" y="306" class="icon-text icon-shadow">HEX</text>
+  <text x="256" y="304" class="icon-text icon-ink">HEX</text>
+</svg>
