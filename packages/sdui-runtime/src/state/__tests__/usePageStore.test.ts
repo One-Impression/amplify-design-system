@@ -239,3 +239,88 @@ test("usePageStore.appendItems is a no-op when target has no data.items (warns)"
     console.warn = origWarn;
   }
 });
+
+// ---------------------------------------------------------------------------
+// PageFeedRenderer selector contract
+//
+// PageFeedRenderer reads `items` reactively via:
+//   usePageStore(useShallow((s) =>
+//     s.pageId === page.id && s.page ? s.page.items : page.items
+//   ))
+// The tests below verify that contract end-to-end against the real store:
+// after setPageTree(page) commits, replaceNode and appendItems must produce
+// new items arrays that the selector returns.
+// ---------------------------------------------------------------------------
+
+/** Mirrors the selector PageFeedRenderer uses, for direct testing. */
+function selectItemsForPage(propPage: Page): Node[] {
+  const s = usePageStore.getState();
+  if (s.pageId === propPage.id && s.page) {
+    return s.page.items;
+  }
+  return propPage.items;
+}
+
+test("PageFeed selector — initial render returns prop items when store empty", () => {
+  resetStore();
+  const propPage = page([leaf("server-a"), leaf("server-b")]);
+  const items = selectItemsForPage(propPage);
+  assert.deepEqual(
+    items.map((n) => n.id),
+    ["server-a", "server-b"],
+  );
+});
+
+test("PageFeed selector — after setPageTree, returns store items (same content initially)", () => {
+  resetStore();
+  const propPage = page([leaf("a"), leaf("b")]);
+  usePageStore.getState().setPageTree(propPage);
+  const items = selectItemsForPage(propPage);
+  assert.deepEqual(
+    items.map((n) => n.id),
+    ["a", "b"],
+  );
+});
+
+test("PageFeed selector — replaceNode on a top-level item updates selector output", () => {
+  resetStore();
+  const propPage = page([leaf("a"), leaf("b")]);
+  usePageStore.getState().setPageTree(propPage);
+  usePageStore.getState().replaceNode("b", leaf("b-replaced"));
+  const items = selectItemsForPage(propPage);
+  assert.deepEqual(
+    items.map((n) => n.id),
+    ["a", "b-replaced"],
+  );
+});
+
+test("PageFeed selector — appendItems on a feed container updates selector output", () => {
+  resetStore();
+  const propPage = page([container("feed", [leaf("x")])]);
+  usePageStore.getState().setPageTree(propPage);
+  usePageStore
+    .getState()
+    .appendItems("feed", [leaf("y"), leaf("z")], { hasMore: false });
+  const items = selectItemsForPage(propPage);
+  const feed = items[0] as Node;
+  const feedChildren = (feed.data as { items: Node[] }).items;
+  assert.deepEqual(
+    feedChildren.map((n) => n.id),
+    ["x", "y", "z"],
+  );
+});
+
+test("PageFeed selector — different page in store falls back to prop items", () => {
+  resetStore();
+  // Store currently holds a different page (e.g. transitioning between routes).
+  usePageStore.getState().setPageTree(page([leaf("other-page-item")]));
+  const propPage = {
+    ...page([leaf("incoming-a")]),
+    id: "incoming-page",
+  } as Page;
+  const items = selectItemsForPage(propPage);
+  assert.deepEqual(
+    items.map((n) => n.id),
+    ["incoming-a"],
+  );
+});
