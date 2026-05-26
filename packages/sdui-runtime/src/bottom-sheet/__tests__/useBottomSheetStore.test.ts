@@ -9,6 +9,7 @@ function resetStore(): void {
   useBottomSheetStore.setState({
     registry: {},
     openSheets: {},
+    openOrder: [],
     contexts: {},
   });
 }
@@ -124,6 +125,52 @@ test("closeAll — clears every open sheet and context, registry survives", () =
   assert.deepEqual(state.contexts, {});
   assert.ok(state.registry["a"]);
   assert.ok(state.registry["b"]);
+});
+
+test("open — appends to openOrder, reopening promotes id to topmost", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+  useBottomSheetStore.getState().register("b", makeSheet("b"));
+  useBottomSheetStore.getState().open("a");
+  useBottomSheetStore.getState().open("b");
+  useBottomSheetStore.getState().open("a"); // reopen already-open sheet
+
+  // "a" was already open; reopening should promote it to topmost without
+  // duplicating it in the order array.
+  assert.deepEqual(useBottomSheetStore.getState().openOrder, ["b", "a"]);
+});
+
+test("close(id) — removes id from openOrder", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+  useBottomSheetStore.getState().register("b", makeSheet("b"));
+  useBottomSheetStore.getState().open("a");
+  useBottomSheetStore.getState().open("b");
+  useBottomSheetStore.getState().close("a");
+
+  assert.deepEqual(useBottomSheetStore.getState().openOrder, ["b"]);
+});
+
+test("close() — pops the last entry from openOrder", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+  useBottomSheetStore.getState().register("b", makeSheet("b"));
+  useBottomSheetStore.getState().open("a");
+  useBottomSheetStore.getState().open("b");
+  useBottomSheetStore.getState().close();
+
+  assert.deepEqual(useBottomSheetStore.getState().openOrder, ["a"]);
+});
+
+test("closeAll — clears openOrder", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+  useBottomSheetStore.getState().register("b", makeSheet("b"));
+  useBottomSheetStore.getState().open("a");
+  useBottomSheetStore.getState().open("b");
+  useBottomSheetStore.getState().closeAll();
+
+  assert.deepEqual(useBottomSheetStore.getState().openOrder, []);
 });
 
 test("register + open + close — full round trip allows reopening", () => {

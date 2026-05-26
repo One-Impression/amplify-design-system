@@ -7,9 +7,8 @@ import { useBottomSheetStore } from "../bottom-sheet/useBottomSheetStore.js";
  */
 export function useBottomSheetData() {
   const registry = useBottomSheetStore((s) => s.registry);
-  const openSheets = useBottomSheetStore((s) => s.openSheets);
-  const openIds = Object.keys(openSheets).filter((id) => openSheets[id]);
-  if (openIds.length === 0) return null;
-  const topId = openIds[openIds.length - 1] as string;
+  const openOrder = useBottomSheetStore((s) => s.openOrder);
+  if (openOrder.length === 0) return null;
+  const topId = openOrder[openOrder.length - 1] as string;
   return registry[topId] ?? null;
 }

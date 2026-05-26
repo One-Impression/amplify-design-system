@@ -23,6 +23,15 @@ interface BottomSheetState {
   registry: Record<string, SheetEntry>;
   /** Which registered sheets are currently presented. */
   openSheets: Record<string, boolean>;
+  /**
+   * Explicit open-order history (oldest → newest). The last entry is the
+   * topmost open sheet. Tracked separately from `openSheets` so the
+   * "most recently opened" answer does not rely on JS object key
+   * insertion order (which the ECMAScript spec does not guarantee for
+   * arbitrary string keys and which breaks under serialization /
+   * Zustand persist middleware).
+   */
+  openOrder: string[];
   /** Per-sheet runtime context payload, stamped at open() time. */
   contexts: Record<string, Record<string, unknown> | undefined>;
 
@@ -51,6 +60,7 @@ interface BottomSheetState {
 export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
   registry: {},
   openSheets: {},
+  openOrder: [],
   contexts: {},
 
   register: (sheetId, sheet) =>
@@ -68,6 +78,10 @@ export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
     }
     set((state) => ({
       openSheets: { ...state.openSheets, [sheetId]: true },
+      // Move id to the end of the open-order history. Filtering an
+      // existing entry ensures reopening an already-open sheet promotes
+      // it to topmost rather than producing duplicates.
+      openOrder: [...state.openOrder.filter((id) => id !== sheetId), sheetId],
       contexts: { ...state.contexts, [sheetId]: contextPayload },
     }));
   },
@@ -77,16 +91,23 @@ export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
       if (sheetId) {
         const { [sheetId]: _, ...remaining } = state.openSheets;
         const { [sheetId]: __, ...remainingCtx } = state.contexts;
-        return { openSheets: remaining, contexts: remainingCtx };
+        return {
+          openSheets: remaining,
+          openOrder: state.openOrder.filter((id) => id !== sheetId),
+          contexts: remainingCtx,
+        };
       }
-      // No id: close the most-recently opened sheet.
-      const openIds = Object.keys(state.openSheets);
-      if (openIds.length === 0) return state;
-      const last = openIds[openIds.length - 1] as string;
+      // No id: close the most-recently opened sheet (last of openOrder).
+      if (state.openOrder.length === 0) return state;
+      const last = state.openOrder[state.openOrder.length - 1] as string;
       const { [last]: _, ...remaining } = state.openSheets;
       const { [last]: __, ...remainingCtx } = state.contexts;
-      return { openSheets: remaining, contexts: remainingCtx };
+      return {
+        openSheets: remaining,
+        openOrder: state.openOrder.slice(0, -1),
+        contexts: remainingCtx,
+      };
     }),
 
-  closeAll: () => set({ openSheets: {}, contexts: {} }),
+  closeAll: () => set({ openSheets: {}, openOrder: [], contexts: {} }),
 }));
