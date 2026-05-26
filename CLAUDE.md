@@ -77,6 +77,35 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — usePageStore
+
+## SDUI Runtime — usePageStore
+
+`packages/sdui-runtime/src/state/usePageStore.ts` exposes two layers of page state:
+
+| Layer | Field/Method | Purpose |
+|---|---|---|
+| Legacy | `sections`, `setPage`, `replaceSection`, `appendSection` | Section-granularity updates; back-compat with existing renderers |
+| Page tree | `page: Page \| null`, `setPageTree(page)` | Full SDUI page envelope; set on initial fetch |
+| Page tree | `replaceNode(targetId, next)` | Recursively replace a node by `id` anywhere in `page.items` |
+| Page tree | `appendItems(targetId, items, options?)` | Append to a container's `data.items`; merges optional `cursor`/`hasMore` into `data` |
+
+**Action handler wiring:**
+- `handleReloadSection` / `handleReplaceSection` → `usePageStore.getState().replaceNode(targetId, node)`
+- `handleAppendItems` → `usePageStore.getState().appendItems(targetId, items, opts)`
+
+**Tree-walk semantics:**
+- Walks `data.items` recursively (the canonical child list in SDUI wire format).
+- Immutable updates — unmodified siblings preserve their references (React shallow-equality bail-out).
+- Both methods are **no-ops with a `console.warn`** when `targetId` is not found, or when `appendItems` finds a target with no `data.items` array. No throw — stale actions degrade gracefully.
+
+**Testing:** Pure tree-walkers (`replaceNodeInTree`, `appendItemsInTree`) are exported via `__internal` for unit tests only — do not import from app code. Tests live in `src/state/__tests__/usePageStore.test.ts` and run via:
+```bash
+npm run test  # inside packages/sdui-runtime
+```
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
