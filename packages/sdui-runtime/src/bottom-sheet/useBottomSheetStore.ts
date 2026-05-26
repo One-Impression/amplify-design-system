@@ -43,6 +43,15 @@ interface BottomSheetState {
   register: (sheetId: string, sheet: SheetEntry) => void;
 
   /**
+   * Remove a registered sheet entirely — its definition, open flag,
+   * open-order entry, and stamped context all go. Called by renderers
+   * in their `useEffect` cleanup when a sheet (or its hosting page)
+   * unmounts, so navigating away does not leave orphan sheets in the
+   * registry that the host would keep rendering.
+   */
+  unregister: (sheetId: string) => void;
+
+  /**
    * Open a previously-registered sheet. Looks up the sheet by id from the
    * registry; if no sheet was registered the call is a no-op (and logs a
    * warning). An optional `contextPayload` is stamped against the sheet id
@@ -67,6 +76,19 @@ export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
     set((state) => ({
       registry: { ...state.registry, [sheetId]: sheet },
     })),
+
+  unregister: (sheetId) =>
+    set((state) => {
+      const { [sheetId]: _r, ...remainingRegistry } = state.registry;
+      const { [sheetId]: _o, ...remainingOpen } = state.openSheets;
+      const { [sheetId]: _c, ...remainingCtx } = state.contexts;
+      return {
+        registry: remainingRegistry,
+        openSheets: remainingOpen,
+        openOrder: state.openOrder.filter((id) => id !== sheetId),
+        contexts: remainingCtx,
+      };
+    }),
 
   open: (sheetId, contextPayload) => {
     const sheet = get().registry[sheetId];

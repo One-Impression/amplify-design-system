@@ -59,6 +59,8 @@ function BottomSheetRegistrar({
 }): React.ReactElement | null {
   const register = useBottomSheetStore((s) => s.register);
 
+  const unregister = useBottomSheetStore((s) => s.unregister);
+
   useEffect(() => {
     // Re-registration is idempotent (the store overwrites by id), so
     // honoring prop changes here keeps the registry in sync if the
@@ -69,7 +71,13 @@ function BottomSheetRegistrar({
       size,
       items: items as Node[],
     });
-  }, [id, title, size, items, register]);
+    // Cleanup on unmount removes the entry so navigating away does
+    // not leave a stale sheet registered (and so the host stops
+    // rendering its BottomSheetHostSheet child).
+    return () => {
+      unregister(id);
+    };
+  }, [id, title, size, items, register, unregister]);
 
   // This renderer does not render inline — the BottomSheetHost handles display.
   return null;

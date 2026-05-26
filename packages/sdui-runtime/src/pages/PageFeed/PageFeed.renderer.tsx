@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const actionEngine = useActionEngine();
   const register = useBottomSheetStore((s) => s.register);
+  const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const [loadingMore, setLoadingMore] = useState(false);
   const loadingMoreRef = useRef(false);
@@ -65,19 +66,24 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
 
   // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
-    if (page.bottom_sheets) {
-      for (const sheet of page.bottom_sheets) {
-        register(sheet.id, {
-          id: sheet.id,
-          title: sheet.title,
-          size: sheet.size ?? "medium",
-          items: sheet.items ?? [],
-          on_dismiss: sheet.on_dismiss,
-          on_open: sheet.on_open,
-        });
-      }
+    if (!page.bottom_sheets) return;
+    for (const sheet of page.bottom_sheets) {
+      register(sheet.id, {
+        id: sheet.id,
+        title: sheet.title,
+        size: sheet.size ?? "medium",
+        items: sheet.items ?? [],
+        on_dismiss: sheet.on_dismiss,
+        on_open: sheet.on_open,
+      });
     }
-  }, [page.bottom_sheets, register]);
+    return () => {
+      if (!page.bottom_sheets) return;
+      for (const sheet of page.bottom_sheets) {
+        unregister(sheet.id);
+      }
+    };
+  }, [page.bottom_sheets, register, unregister]);
 
   // Page lifecycle: on_load / on_dismount
   useEffect(() => {

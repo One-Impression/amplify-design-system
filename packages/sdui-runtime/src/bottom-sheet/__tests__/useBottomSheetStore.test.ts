@@ -173,6 +173,36 @@ test("closeAll — clears openOrder", () => {
   assert.deepEqual(useBottomSheetStore.getState().openOrder, []);
 });
 
+test("unregister — removes a sheet from registry, openSheets, openOrder, contexts", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+  useBottomSheetStore.getState().register("b", makeSheet("b"));
+  useBottomSheetStore.getState().open("a", { ctx: 1 });
+  useBottomSheetStore.getState().open("b", { ctx: 2 });
+
+  useBottomSheetStore.getState().unregister("a");
+
+  const state = useBottomSheetStore.getState();
+  assert.equal(state.registry["a"], undefined);
+  assert.equal(state.openSheets["a"], undefined);
+  assert.equal(state.contexts["a"], undefined);
+  assert.deepEqual(state.openOrder, ["b"]);
+  // Untouched sheet is preserved
+  assert.ok(state.registry["b"]);
+  assert.equal(state.openSheets["b"], true);
+});
+
+test("unregister — is a no-op when sheet was never registered", () => {
+  resetStore();
+  useBottomSheetStore.getState().register("a", makeSheet("a"));
+
+  assert.doesNotThrow(() =>
+    useBottomSheetStore.getState().unregister("ghost"),
+  );
+  // Existing sheet untouched
+  assert.ok(useBottomSheetStore.getState().registry["a"]);
+});
+
 test("register + open + close — full round trip allows reopening", () => {
   resetStore();
   useBottomSheetStore.getState().register("info", makeSheet("info"));
