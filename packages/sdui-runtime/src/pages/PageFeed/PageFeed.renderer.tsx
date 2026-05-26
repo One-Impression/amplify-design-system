@@ -63,11 +63,11 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const loader = pageData.loader;
   const emptyState = pageData.empty_state;
 
-  // Register inline bottom sheets
+  // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
     if (page.bottom_sheets) {
       for (const sheet of page.bottom_sheets) {
-        bottomSheetStore.open({
+        bottomSheetStore.register(sheet.id, {
           id: sheet.id,
           title: sheet.title,
           size: sheet.size ?? "medium",
@@ -75,10 +75,10 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
           on_dismiss: sheet.on_dismiss,
           on_open: sheet.on_open,
         });
-        bottomSheetStore.close(sheet.id);
       }
     }
-  }, [page.bottom_sheets, bottomSheetStore]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page.bottom_sheets]);
 
   // Page lifecycle: on_load / on_dismount
   useEffect(() => {

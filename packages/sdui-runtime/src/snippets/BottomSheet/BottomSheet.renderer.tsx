@@ -57,20 +57,16 @@ function BottomSheetRegistrar({
   items: unknown[];
   apiEndpoint?: string;
 }): React.ReactElement | null {
-  const open = useBottomSheetStore((s) => s.open);
-  const close = useBottomSheetStore((s) => s.close);
+  const register = useBottomSheetStore((s) => s.register);
 
   useEffect(() => {
-    open({
+    register(id, {
       id,
       title,
       size,
-      items,
+      items: items as Node[],
     });
-
-    return () => {
-      close(id);
-    };
+    // No teardown: registry persists until the page unmounts and replaces it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

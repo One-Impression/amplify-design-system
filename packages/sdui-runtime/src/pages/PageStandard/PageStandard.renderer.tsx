@@ -23,13 +23,13 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const bottomSheetStore = useBottomSheetStore();
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
 
-  // Register inline bottom sheets so sheet actions can open them later
+  // Register inline bottom sheets so sheet actions can open them later.
+  // Sheets are pre-registered (not opened) — the sheet action handler
+  // resolves them from the store registry by id.
   useEffect(() => {
     if (page.bottom_sheets) {
       for (const sheet of page.bottom_sheets) {
-        // Sheets are pre-registered in the store keyed by their id.
-        // The sheet action handler resolves them from this store.
-        bottomSheetStore.open({
+        bottomSheetStore.register(sheet.id, {
           id: sheet.id,
           title: sheet.title,
           size: sheet.size ?? "medium",
@@ -37,11 +37,10 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
           on_dismiss: sheet.on_dismiss,
           on_open: sheet.on_open,
         });
-        // Immediately close — we only need them registered, not visible.
-        bottomSheetStore.close(sheet.id);
       }
     }
-  }, [page.bottom_sheets, bottomSheetStore]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page.bottom_sheets]);
 
   // Page lifecycle: on_load / on_dismount
   useEffect(() => {
