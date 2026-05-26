@@ -17,6 +17,7 @@
     "@one-impression/feature-flags",
     "@amplify/tokens-marketing",
     "@one-impression/tokens-oportunities",
-    "@one-impression/tokens-studio"
+    "@one-impression/tokens-studio",
+    "@one-impression/tokens-hexcoded"
   ]
 }

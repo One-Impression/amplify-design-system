@@ -1,0 +1,61 @@
+{
+  "theme": {
+    "$description": "Hexcoded — Light theme. Locked to Brand Book v1.0 Final (2026-05-22). Tech Green #22C55E is THE brand colour; Outfit display + Inter body + JetBrains Mono code. Source: design-system-final/index.html (Section 05 · Tokens).",
+    "product": "hexcoded",
+    "mode": "light",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "#FAFAFA", "$description": "Page background — soft warm white" },
+      "bg-elev":        { "$value": "#FFFFFF", "$description": "Elevated surface (cards, modals) — pure white" },
+      "bg-soft":        { "$value": "#F5F5F7", "$description": "Subtle inset / grouped sections — Apple-soft grey" },
+
+      "accent":         { "$value": "#22C55E", "$description": "Tech Green — THE Hexcoded brand colour (Tailwind green-500 · RGB 34 197 94 · PANTONE 354 C). Locked L02." },
+      "accent-deep":    { "$value": "#16A34A", "$description": "Tech Green deep — interactive pressed / hover-down" },
+      "accent-light":   { "$value": "#86EFAC", "$description": "Tech Green light — hover background / soft accent surfaces" },
+      "accent-whisper": { "$value": "#DCFCE7", "$description": "Tech Green whisper — subtlest accent tint (banner backgrounds)" },
+
+      "text-primary":   { "$value": "#0B0B0F", "$description": "Primary ink — brand-true near-black" },
+      "text-secondary": { "$value": "#3B3B42", "$description": "Body copy" },
+      "text-tertiary":  { "$value": "#86868B", "$description": "Secondary text / captions" },
+
+      "border":         { "$value": "#E5E5EA", "$description": "Default 1px hairline border" }
+    }
+  },
+  "status": {
+    "$type": "color",
+    "$description": "Hexcoded status scale — locked L19. Success === accent (Tech Green); warning amber; danger red; info sky.",
+    "success":  { "$value": "#22C55E", "$description": "Success / approved — same as brand accent (intentional)" },
+    "warning":  { "$value": "#FBBF24", "$description": "Warning / needs attention — amber 400" },
+    "danger":   { "$value": "#EF4444", "$description": "Error / blocked / rejected — red 500" },
+    "info":     { "$value": "#0EA5E9", "$description": "Informational / neutral signal — sky 500" }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "$description": "Hexcoded typography — locked L05. Outfit display + Inter body + JetBrains Mono code. Multi-language coverage for US · EU · India.",
+    "display": { "$value": "'Outfit', sans-serif", "$description": "Display / wordmark / headers — Outfit at weight 900 in the wordmark" },
+    "body":    { "$value": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", "$description": "Body / UI text" },
+    "mono":    { "$value": "'JetBrains Mono', SFMono-Regular, monospace", "$description": "Monospace — code, data, numbers" }
+  },
+  "weight": {
+    "$type": "fontWeight",
+    "display":      { "$value": "900", "$description": "Display weight — Outfit Black for wordmark (locked L05/L06)" },
+    "body-default": { "$value": "400", "$description": "Default body weight — Inter Regular" },
+    "body-emphasis":{ "$value": "500", "$description": "Emphasised body — Inter Medium for crisp UI labels" }
+  },
+  "letter-spacing": {
+    "$type": "dimension",
+    "tight":   { "$value": "-0.025em", "$description": "Display tracking — Outfit wordmark and large headings" }
+  },
+  "motion": {
+    "$type": "other",
+    "$description": "Hexcoded motion scale — locked L04. 3s ease-in-out is the Phantom breath cycle on the wordmark (in brand-hexcoded). UI durations below are for components.",
+    "ease":   { "$value": "cubic-bezier(0.16, 1, 0.3, 1)", "$description": "Default easing — gentle out-back curve for surfaces" },
+    "d-fast": { "$value": "120ms", "$description": "Fast — micro-interactions, hover transitions" },
+    "d-base": { "$value": "200ms", "$description": "Base — default UI transitions" },
+    "d-slow": { "$value": "320ms", "$description": "Slow — page-level / modal enter-exit" }
+  },
+  "layout": {
+    "$type": "dimension",
+    "max-width": { "$value": "1400px", "$description": "Maximum content width on landing / dashboard surfaces" }
+  }
+}

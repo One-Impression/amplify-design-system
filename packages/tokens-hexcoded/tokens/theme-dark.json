@@ -1,0 +1,32 @@
+{
+  "theme": {
+    "$description": "Hexcoded — Dark theme. Sourced from @media (prefers-color-scheme: dark) block in design-system-final/index.html. Accent stays Tech Green (unchanged); surfaces invert to brand-true black; shadows deepen.",
+    "product": "hexcoded",
+    "mode": "dark",
+    "color": {
+      "$type": "color",
+      "bg":             { "$value": "#0B0B0F", "$description": "Brand-true black page background" },
+      "bg-elev":        { "$value": "#1C1C22", "$description": "Elevated surface (cards, modals) — dark" },
+      "bg-soft":        { "$value": "#15151B", "$description": "Subtle inset / grouped sections — dark" },
+
+      "accent":         { "$value": "#22C55E", "$description": "Tech Green — same as light (no shift; brand is constant)" },
+      "accent-deep":    { "$value": "#16A34A", "$description": "Tech Green deep — pressed state on dark" },
+      "accent-light":   { "$value": "#86EFAC", "$description": "Tech Green light — soft accent on dark surfaces" },
+      "accent-whisper": { "$value": "#DCFCE7", "$description": "Tech Green whisper — subtlest tint on dark" },
+
+      "text-primary":   { "$value": "#FAFAFA", "$description": "Primary text on dark — soft warm white" },
+      "text-secondary": { "$value": "#C8C8CD", "$description": "Body copy on dark" },
+      "text-tertiary":  { "$value": "#86868B", "$description": "Secondary text / captions on dark (unchanged from light)" },
+
+      "border":         { "$value": "#2C2C30", "$description": "Default border on dark" }
+    }
+  },
+  "status": {
+    "$type": "color",
+    "$description": "Hexcoded status scale on dark — same hex values, sufficient contrast on warm-black surfaces (Tech Green AAA on #0B0B0F).",
+    "success":  { "$value": "#22C55E", "$description": "Success / approved — Tech Green" },
+    "warning":  { "$value": "#FBBF24", "$description": "Warning / needs attention — amber 400" },
+    "danger":   { "$value": "#EF4444", "$description": "Error / blocked / rejected — red 500" },
+    "info":     { "$value": "#0EA5E9", "$description": "Informational — sky 500" }
+  }
+}
