@@ -103,3 +103,28 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+## Hexcoded theme (AI content platform)
+
+## Hexcoded theme (AI content platform)
+
+Hexcoded is an AI content platform ("Take a brief. Get a campaign.") shipping as a new product theme in this monorepo.
+
+- **Tokens**: `packages/tokens-hexcoded/` — Tech Green palette (`#22C55E`), Outfit + Inter + JetBrains Mono, light + dark *(ships via PR #142)*
+- **Brand assets**: `packages/brand-hexcoded/` — logos, app icons, favicons, PWA manifest *(ships via PR #143)*
+- **Storybook theme stub**: `packages/storybook/public/_themes/hexcoded.css` — CSS vars mirroring `@one-impression/tokens-hexcoded/css` dist output. Replace with an `@import` of the real dist artifact once `tokens-hexcoded` is built and published.
+- **Storybook docs**: `packages/storybook/stories/hexcoded/` — 8 MDX files: `Brand`, `Logo`, `AppIcon`, `Favicon`, `Color`, `Typography`, `Voice`, `Components`
+
+**Key brand decisions (do not change without sign-off):**
+- Wordmark: `HEXCODED` — Outfit 900, `-0.025em` tracking, UPPERCASE, no separators
+- Brand colour: **Tech Green** `#22C55E` — constant across light and dark modes (only surfaces invert)
+- Tech Green doubles as the success state — this is intentional, not lazy
+- Motion signature: **Phantom** — 3-layer Tech Green stepped shadow, 3s ease-in-out breath (`hexcoded-phantom-breath` keyframe). Phantom motion appears on the wordmark only; components are still.
+- App icon monogram: `HEX` (three letters) on `#0B0B0F` with breathing green shadow; `H` single-letter fallback at 16px
+- Voice: confident-direct, verb usage ("Get hexcoded.", "Ship it."); no marketing fluff; errors are direct and minimal
+
+**Spelling**: `Hexcoded` (capital H, no camel-case). Not `HexCoded`, not `HEXCODED` outside the wordmark/display context.
+
+**Composition rule**: Hexcoded UI components compose from `tokens-foundation` primitives + existing `@one-impression/ui` primitives (Card, Badge, Button, etc.). No new structural primitives. `.stories.tsx` files for `@one-impression/ui`-hosted Hexcoded primitives (Wordmark, AppIconHexcoded, etc.) will follow once those primitives are added to `packages/ui`; current MDX stories use inline SVG/JSX only.
+
+**MDX authoring note**: MDX2 breaks on self-closing `<animate />` inside SVG `<text>` elements. Use CSS `@keyframes` + pseudo-elements (`::before`/`::after`) for Phantom animation in MDX files instead.
