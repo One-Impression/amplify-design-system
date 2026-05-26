@@ -1,0 +1,85 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/Logo" />
+
+# Hexcoded — Logo
+
+The wordmark is the brand. **HEXCODED** in Outfit 900 at `-0.025em` tracking,
+with the canonical **Phantom** motion — a 3-layer Tech Green stepped shadow
+that breathes opacity on a 3s ease-in-out cycle. Phantom is the only
+motion on the mark. Never substitute.
+
+---
+
+## Hero Wordmark (Phantom-animated, on dark)
+
+<div style={{ padding: 64, background: '#0B0B0F', borderRadius: 12, position: 'relative', overflow: 'hidden' }}>
+  <svg viewBox="0 0 720 140" role="img" aria-label="HEXCODED wordmark Phantom" style={{ width: '100%', maxWidth: 600, display: 'block', margin: '0 auto' }}>
+    <text x="23" y="107" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.32">HEXCODED
+      <animate attributeName="opacity" values="0.32;0.10;0.32" dur="3s" repeatCount="indefinite" />
+    </text>
+    <text x="22" y="106" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.55">HEXCODED
+      <animate attributeName="opacity" values="0.55;0.22;0.55" dur="3s" repeatCount="indefinite" />
+    </text>
+    <text x="21" y="105" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.85">HEXCODED
+      <animate attributeName="opacity" values="0.85;0.35;0.85" dur="3s" repeatCount="indefinite" />
+    </text>
+    <text x="20" y="104" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#FFFFFF">HEXCODED</text>
+  </svg>
+</div>
+
+---
+
+## Wordmark — Default (on light)
+
+<div style={{ padding: 48, background: '#FAFAFA', borderRadius: 12, border: '1px solid #E5E5EA' }}>
+  <svg viewBox="0 0 720 140" role="img" aria-label="HEXCODED wordmark default" style={{ width: '100%', maxWidth: 560, display: 'block', margin: '0 auto' }}>
+    <text x="20" y="104" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#0B0B0F">HEXCODED</text>
+  </svg>
+</div>
+
+---
+
+## Wordmark — Monochrome (uses currentColor)
+
+Drop into any single-ink context: engraving, foiling, single-colour print.
+
+<div style={{ padding: 32, background: '#22C55E', borderRadius: 12, color: '#0B0B0F' }}>
+  <svg viewBox="0 0 720 140" role="img" aria-label="HEXCODED monochrome on green" style={{ width: '100%', maxWidth: 480, display: 'block', margin: '0 auto' }}>
+    <text x="20" y="104" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="currentColor">HEXCODED</text>
+  </svg>
+</div>
+
+<div style={{ marginTop: 16, padding: 32, background: '#FFFFFF', borderRadius: 12, color: '#16A34A', border: '1px solid #E5E5EA' }}>
+  <svg viewBox="0 0 720 140" role="img" aria-label="HEXCODED monochrome green" style={{ width: '100%', maxWidth: 480, display: 'block', margin: '0 auto' }}>
+    <text x="20" y="104" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="currentColor">HEXCODED</text>
+  </svg>
+</div>
+
+---
+
+## Sizes
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 32, background: '#FAFAFA', borderRadius: 12 }}>
+  {[16, 20, 28, 40, 64].map((size) => (
+    <div key={size}>
+      <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: size, letterSpacing: '-0.025em', color: '#0B0B0F', lineHeight: 1 }}>HEXCODED</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 4 }}>{size}px / Outfit 900 / -0.025em</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Do / Don't (L06, L24)
+
+| ✅ Do | ❌ Don't |
+|---|---|
+| UPPERCASE the wordmark always | Lowercase ever (only acceptable in search input) |
+| Use Outfit 900 (Black weight) | Use lighter Outfit weights (700, 800) |
+| `-0.025em` tracking on display sizes | Default or positive tracking |
+| Phantom shadow on dark surfaces | Drop-shadow, blur shadow, purple shadow |
+| Single token: `HEXCODED` | Add separators: `HEX-CODED`, `HEX.CODED`, `HEX·CODED` |
+| Solid fill (`#0B0B0F`, `#FFFFFF`, or `currentColor`) | Outlined / hollow / gradient text |
+| Animate Phantom shadow (3s breath) | Animate any other treatment |
+| Use static Phantom for print | Use the animated variant in print contexts |
