@@ -55,7 +55,18 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI snippet renderers and action engine for React Native
 ```
+
+### sdui-runtime: TabsFooter snippet
+
+`creator.snippet.tabs_footer` renders a pinned bottom navigation row of tab Nodes.
+
+- **Equal-width slots**: each tab Node is wrapped in `flex: 1` so all tabs share the row evenly.
+- **Active state**: set `data.active_index` on the TabsFooter Node; the renderer overrides each child tab's `data.active` flag non-mutably via `applyActiveIndex`. Omit `active_index` to let each tab's own `data.active` value control state.
+- **Click handling**: `on_click` is owned by each Tab Node — no extra wrapper needed. Put all per-tab navigation/state mutations on the Tab Node itself.
+- **Designed for**: the `PageFeed` `data.footer` slot (home page bottom-tabs use case).
+- **`applyActiveIndex` helper** (`src/snippets/TabsFooter/applyActiveIndex.ts`): pure utility, never mutates inputs, safe to unit-test without React Native runtime.
 
 ## Token File Format
 
