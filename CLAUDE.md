@@ -50,12 +50,37 @@ packages/
   tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints)
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
-  tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized) — v3.1.0: adds gradient anchor tokens (gradientHomeStart/Mid1/Mid2/End)
+  tokens-oportunities/ — Oportunities theme tokens (apricot palette, Geist + Inter + JBM, light + dark)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime for Creator App (interpreter, action engine, renderers) — v2.2.1: PageFeed supports config.gradient/bg_color/scroll_header_color + data.footer slot; exports Gradient component; TabsFooter supports active_index styling
+  brand-oportunities/ — Oportunities brand assets (logos, app icons, favicons, social templates)
 ```
+
+### sdui-runtime renderer notes (v2.2.1)
+
+**PageFeed** (`creator.snippet.page_feed`):
+- `data.config.gradient` — absolute-positioned gradient backdrop. Uses `react-native-linear-gradient` as an optional peer dep; falls back to a solid first-color View if the native dep is absent.
+- `data.config.bg_color.type` — solid token-name background when no gradient is provided.
+- `data.config.scroll_header_color.type` — header tint on the filters bar after user scrolls (binary toggle, not interpolated).
+- `data.footer` — a single SDUI Node pinned at the bottom of the page, rendered OUTSIDE the FlatList so it does not scroll. Designed for `creator.snippet.tabs_footer` (home page bottom tabs).
+- `extractFeedPageData` helper casts `page.data` to the augmented shape until `@one-impression/sdk-native-sdui` republishes with the new schema.
+- Existing `filters`, `loader`, `empty_state`, and `on_load_more` behavior is unchanged.
+
+**Gradient** component — new export from `@one-impression/sdui-runtime`. Reusable gradient backdrop primitive for any renderer that needs the same visual.
+
+**TabsFooter** (`creator.snippet.tabs_footer`):
+- Each tab rendered in an equal-width slot (`flex: 1`), matching legacy `TabsFooterSnippetType1.styles.ts`.
+- Top border + soft top-edge shadow added to match legacy pinned bottom-nav appearance.
+- `data.active_index` overrides each tab Node's `data.active` flag — non-mutating; tabs without `active_index` keep their producer-supplied `data.active`.
+- `on_click` dispatched per-tab via existing Tab → `SduiNode` → `Clickable` chain; no extra wrapping needed.
+
+**tokens-creator gradient tokens** (v3.1.0 — purely additive):
+- `gradientHomeStart` `#E2E7FE`, `gradientHomeMid1` `#DEE2FE`, `gradientHomeMid2` `#EBF9FF`, `gradientHomeEnd` `#FFFFFF`
+- Mirror legacy `pageConfig.gradient.colors` hex values. Use these instead of raw hex literals in any SDUI page with a light-violet → off-white background ramp.
 
 ## Token File Format
 
