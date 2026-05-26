@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const actionEngine = useActionEngine();
-  const bottomSheetStore = useBottomSheetStore();
+  const register = useBottomSheetStore((s) => s.register);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const [loadingMore, setLoadingMore] = useState(false);
   const loadingMoreRef = useRef(false);
@@ -67,7 +67,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   useEffect(() => {
     if (page.bottom_sheets) {
       for (const sheet of page.bottom_sheets) {
-        bottomSheetStore.register(sheet.id, {
+        register(sheet.id, {
           id: sheet.id,
           title: sheet.title,
           size: sheet.size ?? "medium",
@@ -77,8 +77,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
         });
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page.bottom_sheets]);
+  }, [page.bottom_sheets, register]);
 
   // Page lifecycle: on_load / on_dismount
   useEffect(() => {

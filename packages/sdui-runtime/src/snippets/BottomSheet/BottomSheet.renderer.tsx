@@ -60,15 +60,16 @@ function BottomSheetRegistrar({
   const register = useBottomSheetStore((s) => s.register);
 
   useEffect(() => {
+    // Re-registration is idempotent (the store overwrites by id), so
+    // honoring prop changes here keeps the registry in sync if the
+    // hosting page re-renders with new sheet data.
     register(id, {
       id,
       title,
       size,
       items: items as Node[],
     });
-    // No teardown: registry persists until the page unmounts and replaces it.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id, title, size, items, register]);
 
   // This renderer does not render inline — the BottomSheetHost handles display.
   return null;
