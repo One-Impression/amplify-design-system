@@ -1,10 +1,16 @@
 {
   "name": "@one-impression/brand-hexcoded",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Hexcoded brand assets — wordmark SVGs (Phantom-animated), HEX monogram app icons, favicons, social templates, business cards, email signature. Locked to Brand Book v1.0 Final (2026-05-22).",
   "main": "index.js",
-  "files": ["assets/", "README.md", "BRAND-DECISIONS.md", "ENGINEER-HANDOFF.md", "index.js"],
+  "files": [
+    "assets/",
+    "README.md",
+    "BRAND-DECISIONS.md",
+    "ENGINEER-HANDOFF.md",
+    "index.js"
+  ],
   "scripts": {
     "validate": "node validate.js"
   }
