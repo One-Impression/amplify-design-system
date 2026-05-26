@@ -13,19 +13,18 @@ motion on the mark. Never substitute.
 
 ## Hero Wordmark (Phantom-animated, on dark)
 
-<div style={{ padding: 64, background: '#0B0B0F', borderRadius: 12, position: 'relative', overflow: 'hidden' }}>
-  <svg viewBox="0 0 720 140" role="img" aria-label="HEXCODED wordmark Phantom" style={{ width: '100%', maxWidth: 600, display: 'block', margin: '0 auto' }}>
-    <text x="23" y="107" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.32">HEXCODED
-      <animate attributeName="opacity" values="0.32;0.10;0.32" dur="3s" repeatCount="indefinite" />
-    </text>
-    <text x="22" y="106" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.55">HEXCODED
-      <animate attributeName="opacity" values="0.55;0.22;0.55" dur="3s" repeatCount="indefinite" />
-    </text>
-    <text x="21" y="105" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#22C55E" opacity="0.85">HEXCODED
-      <animate attributeName="opacity" values="0.85;0.35;0.85" dur="3s" repeatCount="indefinite" />
-    </text>
-    <text x="20" y="104" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="104" letterSpacing="-0.025em" fill="#FFFFFF">HEXCODED</text>
-  </svg>
+<style>{`
+  @keyframes hexcoded-logo-breath { 0%, 100% { opacity: var(--hx-lo, 0.85); } 50% { opacity: calc(var(--hx-lo, 0.85) * 0.4); } }
+  .hx-logo-stage { padding: 80px 48px; background: #0B0B0F; border-radius: 12px; text-align: center; }
+  .hx-logo-mark { position: relative; display: inline-block; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: clamp(56px, 12vw, 104px); letter-spacing: -0.025em; color: #FFFFFF; line-height: 1; }
+  .hx-logo-mark::before, .hx-logo-mark::after { content: 'HEXCODED'; position: absolute; top: 0; left: 0; color: #22C55E; z-index: -1; pointer-events: none; animation: hexcoded-logo-breath 3s ease-in-out infinite; }
+  .hx-logo-mark::before { transform: translate(2px, 2px); --hx-lo: 0.55; animation-delay: 100ms; }
+  .hx-logo-mark::after  { transform: translate(4px, 4px); --hx-lo: 0.32; animation-delay: 200ms; }
+  @media (prefers-reduced-motion: reduce) { .hx-logo-mark::before, .hx-logo-mark::after { animation: none; } }
+`}</style>
+
+<div className="hx-logo-stage">
+  <span className="hx-logo-mark">HEXCODED</span>
 </div>
 
 ---
