@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InputComponentSchema } from "@one-impression/sdk-native-sdui";
 import { Input as DSInput } from "@one-impression/ui-native";
@@ -54,15 +54,23 @@ function InputInner({
   const [localValue, setLocalValue] = useState<string>(v.value ?? "");
   const formCtx = useFormContext();
 
-  // Seed FormContext with the initial value once on mount, so that
-  // submit-time merge sees the server-provided default if the user
+  // Capture mount-time values in refs so the seed effect can read them
+  // without depending on potentially-changing fieldName / formCtx
+  // identities. Refs are stable across renders → empty deps are
+  // self-evident and require no eslint suppression.
+  const fieldNameRef = useRef(fieldName);
+  const formCtxRef = useRef(formCtx);
+  const initialValueRef = useRef(v.value);
+
+  // Seed FormContext with the server-provided initial value once on
+  // mount, so the submit-time merge sees the default even if the user
   // never edits the field.
   React.useEffect(() => {
-    if (fieldName && v.value !== undefined) {
-      formCtx.setValue(fieldName, v.value);
+    const fn = fieldNameRef.current;
+    const init = initialValueRef.current;
+    if (fn && init !== undefined) {
+      formCtxRef.current.setValue(fn, init);
     }
-    // Run once on mount; we do not want to re-seed on every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChangeText = useCallback(
