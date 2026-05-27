@@ -20,7 +20,7 @@ export function ChipRenderer(node: Node): React.ReactElement {
     >
       {(v) => (
         <DSChip
-          label={v.label.data.text}
+          label={v.label.text}
           selected={v.selected}
           disabled={v.disabled}
           icon={v.icon ? <Interpreter node={v.icon} /> : undefined}

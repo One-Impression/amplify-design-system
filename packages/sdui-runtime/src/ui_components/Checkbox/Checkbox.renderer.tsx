@@ -22,7 +22,7 @@ export function CheckboxRenderer(node: Node): React.ReactElement {
         <DSCheckbox
           checked={v.checked}
           disabled={v.disabled}
-          label={v.label ? v.label.data.text : undefined}
+          label={v.label ? v.label.text : undefined}
         />
       )}
     </SduiNode>

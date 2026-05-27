@@ -1,4 +1,4 @@
-import { BffCallPayloadSchema } from "@one-impression/sdk-native-sdui";
+import { BffCallPayloadSchema, EndpointPaths } from "@one-impression/sdk-native-sdui";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 import { useDevConfigStore } from "../../state/useDevConfigStore.js";
@@ -23,16 +23,29 @@ export async function handleBffCall(
 ): Promise<void> {
   const payload = BffCallPayloadSchema.parse(action.payload);
 
-  // Build the URL, substituting path params.
-  let endpointPath = payload.endpoint as string;
+  // Resolve the logical endpoint id (e.g. "creator.home.tab") to its request
+  // path (e.g. "/v1/creator/home/tab") via the EndpointPaths map — the single
+  // source of truth shared with the gateway. The id is NOT a path; treating it
+  // as one would request "/creator.home.tab" and 404.
+  const path = EndpointPaths[payload.endpoint];
+  if (!path) {
+    // Should never happen — endpoint is a typed EndpointId. Fail loudly rather
+    // than silently constructing a wrong URL.
+    throw new Error(`bff_call: no path registered for endpoint id "${payload.endpoint}"`);
+  }
+
+  // Substitute path params into the resolved path (e.g. "/v1/.../{id}").
+  let endpointPath = path;
   if (payload.path_params) {
     for (const [key, value] of Object.entries(payload.path_params)) {
       endpointPath = endpointPath.replace(`{${key}}`, encodeURIComponent(value));
     }
   }
 
-  // Build query string.
-  let url = `${config.bffBaseUrl}/${endpointPath}`;
+  // Build query string. The resolved path has a leading slash; trim a trailing
+  // slash off bffBaseUrl to avoid a double slash.
+  const base = config.bffBaseUrl.replace(/\/$/, "");
+  let url = `${base}${endpointPath}`;
   if (payload.query_params) {
     const qs = new URLSearchParams(payload.query_params).toString();
     if (qs) url += `?${qs}`;

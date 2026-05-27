@@ -211,6 +211,78 @@ test("bff_call — prod BFF + devIdentity set → no X-Dev-Identity header (defe
   }
 });
 
+// ---------------------------------------------------------------------------
+// URL resolution (FIX 2): the endpoint id is a LOGICAL id, not a path. It must
+// be resolved through EndpointPaths (id → "/v1/..."), with no double slash and
+// path-param substitution applied to the resolved path.
+// ---------------------------------------------------------------------------
+
+test("bff_call — resolves logical endpoint id to its path via EndpointPaths (no double slash)", async () => {
+  let capturedUrl: string | undefined;
+  installFetch(async (input) => {
+    capturedUrl = input as string;
+    return jsonResponse({ ok: true });
+  });
+  // creator.events.track → /v1/creator/events/track
+  await handleBffCall(
+    bffAction({ endpoint: "creator.events.track" }),
+    noopConfig,
+    makeSpyEngine(),
+  );
+  assert.equal(capturedUrl, "https://bff.example.test/v1/creator/events/track");
+});
+
+test("bff_call — substitutes path params into the resolved path", async () => {
+  let capturedUrl: string | undefined;
+  installFetch(async (input) => {
+    capturedUrl = input as string;
+    return jsonResponse({ ok: true });
+  });
+  // creator.campaigns.detail → /v1/creator/campaigns/{id}
+  await handleBffCall(
+    bffAction({
+      method: "GET",
+      endpoint: "creator.campaigns.detail",
+      path_params: { id: "abc-123" },
+    }),
+    noopConfig,
+    makeSpyEngine(),
+  );
+  assert.equal(capturedUrl, "https://bff.example.test/v1/creator/campaigns/abc-123");
+});
+
+test("bff_call — appends query params to the resolved path", async () => {
+  let capturedUrl: string | undefined;
+  installFetch(async (input) => {
+    capturedUrl = input as string;
+    return jsonResponse({ ok: true });
+  });
+  await handleBffCall(
+    bffAction({
+      method: "GET",
+      endpoint: "creator.campaigns.list",
+      query_params: { status: "open" },
+    }),
+    noopConfig,
+    makeSpyEngine(),
+  );
+  assert.equal(capturedUrl, "https://bff.example.test/v1/creator/campaigns?status=open");
+});
+
+test("bff_call — trims a trailing slash off bffBaseUrl (no double slash)", async () => {
+  let capturedUrl: string | undefined;
+  installFetch(async (input) => {
+    capturedUrl = input as string;
+    return jsonResponse({ ok: true });
+  });
+  await handleBffCall(
+    bffAction({ endpoint: "creator.events.track" }),
+    { ...noopConfig, bffBaseUrl: "https://bff.example.test/" },
+    makeSpyEngine(),
+  );
+  assert.equal(capturedUrl, "https://bff.example.test/v1/creator/events/track");
+});
+
 test("bff_call — 200 with body.action and on_success — both dispatched in order, with telemetry between", async () => {
   installFetch(async () =>
     jsonResponse({

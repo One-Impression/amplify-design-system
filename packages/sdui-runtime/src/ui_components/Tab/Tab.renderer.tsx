@@ -20,7 +20,7 @@ export function TabRenderer(node: Node): React.ReactElement {
     >
       {(v) => (
         <DSTab
-          label={v.label.data.text}
+          label={v.label.text}
           active={v.active}
           icon={v.icon ? <Interpreter node={v.icon} /> : undefined}
         />

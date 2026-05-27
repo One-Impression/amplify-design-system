@@ -88,7 +88,7 @@ function InputInner({
       placeholder={v.placeholder}
       value={localValue}
       onChangeText={handleChangeText}
-      label={v.label ? v.label.data.text : undefined}
+      label={v.label ? v.label.text : undefined}
       disabled={v.disabled}
       maxLength={v.max_length}
       multiline={v.multiline}

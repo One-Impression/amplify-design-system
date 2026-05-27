@@ -22,7 +22,7 @@ export function RadioRenderer(node: Node): React.ReactElement {
         <DSRadio
           selected={v.selected}
           disabled={v.disabled}
-          label={v.label ? v.label.data.text : undefined}
+          label={v.label ? v.label.text : undefined}
         />
       )}
     </SduiNode>
