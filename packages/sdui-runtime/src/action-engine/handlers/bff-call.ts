@@ -42,6 +42,17 @@ export async function handleBffCall(
     }
   }
 
+  // Fail loudly on any path param the template declared but the action didn't
+  // supply — otherwise a literal "{id}" would be sent and the server would
+  // 404/400 with no useful client signal. Same posture as the unregistered-id
+  // guard above.
+  const unsubstituted = endpointPath.match(/\{[^}]+\}/);
+  if (unsubstituted) {
+    throw new Error(
+      `bff_call: unsubstituted path param ${unsubstituted[0]} in "${path}" for endpoint "${payload.endpoint}"`,
+    );
+  }
+
   // Build query string. The resolved path has a leading slash; trim a trailing
   // slash off bffBaseUrl to avoid a double slash.
   const base = config.bffBaseUrl.replace(/\/$/, "");

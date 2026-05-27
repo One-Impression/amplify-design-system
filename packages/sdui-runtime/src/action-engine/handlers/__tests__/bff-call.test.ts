@@ -251,6 +251,19 @@ test("bff_call — substitutes path params into the resolved path", async () => 
   assert.equal(capturedUrl, "https://bff.example.test/v1/creator/campaigns/abc-123");
 });
 
+test("bff_call — throws on an unsubstituted path param (template declares {id}, action omits it)", async () => {
+  installFetch(async () => jsonResponse({ ok: true }));
+  // creator.campaigns.detail → /v1/creator/campaigns/{id}; no path_params supplied.
+  await assert.rejects(
+    handleBffCall(
+      bffAction({ method: "GET", endpoint: "creator.campaigns.detail" }),
+      noopConfig,
+      makeSpyEngine(),
+    ),
+    /unsubstituted path param \{id\}/,
+  );
+});
+
 test("bff_call — appends query params to the resolved path", async () => {
   let capturedUrl: string | undefined;
   installFetch(async (input) => {
