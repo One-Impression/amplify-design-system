@@ -20,8 +20,8 @@ export function SelectableItemRenderer(node: Node): React.ReactElement {
     >
       {(v) => (
         <DSSelectableItem
-          label={v.label.data.text}
-          description={v.subtitle ? v.subtitle.data.text : undefined}
+          label={v.label.text}
+          description={v.subtitle ? v.subtitle.text : undefined}
           selected={v.selected}
           disabled={v.disabled}
           leading={
