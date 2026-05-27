@@ -77,6 +77,24 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime (`packages/sdui-runtime`)
+
+## SDUI Runtime (`packages/sdui-runtime`)
+
+**Wire contract**: `@one-impression/sdk-native-sdui` is the source of truth for SDUI schemas and builders. The runtime renderers must stay in sync with it.
+
+**Label fields are flat `TextSchema`**: renderers read `v.label.text` (and `v.subtitle.text`) — NOT `v.label.data.text`. Applies to: `Tab`, `Tag`, `Chip`, `Checkbox`, `Radio`, `SelectableItem`, `Input`.
+
+**`bff_call` endpoint resolution**: the `endpoint` field is a logical ID (e.g. `creator.home.tab`), not a URL path. The handler resolves it through `EndpointPaths` (from `sdk-native-sdui`) to get the actual path (e.g. `/v1/creator/home/tab`). Treating the ID as a literal path will 404. Unregistered IDs throw at call time. Unsubstituted path param templates (e.g. `{id}` declared but not supplied in `path_params`) also throw.
+
+**Peer dependency**: `@one-impression/sdk-native-sdui` is pinned to `^2.6.0` (not `>=1.0.0`). Consumers on an older SDK will see a peer-dep conflict at install time — this is intentional to surface schema drift early.
+
+**CI auth**: `npm ci` in the build-and-validate job authenticates to `npm.pkg.github.com` via `NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` because `sdk-native-sdui` is a GitHub Packages dependency, not an in-monorepo workspace.
+
+**Contract tests**: `packages/sdui-runtime/src/__tests__/emit-render-contract.test.ts` round-trips home-page node builders against their schemas and asserts flat label shape. Run via `npm test` in `packages/sdui-runtime` (included in the `tsx --test` glob as `src/__tests__/*.test.ts`).
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
