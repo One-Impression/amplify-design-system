@@ -1,5 +1,5 @@
 /**
- * Emit→render contract test (CR-WF3).
+ * Emit→render contract test.
  *
  * Catches builder↔renderer drift in CI instead of on the simulator. The gateway
  * BFF builds SDUI wire payloads with `@one-impression/sdk-native-sdui` builders;
