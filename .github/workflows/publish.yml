@@ -34,6 +34,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          # sdui-runtime now depends on @one-impression/sdk-native-sdui, which
+          # lives in a DIFFERENT repo (amplify-schemas). The default
+          # GITHUB_TOKEN can't read another repo's private GitHub Packages, so
+          # prefer a fine-grained read:packages PAT (NPM_AUTH_TOKEN) when set.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Build packages
         run: |

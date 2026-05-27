@@ -30,7 +30,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # sdk-native-sdui lives in a different repo (amplify-schemas); the
+          # default GITHUB_TOKEN can't read its private GitHub Packages, so
+          # prefer a fine-grained read:packages PAT (NPM_AUTH_TOKEN) when set.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Build token packages
         run: |
