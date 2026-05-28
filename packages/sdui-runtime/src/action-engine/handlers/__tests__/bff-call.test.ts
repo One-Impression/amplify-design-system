@@ -4,6 +4,7 @@ import { handleBffCall } from "../bff-call.ts";
 import type { ActionEngine, ActionEngineConfig } from "../../types.ts";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import { useDevConfigStore } from "../../../state/useDevConfigStore.ts";
+import { useActiveSocialStore } from "../../../state/useActiveSocialStore.ts";
 
 const noopConfig: ActionEngineConfig = {
   bffBaseUrl: "https://bff.example.test",
@@ -294,6 +295,66 @@ test("bff_call — trims a trailing slash off bffBaseUrl (no double slash)", asy
     makeSpyEngine(),
   );
   assert.equal(capturedUrl, "https://bff.example.test/v1/creator/events/track");
+});
+
+// ---------------------------------------------------------------------------
+// Active social context header (X-Active-Influencer-Id): unlike
+// X-Dev-Identity, this header is NOT localhost-gated — it must ship on
+// every environment whenever the store has a value, because it's how the
+// server scopes catalog/earnings/feed reads to the influencer the creator
+// is currently acting as.
+// ---------------------------------------------------------------------------
+
+test("bff_call — activeInfluencerId set → X-Active-Influencer-Id header injected (prod URL)", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useActiveSocialStore.getState().setActiveInfluencerId("inf-12345");
+  try {
+    await handleBffCall(bffAction(), noopConfig, makeSpyEngine());
+    assert.equal(capturedHeaders?.["X-Active-Influencer-Id"], "inf-12345");
+  } finally {
+    useActiveSocialStore.getState().setActiveInfluencerId(null);
+  }
+});
+
+test("bff_call — activeInfluencerId set → X-Active-Influencer-Id header injected (localhost URL)", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useActiveSocialStore.getState().setActiveInfluencerId("inf-local");
+  try {
+    await handleBffCall(
+      bffAction(),
+      { ...noopConfig, bffBaseUrl: "http://localhost:3000" },
+      makeSpyEngine(),
+    );
+    assert.equal(capturedHeaders?.["X-Active-Influencer-Id"], "inf-local");
+  } finally {
+    useActiveSocialStore.getState().setActiveInfluencerId(null);
+  }
+});
+
+test("bff_call — activeInfluencerId null → X-Active-Influencer-Id header absent", async () => {
+  let capturedHeaders: Record<string, string> | undefined;
+  installFetch(async (_input, init) => {
+    capturedHeaders = (init as { headers?: Record<string, string> } | undefined)
+      ?.headers as Record<string, string> | undefined;
+    return jsonResponse({ ok: true });
+  });
+  useActiveSocialStore.getState().setActiveInfluencerId(null);
+  await handleBffCall(bffAction(), noopConfig, makeSpyEngine());
+  assert.equal(
+    capturedHeaders?.["X-Active-Influencer-Id"],
+    undefined,
+    "header must be omitted when no active selection is set",
+  );
 });
 
 test("bff_call — 200 with body.action and on_success — both dispatched in order, with telemetry between", async () => {

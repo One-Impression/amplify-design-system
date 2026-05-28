@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo, useRef } from "react";
 import type { ReactNode } from "react";
 import type { z } from "zod";
 import type { Action } from "@one-impression/sdk-native-sdui";
@@ -74,8 +74,18 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // on_view is ONE-SHOT per Node instance — Viewable may fire its callback
+  // every time the node re-enters the viewport (e.g. when the user scrolls
+  // back up over a feed item), but the wire contract treats on_view as a
+  // single impression signal. We gate dispatch + analytics on a ref so the
+  // very first viewable signal wins and subsequent triggers are dropped.
+  // New Node instances (e.g. items appended via `append_items` pagination)
+  // get their own ref, so they fire their own on_view when scrolled to.
+  const firedRef = useRef(false);
   const handleViewed = useCallback(() => {
     if (!parsed.ok) return;
+    if (firedRef.current) return;
+    firedRef.current = true;
     if (props.on_view) {
       actionEngine.dispatch(props.on_view);
     }

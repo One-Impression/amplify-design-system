@@ -2,6 +2,7 @@ import { BffCallPayloadSchema, EndpointPaths } from "@one-impression/sdk-native-
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 import { useDevConfigStore } from "../../state/useDevConfigStore.js";
+import { useActiveSocialStore } from "../../state/useActiveSocialStore.js";
 
 /**
  * Returns true if the given BFF base URL targets a local development
@@ -85,6 +86,18 @@ export async function handleBffCall(
     if (devIdentity) {
       headers["X-Dev-Identity"] = devIdentity;
     }
+  }
+
+  // Active social context: scopes every BFF read to the influencer the
+  // creator is currently acting as. Unlike X-Dev-Identity, this header
+  // is NOT localhost-gated — it ships on every environment, including
+  // production. When no active selection is set (boot, signed-out
+  // surfaces, single-influencer accounts) the header is omitted and the
+  // server falls back to its default scoping for the authenticated
+  // creator.
+  const activeInfluencerId = useActiveSocialStore.getState().activeInfluencerId;
+  if (activeInfluencerId) {
+    headers["X-Active-Influencer-Id"] = activeInfluencerId;
   }
 
   // Fire optimistic on_success before the network call.
