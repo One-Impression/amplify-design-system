@@ -51,6 +51,25 @@ export const palette = Object.freeze({
     negativeWeak: "sdui.color.negative-weak",
   }),
 
+  /**
+   * State banners — the campaign/listing state stripe colors. Distinct
+   * from `status` (which is for inline messaging like toasts and form
+   * errors): `state.*` is reserved for the persistent banner that
+   * communicates where a campaign / opportunity sits in its lifecycle.
+   *
+   * Pair each `*Bg` with its matching `*Text` to maintain AA contrast.
+   */
+  state: Object.freeze({
+    neutralBg: "sdui.color.state-neutral-bg",
+    neutralText: "sdui.color.state-neutral-text",
+    actionRequiredBg: "sdui.color.state-action-required-bg",
+    actionRequiredText: "sdui.color.state-action-required-text",
+    successBg: "sdui.color.state-success-bg",
+    successText: "sdui.color.state-success-text",
+    urgentBg: "sdui.color.state-urgent-bg",
+    urgentText: "sdui.color.state-urgent-text",
+  }),
+
   font: Object.freeze({
     xs: "sdui.font-size.xs",
     sm: "sdui.font-size.sm",

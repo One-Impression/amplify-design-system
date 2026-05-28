@@ -60,6 +60,7 @@ describe('palette — shape stability (snapshot)', () => {
         'icon',
         'radius',
         'spacing',
+        'state',
         'status',
         'surface',
         'text',
@@ -90,6 +91,17 @@ describe('palette — shape stability (snapshot)', () => {
     expect(palette.status.noticeWeak).toBeDefined();
     expect(palette.status.negative).toBeDefined();
     expect(palette.status.negativeWeak).toBeDefined();
+  });
+
+  it('state group covers neutral / action-required / success / urgent with bg + text', () => {
+    expect(palette.state.neutralBg).toBeDefined();
+    expect(palette.state.neutralText).toBeDefined();
+    expect(palette.state.actionRequiredBg).toBeDefined();
+    expect(palette.state.actionRequiredText).toBeDefined();
+    expect(palette.state.successBg).toBeDefined();
+    expect(palette.state.successText).toBeDefined();
+    expect(palette.state.urgentBg).toBeDefined();
+    expect(palette.state.urgentText).toBeDefined();
   });
 });
 

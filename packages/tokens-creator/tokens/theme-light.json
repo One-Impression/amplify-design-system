@@ -42,7 +42,16 @@
       "gradient-home-start": { "$value": "#E2E7FE", "$description": "Home page background gradient — start anchor (top)" },
       "gradient-home-mid-1": { "$value": "#DEE2FE", "$description": "Home page background gradient — first mid anchor" },
       "gradient-home-mid-2": { "$value": "#EBF9FF", "$description": "Home page background gradient — second mid anchor" },
-      "gradient-home-end":   { "$value": "#FFFFFF", "$description": "Home page background gradient — end anchor (bottom)" }
+      "gradient-home-end":   { "$value": "#FFFFFF", "$description": "Home page background gradient — end anchor (bottom)" },
+
+      "state-neutral-bg":           { "$value": "{color.stone.100}", "$description": "State banner — neutral (info / pending review). Alias of subtle stone bg." },
+      "state-neutral-text":         { "$value": "{color.stone.700}", "$description": "State banner — neutral text on neutral-bg." },
+      "state-action-required-bg":   { "$value": "#FEF3C7",          "$description": "State banner — action required (creator must act). Amber-100." },
+      "state-action-required-text": { "$value": "#92400E",          "$description": "State banner — action required text. Amber-800 for AA contrast on the amber-100 bg." },
+      "state-success-bg":           { "$value": "#D1FAE5",          "$description": "State banner — success (approved / paid). Green-100." },
+      "state-success-text":         { "$value": "#065F46",          "$description": "State banner — success text. Green-800 for AA contrast on the green-100 bg." },
+      "state-urgent-bg":            { "$value": "#FFEDD5",          "$description": "State banner — urgent (deadline approaching). Orange-100 — distinct from action-required amber, distinct from negative red." },
+      "state-urgent-text":          { "$value": "#9A3412",          "$description": "State banner — urgent text. Orange-800 for AA contrast on the orange-100 bg." }
     },
     "spacing": {
       "$type": "dimension",

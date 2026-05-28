@@ -38,6 +38,17 @@ export interface PaletteStatus {
   readonly negativeWeak: SduiToken;
 }
 
+export interface PaletteState {
+  readonly neutralBg: SduiToken;
+  readonly neutralText: SduiToken;
+  readonly actionRequiredBg: SduiToken;
+  readonly actionRequiredText: SduiToken;
+  readonly successBg: SduiToken;
+  readonly successText: SduiToken;
+  readonly urgentBg: SduiToken;
+  readonly urgentText: SduiToken;
+}
+
 export interface PaletteFont {
   readonly xs: SduiToken;
   readonly sm: SduiToken;
@@ -94,6 +105,7 @@ export interface Palette {
   readonly surface: PaletteSurface;
   readonly brand: PaletteBrand;
   readonly status: PaletteStatus;
+  readonly state: PaletteState;
   readonly font: PaletteFont;
   readonly weight: PaletteWeight;
   readonly spacing: PaletteSpacing;

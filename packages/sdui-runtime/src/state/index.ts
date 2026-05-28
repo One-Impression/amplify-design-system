@@ -78,6 +78,13 @@ export type {
 export { useDevConfigStore } from './useDevConfigStore.js';
 export type { DevConfigState, DevConfigActions } from './useDevConfigStore.js';
 
+// Active social context (scopes every BFF read via X-Active-Influencer-Id)
+export { useActiveSocialStore } from './useActiveSocialStore.js';
+export type {
+  ActiveSocialState,
+  ActiveSocialActions,
+} from './useActiveSocialStore.js';
+
 // Tab-bar optimistic active state (lets the indicator follow user taps
 // without waiting for the BFF round-trip).
 export { TabBarActiveContext } from './TabBarActiveContext.js';

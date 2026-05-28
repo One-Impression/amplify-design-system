@@ -69,3 +69,17 @@ export {
   capabilityHandlerRegistry,
   resolveRenderer,
 } from "./registries/index.js";
+
+// ── State stores (selected) ──
+// The runtime owns several Zustand stores; most are internal. These two
+// are intentionally part of the public surface because consuming apps
+// need to set them at boot:
+//   - useDevConfigStore: localhost-only X-Dev-Identity header
+//   - useActiveSocialStore: production X-Active-Influencer-Id header
+export { useDevConfigStore, useActiveSocialStore } from "./state/index.js";
+export type {
+  DevConfigState,
+  DevConfigActions,
+  ActiveSocialState,
+  ActiveSocialActions,
+} from "./state/index.js";
