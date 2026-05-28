@@ -61,7 +61,7 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
             <Stack direction="row" align="center" gap={8}>
               {v.status_tag && (
                 <DSTag
-                  label={v.status_tag.label}
+                  label={v.status_tag.label.text}
                   variant={v.status_tag.variant}
                   color={v.status_tag.color}
                 />
