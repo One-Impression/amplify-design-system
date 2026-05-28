@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/tokens-creator",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
   "main": "dist/tokens.js",
   "exports": {
