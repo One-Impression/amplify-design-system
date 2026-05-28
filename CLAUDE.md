@@ -51,11 +51,37 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+                        └─ palette.state.*  — State-banner color pairs (neutral/action-required/success/urgent)
+                           Distinct from palette.status.* (toasts/form errors). Always use *Bg + *Text together for AA contrast.
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime (CardRenderer, SduiNode, action engine, state stores)
 ```
+
+### sdui-runtime public state stores
+
+Two Zustand stores are exported from `@one-impression/sdui-runtime`'s public surface and must be set at app boot:
+
+| Store | Header injected | Environment | Purpose |
+|---|---|---|---|
+| `useDevConfigStore` | `X-Dev-Identity` | localhost only | Dev identity override |
+| `useActiveSocialStore` | `X-Active-Influencer-Id` | **every environment** | Scopes all BFF reads to the active influencer |
+
+`useActiveSocialStore` shape:
+```ts
+activeInfluencerId: string | null   // null → header omitted; server uses default scoping
+setActiveInfluencerId(value: string | null): void
+```
+
+When `activeInfluencerId` is set, `bff_call` injects `X-Active-Influencer-Id` on **all** environments (not localhost-gated, unlike `X-Dev-Identity`).
+
+### sdui-runtime behavioral contracts
+
+- **`SduiNode.on_view` is one-shot per instance.** The `Viewable` HOC may fire its callback multiple times (e.g. scroll-back-up over a feed item); `SduiNode` gates dispatch on a `firedRef` so the impression is emitted exactly once. New Node instances (e.g. items appended via `append_items` pagination) get their own ref and fire once when first scrolled into view.
+
+- **`CardRenderer` composes `header → items → footer` slots** (from `sdk-native-sdui ^2.8.0` `CardSnippetSchema`). The optional `config.footer_bg_color` token wraps the footer slot in a `Box` with that background color. `on_click`/`on_view` on the card node dispatch via `SduiNode`'s own wrappers; header/footer nodes carry their own actions and dispatch independently via `Interpreter`. `config` is validated via `CardSnippetSchema.shape.config.safeParse()` — not cast — so a malformed `footer_bg_color` is dropped at the boundary.
 
 ## Token File Format
 
