@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { TabsFooterSchema } from "@one-impression/sdk-native-sdui";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { applyActiveIndex } from "./applyActiveIndex.js";
+import { TabBarActiveContext } from "../../state/TabBarActiveContext.js";
 
 const styles = StyleSheet.create({
   /**
@@ -52,6 +53,17 @@ const styles = StyleSheet.create({
  * the SDUI-native `active_index` field instead so layouts stay declarative.
  */
 export function TabsFooterRenderer(node: Node): React.ReactElement {
+  // Optimistic active state. `null` until the user taps; once set, takes
+  // priority over the BFF's `data.active_index` so the underline indicator
+  // follows the finger instead of waiting for the BFF round-trip that
+  // loads the new tab's content. The server can still seed selection at
+  // mount via `data.active_index` (used until the first tap).
+  const [localActiveTabId, setLocalActiveTabId] = useState<string | null>(null);
+  const ctxValue = useMemo(
+    () => ({ activeTabId: localActiveTabId, setActiveTabId: setLocalActiveTabId }),
+    [localActiveTabId],
+  );
+
   return (
     <SduiNode
       data={node.data}
@@ -65,15 +77,27 @@ export function TabsFooterRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => {
-        const items = applyActiveIndex(v.items ?? [], v.active_index);
+        const rawItems = v.items ?? [];
+        // Resolve effective active index: a local tap wins, otherwise fall
+        // back to the BFF-supplied `active_index`.
+        const localIndex =
+          localActiveTabId != null
+            ? rawItems.findIndex((it) => it.id === localActiveTabId)
+            : -1;
+        const effectiveActiveIndex =
+          localIndex >= 0 ? localIndex : v.active_index;
+        const items = applyActiveIndex(rawItems, effectiveActiveIndex);
+
         return (
-          <View style={styles.container}>
-            {items.map((item, i) => (
-              <View key={item.id || `tab-${i}`} style={styles.tabSlot}>
-                <Interpreter node={item} />
-              </View>
-            ))}
-          </View>
+          <TabBarActiveContext.Provider value={ctxValue}>
+            <View style={styles.container}>
+              {items.map((item, i) => (
+                <View key={item.id || `tab-${i}`} style={styles.tabSlot}>
+                  <Interpreter node={item} />
+                </View>
+              ))}
+            </View>
+          </TabBarActiveContext.Provider>
         );
       }}
     </SduiNode>

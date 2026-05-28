@@ -77,3 +77,8 @@ export type {
 // Dev config (localhost-only request augmentation, e.g. X-Dev-Identity header)
 export { useDevConfigStore } from './useDevConfigStore.js';
 export type { DevConfigState, DevConfigActions } from './useDevConfigStore.js';
+
+// Tab-bar optimistic active state (lets the indicator follow user taps
+// without waiting for the BFF round-trip).
+export { TabBarActiveContext } from './TabBarActiveContext.js';
+export type { TabBarActiveContextValue } from './TabBarActiveContext.js';
