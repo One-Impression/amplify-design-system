@@ -1,5 +1,19 @@
 # @one-impression/sdui-runtime
 
+## 2.3.1
+
+### Patch Changes
+
+- [#189](https://github.com/One-Impression/amplify-design-system/pull/189) [`34089db`](https://github.com/One-Impression/amplify-design-system/commit/34089db8a9c2e7d655e2be90dd55840bc4f71d6a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - fix(sdui-runtime): home BC renderer fixes — Tab icon + tap dispatch, InfoRow flat status_tag label, optimistic tab-bar active state
+
+  Renderer-level bugs and a UX gap found by on-device E2E of the home BC against `sdk-native-sdui@^2.6.0`. Visible bugs are caught by `SduiErrorBoundary` so they render as fallback boxes rather than crash the screen.
+  - **`TabRenderer` — icon crash.** The renderer wrapped `v.icon` in `<Interpreter node={v.icon} />`, but `icon` is a flat `IconSchema` (`{ name, size?, color? }`), not an SDUI node — so `Interpreter` called `resolveRenderer(undefined)` and crashed on `.startsWith()`. The footer's 3 tabs rendered as fallback boxes. Fix: render `<DSIcon name={v.icon.name} size={v.icon.size} color={v.icon.color} />`, matching the established pattern in `ChipRenderer`, `PageHeader`, `InfoIconRow`, and 6 other renderers that consume `IconSchema`.
+  - **`TabRenderer` — tap swallowed.** `DSTab` is itself a `Pressable`. Passing `on_click` to `SduiNode` wrapped the tab in an outer `Clickable` Pressable, but in RN the deepest Pressable under the touch point wins — so the inner DSTab Pressable swallowed the tap and the outer handler never fired. (`DSTab.types.ts` already documents this expectation.) Fix: dispatch `on_click` locally via `useActionEngine` and pass the press handler directly as `DSTab.onPress`; intentionally do not forward `on_click` to `SduiNode` (so no outer Clickable wraps). `on_load` / `on_view` / `on_dismount` continue to flow through `SduiNode` unchanged.
+  - **`InfoRow` — status_tag label flat-text bug.** The renderer passed the whole `v.status_tag.label` object to `DSTag.label`, but `status_tag.label` is a flat `TextSchema` (`{ text, color?, font_size?, font_weight? }`), not a string. React rendered it as a child and threw "Objects are not valid as a React child (found: object with keys {text})." Every `info_row` on the home Explore feed rendered as a fallback box (no title/subtitle/status tag). Fix: `label={v.status_tag.label.text}`, same pattern title/subtitle/badge already use in this renderer.
+  - **Tab-bar optimistic active state.** "Which tab is highlighted" is intrinsically a client-UI concern: the user just touched the button, the indicator should follow the finger — not wait for the BFF round-trip that loads the new tab's content. Previously the active indicator was driven only by `data.active_index` from the server, which meant every tab switch had a perceptible lag (the highlight only moved once the new tab's `replace_section` response arrived). Fix: added a generic `TabBarActiveContext` (exported from `state/`) that a parent tab-bar renderer provides and child Tabs consume. `TabsFooterRenderer` now owns a `useState<string | null>` for the optimistic active tab id and provides it; `TabRenderer` updates it on press _before_ dispatching `on_click`. The effective active index is `local override ?? data.active_index` — the server still seeds selection at mount and can drive it via re-renders, but the local override wins until the next tap. Zero wire cost, zero gateway changes, no remount of the footer. Reusable for future tab bars (top tabs, segmented controls, etc.) since the context is generic.
+
+  Verified on iPhone 15 Pro simulator: footer tabs render with correct labels, tapping a tab flips the active indicator **instantly** (no round-trip wait) while the BFF's `on_click` fires asynchronously and the gateway's `replace_section` action swaps the page sections, and campaign cards render full title / subtitle / status tag.
+
 ## 2.3.0
 
 ### Minor Changes
