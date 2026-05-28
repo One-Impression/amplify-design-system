@@ -34,11 +34,18 @@ export function CardRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => {
-        // `config` lives as a sibling of `data` on the node itself, not
-        // inside `data`. Reach through the original Node for it.
-        const footerBgColor = (
-          node as Node & { config?: { footer_bg_color?: string } }
-        ).config?.footer_bg_color;
+        // `config` is a sibling of `data` on the wire node, not inside
+        // `data` — SduiNode only validates `data`, so parse `config`
+        // separately against the same schema's config sub-shape. This
+        // keeps the validation boundary discipline (no `as` cast on the
+        // raw node — a malformed `footer_bg_color` fails the parse and
+        // is dropped instead of reaching the renderer).
+        const configParse = CardSnippetSchema.shape.config.safeParse(
+          (node as { config?: unknown }).config,
+        );
+        const footerBgColor = configParse.success
+          ? configParse.data?.footer_bg_color
+          : undefined;
 
         return (
           <DSCard
