@@ -50,11 +50,15 @@ packages/
   tokens-foundation/  — Shared primitives (spacing, radii, shadows, typography, z-index, breakpoints)
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
-  tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized) · v3.2.0: adds `palette.state.*` token group for campaign/opportunity lifecycle banners (`state-neutral`, `state-action-required`, `state-success`, `state-urgent` — each with bg + text pair, AA contrast in light + dark). Distinct from `palette.status.*` (inline messaging). Do NOT alias state-banner tokens to existing `status.*` tokens — the four states require perceptually independent hues across both themes.
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime: interpreter, action engine, bottom-sheet manager, loaders, providers · v2.4.0 changes:
+                          • CardRenderer now supports `data.header?`, `data.items[]`, `data.footer?` slots (sdk-native-sdui ≥2.8.0) and `config.footer_bg_color` (wraps footer in a Box with resolved bg color)
+                          • `SduiNode.on_view` is now **one-shot per instance** — `firedRef` prevents re-emission on scroll-back; new instances (pagination) get their own ref
+                          • `bff_call` injects `X-Active-Influencer-Id` header from new `useActiveSocialStore` (`activeInfluencerId: string | null`) — exported from package public surface; omitted (not nulled) when store is null
 ```
 
 ## Token File Format
