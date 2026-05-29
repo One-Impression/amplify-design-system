@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import type { Node, Action } from "@one-impression/sdk-native-sdui";
 import { PageHeaderImageStackSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Stack, Text, ImageStack as DSImageStack } from "@one-impression/ui-native";
@@ -12,6 +12,19 @@ interface ImageEntry {
 
 export function PageHeaderImageStackRenderer(node: Node): React.ReactElement {
   const actionEngine = useActionEngine();
+  // Latest parsed images are stashed in a ref so the per-image press
+  // resolver below can stay referentially stable across parent re-renders
+  // — DSImageStack would otherwise see a new `onImagePress` prop on
+  // every paint and re-mount the inner Pressable wrappers.
+  const imagesRef = useRef<ImageEntry[]>([]);
+  const onImagePress = useCallback(
+    (index: number) => {
+      const onClick = imagesRef.current[index]?.on_click;
+      if (!onClick) return undefined;
+      return () => actionEngine.dispatch(onClick);
+    },
+    [actionEngine],
+  );
   return (
     <SduiNode
       data={node.data}
@@ -25,18 +38,11 @@ export function PageHeaderImageStackRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => {
-        // Resolve a per-image press handler. DSImageStack invokes this for
-        // each visible face; we return `undefined` for images without an
-        // `on_click` so DSImageStack renders them as plain (non-pressable)
-        // `Image` elements rather than wrapping them in an inert
-        // Pressable. The closure captures `actionEngine` + the freshly
-        // parsed images array.
+        // Each render of the SduiNode child receives the freshly parsed
+        // data; mirror it into the ref so the stable `onImagePress`
+        // closure above reads the latest `on_click` per index.
         const images = v.images as ImageEntry[];
-        const onImagePress = (index: number) => {
-          const onClick = images[index]?.on_click;
-          if (!onClick) return undefined;
-          return () => actionEngine.dispatch(onClick);
-        };
+        imagesRef.current = images;
         return (
           <Box padding={16}>
             <Stack direction="row" align="center" gap={12}>
