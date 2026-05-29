@@ -226,14 +226,6 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     }, 5000);
   }, [actionEngine, onLoadMore]);
 
-  // Top-level FlatList items are typically section wrappers
-  // (`home-items-section`, `home-filters-section`) that don't carry an
-  // `on_view`; the cards with `on_view` are nested inside.
-  // `onViewableItemsChanged` therefore fires for the wrappers (no-op for
-  // any wrapper without `on_view`) and the nested cards fall back to
-  // `Viewable`'s onLayout fallback. We deliberately do NOT push a
-  // `trackedByList: true` ViewableContext from here — that would suppress
-  // the nested onLayout fallback and leave nested `on_view` silent.
   const renderItem = useCallback(
     ({ item }: { item: Node }) => <Interpreter node={item} />,
     [],
