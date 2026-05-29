@@ -9,9 +9,9 @@ import { resolveRadius } from '../../theme/resolvers';
  * Common in creator lists showing multiple profile pictures.
  *
  * When `onImagePress` is provided, each visible image is wrapped in a
- * `Pressable` whose handler is resolved by calling `onImagePress(index)`
- * with the image's index in the **original** `images` array. The `+N`
- * overflow chip is not made pressable here.
+ * `Pressable` that invokes `onImagePress(index)` on tap. The consumer
+ * decides per-index what to do (including no-op). The `+N` overflow
+ * chip is not made pressable here.
  */
 export const ImageStack = React.forwardRef<View, ImageStackProps>(
   (
@@ -25,25 +25,14 @@ export const ImageStack = React.forwardRef<View, ImageStackProps>(
     return (
       <View ref={ref} style={[styles.container, style]} {...props}>
         {visible.map((source, i) => {
-          const press = onImagePress?.(i);
-          const imageStyle = [
-            styles.image,
-            {
-              width: size,
-              height: size,
-              borderRadius,
-              marginLeft: i > 0 ? -overlap : 0,
-              zIndex: visible.length - i,
-            },
-          ];
-          if (press) {
-            // Wrap in a Pressable. The visible hit area is the image's own
-            // bounds — overlap with neighbouring circles is acceptable and
-            // matches the legacy face-stack interaction.
+          if (onImagePress) {
+            // The visible hit area is the image's own bounds — overlap with
+            // neighbouring circles is acceptable and matches the legacy
+            // face-stack interaction.
             return (
               <Pressable
                 key={i}
-                onPress={press}
+                onPress={() => onImagePress(i)}
                 accessibilityRole="button"
                 style={{
                   marginLeft: i > 0 ? -overlap : 0,
@@ -60,7 +49,22 @@ export const ImageStack = React.forwardRef<View, ImageStackProps>(
               </Pressable>
             );
           }
-          return <RNImage key={i} source={source} style={imageStyle} />;
+          return (
+            <RNImage
+              key={i}
+              source={source}
+              style={[
+                styles.image,
+                {
+                  width: size,
+                  height: size,
+                  borderRadius,
+                  marginLeft: i > 0 ? -overlap : 0,
+                  zIndex: visible.length - i,
+                },
+              ]}
+            />
+          );
         })}
         {overflowCount > 0 && (
           <View

@@ -25,21 +25,16 @@ export function PageHeaderImageStackRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => {
-        // Resolver closes directly over the freshly-parsed `images` array
-        // — a new function reference per render is deliberate. The
-        // alternative of stashing `images` in a ref inside the render
-        // body is a latent concurrent-mode hazard (the render-prop may
-        // run for a discarded render and leave the ref pointing at a
-        // never-committed value). DSImageStack tolerates a changing
-        // `onImagePress` prop: each visible image keys by index and the
-        // inner `Pressable` rebinds `onPress` on prop change without
-        // remounting. Performance impact is negligible compared to the
-        // correctness gain.
+        // Handler is invoked by DSImageStack on actual press, with the
+        // image's index. Closes over the freshly-parsed `images` array
+        // directly — a new function reference per render is harmless
+        // because DSImageStack only rebinds `Pressable.onPress` on prop
+        // change. Images without an `on_click` no-op silently (still
+        // press-feedback the tap, since avatars all look interactive).
         const images = v.images as ImageEntry[];
         const onImagePress = (index: number) => {
           const onClick = images[index]?.on_click;
-          if (!onClick) return undefined;
-          return () => actionEngine.dispatch(onClick);
+          if (onClick) actionEngine.dispatch(onClick);
         };
         return (
           <Box padding={16}>

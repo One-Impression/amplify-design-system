@@ -13,14 +13,15 @@ export interface ImageStackProps extends Omit<ViewProps, 'style'> {
   /** Border radius. Defaults to 'full'. */
   rounded?: RadiusToken | number;
   /**
-   * Per-image press handler, invoked with the index in the **original**
-   * `images` array. When provided, the matching image is wrapped in a
-   * `Pressable`; the `+N` overflow chip is NOT pressable through this hook.
-   * If omitted (or returns `undefined` for an index) the image renders as
-   * a plain `Image` with no touch handler. Used by SDUI surfaces like
-   * `PageHeaderImageStack` where each face dispatches its own `on_click`.
+   * Per-image press handler. When provided, each visible image is wrapped
+   * in a `Pressable` whose `onPress` invokes this with the image's index
+   * in the original `images` array. The consumer decides what (if
+   * anything) to do for that index — including no-op for non-actionable
+   * faces. The `+N` overflow chip is NOT pressable through this hook.
+   * Used by SDUI surfaces like `PageHeaderImageStack` where each face
+   * dispatches an action keyed by index.
    */
-  onImagePress?: (index: number) => (() => void) | undefined;
+  onImagePress?: (index: number) => void;
   /** Additional style overrides. */
   style?: ViewProps['style'];
 }

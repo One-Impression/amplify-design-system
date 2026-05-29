@@ -3,7 +3,7 @@
 "@one-impression/ui-native": minor
 ---
 
-EX-5 Explore tab end-to-end fixes — bundled session of nine session-scoped issues found while running the home/Explore checklist on iOS:
+Explore tab end-to-end fixes — bundled session of nine issues found while running the home/Explore checklist on iOS:
 
 **sdui-runtime**
 
