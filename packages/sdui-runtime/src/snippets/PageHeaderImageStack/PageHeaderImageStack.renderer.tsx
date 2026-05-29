@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback } from "react";
 import type { Node, Action } from "@one-impression/sdk-native-sdui";
 import { PageHeaderImageStackSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Stack, Text, ImageStack as DSImageStack } from "@one-impression/ui-native";
@@ -18,26 +18,24 @@ interface PageHeaderImageStackBodyProps {
 }
 
 /**
- * Inner body component — receives the parsed data as plain props from
- * the SduiNode render-prop. Lives outside the render-prop callback so
- * standard hooks (useEffect, useCallback) work normally and the
- * `imagesRef` mirror runs only on committed renders.
+ * Inner body — receives the parsed data as plain props from the SduiNode
+ * render-prop so standard hooks compose normally. `onImagePress` closes
+ * over `images` and re-allocates when that prop changes, which is exactly
+ * what we want: a new array means new per-index `on_click` targets.
+ * DSImageStack's inner `Pressable` rebinds `onPress` on prop change
+ * without remounting, so the new reference is cheap.
  */
 function PageHeaderImageStackBody({
   actionEngine,
   title,
   images,
 }: PageHeaderImageStackBodyProps): React.ReactElement {
-  const imagesRef = useRef<ImageEntry[]>(images);
-  useEffect(() => {
-    imagesRef.current = images;
-  }, [images]);
   const onImagePress = useCallback(
     (index: number) => {
-      const onClick = imagesRef.current[index]?.on_click;
+      const onClick = images[index]?.on_click;
       if (onClick) actionEngine.dispatch(onClick);
     },
-    [actionEngine],
+    [images, actionEngine],
   );
   return (
     <Box padding={16}>
