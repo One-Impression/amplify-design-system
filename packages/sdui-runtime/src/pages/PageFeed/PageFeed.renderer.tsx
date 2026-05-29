@@ -15,17 +15,11 @@ import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
 import { usePageStore } from "../../state/usePageStore.js";
 import { Gradient, type GradientItem } from "../../gradient/index.js";
+import {
+  FEED_ITEM_VISIBLE_PERCENT_THRESHOLD,
+  FEED_ITEM_MIN_VIEW_TIME_MS,
+} from "../../constants/viewability.js";
 import { extractFeedPageData, type FeedPageData } from "./extractFeedPageData.js";
-
-/**
- * Impression policy for the feed's list-level viewport tracker. Tuning
- * these literals changes when an item counts as "viewed" — adjust both
- * the visible-percent threshold and the dwell time as one decision.
- */
-const FEED_VIEWABILITY_CONFIG = {
-  itemVisiblePercentThreshold: 50,
-  minimumViewTime: 100,
-} as const;
 
 interface PageProps {
   page: Page;
@@ -206,7 +200,10 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   useEffect(() => {
     actionEngineRef.current = actionEngine;
   }, [actionEngine]);
-  const viewabilityConfig = useRef(FEED_VIEWABILITY_CONFIG).current;
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: FEED_ITEM_VISIBLE_PERCENT_THRESHOLD,
+    minimumViewTime: FEED_ITEM_MIN_VIEW_TIME_MS,
+  }).current;
   const onViewableItemsChanged = useRef(
     ({ viewableItems }: { viewableItems: Array<{ item: Node }> }) => {
       for (const v of viewableItems) {
