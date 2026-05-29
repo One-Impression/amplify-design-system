@@ -102,13 +102,6 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const [scrolled, setScrolled] = useState(false);
   const loadingMoreRef = useRef(false);
 
-  const pageData = extractFeedPageData(page.data);
-  const { header, filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
-    pageData;
-  const gradient = config?.gradient as GradientItem | undefined;
-  const bgColorToken = config?.bg_color?.type;
-  const scrollHeaderColorToken = config?.scroll_header_color?.type;
-
   // Sync the server-provided page tree into usePageStore on mount / whenever
   // the page prop reference changes. This makes `replaceNode` / `appendItems`
   // (dispatched from action handlers like reload_section / append_items)
@@ -117,20 +110,29 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     usePageStore.getState().setPageTree(page);
   }, [page]);
 
-  // Subscribe to the store for live updates to items. We fall back to the
-  // prop value when the store hasn't been populated yet (first render before
-  // the setPageTree effect commits) or when the store currently holds a
-  // different page (e.g. during a navigation transition). useShallow keeps
-  // the read atomic — pageId + items together — so the renderer can't see a
-  // torn snapshot under React 18 concurrent rendering.
-  const items = usePageStore(
+  // Subscribe to the store for live updates to the whole page tree — not just
+  // `items[]`, because `replace_section` actions can target the pinned slots
+  // (`data.header`, `data.footer`) too, and the renderer needs to re-read
+  // them when they change. We fall back to the prop value when the store
+  // hasn't been populated yet (first render before the setPageTree effect
+  // commits) or when the store currently holds a different page (e.g. during
+  // a navigation transition). useShallow keeps the read atomic so the
+  // renderer can't see a torn snapshot under React 18 concurrent rendering.
+  const effectivePage = usePageStore(
     useShallow((s) => {
       if (s.pageId === page.id && s.page) {
-        return s.page.items;
+        return s.page;
       }
-      return page.items;
+      return page;
     }),
   );
+  const items = effectivePage.items;
+  const pageData = extractFeedPageData(effectivePage.data);
+  const { header, filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
+    pageData;
+  const gradient = config?.gradient as GradientItem | undefined;
+  const bgColorToken = config?.bg_color?.type;
+  const scrollHeaderColorToken = config?.scroll_header_color?.type;
 
   // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
@@ -179,6 +181,37 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     return () => subscription.remove();
   }, [actionEngine, page.on_back_press]);
 
+  // List-level viewport tracking. FlatList's `onViewableItemsChanged` fires
+  // every time the set of items meeting `viewabilityConfig` changes. We
+  // dispatch each top-level item's `on_view` exactly once — keyed by
+  // node.id with a Ref-backed Set — when it first becomes viewable.
+  // The dedup Set persists across re-renders + appended pages so already-
+  // seen items don't re-fire when scrolled back into view.
+  const firedViewIdsRef = useRef<Set<string>>(new Set());
+  // FlatList requires `onViewableItemsChanged` and `viewabilityConfig`
+  // references to be stable for the component's lifetime — changing them
+  // throws. Stash actionEngine in a ref so the stable callback always
+  // reads the latest dispatcher without re-allocating.
+  const actionEngineRef = useRef(actionEngine);
+  useEffect(() => {
+    actionEngineRef.current = actionEngine;
+  }, [actionEngine]);
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+    minimumViewTime: 100,
+  }).current;
+  const onViewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: Array<{ item: Node }> }) => {
+      for (const v of viewableItems) {
+        const node = v.item;
+        const id = node?.id;
+        if (!id || !node.on_view) continue;
+        if (firedViewIdsRef.current.has(id)) continue;
+        firedViewIdsRef.current.add(id);
+        actionEngineRef.current.dispatch(node.on_view);
+      }
+    },
+  ).current;
   // Infinite scroll — dispatch on_load_more when user scrolls near the bottom
   const handleEndReached = useCallback(() => {
     if (!onLoadMore || loadingMoreRef.current) return;
@@ -193,6 +226,17 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     }, 5000);
   }, [actionEngine, onLoadMore]);
 
+  // Top-level FlatList items are typically section wrappers
+  // (`home-items-section`, `home-filters-section`) that don't carry an
+  // `on_view`; the cards with `on_view` are nested inside. `onViewableItemsChanged`
+  // therefore tracks the wrappers (a no-op for any wrapper without `on_view`)
+  // and the nested cards fall back to `Viewable`'s onLayout fallback. We
+  // deliberately do NOT push a `trackedByList: true` ViewableContext from
+  // here — that would suppress the nested onLayout fallback and leave nested
+  // `on_view` actions silent. (The unused `trackedByListValue` ref above is
+  // kept for the future-state where top-level items themselves carry
+  // `on_view`; flipping the context becomes safe once nested viewport
+  // tracking exists.)
   const renderItem = useCallback(
     ({ item }: { item: Node }) => <Interpreter node={item} />,
     [],
@@ -279,6 +323,8 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
           ListEmptyComponent={renderEmpty}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
+          viewabilityConfig={viewabilityConfig}
+          onViewableItemsChanged={onViewableItemsChanged}
           onScroll={handleScroll}
           scrollEventThrottle={16}
           contentContainerStyle={items?.length ? undefined : styles.container}

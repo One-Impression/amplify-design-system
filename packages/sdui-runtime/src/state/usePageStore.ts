@@ -124,21 +124,58 @@ function replaceNodeInTree(
       matched = true;
       continue;
     }
-    // Descend into common container fields. `data.items` is the canonical
-    // child list for snippets / feed nodes in the SDUI wire format.
+    // Descend into common container fields. The SDUI wire format pins
+    // some children as single-Node slots (`data.header`, `data.footer`)
+    // — used by `pageFeed`'s sticky header / footer and the `card`
+    // snippet's overlapping-image header / state-banner footer — and
+    // others as the `data.items` array. `replace_section` actions can
+    // target IDs living in any of these slots, so we recurse into all
+    // three.
     const data = (n.data ?? {}) as Record<string, unknown>;
-    const childItems = data['items'];
-    if (Array.isArray(childItems)) {
-      const [nextChildren, didMatch] = replaceNodeInTree(
-        childItems as Node[],
+    let nextData: Record<string, unknown> | null = null;
+
+    const headerSlot = data['header'] as Node | undefined;
+    if (headerSlot && typeof headerSlot === 'object' && headerSlot.id === targetId) {
+      nextData = { ...data, header: next };
+    } else if (headerSlot && typeof headerSlot === 'object') {
+      const [slotChildren, slotMatched] = replaceNodeInTree(
+        [headerSlot],
         targetId,
         next,
       );
-      if (didMatch) {
-        out.push({ ...n, data: { ...data, items: nextChildren } });
-        matched = true;
-        continue;
+      if (slotMatched) nextData = { ...data, header: slotChildren[0] };
+    }
+
+    if (!nextData) {
+      const footerSlot = data['footer'] as Node | undefined;
+      if (footerSlot && typeof footerSlot === 'object' && footerSlot.id === targetId) {
+        nextData = { ...data, footer: next };
+      } else if (footerSlot && typeof footerSlot === 'object') {
+        const [slotChildren, slotMatched] = replaceNodeInTree(
+          [footerSlot],
+          targetId,
+          next,
+        );
+        if (slotMatched) nextData = { ...data, footer: slotChildren[0] };
       }
+    }
+
+    if (!nextData) {
+      const childItems = data['items'];
+      if (Array.isArray(childItems)) {
+        const [nextChildren, didMatch] = replaceNodeInTree(
+          childItems as Node[],
+          targetId,
+          next,
+        );
+        if (didMatch) nextData = { ...data, items: nextChildren };
+      }
+    }
+
+    if (nextData) {
+      out.push({ ...n, data: nextData });
+      matched = true;
+      continue;
     }
     out.push(n);
   }
@@ -261,18 +298,60 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
         );
         return {};
       }
+      // 1) Search the body items[] (the scroll body).
       const [nextItems, matched] = replaceNodeInTree(
         state.page.items,
         targetId,
         next,
       );
-      if (!matched) {
-        console.warn(
-          `[usePageStore.replaceNode] no node with id "${targetId}" in page "${state.page.id}"`,
-        );
-        return {};
+      if (matched) {
+        return { page: { ...state.page, items: nextItems } };
       }
-      return { page: { ...state.page, items: nextItems } };
+      // 2) Search the page's pinned slots — `data.header` and `data.footer`
+      // — which `pageFeed` keeps outside `items[]`. Without this, a
+      // `replace_section` targeting the home page's `home-header-section`
+      // would silently no-op even though the slot literally exists.
+      const pageData = (state.page.data ?? {}) as Record<string, unknown>;
+      const headerSlot = pageData['header'] as Node | undefined;
+      if (headerSlot && typeof headerSlot === 'object') {
+        if (headerSlot.id === targetId) {
+          return {
+            page: { ...state.page, data: { ...pageData, header: next } },
+          };
+        }
+        const [slot, slotMatched] = replaceNodeInTree(
+          [headerSlot],
+          targetId,
+          next,
+        );
+        if (slotMatched) {
+          return {
+            page: { ...state.page, data: { ...pageData, header: slot[0] } },
+          };
+        }
+      }
+      const footerSlot = pageData['footer'] as Node | undefined;
+      if (footerSlot && typeof footerSlot === 'object') {
+        if (footerSlot.id === targetId) {
+          return {
+            page: { ...state.page, data: { ...pageData, footer: next } },
+          };
+        }
+        const [slot, slotMatched] = replaceNodeInTree(
+          [footerSlot],
+          targetId,
+          next,
+        );
+        if (slotMatched) {
+          return {
+            page: { ...state.page, data: { ...pageData, footer: slot[0] } },
+          };
+        }
+      }
+      console.warn(
+        `[usePageStore.replaceNode] no node with id "${targetId}" in page "${state.page.id}"`,
+      );
+      return {};
     }),
 
   appendItems: (targetId, items, options = {}) =>

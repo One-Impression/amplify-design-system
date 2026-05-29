@@ -71,15 +71,24 @@ export {
 } from "./registries/index.js";
 
 // ── State stores (selected) ──
-// The runtime owns several Zustand stores; most are internal. These two
-// are intentionally part of the public surface because consuming apps
-// need to set them at boot:
+// The runtime owns several Zustand stores; most are internal. These are
+// intentionally part of the public surface because consuming apps need
+// to read from or mirror them at boot:
 //   - useDevConfigStore: localhost-only X-Dev-Identity header
 //   - useActiveSocialStore: production X-Active-Influencer-Id header
-export { useDevConfigStore, useActiveSocialStore } from "./state/index.js";
+//   - useLocalStore: target of `set_local` actions; apps subscribe to it
+//     to bridge BFF-driven local state into other systems (e.g. mirroring
+//     `set_local { key: "active_influencer_id" }` into useActiveSocialStore)
+export {
+  useDevConfigStore,
+  useActiveSocialStore,
+  useLocalStore,
+} from "./state/index.js";
 export type {
   DevConfigState,
   DevConfigActions,
   ActiveSocialState,
   ActiveSocialActions,
+  LocalStoreState,
+  LocalStoreActions,
 } from "./state/index.js";
