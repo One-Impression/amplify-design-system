@@ -105,7 +105,18 @@ const legacyShortKeys: Record<string, EndpointDefinition> = {
  * page-fetch endpoint so default to `GET`; the few endpoints in
  * `EndpointPaths` that the BFF only ever calls as POST/PATCH (bootstrap,
  * mutations, etc.) flow through `bff_call` and never hit this registry.
+ *
+ * The guard surfaces a clear import-time failure if `EndpointPaths` ever
+ * resolves to an empty / non-object value (sdk-native-sdui shipped a
+ * breaking change, mocked in a test, bundler stripped it). Otherwise
+ * every later `getEndpoint()` would throw a confusing "not registered"
+ * error far from the real cause.
  */
+if (!EndpointPaths || typeof EndpointPaths !== 'object') {
+  throw new Error(
+    '[endpoint-registry] EndpointPaths missing from @one-impression/sdk-native-sdui — every dotted creator.* id will fail to resolve',
+  );
+}
 const dottedContractIds: Record<string, EndpointDefinition> = Object.fromEntries(
   Object.entries(EndpointPaths).map(([id, path]) => [
     id,

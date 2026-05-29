@@ -18,7 +18,7 @@ import { Gradient, type GradientItem } from "../../gradient/index.js";
 import {
   FEED_ITEM_VISIBLE_PERCENT_THRESHOLD,
   FEED_ITEM_MIN_VIEW_TIME_MS,
-} from "../../constants/viewability.js";
+} from "./viewability.constants.js";
 import { extractFeedPageData, type FeedPageData } from "./extractFeedPageData.js";
 
 interface PageProps {
