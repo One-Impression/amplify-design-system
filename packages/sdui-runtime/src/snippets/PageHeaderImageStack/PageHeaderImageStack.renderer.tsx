@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import type { Node, Action } from "@one-impression/sdk-native-sdui";
 import { PageHeaderImageStackSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Stack, Text, ImageStack as DSImageStack } from "@one-impression/ui-native";
@@ -12,6 +12,20 @@ interface ImageEntry {
 
 export function PageHeaderImageStackRenderer(node: Node): React.ReactElement {
   const actionEngine = useActionEngine();
+  // Latest parsed images are mirrored into a ref so `onImagePress` can stay
+  // referentially stable across renders without re-allocating per image.
+  // The ref write below in the render-prop is guarded — React supports
+  // setting refs during render only when the new value differs from the
+  // current one, which keeps this concurrent-mode safe (a discarded
+  // render writes the same value the committed one would).
+  const imagesRef = useRef<ImageEntry[]>([]);
+  const onImagePress = useCallback(
+    (index: number) => {
+      const onClick = imagesRef.current[index]?.on_click;
+      if (onClick) actionEngine.dispatch(onClick);
+    },
+    [actionEngine],
+  );
   return (
     <SduiNode
       data={node.data}
@@ -25,17 +39,10 @@ export function PageHeaderImageStackRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => {
-        // Handler is invoked by DSImageStack on actual press, with the
-        // image's index. Closes over the freshly-parsed `images` array
-        // directly — a new function reference per render is harmless
-        // because DSImageStack only rebinds `Pressable.onPress` on prop
-        // change. Images without an `on_click` no-op silently (still
-        // press-feedback the tap, since avatars all look interactive).
         const images = v.images as ImageEntry[];
-        const onImagePress = (index: number) => {
-          const onClick = images[index]?.on_click;
-          if (onClick) actionEngine.dispatch(onClick);
-        };
+        if (imagesRef.current !== images) {
+          imagesRef.current = images;
+        }
         return (
           <Box padding={16}>
             <Stack direction="row" align="center" gap={12}>
