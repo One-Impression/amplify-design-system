@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amplify Design System — Canvas Primitives Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  Amplify Design System — Canvas Primitives Reference v1
+  Sprint 4 Day 1 (Oportunities V12.6 — assembled 2026-06-02)
+
+  PURPOSE
+  Reference page for 4 cross-product UI primitives destined for
+  @amplify/canvas (One-Impression/amplify-design-system monorepo).
+
+  §B compliance
+  §B1 — capabilities used by ≥2 businesses belong in core (Canvas, not per-product)
+  §B13 — cross-business component, no product prefix in name
+
+  TOKEN NAMESPACE
+  Canvas-neutral. NO Oportunities apricot, NO Hexcoded green, NO Amplify violet.
+  Severity colors (success/info/warning/danger) and inline-error warm-accent
+  are product-agnostic — every product consumes them via Canvas tokens.
+
+  COMPONENTS DOCUMENTED HERE
+  1. Skeleton  — 5 variants (line, circle, card, block, list)
+  2. Toast     — 4 severity variants × dismissible / with action
+  3. Inline Error — 2 severities (gentle warm-accent, strict)
+  4. Share/Copy CTA — 3 variants × 2 states (default, success)
+
+  EXTRACTED FROM (source-of-truth references)
+  - Oportunities creator-app-COMPLETE-S1-S2-S3.html (.shim, .toast, PAT-OPT-001)
+  - Oportunities design-template.html (.bc-copy pattern for Share/Copy)
+  - PAT-OPT-001 (gentle warm-accent rate-limit pattern)
+-->
+<style>
+:root{
+  /* Canvas neutral tokens — product-agnostic */
+  --canvas-bg: #FFFFFF;
+  --canvas-bg-soft: #F5F6F7;
+  --canvas-ink: #18181B;
+  --canvas-ink-2: #52525B;
+  --canvas-ink-3: #A1A1AA;
+  --canvas-border: #E4E4E7;
+  --canvas-border-soft: #F1F1F4;
+
+  /* Severity tokens — shared across products */
+  --canvas-success: #2F8A4F;
+  --canvas-info: #3B6EB5;
+  --canvas-warning: #C6892C;
+  --canvas-danger: #B33A3A;
+
+  /* Gentle accent (warm orange) — PAT-OPT-001 carried into Canvas as severity option */
+  --canvas-gentle: #E68F47;
+
+  /* Radius scale */
+  --canvas-radius-sm: 4px;
+  --canvas-radius-md: 8px;
+  --canvas-radius-lg: 12px;
+  --canvas-radius-pill: 999px;
+
+  /* Shadow scale */
+  --canvas-shadow-md: 0 2px 12px rgba(0,0,0,0.08);
+  --canvas-shadow-lg: 0 8px 28px rgba(0,0,0,0.18);
+
+  /* Typography */
+  --canvas-display: 'Geist', 'Inter', system-ui, sans-serif;
+  --canvas-body: 'Inter', system-ui, sans-serif;
+  --canvas-mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background: var(--canvas-bg);
+  background-image:
+    linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+  font-family: var(--canvas-body);
+  color: var(--canvas-ink);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding: 40px 24px 120px;
+}
+.page{max-width: 920px; margin: 0 auto}
+.page-hdr{text-align: center; padding: 32px 0 48px; border-bottom: 1px solid var(--canvas-border); margin-bottom: 56px; background: var(--canvas-bg); border-radius: var(--canvas-radius-lg); padding: 32px 24px}
+.page-hdr .wm{font-family: var(--canvas-display); font-size: 26px; font-weight: 700; letter-spacing: -0.04em; color: var(--canvas-ink)}
+.page-hdr .wm .dot{color: var(--canvas-gentle)}
+.page-hdr .sub{font-family: var(--canvas-mono); font-size: 11px; color: var(--canvas-ink-3); margin-top: 8px; letter-spacing: 0.04em}
+.page-hdr .stamp{display: inline-block; background: var(--canvas-success); color: #fff; padding: 4px 10px; border-radius: var(--canvas-radius-sm); font-family: var(--canvas-mono); font-size: 10px; font-weight: 700; margin-top: 12px; letter-spacing: 0.04em}
+.cluster{background: var(--canvas-bg); border: 1px solid var(--canvas-border); border-radius: var(--canvas-radius-lg); padding: 32px; margin-bottom: 28px}
+.cluster-hdr{display:flex; align-items:baseline; gap:12px; margin-bottom: 6px; border-bottom: 2px solid var(--canvas-gentle); padding-bottom: 6px}
+.cluster-hdr h2{font-family: var(--canvas-display); font-size: 19px; font-weight: 700; letter-spacing: -0.02em}
+.cluster-hdr .id{font-family: var(--canvas-mono); font-size: 11px; color: var(--canvas-ink-3); letter-spacing: 0.04em}
+.cluster .lede{color: var(--canvas-ink-2); font-size: 13px; margin: 12px 0 24px}
+.sub-h{font-family: var(--canvas-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--canvas-ink-3); margin: 24px 0 12px}
+.demo{background: var(--canvas-bg-soft); border: 1px dashed var(--canvas-border); border-radius: var(--canvas-radius-md); padding: 28px; margin-bottom: 16px}
+.demo-label{font-family: var(--canvas-mono); font-size: 10px; color: var(--canvas-ink-3); letter-spacing: 0.04em; margin-bottom: 12px}
+.variants-grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px}
+.variant{display:flex; flex-direction: column; gap: 8px}
+.variant .name{font-family: var(--canvas-mono); font-size: 10px; color: var(--canvas-ink-3); letter-spacing: 0.04em}
+table{width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 12px}
+th{text-align: left; font-family: var(--canvas-display); font-weight: 600; padding: 8px 10px; background: var(--canvas-bg-soft); border-bottom: 2px solid var(--canvas-border); font-size: 11px}
+td{padding: 7px 10px; border-bottom: 1px solid var(--canvas-border-soft); vertical-align: top; font-size: 12px}
+td code, p code{font-family: var(--canvas-mono); font-size: 11px; background: var(--canvas-bg-soft); padding: 1px 5px; border-radius: var(--canvas-radius-sm); color: var(--canvas-ink-2)}
+.note{background: rgba(123,91,255,0.06); border-left: 3px solid #7B5BFF; padding: 12px 14px; border-radius: 0 var(--canvas-radius-md) var(--canvas-radius-md) 0; font-size: 12px; color: var(--canvas-ink-2); margin: 12px 0}
+.note strong{color: var(--canvas-ink)}
+
+/* =================================================================
+   COMPONENT 1 — SKELETON
+   Extracted from: creator-app-COMPLETE-S1-S2-S3.html .shim
+   Reference: PAT-OPT-NNN (to register on adoption)
+   ================================================================= */
+.skeleton{
+  background: linear-gradient(
+    90deg,
+    var(--canvas-border-soft) 25%,
+    var(--canvas-bg-soft) 50%,
+    var(--canvas-border-soft) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeleton-sweep 1.5s ease-in-out infinite;
+  opacity: 0.7;
+}
+@keyframes skeleton-sweep{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.skeleton.line{height: 14px; border-radius: var(--canvas-radius-sm); width: 100%}
+.skeleton.line.line-sm{height: 12px}
+.skeleton.line.line-lg{height: 20px}
+.skeleton.line.line-xl{height: 28px}
+.skeleton.line.w-75{width: 75%}
+.skeleton.line.w-50{width: 50%}
+.skeleton.line.w-30{width: 30%}
+.skeleton.circle{border-radius: 50%}
+.skeleton.circle.sz-24{width: 24px; height: 24px}
+.skeleton.circle.sz-32{width: 32px; height: 32px}
+.skeleton.circle.sz-48{width: 48px; height: 48px}
+.skeleton.circle.sz-64{width: 64px; height: 64px}
+.skeleton.card{padding: 16px; border-radius: var(--canvas-radius-lg); border: 1px solid var(--canvas-border); background: var(--canvas-bg); animation: none}
+.skeleton.card .skeleton{display: block; margin-bottom: 8px}
+.skeleton.block{border-radius: var(--canvas-radius-md); width: 100%; aspect-ratio: 16/9}
+.skeleton-list{display: flex; flex-direction: column; gap: 12px}
+.skeleton-list .row{display: flex; gap: 12px; align-items: center; padding: 12px 0}
+
+/* =================================================================
+   COMPONENT 2 — TOAST
+   Extracted from: creator-app-COMPLETE-S1-S2-S3.html .toast
+   Base style: dark ink bg, light text — proven legibility
+   Severity = left bar + icon color (matches PAT-OPT-001 warm tone)
+   ================================================================= */
+.toast{
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--canvas-ink);
+  color: #fff;
+  padding: 13px 16px 13px 14px;
+  border-radius: var(--canvas-radius-lg);
+  box-shadow: var(--canvas-shadow-lg);
+  font-size: 12px;
+  line-height: 1.45;
+  max-width: 480px;
+  min-width: 280px;
+  position: relative;
+  overflow: hidden;
+}
+.toast::before{
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+}
+.toast.success::before{background: var(--canvas-success)}
+.toast.info::before{background: var(--canvas-info)}
+.toast.warning::before{background: var(--canvas-warning)}
+.toast.danger::before{background: var(--canvas-danger)}
+.toast-icon{flex-shrink: 0; width: 16px; height: 16px; margin-top: 1px}
+.toast.success .toast-icon{color: var(--canvas-success)}
+.toast.info .toast-icon{color: var(--canvas-info)}
+.toast.warning .toast-icon{color: var(--canvas-warning)}
+.toast.danger .toast-icon{color: var(--canvas-danger)}
+.toast-body{flex: 1; color: rgba(255,255,255,0.92)}
+.toast-body strong{color: #fff; font-weight: 600}
+.toast-action{
+  background: none; border: none; color: #fff; font-family: var(--canvas-body);
+  font-size: 12px; font-weight: 600; cursor: pointer; padding: 0 4px;
+  text-decoration: underline; text-underline-offset: 2px; flex-shrink: 0;
+}
+.toast-dismiss{
+  background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;
+  padding: 0; width: 18px; height: 18px; flex-shrink: 0; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 16px; line-height: 1;
+}
+.toast-dismiss:hover{color: #fff}
+
+/* =================================================================
+   COMPONENT 3 — INLINE FORM ERROR
+   PAT-OPT-001: gentle warm-accent (never punitive red unless truly broken)
+   Two severities: gentle (default) and strict (only for truly invalid input)
+   ================================================================= */
+.inline-error{
+  font-family: var(--canvas-body);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.4;
+}
+.inline-error.gentle{color: var(--canvas-gentle)}
+.inline-error.strict{color: var(--canvas-danger)}
+.inline-error-icon{width: 12px; height: 12px; flex-shrink: 0}
+.field-row{margin-bottom: 14px}
+.field-label{font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--canvas-ink-3); margin-bottom: 6px; font-family: var(--canvas-body)}
+.field-input{width: 100%; padding: 12px 14px; background: var(--canvas-bg); border: 1px solid var(--canvas-border); border-radius: var(--canvas-radius-md); font-size: 14px; font-weight: 500; color: var(--canvas-ink); font-family: var(--canvas-body); outline: none}
+.field-row.has-error.gentle .field-input{border-color: var(--canvas-gentle); border-width: 1.5px}
+.field-row.has-error.strict .field-input{border-color: var(--canvas-danger); border-width: 1.5px; animation: shake 200ms ease-in-out}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+/* =================================================================
+   COMPONENT 4 — SHARE / COPY CTA
+   Extracted from: creator-app-COMPLETE .bc-copy + invite share P-01
+   Three variants: share (native sheet), copy (clipboard), share-with-copy-fallback
+   ================================================================= */
+.share-cta{
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 12px;
+  background: transparent; border: 1px solid transparent;
+  color: var(--canvas-ink); font-family: var(--canvas-body);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border-radius: var(--canvas-radius-md);
+  transition: background 0.15s, color 0.15s;
+}
+.share-cta:hover{background: var(--canvas-bg-soft)}
+.share-cta.icon-only{padding: 0; width: 36px; justify-content: center}
+.share-cta-icon{width: 16px; height: 16px; color: var(--canvas-ink-2)}
+.share-cta:hover .share-cta-icon{color: var(--canvas-ink)}
+.share-cta.success{color: var(--canvas-success)}
+.share-cta.success .share-cta-icon{color: var(--canvas-success)}
+.share-cta.disabled{opacity: 0.4; pointer-events: none}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="page-hdr">
+    <div class="wm">amplify<span class="dot">.</span> design system</div>
+    <div class="sub">Canvas Primitives Reference · Sprint 4 Day 1 · 2026-06-02</div>
+    <div class="stamp">DRAFT — FOUNDER REVIEW</div>
+    <p style="font-size: 12.5px; color: var(--canvas-ink-2); margin-top: 16px; max-width: 540px; margin-left: auto; margin-right: auto">Four cross-product UI primitives destined for <code>@amplify/canvas</code> (One-Impression/amplify-design-system monorepo). Used by Amplify, Hexcoded, and Oportunities. <strong>§B1 + §B13 compliant</strong> — Canvas-neutral tokens, no product prefix.</p>
+  </div>
+
+  <!-- =================================================================
+       COMPONENT 1 — SKELETON
+       ================================================================= -->
+  <section class="cluster" id="c1-skeleton">
+    <div class="cluster-hdr">
+      <h2>1. Skeleton (Loading Placeholder)</h2>
+      <span class="id">canvas.skeleton</span>
+    </div>
+    <p class="lede">Animated shimmer placeholders for async-loading content. Five variants compose into any layout. <strong>Extracted from:</strong> <code>creator-app-COMPLETE.css.shim</code> (1.5s sweep, opacity 0.7 — proven on creator-app loading states).</p>
+
+    <div class="sub-h">Variants</div>
+    <div class="demo">
+      <div class="variants-grid">
+        <div class="variant">
+          <span class="name">line · w-100 · h-14</span>
+          <div class="skeleton line"></div>
+        </div>
+        <div class="variant">
+          <span class="name">line · w-75 · h-14</span>
+          <div class="skeleton line w-75"></div>
+        </div>
+        <div class="variant">
+          <span class="name">line · w-50 · h-14</span>
+          <div class="skeleton line w-50"></div>
+        </div>
+        <div class="variant">
+          <span class="name">line · w-30 · h-14</span>
+          <div class="skeleton line w-30"></div>
+        </div>
+        <div class="variant">
+          <span class="name">line.line-lg · h-20</span>
+          <div class="skeleton line line-lg"></div>
+        </div>
+        <div class="variant">
+          <span class="name">line.line-xl · h-28</span>
+          <div class="skeleton line line-xl"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-label">circle variants (avatar / icon placeholder)</div>
+      <div style="display:flex; gap: 20px; align-items: center">
+        <div class="variant">
+          <span class="name">circle.sz-24</span>
+          <div class="skeleton circle sz-24"></div>
+        </div>
+        <div class="variant">
+          <span class="name">circle.sz-32</span>
+          <div class="skeleton circle sz-32"></div>
+        </div>
+        <div class="variant">
+          <span class="name">circle.sz-48</span>
+          <div class="skeleton circle sz-48"></div>
+        </div>
+        <div class="variant">
+          <span class="name">circle.sz-64</span>
+          <div class="skeleton circle sz-64"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-label">card variant (compose internally)</div>
+      <div class="skeleton card" style="max-width: 320px">
+        <div style="display:flex; gap:12px; align-items:center; margin-bottom: 14px">
+          <div class="skeleton circle sz-48" style="margin: 0"></div>
+          <div style="flex: 1">
+            <div class="skeleton line w-50" style="margin-bottom: 8px"></div>
+            <div class="skeleton line w-75 line-sm"></div>
+          </div>
+        </div>
+        <div class="skeleton line" style="margin-bottom: 8px"></div>
+        <div class="skeleton line w-75" style="margin-bottom: 0"></div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-label">block variant (image / hero placeholder · aspect-ratio 16:9)</div>
+      <div class="skeleton block" style="max-width: 420px"></div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-label">list variant (3-row default)</div>
+      <div class="skeleton-list" style="max-width: 380px">
+        <div class="row">
+          <div class="skeleton circle sz-32"></div>
+          <div style="flex:1"><div class="skeleton line w-50" style="margin-bottom: 6px"></div><div class="skeleton line w-30 line-sm"></div></div>
+        </div>
+        <div class="row">
+          <div class="skeleton circle sz-32"></div>
+          <div style="flex:1"><div class="skeleton line w-75" style="margin-bottom: 6px"></div><div class="skeleton line w-50 line-sm"></div></div>
+        </div>
+        <div class="row">
+          <div class="skeleton circle sz-32"></div>
+          <div style="flex:1"><div class="skeleton line w-50" style="margin-bottom: 6px"></div><div class="skeleton line w-75 line-sm"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h">Props API</div>
+    <table>
+      <tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+      <tr><td><code>variant</code></td><td><code>'line' | 'circle' | 'card' | 'block' | 'list'</code></td><td>—</td><td>Required</td></tr>
+      <tr><td><code>width</code></td><td><code>string</code></td><td><code>'100%'</code></td><td>CSS value</td></tr>
+      <tr><td><code>height</code></td><td><code>string</code></td><td>variant default</td><td>CSS value</td></tr>
+      <tr><td><code>count</code></td><td><code>number</code></td><td><code>3</code></td><td>Only for <code>list</code></td></tr>
+      <tr><td><code>animated</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Set false to respect <code>prefers-reduced-motion</code></td></tr>
+    </table>
+
+    <div class="sub-h">Tokens used</div>
+    <p style="font-size: 12px; color: var(--canvas-ink-2)"><code>--canvas-border-soft</code> · <code>--canvas-bg-soft</code> · <code>--canvas-radius-sm</code> · <code>--canvas-radius-md</code> · <code>--canvas-radius-lg</code></p>
+
+    <div class="note"><strong>A11y:</strong> Apply <code>aria-busy="true"</code> on the container. Wrap with <code>role="status"</code> + <code>aria-live="polite"</code> if the content arrival is significant. Respect <code>prefers-reduced-motion: reduce</code> by setting <code>animated: false</code>.</p>
+  </section>
+
+  <!-- =================================================================
+       COMPONENT 2 — TOAST
+       ================================================================= -->
+  <section class="cluster" id="c2-toast">
+    <div class="cluster-hdr">
+      <h2>2. Toast (Ephemeral Notification)</h2>
+      <span class="id">canvas.toast</span>
+    </div>
+    <p class="lede">Dark-base toast with severity left-bar. Four variants. <strong>Extracted from:</strong> Oportunities creator-app <code>.toast</code> (dark ink bg + accent emoji + light text — proven legibility). Severity bar added for Canvas to cover info/warning/danger uses across products.</p>
+
+    <div class="sub-h">All 4 severities (default state)</div>
+    <div class="demo">
+      <div style="display:flex; flex-direction:column; gap: 14px; align-items: flex-start">
+        <div class="toast success">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          <div class="toast-body">Email <strong>priya@example.com</strong> copied to clipboard</div>
+        </div>
+        <div class="toast info">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M8 7v4M8 5h.01"></path></svg>
+          <div class="toast-body"><strong>3 new events</strong> in your feed — pull to refresh</div>
+        </div>
+        <div class="toast warning">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l6 11H2L8 2z"></path><path d="M8 6v3M8 11h.01"></path></svg>
+          <div class="toast-body">Slow connection — some features may be delayed</div>
+        </div>
+        <div class="toast danger">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M5 5l6 6M11 5l-6 6"></path></svg>
+          <div class="toast-body"><strong>Couldn't save event</strong> — check your connection</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h">With action + dismissible</div>
+    <div class="demo">
+      <div style="display:flex; flex-direction:column; gap: 14px; align-items: flex-start">
+        <div class="toast success">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          <div class="toast-body">Event deleted</div>
+          <button class="toast-action">Undo</button>
+        </div>
+        <div class="toast info">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M8 7v4M8 5h.01"></path></svg>
+          <div class="toast-body"><strong>New version available</strong></div>
+          <button class="toast-action">Refresh</button>
+          <button class="toast-dismiss" aria-label="Dismiss">×</button>
+        </div>
+        <div class="toast warning">
+          <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l6 11H2L8 2z"></path><path d="M8 6v3M8 11h.01"></path></svg>
+          <div class="toast-body">Take a breather — try again in 60s</div>
+          <button class="toast-dismiss" aria-label="Dismiss">×</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h">Props API</div>
+    <table>
+      <tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+      <tr><td><code>variant</code></td><td><code>'success' | 'info' | 'warning' | 'danger'</code></td><td>—</td><td>Required</td></tr>
+      <tr><td><code>message</code></td><td><code>ReactNode</code></td><td>—</td><td>Required; supports <code>&lt;strong&gt;</code> emphasis</td></tr>
+      <tr><td><code>action</code></td><td><code>{ label: string; onClick: () =&gt; void }</code></td><td>—</td><td>Optional action button</td></tr>
+      <tr><td><code>dismissible</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show × button</td></tr>
+      <tr><td><code>duration</code></td><td><code>number</code></td><td>variant default (4s / 4s / 6s / 8s)</td><td>ms; <code>null</code> to require explicit dismiss</td></tr>
+      <tr><td><code>position</code></td><td><code>'bottom-center' | 'top-right'</code></td><td>responsive (mobile / desktop)</td><td>Container-level config</td></tr>
+    </table>
+
+    <div class="sub-h">Behavior</div>
+    <ul style="font-size: 12px; color: var(--canvas-ink-2); padding-left: 20px">
+      <li>Auto-dismiss: <strong>success</strong> 4s · <strong>info</strong> 4s · <strong>warning</strong> 6s · <strong>danger</strong> 8s</li>
+      <li>Action toasts persist until tapped/dismissed (no auto-dismiss when <code>action</code> set)</li>
+      <li>Stack max 3 visible; oldest dismisses first; 8px vertical gap</li>
+      <li>Mobile: bottom-center, slide-up 200ms ease-out. Desktop (≥768px): top-right, slide-left 200ms ease-out.</li>
+    </ul>
+
+    <div class="sub-h">Tokens used</div>
+    <p style="font-size: 12px; color: var(--canvas-ink-2)"><code>--canvas-ink</code> · <code>--canvas-success</code> · <code>--canvas-info</code> · <code>--canvas-warning</code> · <code>--canvas-danger</code> · <code>--canvas-radius-lg</code> · <code>--canvas-shadow-lg</code></p>
+
+    <div class="note"><strong>A11y:</strong> Container has <code>role="status"</code> + <code>aria-live="polite"</code>. Danger/warning use <code>aria-live="assertive"</code>. Action button gets focus when present. Dismiss button has <code>aria-label="Dismiss"</code>. Respect <code>prefers-reduced-motion</code> by skipping slide animation.</p>
+  </section>
+
+  <!-- =================================================================
+       COMPONENT 3 — INLINE ERROR
+       ================================================================= -->
+  <section class="cluster" id="c3-inline-error">
+    <div class="cluster-hdr">
+      <h2>3. Inline Form Error</h2>
+      <span class="id">canvas.inline-error</span>
+    </div>
+    <p class="lede">Field-level error message with two severities. <strong>Gentle</strong> (warm-accent, PAT-OPT-001 — the default for almost everything) and <strong>strict</strong> (only when the input is truly invalid, e.g., wrong email format). <strong>Extracted from:</strong> PAT-OPT-001 (Oportunities patterns.md) — "soft language, no scary framing".</p>
+
+    <div class="sub-h">Gentle (default — PAT-OPT-001)</div>
+    <div class="demo">
+      <div class="field-row has-error gentle" style="max-width: 320px">
+        <div class="field-label">Phone number</div>
+        <input class="field-input" type="tel" value="9999" placeholder="9876543210">
+        <div class="inline-error gentle">
+          <svg class="inline-error-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v4M8 11h.01"></path></svg>
+          A few more digits and you're set
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h">Strict (only for truly invalid input)</div>
+    <div class="demo">
+      <div class="field-row has-error strict" style="max-width: 320px">
+        <div class="field-label">Email</div>
+        <input class="field-input" type="email" value="not-an-email" placeholder="you@example.com">
+        <div class="inline-error strict">
+          <svg class="inline-error-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M5 5l6 6M11 5l-6 6"></path></svg>
+          Email format is invalid
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-h">Props API</div>
+    <table>
+      <tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+      <tr><td><code>severity</code></td><td><code>'gentle' | 'strict'</code></td><td><code>'gentle'</code></td><td>Default to gentle (PAT-OPT-001)</td></tr>
+      <tr><td><code>message</code></td><td><code>string</code></td><td>—</td><td>Required</td></tr>
+      <tr><td><code>fieldId</code></td><td><code>string</code></td><td>—</td><td>For <code>aria-describedby</code> wiring</td></tr>
+      <tr><td><code>withIcon</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show leading icon</td></tr>
+    </table>
+
+    <div class="sub-h">Behavior</div>
+    <ul style="font-size: 12px; color: var(--canvas-ink-2); padding-left: 20px">
+      <li><strong>Default to gentle.</strong> Choose strict only when the user literally can't continue (DPDP-required field empty, format actually wrong).</li>
+      <li>Strict variant shake animation fires <strong>only on submit-attempt error</strong>, not on initial mount (200ms horizontal jitter).</li>
+      <li>Helper text (if present) hidden when error shows.</li>
+      <li>Field border bumps to 1.5px in severity color when error present.</li>
+    </ul>
+
+    <div class="sub-h">Tokens used</div>
+    <p style="font-size: 12px; color: var(--canvas-ink-2)"><code>--canvas-gentle</code> · <code>--canvas-danger</code> · <code>--canvas-radius-md</code></p>
+
+    <div class="note"><strong>A11y:</strong> <code>role="alert"</code> + <code>aria-describedby="{fieldId}"</code>. Live region announces on appear. Color is reinforced by icon (don't rely on color alone — WCAG 1.4.1).</p>
+  </section>
+
+  <!-- =================================================================
+       COMPONENT 4 — SHARE / COPY CTA
+       ================================================================= -->
+  <section class="cluster" id="c4-share">
+    <div class="cluster-hdr">
+      <h2>4. Share / Copy CTA</h2>
+      <span class="id">canvas.share-cta</span>
+    </div>
+    <p class="lede">Text-button with leading icon for share/copy interactions. Three variants: <strong>share</strong> (native Web Share API), <strong>copy</strong> (clipboard), <strong>share-with-copy-fallback</strong> (share first, copy if unsupported). <strong>Extracted from:</strong> Oportunities <code>.bc-copy</code> (copy-email pattern) + P-01 invite-share.</p>
+
+    <div class="sub-h">Default state — all 3 variants</div>
+    <div class="demo">
+      <div style="display:flex; gap: 12px; flex-wrap: wrap">
+        <button class="share-cta" data-variant="share">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="2"></circle><circle cx="12" cy="3" r="2"></circle><circle cx="12" cy="13" r="2"></circle><path d="M5.7 7l4.6-3M5.7 9l4.6 3"></path></svg>
+          Share
+        </button>
+        <button class="share-cta" data-variant="copy">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2H3.5A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+          Copy link
+        </button>
+        <button class="share-cta" data-variant="share-with-copy-fallback">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="2"></circle><circle cx="12" cy="3" r="2"></circle><circle cx="12" cy="13" r="2"></circle><path d="M5.7 7l4.6-3M5.7 9l4.6 3"></path></svg>
+          Share invite
+        </button>
+      </div>
+    </div>
+
+    <div class="sub-h">Success state (after tap — 1.2s, then revert)</div>
+    <div class="demo">
+      <div style="display:flex; gap: 12px; flex-wrap: wrap">
+        <button class="share-cta success">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          Shared!
+        </button>
+        <button class="share-cta success">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          Copied!
+        </button>
+        <button class="share-cta success">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          Shared!
+        </button>
+      </div>
+    </div>
+
+    <div class="sub-h">Icon-only variant</div>
+    <div class="demo">
+      <div style="display:flex; gap: 12px">
+        <button class="share-cta icon-only" aria-label="Copy email">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2H3.5A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+        </button>
+        <button class="share-cta icon-only" aria-label="Share">
+          <svg class="share-cta-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="2"></circle><circle cx="12" cy="3" r="2"></circle><circle cx="12" cy="13" r="2"></circle><path d="M5.7 7l4.6-3M5.7 9l4.6 3"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sub-h">Props API</div>
+    <table>
+      <tr><th>Prop</th><th>Type</th><th>Default</th><th>Notes</th></tr>
+      <tr><td><code>variant</code></td><td><code>'share' | 'copy' | 'share-with-copy-fallback'</code></td><td>—</td><td>Required</td></tr>
+      <tr><td><code>payload</code></td><td><code>SharePayload</code></td><td>—</td><td><code>{ title, text?, url?, files? }</code> (Web Share API shape)</td></tr>
+      <tr><td><code>label</code></td><td><code>string</code></td><td><code>'Share' | 'Copy link'</code></td><td>Default depends on variant</td></tr>
+      <tr><td><code>successLabel</code></td><td><code>string</code></td><td><code>'Shared!' | 'Copied!'</code></td><td>Shown for 1.2s after action</td></tr>
+      <tr><td><code>iconOnly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Hide label; requires <code>aria-label</code></td></tr>
+      <tr><td><code>onShared</code></td><td><code>() =&gt; void</code></td><td>—</td><td>Fired on share-sheet completion</td></tr>
+      <tr><td><code>onCopied</code></td><td><code>() =&gt; void</code></td><td>—</td><td>Fired on clipboard write</td></tr>
+    </table>
+
+    <div class="sub-h">Behavior</div>
+    <ul style="font-size: 12px; color: var(--canvas-ink-2); padding-left: 20px">
+      <li>On success: icon morphs to ✓ + label changes to <code>successLabel</code> for 1.2s, then reverts.</li>
+      <li><code>share</code> uses <code>navigator.share(payload)</code>; falls back to no-op if unsupported.</li>
+      <li><code>copy</code> writes <code>payload.url ?? payload.text</code> via <code>navigator.clipboard.writeText()</code> with <code>document.execCommand('copy')</code> legacy fallback.</li>
+      <li><code>share-with-copy-fallback</code> tries <code>navigator.share</code>; if unavailable, copies the link to clipboard + triggers success toast.</li>
+      <li>Pair with <code>Toast</code> primitive (variant: success) for action confirmation when needed.</li>
+    </ul>
+
+    <div class="sub-h">Tokens used</div>
+    <p style="font-size: 12px; color: var(--canvas-ink-2)"><code>--canvas-ink</code> · <code>--canvas-ink-2</code> · <code>--canvas-bg-soft</code> · <code>--canvas-success</code> · <code>--canvas-radius-md</code></p>
+
+    <div class="note"><strong>A11y:</strong> Native button element with full keyboard support. <code>icon-only</code> requires <code>aria-label</code>. Success state announces via <code>aria-live="polite"</code> on the label span. Focus ring inherited from button default.</p>
+  </section>
+
+  <!-- ================================ FOOTER ================================ -->
+  <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--canvas-border); font-size: 12px; color: var(--canvas-ink-3); text-align: center; line-height: 1.7">
+    <div style="font-family: var(--canvas-mono); margin-bottom: 8px">CANVAS PRIMITIVES REFERENCE · DRAFT 2026-06-02</div>
+    <div>Assembly source: Oportunities <code>creator-app-COMPLETE-S1-S2-S3.html</code> + <code>design-template.html</code> + <code>patterns.md</code></div>
+    <div style="margin-top: 6px">Destined for: <code>One-Impression/amplify-design-system</code> (Canvas monorepo) — <strong>§B1 + §B13 compliant</strong> cross-product primitives</div>
+    <div style="margin-top: 6px">After founder APPROVE: opens PR adding these 4 components to <code>@amplify/canvas</code> package</div>
+  </div>
+
+</div>
+
+</body>
+</html>
