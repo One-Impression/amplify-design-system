@@ -749,3 +749,7 @@ export type { FeedItemCardProps, FeedItemCardAvatar, FeedItemType } from './comp
 // TierCelebrationModal — full-screen celebration overlay for tier promotions
 export { TierCelebrationModal } from './components/TierCelebrationModal';
 export type { TierCelebrationModalProps, TierCelebrationBenefit, CelebrationTier } from './components/TierCelebrationModal';
+
+// PullToRefreshRing — 3-state animated ring for pull-to-refresh
+export { PullToRefreshRing } from './components/PullToRefreshRing';
+export type { PullToRefreshRingProps, PullToRefreshState } from './components/PullToRefreshRing';
