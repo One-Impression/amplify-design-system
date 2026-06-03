@@ -725,3 +725,27 @@ export type { BrandStripTeaserProps } from './components/BrandStripTeaser';
 // StatTabs — horizontal scrollable stat tabs for creator profile
 export { StatTabs } from './components/StatTabs';
 export type { StatTabsProps, StatTab } from './components/StatTabs';
+
+// ─── Oportunities product primitives — Batch 3 (3.2.0) ────────────────
+// Five composed components for tier progression, wishlist management,
+// habit categorisation, peer activity feed, and tier celebration.
+
+// TierCard — dark card showing creator tier progress with pulsing bar
+export { TierCard } from './components/TierCard';
+export type { TierCardProps, TierCardProgress, TierLevel } from './components/TierCard';
+
+// WishlistCard — individual wish item card with inline edit
+export { WishlistCard } from './components/WishlistCard';
+export type { WishlistCardProps } from './components/WishlistCard';
+
+// HabitCategoryCard — collapsible category card for habit/wish selection
+export { HabitCategoryCard } from './components/HabitCategoryCard';
+export type { HabitCategoryCardProps } from './components/HabitCategoryCard';
+
+// FeedItemCard — peer activity feed card with type-colored accent bar
+export { FeedItemCard } from './components/FeedItemCard';
+export type { FeedItemCardProps, FeedItemCardAvatar, FeedItemType } from './components/FeedItemCard';
+
+// TierCelebrationModal — full-screen celebration overlay for tier promotions
+export { TierCelebrationModal } from './components/TierCelebrationModal';
+export type { TierCelebrationModalProps, TierCelebrationBenefit, CelebrationTier } from './components/TierCelebrationModal';
