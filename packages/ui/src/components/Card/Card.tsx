@@ -47,6 +47,17 @@ export type CardHover = 'interactive' | 'static';
 
 type AnyTag = keyof React.JSX.IntrinsicElements;
 
+/**
+ * Optional left accent bar for Oportunities-style visual emphasis.
+ * Renders a thin vertical bar on the left edge of the card.
+ */
+export interface CardLeftBar {
+  /** Preset name or any valid CSS color string. */
+  color: 'accent' | 'ai-purple' | 'success' | (string & {});
+  /** Bar width in pixels. @default 4 */
+  width?: number;
+}
+
 export interface CardProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
   variant?: CardVariant;
   padding?: CardPadding;
@@ -60,6 +71,15 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLElement>, 'chil
    * entire card as a native button (and inherit interactive a11y for free).
    */
   as?: AnyTag;
+  /**
+   * Optional left accent bar. When provided, a thin vertical bar is rendered on
+   * the card's left edge and content padding adjusts to avoid overlap.
+   *
+   * @example
+   * <Card leftBar={{ color: 'accent' }}>…</Card>
+   * <Card leftBar={{ color: '#FF5733', width: 6 }}>…</Card>
+   */
+  leftBar?: CardLeftBar;
   children: React.ReactNode;
 }
 
@@ -118,6 +138,18 @@ const hoverClasses = 'cursor-pointer hover:shadow-lg transition-shadow duration-
 const focusClasses =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--amp-semantic-accent,#6531FF)]/40';
 
+// ─── Left-bar colour resolution ─────────────────────────────────────────────
+
+const LEFT_BAR_PRESETS: Record<string, string> = {
+  accent: 'var(--amp-oportunities-accent, #E68F47)',
+  'ai-purple': 'var(--amp-oportunities-ai-purple, #7B5BFF)',
+  success: 'var(--amp-oportunities-status-success, #5A8E4F)',
+};
+
+function resolveLeftBarColor(color: string): string {
+  return LEFT_BAR_PRESETS[color] ?? color;
+}
+
 // ─── Card root ───────────────────────────────────────────────────────────────
 
 const CardRoot = React.forwardRef<HTMLElement, CardProps>(
@@ -127,6 +159,7 @@ const CardRoot = React.forwardRef<HTMLElement, CardProps>(
       padding = 'md',
       hover,
       as,
+      leftBar,
       onClick,
       onKeyDown,
       className,
@@ -171,8 +204,17 @@ const CardRoot = React.forwardRef<HTMLElement, CardProps>(
       paddingClasses[padding],
       isClickable && isHover === 'interactive' && hoverClasses,
       isClickable && focusClasses,
+      leftBar && 'overflow-hidden relative',
       className,
     );
+
+    // Merge inline style for left-bar content offset.
+    const leftBarWidth = leftBar?.width ?? 4;
+    const mergedStyle: React.CSSProperties | undefined = leftBar
+      ? { paddingLeft: leftBarWidth + 8, ...(rest.style ?? {}) }
+      : rest.style;
+
+    const { style: _omitStyle, ...restWithoutStyle } = rest;
 
     return React.createElement(
       Tag as string,
@@ -180,10 +222,27 @@ const CardRoot = React.forwardRef<HTMLElement, CardProps>(
         ref,
         className: classes,
         onClick,
+        style: mergedStyle,
         ...a11yProps,
-        ...rest,
+        ...restWithoutStyle,
       },
-      children,
+      ...(leftBar
+        ? [
+            React.createElement('div', {
+              key: '__left-bar',
+              'aria-hidden': true,
+              style: {
+                position: 'absolute' as const,
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: leftBarWidth,
+                background: resolveLeftBarColor(leftBar.color),
+              },
+            }),
+            children,
+          ]
+        : [children]),
     );
   },
 );

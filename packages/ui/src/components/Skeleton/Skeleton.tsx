@@ -13,6 +13,9 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ variant = 'rectangular', width, height, className, style, ...props }, ref) => {
     const sizeStyle: React.CSSProperties = {
       ...style,
+      // Wire shimmer to Oportunities motion tokens (falls back to existing defaults)
+      animationDuration: 'var(--amp-oportunities-motion-shimmer-duration, 1.8s)',
+      opacity: 'var(--amp-oportunities-motion-shimmer-opacity, 0.75)' as unknown as number,
       ...(width != null ? { width: typeof width === 'number' ? `${width}px` : width } : {}),
       ...(height != null ? { height: typeof height === 'number' ? `${height}px` : height } : {}),
     };

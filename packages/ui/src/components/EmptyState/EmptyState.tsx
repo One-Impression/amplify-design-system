@@ -7,7 +7,8 @@ export type EmptyStateVariant =
   | 'noResults'
   | 'noPermission'
   | 'error-network'
-  | 'error-server';
+  | 'error-server'
+  | 'tip-card';
 
 export interface EmptyStateProps {
   /**
@@ -72,7 +73,7 @@ const ServerErrorIcon = (
   </svg>
 );
 
-const VARIANTS: Record<Exclude<EmptyStateVariant, 'default'>, VariantSpec> = {
+const VARIANTS: Record<Exclude<EmptyStateVariant, 'default' | 'tip-card'>, VariantSpec> = {
   noData: {
     icon: InboxIcon,
     title: 'Nothing here yet',
@@ -108,6 +109,82 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   action,
   className,
 }) => {
+  // ─── Tip-card variant (Oportunities PAT-OPT-CR-03) ──────────────────────
+  if (variant === 'tip-card') {
+    // Detect eyebrow: title starts with a short uppercase phrase (<=40 chars, first word capitalised).
+    // If the title contains a newline or `\n`, the first line is the eyebrow, rest is headline.
+    let eyebrow: string | undefined;
+    let headline = title ?? '';
+    const nlIdx = headline.indexOf('\n');
+    if (nlIdx !== -1) {
+      eyebrow = headline.slice(0, nlIdx).trim();
+      headline = headline.slice(nlIdx + 1).trim();
+    }
+
+    return (
+      <div
+        className={cn(
+          'flex flex-col items-start text-left',
+          className,
+        )}
+        style={{
+          border: '1.5px dashed var(--amp-oportunities-border, #EFE4D4)',
+          background: 'var(--amp-oportunities-accent-soft, #FFE9D2)',
+          borderRadius: 16,
+          padding: '20px 16px',
+        }}
+      >
+        {eyebrow && (
+          <span
+            style={{
+              fontSize: 9,
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              color: 'var(--amp-oportunities-accent, #E68F47)',
+              marginBottom: 6,
+            }}
+          >
+            {eyebrow}
+          </span>
+        )}
+        {headline && (
+          <h3
+            style={{
+              fontSize: 14,
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              color: 'var(--amp-semantic-text-primary)',
+              margin: 0,
+            }}
+          >
+            {headline}
+          </h3>
+        )}
+        {description && (
+          <p
+            style={{
+              fontSize: 11.5,
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              color: 'var(--amp-semantic-text-secondary)',
+              marginTop: 4,
+              marginBottom: 0,
+            }}
+          >
+            {description}
+          </p>
+        )}
+        {action && (
+          <div style={{ marginTop: 10 }}>
+            {action}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ─── Standard variants ───────────────────────────────────────────────────
   const spec = variant !== 'default' ? VARIANTS[variant] : undefined;
   const resolvedIcon = icon ?? spec?.icon;
   const resolvedTitle = title ?? spec?.title ?? '';
