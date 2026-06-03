@@ -103,3 +103,45 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+### Oportunities extensions to shared `@one-impression/ui` components
+
+#### `Card` — `leftBar` prop
+An optional vertical accent bar rendered on the card's left edge. Content padding adjusts automatically to avoid overlap.
+
+```tsx
+<Card leftBar={{ color: 'accent' }}>…</Card>
+<Card leftBar={{ color: '#FF5733', width: 6 }}>…</Card>
+```
+
+- `color`: `'accent'` | `'ai-purple'` | `'success'` | any CSS color string
+- Presets resolve to Oportunities CSS variables with fallbacks:
+  - `accent` → `--amp-oportunities-accent` (#E68F47)
+  - `ai-purple` → `--amp-oportunities-ai-purple` (#7B5BFF)
+  - `success` → `--amp-oportunities-status-success` (#5A8E4F)
+- `width`: bar width in px (default: `4`)
+- Type `CardLeftBar` is exported from `@one-impression/ui`
+
+#### `EmptyState` — `'tip-card'` variant
+A dashed apricot-border card with cream background per PAT-OPT-CR-03. Supports eyebrow/headline split via `\n` in the `title` prop.
+
+```tsx
+// First line becomes the monospace eyebrow label; second line is the headline.
+<EmptyState
+  variant="tip-card"
+  title={"PRO TIP\nConnect your first creator"}
+  description="Creators you add here will appear in your feed."
+  action={<Button>Add creator</Button>}
+/>
+```
+
+- Does **not** use the standard icon/spec lookup — renders its own layout.
+- Inline styles reference `--amp-oportunities-border`, `--amp-oportunities-accent-soft`, and `--amp-oportunities-accent` CSS variables.
+
+#### `Skeleton` — Oportunities motion tokens
+The shimmer animation is now wired to two CSS custom properties (with backwards-compatible fallbacks):
+
+- `--amp-oportunities-motion-shimmer-duration` (fallback: `1.8s`)
+- `--amp-oportunities-motion-shimmer-opacity` (fallback: `0.75`)
+
+Set these variables in the Oportunities theme CSS to control shimmer pacing without touching the component.
