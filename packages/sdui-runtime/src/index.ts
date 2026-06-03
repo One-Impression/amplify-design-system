@@ -1,4 +1,4 @@
-// @amplify-ai/sdui-runtime — SDUI runtime for Amplify Creator App
+// @one-impression/sdui-runtime — SDUI runtime for Amplify Creator App
 // Renderers + runtime + state + action engine + bottom-sheet manager + loaders.
 // React Native code — NOT Node-safe. Backend consumers use @one-impression/sdk-native-sdui instead.
 
@@ -18,6 +18,8 @@ export { Fallback } from "./interpreter/index.js";
 // ── HOCs ──
 export { Clickable } from "./clickable/index.js";
 export { Viewable } from "./viewable/index.js";
+export { Gradient } from "./gradient/index.js";
+export type { GradientItem } from "./gradient/index.js";
 
 // ── Action engine ──
 export { createActionEngine, useActionEngine, ActionEngineContext } from "./action-engine/index.js";
@@ -67,3 +69,17 @@ export {
   capabilityHandlerRegistry,
   resolveRenderer,
 } from "./registries/index.js";
+
+// ── State stores (selected) ──
+// The runtime owns several Zustand stores; most are internal. These two
+// are intentionally part of the public surface because consuming apps
+// need to set them at boot:
+//   - useDevConfigStore: localhost-only X-Dev-Identity header
+//   - useActiveSocialStore: production X-Active-Influencer-Id header
+export { useDevConfigStore, useActiveSocialStore } from "./state/index.js";
+export type {
+  DevConfigState,
+  DevConfigActions,
+  ActiveSocialState,
+  ActiveSocialActions,
+} from "./state/index.js";

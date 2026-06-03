@@ -1,7 +1,7 @@
 {
-  "name": "@amplify-ai/sdui-runtime",
-  "version": "1.0.0",
-  "description": "SDUI runtime for Amplify Creator App \u2014 interpreter, action engine, bottom-sheet manager, loaders, providers",
+  "name": "@one-impression/sdui-runtime",
+  "version": "2.4.0",
+  "description": "SDUI runtime for Amplify Creator App — interpreter, action engine, bottom-sheet manager, loaders, providers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,6 +10,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./bff": {
+      "types": "./dist/bff/index.d.ts",
+      "import": "./dist/bff/index.js",
+      "default": "./dist/bff/index.js"
+    },
+    "./icon-store": {
+      "types": "./dist/icon-store/index.d.ts",
+      "import": "./dist/icon-store/index.js",
+      "default": "./dist/icon-store/index.js"
+    },
+    "./action-engine": {
+      "types": "./dist/action-engine/index.d.ts",
+      "import": "./dist/action-engine/index.js",
+      "default": "./dist/action-engine/index.js"
     }
   },
   "files": [
@@ -19,14 +34,14 @@
     "build": "tsup && tsc --emitDeclarationOnly --noCheck",
     "dev": "tsup --watch",
     "lint": "eslint src/",
-    "test": "jest"
+    "test": "tsx --test src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts src/bottom-sheet/__tests__/*.test.ts src/snippets/_shared/__tests__/*.test.ts src/state/__tests__/*.test.ts src/snippets/Form/__tests__/*.test.ts src/sdui-node/__tests__/*.test.ts src/registries/__tests__/*.test.ts src/snippets/Steps/__tests__/*.test.ts src/pages/PageFeed/__tests__/*.test.ts src/snippets/TabsFooter/__tests__/*.test.ts src/__tests__/*.test.ts"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
-    "@one-impression/sdk-native-sdui": ">=1.0.0",
-    "@amplify-ai/ui-native": ">=1.0.0",
-    "@amplify-ai/tokens-creator": ">=2.0.3",
+    "@one-impression/sdk-native-sdui": "^2.8.0",
+    "@one-impression/ui-native": ">=2.0.2",
+    "@one-impression/tokens-creator": ">=3.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
     "react-native-webview": ">=13.0.0"
   },
@@ -47,7 +62,11 @@
     }
   },
   "devDependencies": {
+    "@one-impression/sdk-native-sdui": "^2.8.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

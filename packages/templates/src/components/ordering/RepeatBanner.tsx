@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@amplify-ai/ui';
+import { Button } from '@one-impression/ui';
 import type { ComponentRenderer } from '../../registry';
 
 export const RepeatBanner: ComponentRenderer = ({ props }) => {

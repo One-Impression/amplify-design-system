@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ListSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack } from "@amplify-ai/ui-native";
+import { Box, Stack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { FilePicker, type PickedFile } from '@amplify-ai/ui';
+import { FilePicker, type PickedFile } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Forms/FilePicker',

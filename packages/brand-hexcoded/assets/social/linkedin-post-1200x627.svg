@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" role="img" aria-label="HEXCODED LinkedIn post">
+  <title>HEXCODED LinkedIn post template (1200×627)</title>
+  <defs>
+    <style>
+      .wm { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 120px; letter-spacing: -0.025em; fill: #FFFFFF; }
+      .wm-shadow { fill: #22C55E; opacity: 0.7; }
+      .h-display { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 56px; fill: #FFFFFF; letter-spacing: -0.02em; }
+      .h-meta { font-family: "Inter", sans-serif; font-size: 22px; fill: #86EFAC; letter-spacing: 0.05em; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1200" height="627" fill="#0B0B0F"/>
+  <text x="82" y="158" class="h-meta">HEXCODED · ANNOUNCEMENT</text>
+  <text x="80" y="320" class="h-display">Take a brief.</text>
+  <text x="80" y="392" class="h-display">Get a campaign.</text>
+  <text x="83" y="563" class="wm wm-shadow">HEXCODED</text>
+  <text x="80" y="560" class="wm">HEXCODED</text>
+</svg>

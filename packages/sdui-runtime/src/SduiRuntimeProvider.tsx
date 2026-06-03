@@ -5,6 +5,7 @@ import { ActionEngineContext } from "./action-engine/useActionEngine.js";
 import { TelemetryContext } from "./telemetry/useTelemetry.js";
 import type { TelemetryEmitter } from "./telemetry/useTelemetry.js";
 import type { ActionEngineConfig } from "./action-engine/types.js";
+import { setResolveRendererWarnSink } from "./registries/node-registry.js";
 
 interface BffConfig {
   baseUrl: string;
@@ -54,6 +55,15 @@ export function SduiRuntimeProvider({
     };
     return createActionEngine(config);
   }, [bffConfig.baseUrl, authConfig.getToken, onNavigate, onToast, onDeeplink]);
+
+  // Route unknown-type warnings from the renderer registry through the
+  // same telemetry emitter as the rest of the runtime. Memoised on the
+  // emitter so swapping it (e.g. test rigs) re-wires the sink.
+  useMemo(() => {
+    setResolveRendererWarnSink((type: string) => {
+      telemetryConfig.emitter.emit("sdui.renderer.unknown_type", { type });
+    });
+  }, [telemetryConfig.emitter]);
 
   return (
     <TelemetryContext.Provider value={telemetryConfig.emitter}>

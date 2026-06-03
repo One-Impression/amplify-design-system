@@ -1,5 +1,5 @@
 /**
- * @amplify-ai/tokens-foundation — Fluid type scale
+ * @one-impression/tokens-foundation — Fluid type scale
  *
  * `clamp(min, fluid, max)` based responsive typography. The `fluid` term
  * uses the cqi/vw unit so text scales smoothly between viewport breakpoints

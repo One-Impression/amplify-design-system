@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MarkdownEditor } from '@amplify-ai/ui';
+import { MarkdownEditor } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Forms/MarkdownEditor',

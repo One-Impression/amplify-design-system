@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CreatorIntentCard } from '@amplify-ai/ui';
+import { CreatorIntentCard } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/CreatorIntentCard',

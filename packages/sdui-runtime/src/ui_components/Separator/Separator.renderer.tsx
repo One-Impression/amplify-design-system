@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { SeparatorComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Separator as DSSeparator } from "@amplify-ai/ui-native";
+import { Separator as DSSeparator } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function SeparatorRenderer(node: Node): React.ReactElement {

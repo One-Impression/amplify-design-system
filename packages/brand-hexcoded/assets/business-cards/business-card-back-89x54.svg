@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1051 638" role="img" aria-label="HEXCODED business card back">
+  <title>HEXCODED business card back (89×54mm @ 300 DPI = 1051×638px) — contact details template</title>
+  <defs>
+    <style>
+      .name { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 64px; fill: #0B0B0F; letter-spacing: -0.02em; }
+      .title { font-family: "Inter", sans-serif; font-size: 28px; fill: #3B3B42; }
+      .meta { font-family: "JetBrains Mono", monospace; font-size: 22px; fill: #3B3B42; }
+      .url { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 32px; fill: #16A34A; letter-spacing: -0.02em; }
+      .accent-bar { fill: #22C55E; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1051" height="638" fill="#FAFAFA"/>
+  <rect x="0" y="0" width="12" height="638" class="accent-bar"/>
+  <text x="80" y="200" class="name">Your Name</text>
+  <text x="80" y="246" class="title">Title · Hexcoded</text>
+  <text x="80" y="350" class="meta">you@hexcoded.com</text>
+  <text x="80" y="390" class="meta">+91 00000 00000</text>
+  <text x="80" y="530" class="url">hexcoded.com</text>
+</svg>

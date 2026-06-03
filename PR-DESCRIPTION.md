@@ -5,10 +5,10 @@ This PR introduces the **Oportunities** product theme (Studio direction) to the 
 ## What's added
 
 ### 4 new packages
-- **`@amplify-ai/tokens-oportunities@1.0.0`** — Studio-direction tokens (apricot palette, Geist + Inter + JBM, light + dark)
-- **`@amplify-ai/brand-oportunities@1.0.0`** — brand asset library (logo SVGs, app icons, favicons, social templates, business cards, email signature, full `BRAND-DECISIONS.md`)
+- **`@one-impression/tokens-oportunities@1.0.0`** — Studio-direction tokens (apricot palette, Geist + Inter + JBM, light + dark)
+- **`@one-impression/brand-oportunities@1.0.0`** — brand asset library (logo SVGs, app icons, favicons, social templates, business cards, email signature, full `BRAND-DECISIONS.md`)
 
-### 6 new components in `@amplify-ai/ui` (will release as 2.12.0)
+### 6 new components in `@one-impression/ui` (will release as 2.12.0)
 - `Wordmark` — Oportunities wordmark with optional gradient-sweep animation
 - `SignalDot` — the apricot period as a standalone animated mark
 - `CreatorIntentCard` — signature product card (composes `Card` + `Avatar` + `Badge`)

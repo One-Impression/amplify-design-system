@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MediaShowcase, Button } from '@amplify-ai/ui';
+import { MediaShowcase, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/MediaShowcase',

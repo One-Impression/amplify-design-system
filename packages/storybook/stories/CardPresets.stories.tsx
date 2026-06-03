@@ -7,7 +7,7 @@ import {
   MetricCard,
   WalletCard,
   CollapsibleCard,
-} from '@amplify-ai/ui';
+} from '@one-impression/ui';
 
 /**
  * One story per Card preset wrapper proving the public API still renders

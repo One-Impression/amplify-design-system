@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ImageStackComponentSchema } from "@one-impression/sdk-native-sdui";
-import { ImageStack as DSImageStack } from "@amplify-ai/ui-native";
+import { ImageStack as DSImageStack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function ImageStackRenderer(node: Node): React.ReactElement {

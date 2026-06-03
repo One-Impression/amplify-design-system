@@ -1,12 +1,12 @@
 /**
- * @amplify-ai/eslint-config/strict — strict (error-level) flat config
+ * @one-impression/eslint-config/strict — strict (error-level) flat config
  *
  * Same rules as the recommended preset, but every violation is an `error`
  * instead of `warn`. Use this preset in CI gates and when you want hard
  * enforcement for design-system compliance.
  *
  * Usage:
- *   import amplifyStrict from '@amplify-ai/eslint-config/strict';
+ *   import amplifyStrict from '@one-impression/eslint-config/strict';
  *   export default [...amplifyStrict];
  */
 'use strict';
@@ -21,13 +21,13 @@ module.exports = [
       '@amplify-ai': plugin,
     },
     rules: {
-      '@amplify-ai/no-hardcoded-colors': 'error',
-      '@amplify-ai/no-raw-spacing': 'error',
-      '@amplify-ai/prefer-token-import': 'error',
-      '@amplify-ai/no-inline-styles': 'error',
-      '@amplify-ai/no-raw-surface': 'error',
-      '@amplify-ai/no-hardcoded-radius': 'error',
-      '@amplify-ai/no-hardcoded-typography': 'error',
+      '@one-impression/no-hardcoded-colors': 'error',
+      '@one-impression/no-raw-spacing': 'error',
+      '@one-impression/prefer-token-import': 'error',
+      '@one-impression/no-inline-styles': 'error',
+      '@one-impression/no-raw-surface': 'error',
+      '@one-impression/no-hardcoded-radius': 'error',
+      '@one-impression/no-hardcoded-typography': 'error',
     },
   },
 ];

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ButtonComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Button as DSButton } from "@amplify-ai/ui-native";
+import { Button as DSButton } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 

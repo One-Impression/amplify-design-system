@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SignalDot } from '@amplify-ai/ui';
+import { SignalDot } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/SignalDot',

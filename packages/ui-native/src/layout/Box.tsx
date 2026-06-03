@@ -32,8 +32,16 @@ export interface BoxProps extends ViewProps {
   mb?: SpacingToken | number;
   /** Border radius token or raw number. */
   rounded?: RadiusToken | number;
-  /** Border width token or raw number. */
+  /** Border width token or raw number — applies to all four sides. */
   borderWidth?: BorderWidthToken | number;
+  /** Border top width token or raw number. */
+  borderTopWidth?: BorderWidthToken | number;
+  /** Border bottom width token or raw number. */
+  borderBottomWidth?: BorderWidthToken | number;
+  /** Border left width token or raw number. */
+  borderLeftWidth?: BorderWidthToken | number;
+  /** Border right width token or raw number. */
+  borderRightWidth?: BorderWidthToken | number;
   /** Border color token or raw color string. */
   borderColor?: ColorToken | string;
   /** Flex value. */
@@ -50,6 +58,14 @@ export interface BoxProps extends ViewProps {
   width?: number | string;
   /** Height. */
   height?: number | string;
+  /** Positioning mode (e.g. 'absolute' for overlay layouts). */
+  position?: ViewStyle['position'];
+  /** Z-index for stacking absolute / overlay nodes. */
+  zIndex?: number;
+  /** Opacity (0..1) — useful for animated fade-in/out. */
+  opacity?: number;
+  /** Overflow handling for children that exceed the box bounds. */
+  overflow?: ViewStyle['overflow'];
 }
 
 /**
@@ -74,6 +90,10 @@ export const Box = React.forwardRef<View, BoxProps>(
       mb,
       rounded,
       borderWidth: bw,
+      borderTopWidth: btw,
+      borderBottomWidth: bbw,
+      borderLeftWidth: blw,
+      borderRightWidth: brw,
       borderColor,
       flex,
       direction,
@@ -82,6 +102,10 @@ export const Box = React.forwardRef<View, BoxProps>(
       gap,
       width,
       height,
+      position,
+      zIndex,
+      opacity,
+      overflow,
       style,
       ...props
     },
@@ -103,6 +127,10 @@ export const Box = React.forwardRef<View, BoxProps>(
       marginBottom: resolveSpacing(mb),
       borderRadius: resolveRadius(rounded),
       borderWidth: resolveBorderWidth(bw),
+      borderTopWidth: resolveBorderWidth(btw),
+      borderBottomWidth: resolveBorderWidth(bbw),
+      borderLeftWidth: resolveBorderWidth(blw),
+      borderRightWidth: resolveBorderWidth(brw),
       borderColor: resolveColor(borderColor),
       flex,
       flexDirection: direction,
@@ -111,6 +139,10 @@ export const Box = React.forwardRef<View, BoxProps>(
       gap: resolveSpacing(gap),
       width: width as ViewStyle['width'],
       height: height as ViewStyle['height'],
+      position,
+      zIndex,
+      opacity,
+      overflow,
     };
 
     // Strip undefined values to avoid overriding defaults

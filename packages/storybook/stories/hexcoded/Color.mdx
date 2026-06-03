@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/Color" />
+
+# Hexcoded — Color System
+
+Confident, technical, build-and-ship. **Tech Green** is THE brand colour
+(also the success state — intentional). All neutrals are warm-neutral.
+Dark mode preserves Tech Green unchanged — brand is constant; only
+surfaces invert.
+
+All values authoritative from `@one-impression/tokens-hexcoded` (`theme-light.json`, `theme-dark.json`).
+
+---
+
+## Brand Colours — Light
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'bg',              hex: '#FAFAFA', desc: 'Soft warm-white page bg' },
+    { name: 'bg-elev',         hex: '#FFFFFF', desc: 'Elevated cards / modals' },
+    { name: 'bg-soft',         hex: '#F5F5F7', desc: 'Subtle inset' },
+    { name: 'accent',          hex: '#22C55E', desc: 'Tech Green · THE brand colour' },
+    { name: 'accent-deep',     hex: '#16A34A', desc: 'Tech Green pressed' },
+    { name: 'accent-light',    hex: '#86EFAC', desc: 'Tech Green hover bg' },
+    { name: 'accent-whisper',  hex: '#DCFCE7', desc: 'Subtlest tint' },
+    { name: 'text-primary',    hex: '#0B0B0F', desc: 'Primary ink · brand-true black' },
+    { name: 'text-secondary',  hex: '#3B3B42', desc: 'Body copy' },
+    { name: 'text-tertiary',   hex: '#86868B', desc: 'Captions, secondary' },
+    { name: 'border',          hex: '#E5E5EA', desc: 'Default 1px border' },
+  ].map((c) => (
+    <div key={c.name} style={{ background: '#FFFFFF', border: '1px solid #E5E5EA', borderRadius: 8, overflow: 'hidden' }}>
+      <div style={{ height: 64, background: c.hex, borderBottom: '1px solid #E5E5EA' }} />
+      <div style={{ padding: 12 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: '#0B0B0F', fontWeight: 600 }}>{c.name}</div>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#3B3B42', marginTop: 2 }}>{c.hex}</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#86868B', marginTop: 4 }}>{c.desc}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Brand Colours — Dark (Tech Green unchanged)
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'bg',              hex: '#0B0B0F', desc: 'Brand-true black page bg' },
+    { name: 'bg-elev',         hex: '#1C1C22', desc: 'Elevated cards / modals' },
+    { name: 'bg-soft',         hex: '#15151B', desc: 'Subtle inset' },
+    { name: 'accent',          hex: '#22C55E', desc: 'Tech Green · unchanged' },
+    { name: 'accent-deep',     hex: '#16A34A', desc: 'Tech Green pressed · unchanged' },
+    { name: 'accent-light',    hex: '#86EFAC', desc: 'Tech Green hover · unchanged' },
+    { name: 'accent-whisper',  hex: '#DCFCE7', desc: 'Subtlest tint · unchanged' },
+    { name: 'text-primary',    hex: '#FAFAFA', desc: 'Primary text · warm white' },
+    { name: 'text-secondary',  hex: '#C8C8CD', desc: 'Body copy on dark' },
+    { name: 'text-tertiary',   hex: '#86868B', desc: 'Captions · unchanged' },
+    { name: 'border',          hex: '#2C2C30', desc: 'Default border on dark' },
+  ].map((c) => (
+    <div key={c.name} style={{ background: '#0B0B0F', border: '1px solid #2C2C30', borderRadius: 8, overflow: 'hidden' }}>
+      <div style={{ height: 64, background: c.hex, borderBottom: '1px solid #2C2C30' }} />
+      <div style={{ padding: 12 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: '#FAFAFA', fontWeight: 600 }}>{c.name}</div>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#C8C8CD', marginTop: 2 }}>{c.hex}</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#86868B', marginTop: 4 }}>{c.desc}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Status (L19 — same hex in light + dark)
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'status.success', hex: '#22C55E', desc: '=== brand accent · intentional' },
+    { name: 'status.warning', hex: '#FBBF24', desc: 'amber 400' },
+    { name: 'status.danger',  hex: '#EF4444', desc: 'red 500' },
+    { name: 'status.info',    hex: '#0EA5E9', desc: 'sky 500' },
+  ].map((c) => (
+    <div key={c.name} style={{ background: '#FFFFFF', border: '1px solid #E5E5EA', borderRadius: 8, overflow: 'hidden' }}>
+      <div style={{ height: 64, background: c.hex, borderBottom: '1px solid #E5E5EA' }} />
+      <div style={{ padding: 12 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: '#0B0B0F', fontWeight: 600 }}>{c.name}</div>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#3B3B42', marginTop: 2 }}>{c.hex}</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#86868B', marginTop: 4 }}>{c.desc}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Why success === accent
+
+Hexcoded ships content. Every success state is a thing shipped. Using Tech Green
+for both the brand AND success makes "shipped" the brand's emotional payoff —
+the same moment, the same colour, the same feeling. This is intentional, not lazy.
+
+If you need to distinguish "this is success state" from "this is a brand surface,"
+use status iconography (✓ check) rather than a different colour.

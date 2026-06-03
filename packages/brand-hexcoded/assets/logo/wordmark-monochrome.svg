@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 140" role="img" aria-label="HEXCODED">
+  <title>HEXCODED wordmark — monochrome (uses currentColor for single-ink contexts: engraving, foiling, single-color print)</title>
+  <defs>
+    <style>
+      .wm-text {
+        font-family: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 900;
+        font-size: 104px;
+        letter-spacing: -0.025em;
+        fill: currentColor;
+      }
+    </style>
+  </defs>
+  <text x="20" y="104" class="wm-text">HEXCODED</text>
+</svg>

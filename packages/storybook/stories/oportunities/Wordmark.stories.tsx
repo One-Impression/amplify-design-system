@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Wordmark } from '@amplify-ai/ui';
+import { Wordmark } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/Wordmark',

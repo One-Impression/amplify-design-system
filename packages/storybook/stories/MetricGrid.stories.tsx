@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MetricGrid } from '@amplify-ai/ui';
+import { MetricGrid } from '@one-impression/ui';
 
 const meta = {
   title: 'Recipes/MetricGrid',

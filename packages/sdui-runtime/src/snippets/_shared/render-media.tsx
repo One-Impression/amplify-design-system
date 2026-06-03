@@ -1,84 +1,36 @@
 import React from "react";
+import type { Media } from "@one-impression/sdk-native-sdui";
 import {
   Image as DSImage,
   Icon as DSIcon,
   ImageStack as DSImageStack,
   ProgressIndicator as DSProgressIndicator,
-} from "@amplify-ai/ui-native";
+} from "@one-impression/ui-native";
+import { describeMedia } from "./describe-media.js";
 
-interface MediaImage {
-  type: "image";
-  src: string;
-  alt?: string;
-  width?: number;
-  height?: number;
-  resize_mode?: string;
-  border_radius?: number;
-}
-
-interface MediaIcon {
-  type: "icon";
-  name: string;
-  size?: number;
-  color?: string;
-}
-
-interface MediaImageStack {
-  type: "image_stack";
-  images: Array<{ src: string; alt?: string }>;
-  max_visible?: number;
-}
-
-interface MediaProgress {
-  type: "progress";
-  value: number;
-  track_color?: string;
-  fill_color?: string;
-  height?: number;
-}
-
-type Media = MediaImage | MediaIcon | MediaImageStack | MediaProgress;
-
+/**
+ * Renders a `MediaSchema` node. The shape-mapping rules live in
+ * {@link describeMedia} (a pure function with no `react-native` imports, so
+ * it can be unit-tested under plain Node); this wrapper hands the resulting
+ * descriptor's `props` to the appropriate ui-native primitive.
+ */
 export function renderMedia(media: Media): React.ReactElement | null {
-  if (!media) return null;
+  const desc = describeMedia(media);
+  if (!desc) return null;
 
-  switch (media.type) {
+  switch (desc.kind) {
     case "image":
-      return (
-        <DSImage
-          source={{ uri: media.src }}
-          accessibilityLabel={media.alt}
-          width={media.width}
-          height={media.height}
-          resizeMode={media.resize_mode}
-          rounded={media.border_radius}
-        />
-      );
+      return <DSImage {...desc.props} />;
     case "icon":
-      return (
-        <DSIcon
-          name={media.name}
-          size={media.size}
-          color={media.color}
-        />
-      );
+      return <DSIcon {...desc.props} />;
     case "image_stack":
-      return (
-        <DSImageStack
-          images={media.images.map((img) => ({ uri: img.src }))}
-          maxVisible={media.max_visible}
-        />
-      );
+      return <DSImageStack {...desc.props} />;
     case "progress":
-      return (
-        <DSProgressIndicator
-          value={media.value}
-          trackColor={media.track_color}
-          fillColor={media.fill_color}
-          height={media.height}
-        />
-      );
-    default:
+      return <DSProgressIndicator {...desc.props} />;
+    default: {
+      const _exhaustive: never = desc;
+      void _exhaustive;
       return null;
+    }
   }
 }

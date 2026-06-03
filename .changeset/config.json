@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "One-Impression/amplify-design-system" }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "restricted",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  },
+  "ignore": [
+    "@one-impression/storybook",
+    "@one-impression/templates",
+    "@one-impression/brand-oportunities",
+    "@one-impression/feature-flags",
+    "@amplify/tokens-marketing",
+    "@one-impression/tokens-oportunities",
+    "@one-impression/tokens-studio"
+  ]
+}

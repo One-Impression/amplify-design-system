@@ -4,7 +4,7 @@ import type { Preview } from '@storybook/react';
  * Theme switcher.
  *
  * Each entry maps a theme id to the published CSS module of its
- * @amplify-ai/tokens-* package. The CSS is loaded lazily via a
+ * @one-impression/tokens-* package. The CSS is loaded lazily via a
  * <link rel="stylesheet"> tag pointing at the package's exported
  * /css entry — so Vite does NOT need to resolve it at build time.
  *

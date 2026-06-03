@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InfoBreakdownRowSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack, Text } from "@amplify-ai/ui-native";
+import { Box, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function InfoBreakdownRowRenderer(node: Node): React.ReactElement {

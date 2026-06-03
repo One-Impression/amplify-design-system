@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BrandInterestCard } from '@amplify-ai/ui';
+import { BrandInterestCard } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/BrandInterestCard',

@@ -1,6 +1,6 @@
 {
-  "name": "@amplify-ai/tokens-creator",
-  "version": "2.0.3",
+  "name": "@one-impression/tokens-creator",
+  "version": "3.2.0",
   "description": "Amplify Creator App design tokens — SDUI theme colors, typography, and component tokens",
   "main": "dist/tokens.js",
   "exports": {
@@ -10,6 +10,10 @@
     "./json": "./dist/tokens.json",
     "./js": "./dist/tokens.js",
     "./react-native": "./dist/tokens.native.js",
+    "./palette": {
+      "types": "./palette.d.ts",
+      "default": "./palette.js"
+    },
     "./icons": "./dist/icons/manifest.json",
     "./icons/essentials": "./dist/icons/essentials.json",
     "./icons/types": "./dist/icons/manifest.d.ts",
@@ -18,10 +22,12 @@
   "scripts": {
     "build": "node build.js && npx tsx scripts/build-icons.ts",
     "build:icons": "npx tsx scripts/build-icons.ts",
+    "validate:palette": "node scripts/validate-palette.js",
+    "test": "vitest run",
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {
-    "@amplify-ai/tokens-foundation": "^2.0.1"
+    "@one-impression/tokens-foundation": "^3.0.0"
   },
   "devDependencies": {
     "style-dictionary": "^4.3.0"
@@ -30,6 +36,11 @@
     "dist/",
     "tokens/",
     "scripts/",
-    "icons/"
-  ]
+    "icons/",
+    "palette.js",
+    "palette.d.ts"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

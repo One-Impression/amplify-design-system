@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { SelectableItemComponentSchema } from "@one-impression/sdk-native-sdui";
-import { SelectableItem as DSSelectableItem } from "@amplify-ai/ui-native";
+import { SelectableItem as DSSelectableItem } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 
@@ -20,8 +20,8 @@ export function SelectableItemRenderer(node: Node): React.ReactElement {
     >
       {(v) => (
         <DSSelectableItem
-          label={v.label.data.text}
-          description={v.subtitle ? v.subtitle.data.text : undefined}
+          label={v.label.text}
+          description={v.subtitle ? v.subtitle.text : undefined}
           selected={v.selected}
           disabled={v.disabled}
           leading={

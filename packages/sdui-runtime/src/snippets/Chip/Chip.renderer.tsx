@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ChipSnippetSchema } from "@one-impression/sdk-native-sdui";
-import { Chip as DSChip, Icon as DSIcon } from "@amplify-ai/ui-native";
+import { Chip as DSChip, Icon as DSIcon } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function ChipRenderer(node: Node): React.ReactElement {

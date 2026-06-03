@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Sparkline } from '@amplify-ai/ui';
+import { Sparkline } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/Sparkline',

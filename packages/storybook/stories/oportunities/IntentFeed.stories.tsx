@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { IntentFeed, type CreatorIntentCardProps, type IntentFeedFilters } from '@amplify-ai/ui';
+import { IntentFeed, type CreatorIntentCardProps, type IntentFeedFilters } from '@one-impression/ui';
 
 const meta = {
   title: 'Oportunities/IntentFeed',

@@ -1,12 +1,12 @@
 /**
- * @amplify-ai/tokens-foundation — Phase A semantic CSS surface
+ * @one-impression/tokens-foundation — Phase A semantic CSS surface
  *
  * Hand-authored token layer using the canonical `--amplify-*` prefix.
  * Pairs with the auto-generated `--amp-*` primitives in dist/variables.css.
  *
  * Usage:
- *   @import "@amplify-ai/tokens-foundation/css";        // generated primitives
- *   @import "@amplify-ai/tokens-foundation/css/phase-a"; // semantic Phase A layer
+ *   @import "@one-impression/tokens-foundation/css";        // generated primitives
+ *   @import "@one-impression/tokens-foundation/css/phase-a"; // semantic Phase A layer
  */
 @import "./motion.css";
 @import "./shadows.css";

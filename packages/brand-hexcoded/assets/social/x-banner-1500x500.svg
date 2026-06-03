@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" role="img" aria-label="HEXCODED X banner">
+  <title>HEXCODED X (Twitter) header banner (1500×500) — safe-zone 60px each side</title>
+  <defs>
+    <style>
+      .wm { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 196px; letter-spacing: -0.025em; fill: #FFFFFF; }
+      .wm-shadow-1 { fill: #22C55E; opacity: 0.85; }
+      .wm-shadow-2 { fill: #22C55E; opacity: 0.55; }
+      .tagline { font-family: "Inter", sans-serif; font-size: 28px; fill: #C8C8CD; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1500" height="500" fill="#0B0B0F"/>
+  <text x="84" y="298" class="wm wm-shadow-2">HEXCODED</text>
+  <text x="82" y="296" class="wm wm-shadow-1">HEXCODED</text>
+  <text x="80" y="294" class="wm">HEXCODED</text>
+  <text x="80" y="346" class="tagline">Take a brief. Get a campaign.</text>
+</svg>

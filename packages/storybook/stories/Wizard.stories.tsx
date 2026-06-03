@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Wizard, type WizardStep } from '@amplify-ai/ui';
+import { Wizard, type WizardStep } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Forms/Wizard',

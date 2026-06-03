@@ -11,7 +11,7 @@ import {
   MediaShowcase,
   Section,
   Button,
-} from '@amplify-ai/ui';
+} from '@one-impression/ui';
 
 /**
  * Marketing-page composition — shows how the new primitives plug together

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { sdui } from '@amplify-ai/tokens-creator/react-native';
+import { sdui } from '@one-impression/tokens-creator/react-native';
 
 export const styles = StyleSheet.create({
   header: {

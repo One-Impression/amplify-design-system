@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InfoIconRowSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack, Text, Icon as DSIcon, Card as DSCard } from "@amplify-ai/ui-native";
+import { Box, Stack, Text, Icon as DSIcon, Card as DSCard } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function InfoIconRowRenderer(node: Node): React.ReactElement {

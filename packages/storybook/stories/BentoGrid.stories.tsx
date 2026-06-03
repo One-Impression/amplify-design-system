@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BentoGrid, BentoItem } from '@amplify-ai/ui';
+import { BentoGrid, BentoItem } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Layout/BentoGrid',
