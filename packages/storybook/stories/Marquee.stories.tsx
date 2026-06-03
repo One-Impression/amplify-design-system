@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Marquee } from '@amplify-ai/ui';
+import { Marquee } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/Marquee',

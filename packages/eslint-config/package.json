@@ -1,6 +1,6 @@
 {
-  "name": "@amplify-ai/eslint-config",
-  "version": "2.1.0",
+  "name": "@one-impression/eslint-config",
+  "version": "3.0.0",
   "description": "Shared ESLint flat config enforcing Amplify design token usage (no-hardcoded-colors, no-raw-spacing, prefer-token-import, no-inline-styles, no-raw-surface, no-hardcoded-radius, no-hardcoded-typography)",
   "main": "index.js",
   "exports": {
@@ -21,5 +21,8 @@
     "index.js",
     "strict.js",
     "rules/"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

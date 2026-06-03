@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ProgressRing } from '@amplify-ai/ui';
+import { ProgressRing } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/ProgressRing',

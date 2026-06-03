@@ -1,49 +1,135 @@
 import { create } from "zustand";
+import type { Node } from "@one-impression/sdk-native-sdui";
 
-const MAX_STACK_DEPTH = 2;
-
+/**
+ * Inline bottom-sheet record stored in the registry.
+ *
+ * Mirrors the `InlineBottomSheetSchema` payload from
+ * `@one-impression/sdk-native-sdui` (id, size, items, optional title +
+ * lifecycle triggers). The registry holds these by `sheet_id` so the
+ * `sheet` action handler can open them by id without re-defining the sheet.
+ */
 export interface SheetEntry {
   id: string;
   title?: string;
   size: string;
-  items: unknown[];
+  items: Node[];
   on_dismiss?: unknown;
   on_open?: unknown;
 }
 
 interface BottomSheetState {
-  stack: SheetEntry[];
-  open: (sheet: SheetEntry) => void;
-  close: (id?: string) => void;
+  /** All sheets declared by the active page, keyed by sheet_id. */
+  registry: Record<string, SheetEntry>;
+  /** Which registered sheets are currently presented. */
+  openSheets: Record<string, boolean>;
+  /**
+   * Explicit open-order history (oldest → newest). The last entry is the
+   * topmost open sheet. Tracked separately from `openSheets` so the
+   * "most recently opened" answer does not rely on JS object key
+   * insertion order (which the ECMAScript spec does not guarantee for
+   * arbitrary string keys and which breaks under serialization /
+   * Zustand persist middleware).
+   */
+  openOrder: string[];
+  /** Per-sheet runtime context payload, stamped at open() time. */
+  contexts: Record<string, Record<string, unknown> | undefined>;
+
+  /**
+   * Register a sheet definition without opening it. Called by page renderers
+   * on mount for each `page.bottom_sheets[]` entry. Idempotent — overwrites
+   * any existing entry with the same id.
+   */
+  register: (sheetId: string, sheet: SheetEntry) => void;
+
+  /**
+   * Remove a registered sheet entirely — its definition, open flag,
+   * open-order entry, and stamped context all go. Called by renderers
+   * in their `useEffect` cleanup when a sheet (or its hosting page)
+   * unmounts, so navigating away does not leave orphan sheets in the
+   * registry that the host would keep rendering.
+   */
+  unregister: (sheetId: string) => void;
+
+  /**
+   * Open a previously-registered sheet. Looks up the sheet by id from the
+   * registry; if no sheet was registered the call is a no-op (and logs a
+   * warning). An optional `contextPayload` is stamped against the sheet id
+   * so renderers / handlers inside the sheet can access it.
+   */
+  open: (sheetId: string, contextPayload?: Record<string, unknown>) => void;
+
+  /** Close a sheet by id; if omitted, closes the most-recently opened sheet. */
+  close: (sheetId?: string) => void;
+
+  /** Close every currently-open sheet (registry is preserved). */
   closeAll: () => void;
-  replace: (sheet: SheetEntry) => void;
 }
 
-export const useBottomSheetStore = create<BottomSheetState>((set) => ({
-  stack: [],
+export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
+  registry: {},
+  openSheets: {},
+  openOrder: [],
+  contexts: {},
 
-  open: (sheet) =>
+  register: (sheetId, sheet) =>
+    set((state) => ({
+      registry: { ...state.registry, [sheetId]: sheet },
+    })),
+
+  unregister: (sheetId) =>
     set((state) => {
-      if (state.stack.length >= MAX_STACK_DEPTH) {
-        console.warn(
-          `[BottomSheetStore] Stack depth limit (${MAX_STACK_DEPTH}) reached — refusing to push "${sheet.id}"`,
-        );
-        return state;
-      }
-      return { stack: [...state.stack, sheet] };
+      const { [sheetId]: _r, ...remainingRegistry } = state.registry;
+      const { [sheetId]: _o, ...remainingOpen } = state.openSheets;
+      const { [sheetId]: _c, ...remainingCtx } = state.contexts;
+      return {
+        registry: remainingRegistry,
+        openSheets: remainingOpen,
+        openOrder: state.openOrder.filter((id) => id !== sheetId),
+        contexts: remainingCtx,
+      };
     }),
 
-  close: (id) =>
+  open: (sheetId, contextPayload) => {
+    const sheet = get().registry[sheetId];
+    if (!sheet) {
+      console.warn(
+        `[BottomSheetStore] open("${sheetId}") — no sheet registered with that id`,
+      );
+      return;
+    }
     set((state) => ({
-      stack: id
-        ? state.stack.filter((s) => s.id !== id)
-        : state.stack.slice(0, -1),
-    })),
+      openSheets: { ...state.openSheets, [sheetId]: true },
+      // Move id to the end of the open-order history. Filtering an
+      // existing entry ensures reopening an already-open sheet promotes
+      // it to topmost rather than producing duplicates.
+      openOrder: [...state.openOrder.filter((id) => id !== sheetId), sheetId],
+      contexts: { ...state.contexts, [sheetId]: contextPayload },
+    }));
+  },
 
-  closeAll: () => set({ stack: [] }),
+  close: (sheetId) =>
+    set((state) => {
+      if (sheetId) {
+        const { [sheetId]: _, ...remaining } = state.openSheets;
+        const { [sheetId]: __, ...remainingCtx } = state.contexts;
+        return {
+          openSheets: remaining,
+          openOrder: state.openOrder.filter((id) => id !== sheetId),
+          contexts: remainingCtx,
+        };
+      }
+      // No id: close the most-recently opened sheet (last of openOrder).
+      if (state.openOrder.length === 0) return state;
+      const last = state.openOrder[state.openOrder.length - 1] as string;
+      const { [last]: _, ...remaining } = state.openSheets;
+      const { [last]: __, ...remainingCtx } = state.contexts;
+      return {
+        openSheets: remaining,
+        openOrder: state.openOrder.slice(0, -1),
+        contexts: remainingCtx,
+      };
+    }),
 
-  replace: (sheet) =>
-    set((state) => ({
-      stack: [...state.stack.slice(0, -1), sheet],
-    })),
+  closeAll: () => set({ openSheets: {}, openOrder: [], contexts: {} }),
 }));

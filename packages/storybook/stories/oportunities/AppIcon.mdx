@@ -1,0 +1,143 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/AppIcon" />
+
+# Oportunities — App Icon
+
+The home-screen presence. An apricot dot on cream (light) or warm-ink (dark). The dot
+references the wordmark's terminal period — same color, same role, same idea: _"this is
+oportunities."_
+
+> The mark is intentionally simple. At 32px it reads as a dot. At 1024px it reads as a
+> mark. Either way: apricot on a warm surface.
+
+---
+
+## Live — Light Mode
+
+<div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', padding: 32, background: '#F5ECDE', borderRadius: 8 }}>
+  {[16, 32, 48, 64, 128, 256].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#FDF8F3', borderRadius: size * 0.22, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.04)', boxShadow: size >= 64 ? '0 8px 24px rgba(28,22,17,0.08)' : 'none' }}>
+        <div style={{ width: size * 0.35, height: size * 0.35, borderRadius: '50%', background: '#E68F47' }} />
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+## Live — Dark Mode
+
+<div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', padding: 32, background: '#F5ECDE', borderRadius: 8 }}>
+  {[16, 32, 48, 64, 128, 256].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, background: '#0F0D0B', borderRadius: size * 0.22, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: size >= 64 ? '0 8px 24px rgba(0,0,0,0.4)' : 'none' }}>
+        <div style={{ width: size * 0.35, height: size * 0.35, borderRadius: '50%', background: '#F0A668' }} />
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8A7F73', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Platform Specs
+
+### iOS
+
+| Asset | Size | Format | Notes |
+|---|---|---|---|
+| App icon (App Store) | 1024×1024 | PNG (no alpha) | Light variant; iOS adds rounding |
+| Spotlight / Settings | 80×80, 120×120 | PNG | Generated from 1024 |
+| Notification | 40×40, 60×60 | PNG | Generated from 1024 |
+| iOS does NOT use a dark icon | — | — | Apple handles dark via dynamic island only |
+
+Source: `app-icon-light-1024.svg` → exported as PNG (no transparency).
+
+### Android
+
+| Asset | Size | Format | Notes |
+|---|---|---|---|
+| Adaptive foreground | 432×432 | PNG (transparent) | Dot only, on transparent |
+| Adaptive background | 432×432 | PNG / color | `#FDF8F3` (light) or `#0F0D0B` (dark) |
+| Legacy launcher | 192×192 | PNG | Composited fallback |
+| Monochrome (Android 13+) | 432×432 | PNG (monochrome) | For Material You themed icons |
+
+Adaptive icon ensures the apricot dot is always visible regardless of launcher mask.
+
+### PWA / Web
+
+| Asset | Size | Format | Manifest key |
+|---|---|---|---|
+| Maskable | 512×512 | PNG | `purpose: "maskable"` |
+| Any | 192×192, 512×512 | PNG | `purpose: "any"` |
+| Apple touch icon | 180×180 | PNG | `<link rel="apple-touch-icon">` |
+| Theme color | — | `#FDF8F3` (light) / `#0F0D0B` (dark) | `<meta name="theme-color">` |
+
+Maskable safe zone: the apricot dot must stay within the inner 80% radius circle.
+
+### macOS
+
+| Asset | Size | Format | Notes |
+|---|---|---|---|
+| App icon (.icns) | 1024×1024 (master) | ICNS with all sizes | macOS rounds & shadows automatically |
+| Dock active state | — | uses light variant | macOS handles dark mode globally |
+
+---
+
+## Construction
+
+The dot is geometric, not optical:
+
+- **Background**: rounded square, radius = `size * 0.22` (matches iOS visual radius)
+- **Dot**: perfect circle, diameter = `size * 0.35`
+- **Position**: dead center, horizontally + vertically
+- **No shadow on the dot itself** — the icon container provides depth at large sizes
+
+```css
+.app-icon {
+  width: var(--size);
+  height: var(--size);
+  background: var(--bg);          /* cream or warm-ink */
+  border-radius: calc(var(--size) * 0.22);
+  display: grid;
+  place-items: center;
+}
+.app-icon::after {
+  content: '';
+  width: calc(var(--size) * 0.35);
+  height: calc(var(--size) * 0.35);
+  border-radius: 50%;
+  background: var(--apricot);     /* #E68F47 light, #F0A668 dark */
+}
+```
+
+---
+
+## React Usage
+
+```tsx
+import { AppIconOportunities } from '@one-impression/ui';
+
+<AppIconOportunities size={180} mode="light" platform="ios" />
+<AppIconOportunities size={512} mode="dark" platform="pwa" maskable />
+<AppIconOportunities size={64} mode="light" platform="android" adaptive />
+```
+
+Static asset paths (from `@one-impression/brand-oportunities`):
+
+```js
+import { appIcon } from '@one-impression/brand-oportunities';
+// appIcon.light1024 | light180 | dark1024 | dark180 | spec | pwaMaskable512
+```
+
+---
+
+## Do / Don't
+
+- **Do** export PNGs at exact pixel sizes (no auto-scaling at runtime).
+- **Do** ship a monochrome variant for Android themed icons.
+- **Do** use the cream background for light, warm-ink for dark — never pure white or pure black.
+- **Don't** add a wordmark inside the icon — the dot is the mark at this scale.
+- **Don't** apply gradients to the dot at icon sizes — the gradient is a wordmark-only treatment.
+- **Don't** add letters ("o", "O.") — too small to read, dilutes the mark.

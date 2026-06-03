@@ -61,7 +61,7 @@ test('no-raw-spacing', () => {
 test('prefer-token-import', () => {
   tester.run('prefer-token-import', preferTokenImport, {
     valid: [
-      { code: "import x from '@amplify-ai/tokens-foundation';" },
+      { code: "import x from '@one-impression/tokens-foundation';" },
       { code: "import x from 'react';" },
     ],
     invalid: [

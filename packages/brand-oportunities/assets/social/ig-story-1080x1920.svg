@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="oportunities Instagram story">
+  <title>oportunities — Instagram story (1080×1920)</title>
+  <defs>
+    <linearGradient id="storyBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <style>
+      .wm {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 64px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .headline {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 110px;
+        letter-spacing: -0.03em;
+        fill: #0F0D0B;
+      }
+      .sub {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 36px;
+        fill: #4A453F;
+      }
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#storyBg)"/>
+  <!-- Wordmark top -->
+  <text x="80" y="200" class="wm">oportunities</text>
+  <text x="80" y="200" class="wm wm-dot" dx="358">.</text>
+  <!-- Headline (vertical center) -->
+  <text x="80" y="900" class="headline">{Headline</text>
+  <text x="80" y="1030" class="headline">on multiple</text>
+  <text x="80" y="1160" class="headline">lines.}</text>
+  <!-- Sub -->
+  <text x="80" y="1280" class="sub">{Supporting sentence.}</text>
+  <!-- Footer accent -->
+  <circle cx="540" cy="1780" r="36" fill="#E89252"/>
+  <text x="540" y="1880" text-anchor="middle" class="sub">swipe up</text>
+</svg>

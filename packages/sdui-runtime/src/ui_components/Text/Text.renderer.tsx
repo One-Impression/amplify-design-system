@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { TextComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Text as DSText } from "@amplify-ai/ui-native";
+import { Text as DSText } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function TextRenderer(node: Node): React.ReactElement {

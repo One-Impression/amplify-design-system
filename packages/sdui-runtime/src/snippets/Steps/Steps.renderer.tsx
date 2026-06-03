@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { StepsSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack, Text } from "@amplify-ai/ui-native";
+import { Box, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 
 export function StepsRenderer(node: Node): React.ReactElement {
@@ -24,7 +24,7 @@ export function StepsRenderer(node: Node): React.ReactElement {
               <Box
                 height={4}
                 rounded={2}
-                bg={i < v.current ? "#6531FF" : "#E0E0E0"}
+                bg={i < v.current ? "primary" : "neutralWeak"}
               />
               {v.labels?.[i] && (
                 <Text

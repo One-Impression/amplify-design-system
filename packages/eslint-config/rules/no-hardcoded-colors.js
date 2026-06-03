@@ -1,5 +1,5 @@
 /**
- * @amplify-ai/eslint-config — no-hardcoded-colors
+ * @one-impression/eslint-config — no-hardcoded-colors
  *
  * Flags hex colour literals (#fff, #ff0000, #FF000080) in:
  *   - JSX style props: style={{ color: '#FF0000' }}
@@ -31,7 +31,7 @@ module.exports = {
     type: 'suggestion',
     docs: {
       description:
-        'Disallow hardcoded hex colour literals; require Amplify design tokens (CSS vars or @amplify-ai/tokens-* imports)',
+        'Disallow hardcoded hex colour literals; require Amplify design tokens (CSS vars or @one-impression/tokens-* imports)',
       recommended: true,
     },
     schema: [],

@@ -8,6 +8,6 @@ export default {
   testMatch: ['**/*.test.ts', '**/*.test.tsx'],
   setupFilesAfterSetup: [],
   moduleNameMapper: {
-    '^@amplify-ai/tokens-creator/react-native$': '<rootDir>/__mocks__/tokens-creator.ts',
+    '^@one-impression/tokens-creator/react-native$': '<rootDir>/__mocks__/tokens-creator.ts',
   },
 };

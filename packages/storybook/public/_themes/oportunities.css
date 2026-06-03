@@ -1,0 +1,96 @@
+/* ──────────────────────────────────────────────────────────────────
+ * Oportunities theme — Storybook stub.
+ *
+ * Mirrors the CSS variables that @one-impression/tokens-oportunities/css
+ * publishes from tokens/theme-light.json + tokens/theme-dark.json.
+ *
+ * This stub exists so the Storybook theme switcher renders the
+ * Oportunities surface even before tokens-oportunities is built.
+ * When the package is built, you can swap this file for an
+ * `@import` of the real dist artifact.
+ * ────────────────────────────────────────────────────────────── */
+
+:root[data-theme='oportunities'] {
+  /* color — light (default) */
+  --color-bg: #FDF8F3;
+  --color-bg-elev: #FFFFFF;
+  --color-bg-soft: #F8F1E8;
+
+  --color-accent: #E68F47;
+  --color-accent-hover: #D67A35;
+  --color-accent-soft: #FFE9D2;
+
+  --color-ai-purple: #7B5BFF;
+  --color-ai-soft: #EFEAFF;
+
+  --color-text-primary: #1C1611;
+  --color-text-secondary: #5C5249;
+  --color-text-tertiary: #8A7F73;
+
+  --color-border: #EFE4D4;
+  --color-border-soft: #F5ECDE;
+
+  /* effort palette */
+  --color-effort-organic: #5A8E4F;
+  --color-effort-sample: #5C82B0;
+  --color-effort-sponsor: #E68F47;
+  --color-effort-paid: #968B7E;
+
+  /* status */
+  --color-status-success: #2F8A4F;
+  --color-status-warning: #C6892C;
+  --color-status-danger: #B33A3A;
+  --color-status-info: #3B6EB5;
+
+  /* typography */
+  --font-display: 'Geist', 'Inter Tight', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --letter-spacing-tight: -0.04em;
+  --weight-display: 600;
+  --weight-body-default: 500;
+
+  /* gradient */
+  --gradient-ai: linear-gradient(135deg, #E68F47 0%, #7B5BFF 100%);
+  --gradient-ai-sweep: linear-gradient(90deg, #E68F47 0%, #7B5BFF 50%, #E68F47 100%);
+}
+
+:root[data-theme='oportunities'][data-mode='dark'] {
+  --color-bg: #0F0D0B;
+  --color-bg-elev: #1A1714;
+  --color-bg-soft: #25201C;
+
+  --color-accent: #F0A668;
+  --color-accent-hover: #FFB47A;
+  --color-accent-soft: rgba(240, 166, 104, 0.12);
+
+  --color-ai-purple: #9B82FF;
+  --color-ai-soft: rgba(155, 130, 255, 0.14);
+
+  --color-text-primary: #F4ECE0;
+  --color-text-secondary: #A89E92;
+  --color-text-tertiary: #6A6258;
+
+  --color-border: #2D2723;
+  --color-border-soft: #383028;
+
+  --color-effort-organic: #7CB070;
+  --color-effort-sample: #7FA4D2;
+  --color-effort-sponsor: #F0A668;
+  --color-effort-paid: #B5AB9D;
+
+  --color-status-success: #52AC71;
+  --color-status-warning: #E0A84A;
+  --color-status-danger: #D5605E;
+  --color-status-info: #5F8EC8;
+}
+
+/* Optional: paint the Storybook canvas to match the Oportunities surface */
+:root[data-theme='oportunities'] body,
+:root[data-theme='oportunities'] .docs-story,
+:root[data-theme='oportunities'] .sb-show-main {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}

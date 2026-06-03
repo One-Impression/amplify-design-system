@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InfoMediaRowSchema } from "@one-impression/sdk-native-sdui";
-import { Box, Stack, Text } from "@amplify-ai/ui-native";
+import { Box, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { renderMedia } from "../_shared/render-media.js";
 

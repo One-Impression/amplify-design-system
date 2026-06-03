@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { PhoneNumberInputSchema } from "@one-impression/sdk-native-sdui";
-import { Input as DSInput, Box, Stack, Text } from "@amplify-ai/ui-native";
+import { Input as DSInput, Box, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 

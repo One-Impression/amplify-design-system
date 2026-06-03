@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pixel-grade favicon source — render at 32×32 px via SVG rasterizer. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="oportunities favicon 32">
+  <title>oportunities favicon — 32×32</title>
+  <rect x="0" y="0" width="32" height="32" rx="7" ry="7" fill="#FDF8F3"/>
+  <text x="4" y="22" font-family="Geist, Inter, sans-serif" font-weight="600" font-size="18" letter-spacing="-0.04em" fill="#0F0D0B">op</text>
+  <text x="22" y="22" font-family="Geist, Inter, sans-serif" font-weight="600" font-size="18" letter-spacing="-0.04em" fill="#E89252">.</text>
+</svg>

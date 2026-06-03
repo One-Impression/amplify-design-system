@@ -2,26 +2,122 @@ import {
   CompoundPayloadSchema,
   type CompoundNode,
 } from "@one-impression/sdk-native-sdui";
+import { CompoundActionPayloadSchema } from "@one-impression/sdk-native-sdui/actions";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 
 /**
- * compound — recursively interprets a compound action AST.
+ * compound — runs a list of child actions in sequence or parallel.
  *
- * Node types:
- *   sequence — runs children in order, awaiting each
- *   parallel  — runs children concurrently via Promise.all
- *   branch    — evaluates a condition string against local state, picks then/else
- *   catch     — runs try child, falls back to catch child on error
- *   delay     — waits delay_ms, then runs child
+ * Two payload shapes are accepted:
+ *
+ *   1. Flat shape (preferred):
+ *      `{ mode: "sequence" | "parallel", actions: Action[], wait: "all" | "first" }`
+ *      `mode` defaults to "sequence", `wait` defaults to "all".
+ *      `wait: "first"` resolves on the first child to settle; remaining
+ *      children become fire-and-forget.
+ *
+ *   2. Legacy AST shape (deprecated, retained for in-flight consumers):
+ *      `{ root: CompoundNode }` with `node_type` of sequence / parallel /
+ *      branch / catch / delay. New emitters should use the top-level
+ *      `action:branch` verb plus the flat compound shape; `catch` and
+ *      `delay` have no locked replacement yet.
+ *
+ * The handler discriminates by payload shape — presence of `actions` (array)
+ * routes to the flat path; presence of `root` routes to the legacy AST path.
  */
 export async function handleCompound(
   action: Action,
   config: ActionEngineConfig,
   engine: ActionEngine,
 ): Promise<void> {
-  const payload = CompoundPayloadSchema.parse(action.payload);
-  await interpretNode(payload.root, config, engine);
+  const raw = (action.payload ?? {}) as Record<string, unknown>;
+
+  if (Array.isArray(raw.actions)) {
+    const payload = CompoundActionPayloadSchema.parse(action.payload);
+    if (payload.mode === "parallel") {
+      await runParallel(payload.actions, payload.wait, engine);
+    } else {
+      await runSequence(payload.actions, payload.wait, engine);
+    }
+    return;
+  }
+
+  // Fall through to legacy AST interpretation.
+  const legacy = CompoundPayloadSchema.parse(action.payload);
+  await interpretNode(legacy.root, config, engine);
+}
+
+/**
+ * Sequential dispatch.
+ *
+ * - `wait: "all"` (default) — awaits every child in declared order; an error
+ *   propagates up and skips the remainder.
+ * - `wait: "first"` — awaits the first child only; the rest are kicked off
+ *   without `await` and any rejection is swallowed (matches the documented
+ *   "fire-and-forget" contract).
+ */
+async function runSequence(
+  actions: Action[],
+  wait: "all" | "first",
+  engine: ActionEngine,
+): Promise<void> {
+  if (!actions.length) return;
+
+  if (wait === "first") {
+    const [head, ...tail] = actions;
+    await engine.dispatch(head);
+    for (const a of tail) {
+      // Fire-and-forget — swallow rejection so a late failure doesn't crash
+      // the caller's microtask queue.
+      void Promise.resolve(engine.dispatch(a)).catch(() => undefined);
+    }
+    return;
+  }
+
+  for (const a of actions) {
+    await engine.dispatch(a);
+  }
+}
+
+/**
+ * Parallel dispatch.
+ *
+ * - `wait: "all"` — `Promise.allSettled` so one failure doesn't abort the
+ *   siblings; an aggregate error surfaces only if all rejected.
+ * - `wait: "first"` — race; the winning child decides resolution and the
+ *   rest become fire-and-forget.
+ */
+async function runParallel(
+  actions: Action[],
+  wait: "all" | "first",
+  engine: ActionEngine,
+): Promise<void> {
+  if (!actions.length) return;
+
+  const promises = actions.map((a) =>
+    Promise.resolve(engine.dispatch(a)),
+  );
+
+  if (wait === "first") {
+    // Race for resolution; orphan rejections are swallowed so an unawaited
+    // rejection doesn't surface as an unhandled-promise warning.
+    for (const p of promises) {
+      p.catch(() => undefined);
+    }
+    await Promise.race(promises);
+    return;
+  }
+
+  const results = await Promise.allSettled(promises);
+  const firstReject = results.find(
+    (r): r is PromiseRejectedResult => r.status === "rejected",
+  );
+  // Surface failures only when every sibling failed — partial success is
+  // common for analytics-style fan-out and should not abort the caller.
+  if (firstReject && results.every((r) => r.status === "rejected")) {
+    throw firstReject.reason;
+  }
 }
 
 /**

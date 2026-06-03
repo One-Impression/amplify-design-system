@@ -1,6 +1,6 @@
 /**
  * Shared SVG/chart utility helpers used by data viz primitives.
- * Hand-rolled (no chart lib dep) — keeps @amplify-ai/ui zero-runtime-dep aside from clsx.
+ * Hand-rolled (no chart lib dep) — keeps @one-impression/ui zero-runtime-dep aside from clsx.
  */
 
 /** Default chart colour palette — references CSS vars defined in @amplify/tokens-* */

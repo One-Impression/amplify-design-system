@@ -1,7 +1,7 @@
-# Recipes — `@amplify-ai/ui/recipes`
+# Recipes — `@one-impression/ui/recipes`
 
 A **recipe** is a small composition of two or more primitives from
-`@amplify-ai/ui` that captures a recurring UI pattern. Recipes are NOT
+`@one-impression/ui` that captures a recurring UI pattern. Recipes are NOT
 primitives — they are convenience wrappers that:
 
 - Compose existing components, adding layout and minor glue logic only
@@ -40,9 +40,9 @@ keep it product-local.
 ## Importing
 
 ```tsx
-import { SearchCombobox, ActionCard, MetricGrid } from '@amplify-ai/ui';
+import { SearchCombobox, ActionCard, MetricGrid } from '@one-impression/ui';
 // or, equivalently:
-import { SearchCombobox } from '@amplify-ai/ui/recipes';  // if you export a /recipes subpath later
+import { SearchCombobox } from '@one-impression/ui/recipes';  // if you export a /recipes subpath later
 ```
 
 For now everything is re-exported from the package root; the

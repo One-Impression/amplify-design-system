@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AnnouncementBar } from '@amplify-ai/ui';
+import { AnnouncementBar } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/AnnouncementBar',

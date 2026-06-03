@@ -1,6 +1,6 @@
 # Icons Source Directory
 
-This directory holds the SVG source files for the `@amplify-ai/tokens-creator` icon manifest.
+This directory holds the SVG source files for the `@one-impression/tokens-creator` icon manifest.
 
 ## Current state
 

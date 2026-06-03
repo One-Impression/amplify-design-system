@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Sheet, Button } from '@amplify-ai/ui';
+import { Sheet, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Sheet',

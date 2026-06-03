@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { CommandPalette, Button } from '@amplify-ai/ui';
-import type { CommandItem } from '@amplify-ai/ui';
+import { CommandPalette, Button } from '@one-impression/ui';
+import type { CommandItem } from '@one-impression/ui';
 
 const baseItems: CommandItem[] = [
   { id: 'new-campaign', label: 'New campaign', group: 'Create', shortcut: ['⌘', 'N'], onSelect: () => alert('New campaign') },

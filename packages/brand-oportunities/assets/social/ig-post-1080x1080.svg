@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities Instagram square post">
+  <title>oportunities — Instagram post (1080×1080)</title>
+  <defs>
+    <linearGradient id="igBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <style>
+      .wm {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 60px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .headline {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 100px;
+        letter-spacing: -0.03em;
+        fill: #0F0D0B;
+      }
+      .sub {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 32px;
+        fill: #4A453F;
+      }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#igBg)"/>
+  <!-- Wordmark -->
+  <text x="80" y="120" class="wm">oportunities</text>
+  <text x="80" y="120" class="wm wm-dot" dx="338">.</text>
+  <!-- Headline -->
+  <text x="80" y="500" class="headline">{Big idea</text>
+  <text x="80" y="620" class="headline">in two lines.}</text>
+  <!-- Sub -->
+  <text x="80" y="720" class="sub">{Short supporting line.}</text>
+  <!-- Apricot accent -->
+  <circle cx="960" cy="980" r="40" fill="#E89252"/>
+</svg>

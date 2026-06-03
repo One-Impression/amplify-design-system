@@ -1,0 +1,129 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Brand" />
+
+# Oportunities — Brand Overview
+
+Creator-intent intelligence platform. The **Studio** direction (Geist + apricot period) is the locked
+brand expression — warm, intellectual, AI-native. Cream surfaces, apricot accents, AI-purple gradient,
+Geist wordmark with the signature `-0.04em` tracking and dot sweep.
+
+> **Voice anchor:** _"Heads up —"_  
+> Calm, observational, peer-not-vendor. Never breathless, never bro-y.
+
+---
+
+## Locked Studio Direction (Summary)
+
+| Pillar | Decision |
+|---|---|
+| Wordmark | Single-P **`oportunities.`** — Geist 600, `-0.04em` tracking, apricot dot |
+| Color period | **Apricot** — `#E68F47` (light) / `#F0A668` (dark), paired with AI purple `#7B5BFF` / `#9B82FF` |
+| Type stack | **Geist** display · **Inter** body · **JetBrains Mono** data |
+| Surface | **Cream** `#FDF8F3` (light) / **Warm ink** `#0F0D0B` (dark) |
+| AI moment | Apricot → purple gradient sweep (135°), 1.2s ease |
+| Voice | _"Heads up —"_ register; observational, peer, calm |
+
+---
+
+## Wordmark (Live)
+
+<div style={{ padding: '32px', background: '#FDF8F3', borderRadius: 8, border: '1px solid #EFE4D4' }}>
+  <object
+    data="/brand-oportunities/wordmark-with-gradient.svg"
+    type="image/svg+xml"
+    style={{ width: '320px', height: 'auto', display: 'block', margin: '0 auto' }}
+    aria-label="oportunities wordmark"
+  />
+</div>
+
+See **Logo** for clear-space rules, variants, and do/don't.
+
+---
+
+## Palette (Live Swatches)
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
+  {[
+    { name: 'Apricot', hex: '#E68F47', text: '#fff' },
+    { name: 'Apricot Bright', hex: '#F0A668', text: '#1C1611' },
+    { name: 'AI Purple', hex: '#7B5BFF', text: '#fff' },
+    { name: 'Cream', hex: '#FDF8F3', text: '#1C1611' },
+    { name: 'Cream Light', hex: '#F4ECE0', text: '#1C1611' },
+    { name: 'Warm Ink', hex: '#0F0D0B', text: '#F4ECE0' },
+    { name: 'Organic', hex: '#5A8E4F', text: '#fff' },
+    { name: 'Sample', hex: '#5C82B0', text: '#fff' },
+  ].map((c) => (
+    <div key={c.hex} style={{ background: c.hex, color: c.text, padding: '16px 12px', borderRadius: 8, fontFamily: 'Geist, Inter, sans-serif', fontSize: 13 }}>
+      <div style={{ fontWeight: 600 }}>{c.name}</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, opacity: 0.85, marginTop: 4 }}>{c.hex}</div>
+    </div>
+  ))}
+</div>
+
+See **Color** for the full system, effort palette, and contrast.
+
+---
+
+## Type Stack (Live Specimens)
+
+<div style={{ display: 'grid', gap: 24, padding: 24, background: '#FDF8F3', borderRadius: 8 }}>
+  <div>
+    <div style={{ fontSize: 11, color: '#8A7F73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Geist 600 · -0.04em</div>
+    <div style={{ fontFamily: 'Geist, Inter, sans-serif', fontSize: 48, fontWeight: 600, letterSpacing: '-0.04em', color: '#1C1611' }}>oportunities.</div>
+  </div>
+  <div>
+    <div style={{ fontSize: 11, color: '#8A7F73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Inter 500 · body</div>
+    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 16, fontWeight: 500, color: '#1C1611', lineHeight: 1.5 }}>Heads up — three creators just signaled interest in your category. None require outreach.</div>
+  </div>
+  <div>
+    <div style={{ fontSize: 11, color: '#8A7F73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>JetBrains Mono · data</div>
+    <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, color: '#1C1611' }}>3.42 ER · ₹1.2L CPM · 14 day window</div>
+  </div>
+</div>
+
+See **Typography** for the full ladder.
+
+---
+
+## Voice Register — 8 Product Moments
+
+| # | Moment | Pick |
+|---|---|---|
+| 1 | First signal arrives | _"Heads up — Aanya just liked 3 of your reels."_ |
+| 2 | Empty state | _"No signals yet. The feed will fill as creators engage."_ |
+| 3 | High-intent surface | _"This one feels real. Aanya saved your post on Tuesday and again today."_ |
+| 4 | AI suggestion | _"Want to test a sample drop? Three creators look ready."_ |
+| 5 | Confirmation | _"Sent. We'll let you know when Aanya replies."_ |
+| 6 | Error | _"Something's off. Retrying — give us a moment."_ |
+| 7 | Approval needed | _"Quick check — this brief mentions a competitor. Still send?"_ |
+| 8 | Win moment | _"Aanya said yes. Brief's in her inbox."_ |
+
+See **Voice** for the full register, lexicon, and microcopy library.
+
+---
+
+## Application Contexts (10)
+
+1. **Cockpit** — main intent dashboard
+2. **Mirror** — creator-side perception view (AI-rendered)
+3. **Map** — brand-side opportunity map (AI-rendered)
+4. **Feed** — chronological signal stream
+5. **Brief Studio** — composing outreach
+6. **Editor** — script + creative review
+7. **Auth / Onboarding** — first-run setup
+8. **Email** — system + brief notifications
+9. **PWA / App Icon** — home-screen presence
+10. **Marketing site** — oportunities.app landing
+
+---
+
+## Related Docs
+
+- **Logo** — wordmark variants, clear-space, do/don't
+- **Color** — palette, effort, status, contrast
+- **Typography** — Geist + Inter + JBM ladder
+- **Components** — CreatorIntentCard, BrandInterestCard, IntentFeed, SignalDot, AppIconOportunities, Wordmark
+- **Voice** — full register + lexicon
+- **AppIcon** — platform specs
+- **Favicon** — browser tab presence

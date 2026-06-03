@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Footer } from '@amplify-ai/ui';
+import { Footer } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/Footer',

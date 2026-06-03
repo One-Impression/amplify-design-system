@@ -1,7 +1,7 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { RadioComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Radio as DSRadio } from "@amplify-ai/ui-native";
+import { Radio as DSRadio } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 
@@ -22,7 +22,7 @@ export function RadioRenderer(node: Node): React.ReactElement {
         <DSRadio
           selected={v.selected}
           disabled={v.disabled}
-          label={v.label ? v.label.data.text : undefined}
+          label={v.label ? v.label.text : undefined}
         />
       )}
     </SduiNode>

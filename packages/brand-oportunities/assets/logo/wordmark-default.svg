@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" role="img" aria-label="oportunities">
+  <title>oportunities wordmark</title>
+  <defs>
+    <style>
+      .wm-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 88px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot {
+        fill: #E89252;
+      }
+    </style>
+  </defs>
+  <text x="20" y="92" class="wm-text">oportunities</text>
+  <text x="20" y="92" class="wm-text wm-dot" dx="492">.</text>
+</svg>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SearchCombobox } from '@amplify-ai/ui';
+import { SearchCombobox } from '@one-impression/ui';
 
 const SAMPLE = [
   { id: '1', label: 'Riya Mehta', hint: '@riyacreates' },

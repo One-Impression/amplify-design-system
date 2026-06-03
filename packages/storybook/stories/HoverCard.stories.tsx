@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { HoverCard, Avatar, Button } from '@amplify-ai/ui';
+import { HoverCard, Avatar, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/HoverCard',

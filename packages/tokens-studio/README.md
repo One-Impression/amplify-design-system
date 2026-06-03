@@ -1,4 +1,4 @@
-# @amplify-ai/tokens-studio
+# @one-impression/tokens-studio
 
 Studio-specific design tokens — used only by `studio.amplify.club`. Inherits primitives from tokens-foundation; layers Studio cockpit semantics on top.
 
@@ -13,7 +13,7 @@ Studio-specific design tokens — used only by `studio.amplify.club`. Inherits p
 
 ```css
 /* magic-studio/src/app/globals.css */
-@import "@amplify-ai/tokens-studio/css";
+@import "@one-impression/tokens-studio/css";
 
 :root {
   /* Phase-D consumer aliases — keep byte-identical to avoid touching ~282 use sites. */
@@ -55,5 +55,5 @@ Status badges then reference `var(--amp-studio-status-success)` etc. directly �
 
 The 16 lifted variables were sourced verbatim from the Phase-0 token audit
 (`magic-studio/docs/audits/phase-0-tokens.md`). Phase D in `magic-studio` swaps the in-repo
-`:root { --studio-* / --mirror-* }` definitions for an `@import "@amplify-ai/tokens-studio/css"`
+`:root { --studio-* / --mirror-* }` definitions for an `@import "@one-impression/tokens-studio/css"`
 plus the consumer-alias block above.

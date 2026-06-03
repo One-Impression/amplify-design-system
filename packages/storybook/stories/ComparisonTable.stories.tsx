@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ComparisonTable, type ComparisonRow, type ComparisonPlan } from '@amplify-ai/ui';
+import { ComparisonTable, type ComparisonRow, type ComparisonPlan } from '@one-impression/ui';
 
 const meta = {
   title: 'Marketing/ComparisonTable',

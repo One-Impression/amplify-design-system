@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SplitPane } from '@amplify-ai/ui';
+import { SplitPane } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/Layout/SplitPane',

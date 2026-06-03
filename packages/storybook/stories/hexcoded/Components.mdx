@@ -1,0 +1,124 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/Components" />
+
+# Hexcoded — Composed Components
+
+Product-level composed components built on top of the Canvas primitives,
+locked to the Hexcoded theme. Each is a composition of existing primitives
+(Card, Badge, Button, etc.) — no new structural patterns, just product-specific
+assembly + voice + Tech Green accent.
+
+> **Composition rule:** every Hexcoded component reuses Canvas primitives.
+> They are NOT new building blocks — they are vertically-integrated examples
+> of brand + tone applied to existing parts.
+
+---
+
+## BriefCard
+
+Shows a submitted brief, current generation state, and shipped artefacts.
+
+<div style={{ padding: 24, background: '#FAFAFA', borderRadius: 8 }}>
+  <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 12, border: '1px solid #E5E5EA', maxWidth: 520 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B' }}>brief · 2 min ago</span>
+      <span style={{ marginLeft: 'auto', background: '#DCFCE7', color: '#16A34A', padding: '2px 8px', borderRadius: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fontWeight: 600 }}>SHIPPED</span>
+    </div>
+    <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 18, color: '#0B0B0F', letterSpacing: '-0.02em', marginBottom: 6 }}>Launch our niacinamide serum to first-time skincare buyers</div>
+    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#3B3B42', lineHeight: 1.5, marginBottom: 16 }}>Festive lens. Emphasise "glow without the glow filter." 1 reel · 3 statics · 1 thumbnail.</div>
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      {['REEL', 'STATIC', 'STATIC', 'STATIC', 'THUMBNAIL'].map((tag, i) => (
+        <span key={i} style={{ background: '#F5F5F7', color: '#3B3B42', padding: '4px 10px', borderRadius: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 10, fontWeight: 600, letterSpacing: '0.05em' }}>{tag}</span>
+      ))}
+    </div>
+  </div>
+</div>
+
+---
+
+## CreatorPickerCard
+
+Choose a creator to render the brief: AI creator, brand clone, or licensed influencer-clone.
+
+<div style={{ padding: 24, background: '#FAFAFA', borderRadius: 8 }}>
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, maxWidth: 720 }}>
+    {[
+      { name: 'Maya',  tag: 'beauty',     kind: 'AI CREATOR',     accent: '#22C55E' },
+      { name: 'Priya', tag: 'founder',    kind: 'BRAND CLONE',    accent: '#0EA5E9' },
+      { name: 'Ananya Mehra', tag: '2.8M skincare', kind: 'COMING SOON', accent: '#86868B' },
+    ].map((c) => (
+      <div key={c.name} style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: `1px solid ${c.accent === '#86868B' ? '#E5E5EA' : c.accent}40` }}>
+        <div style={{ width: 48, height: 48, borderRadius: '50%', background: c.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'Outfit, sans-serif', fontWeight: 900, marginBottom: 12 }}>{c.name[0]}</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, color: '#0B0B0F', marginBottom: 4 }}>{c.name}</div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#86868B', marginBottom: 8 }}>{c.tag}</div>
+        <div style={{ background: c.accent === '#86868B' ? '#F5F5F7' : c.accent + '20', color: c.accent === '#86868B' ? '#86868B' : c.accent, padding: '3px 8px', borderRadius: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 10, fontWeight: 600, display: 'inline-block' }}>{c.kind}</div>
+      </div>
+    ))}
+  </div>
+</div>
+
+---
+
+## ApprovalBar
+
+Voice-locked confirmation surface. Direct, minimal, no fluff.
+
+<div style={{ padding: 24, background: '#FAFAFA', borderRadius: 8 }}>
+  <div style={{ background: '#0B0B0F', color: '#FAFAFA', padding: '16px 20px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 16, maxWidth: 600 }}>
+    <div style={{ flex: 1 }}>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500, marginBottom: 2 }}>Looks good. Approve to publish or revise the script.</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B' }}>brief_hxc_2k8b3p1 · variant 2 of 3</div>
+    </div>
+    <button style={{ background: 'transparent', border: '1px solid #2C2C30', color: '#C8C8CD', padding: '8px 14px', borderRadius: 8, fontFamily: 'Inter, sans-serif', fontWeight: 500, fontSize: 13, cursor: 'pointer' }}>Revise</button>
+    <button style={{ background: '#22C55E', border: 'none', color: '#0B0B0F', padding: '8px 14px', borderRadius: 8, fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>Approve & ship</button>
+  </div>
+</div>
+
+---
+
+## CreditMeter
+
+Single-glance read on monthly credit utilisation. Numbers in JetBrains Mono per L05.
+
+<div style={{ padding: 24, background: '#FAFAFA', borderRadius: 8 }}>
+  <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #E5E5EA', maxWidth: 360 }}>
+    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8 }}>
+      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#86868B', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Credits this month</span>
+      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13, color: '#3B3B42' }}>4,250 / 7,500</span>
+    </div>
+    <div style={{ height: 8, background: '#F5F5F7', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ width: '56.7%', height: '100%', background: '#22C55E' }} />
+    </div>
+    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#86868B', marginTop: 8 }}>Renews 12 Jun · 43% remaining</div>
+  </div>
+</div>
+
+---
+
+## StatusBadge variants (L19)
+
+<div style={{ padding: 24, background: '#FAFAFA', borderRadius: 8, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+  {[
+    { state: 'shipped',    bg: '#DCFCE7', color: '#16A34A' },
+    { state: 'reviewing',  bg: '#FEF3C7', color: '#92400E' },
+    { state: 'queued',     bg: '#E0F2FE', color: '#075985' },
+    { state: 'failed',     bg: '#FEE2E2', color: '#991B1B' },
+    { state: 'draft',      bg: '#F5F5F7', color: '#3B3B42' },
+  ].map((s) => (
+    <span key={s.state} style={{ background: s.bg, color: s.color, padding: '4px 10px', borderRadius: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+      {s.state}
+    </span>
+  ))}
+</div>
+
+---
+
+## Component principles
+
+1. **Reuse Canvas primitives.** Card, Badge, Button, Avatar — never re-invent.
+2. **Tech Green only for action surfaces** (approve, ship, success).
+3. **JetBrains Mono for any number** (count, price, ID, timestamp).
+4. **Voice is the surface.** "Approve & ship" not "Confirm submission".
+5. **Phantom motion only on the wordmark.** Components are still.
+6. **One accent per surface** — never green-and-blue or green-and-purple on the same card.

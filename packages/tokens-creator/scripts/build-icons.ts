@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * build-icons.ts — Icon manifest pipeline for @amplify-ai/tokens-creator.
+ * build-icons.ts — Icon manifest pipeline for @one-impression/tokens-creator.
  *
  * Reads SVG files from icons/, sanitises them, and emits:
  *   - dist/icons/manifest.json   — full icon catalog
@@ -173,7 +173,7 @@ function main() {
   writeTypeDefinition(iconNames);
   console.log(`  manifest.d.ts: IconName union of ${iconNames.length} literals`);
 
-  console.log(`\n@amplify-ai/tokens-creator: icon manifest built (${iconNames.length} icons, v${MANIFEST_VERSION})`);
+  console.log(`\n@one-impression/tokens-creator: icon manifest built (${iconNames.length} icons, v${MANIFEST_VERSION})`);
 }
 
 /**

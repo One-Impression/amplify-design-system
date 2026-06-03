@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" role="img" aria-label="oportunities LinkedIn cover">
+  <title>oportunities — LinkedIn company cover (1584×396)</title>
+  <defs>
+    <linearGradient id="liBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="liGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E89252"/>
+      <stop offset="100%" stop-color="#6B4FA0"/>
+    </linearGradient>
+    <style>
+      .wm {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 96px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .wm-dot { fill: #E89252; }
+      .tag {
+        font-family: "Geist", "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 28px;
+        letter-spacing: -0.01em;
+        fill: #4A453F;
+      }
+    </style>
+  </defs>
+  <rect width="1584" height="396" fill="url(#liBg)"/>
+  <!-- Decorative gradient bar -->
+  <rect x="0" y="0" width="1584" height="6" fill="url(#liGradient)"/>
+  <!-- Wordmark -->
+  <text x="120" y="200" class="wm">oportunities</text>
+  <text x="120" y="200" class="wm wm-dot" dx="540">.</text>
+  <!-- Tagline -->
+  <text x="120" y="260" class="tag">Creator-intent intelligence for the next billion brand-creator collaborations.</text>
+</svg>

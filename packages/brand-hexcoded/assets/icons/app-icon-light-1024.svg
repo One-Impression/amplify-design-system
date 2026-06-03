@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="HEXCODED app icon light">
+  <title>HEXCODED app icon (light, 1024×1024) — HEX on warm-white squircle</title>
+  <defs>
+    <clipPath id="squircle"><rect x="0" y="0" width="1024" height="1024" rx="229" ry="229"/></clipPath>
+    <style>
+      .icon-text {
+        font-family: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 900;
+        font-size: 560px;
+        letter-spacing: -0.025em;
+        fill: #0B0B0F;
+        text-anchor: middle;
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#squircle)">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FAFAFA"/>
+    <text x="512" y="680" class="icon-text">HEX</text>
+  </g>
+</svg>

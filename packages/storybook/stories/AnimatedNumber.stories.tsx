@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { AnimatedNumber, Button } from '@amplify-ai/ui';
+import { AnimatedNumber, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Motion/AnimatedNumber',

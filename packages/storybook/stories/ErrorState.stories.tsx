@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ErrorState, Button } from '@amplify-ai/ui';
+import { ErrorState, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/ErrorState',

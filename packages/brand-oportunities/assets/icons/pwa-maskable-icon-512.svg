@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="oportunities PWA maskable icon">
+  <title>oportunities PWA maskable icon — 512×512 (80% safe-zone)</title>
+  <defs>
+    <style>
+      .icon-text {
+        font-family: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        font-size: 220px;
+        letter-spacing: -0.04em;
+        fill: #0F0D0B;
+      }
+      .icon-dot { fill: #E89252; }
+    </style>
+  </defs>
+  <!-- Full-bleed background — required for maskable -->
+  <rect x="0" y="0" width="512" height="512" fill="#FDF8F3"/>
+  <!-- Safe-zone is the central 80% (51px padding on each side). Glyphs sized to fit. -->
+  <text x="120" y="320" class="icon-text">op</text>
+  <text x="320" y="320" class="icon-text icon-dot">.</text>
+</svg>

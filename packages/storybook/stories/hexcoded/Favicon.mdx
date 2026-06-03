@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Hexcoded/Favicon" />
+
+# Hexcoded — Favicon
+
+Browser-tab presence. At favicon scale, the HEX monogram's Phantom shadow can't render —
+so the favicon uses the **`H` fallback** in Tech Green per L08 ("`H` fallback at 16px only").
+
+> At 16px: just `H` in Tech Green. At 32px+: full HEX monogram on black tile.
+
+---
+
+## Live — Light theme browsers (transparent)
+
+<div style={{ display: 'flex', gap: 32, alignItems: 'flex-end', padding: 32, background: '#FAFAFA', borderRadius: 12, border: '1px solid #E5E5EA' }}>
+  {[16, 32, 48, 64, 128].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: 96 }}>
+        <svg viewBox="0 0 64 64" style={{ width: size, height: size, maxWidth: 96, maxHeight: 96 }}>
+          <text x="32" y="50" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="56" letterSpacing="-0.04em" textAnchor="middle" fill="#22C55E">H</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Live — Dark theme browsers (Safari pinned tab takes user tint)
+
+<div style={{ display: 'flex', gap: 32, alignItems: 'flex-end', padding: 32, background: '#0B0B0F', borderRadius: 12 }}>
+  {[16, 32, 48, 64, 128].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: 96 }}>
+        <svg viewBox="0 0 64 64" style={{ width: size, height: size, maxWidth: 96, maxHeight: 96 }}>
+          <text x="32" y="50" fontFamily="Outfit, sans-serif" fontWeight="900" fontSize="56" letterSpacing="-0.04em" textAnchor="middle" fill="#86EFAC">H</text>
+        </svg>
+      </div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#86868B', marginTop: 8 }}>{size}px</div>
+    </div>
+  ))}
+</div>
+
+---
+
+## Web link tags
+
+```html
+<link rel="icon"             type="image/svg+xml" href="/favicon-light.svg">
+<link rel="icon"             type="image/png" sizes="32x32"   href="/favicon-32.png">
+<link rel="icon"             type="image/png" sizes="16x16"   href="/favicon-16.png">
+<link rel="apple-touch-icon"                    sizes="180x180" href="/favicon-180.png">
+<link rel="mask-icon"        color="#22C55E"                  href="/safari-pinned-tab.svg">
+<link rel="manifest"                                           href="/site.webmanifest">
+<meta name="theme-color"     content="#22C55E">
+```
+
+---
+
+## Available assets
+
+| Asset | Use case |
+|---|---|
+| `favicon-light.svg` | Modern browsers (light chrome) — `H` in Tech Green |
+| `favicon-dark.svg` | Safari dark mode — `H` in lighter green for contrast |
+| `favicon-16.png`, `-32.png`, `-180.png` | SVG sources @ each spec dimension — **render to PNG via Sharp/Resvg before deploy** |
+| `safari-pinned-tab.svg` | Monochrome `H` — Safari applies user-defined tint |
+| `site.webmanifest` | PWA manifest, `theme_color: #22C55E` |
+
+All paths exported from `@one-impression/brand-hexcoded` → `favicon`.

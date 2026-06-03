@@ -1,0 +1,14 @@
+{
+  "name": "Hexcoded",
+  "short_name": "Hexcoded",
+  "description": "Take a brief. Get a campaign. Reels, statics, carousels, copy, captions, thumbnails — generated from one brief.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0B0B0F",
+  "theme_color": "#22C55E",
+  "icons": [
+    { "src": "/favicon-180.png",          "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/pwa-maskable-icon-512.png","sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

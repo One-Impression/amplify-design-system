@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HEXCODED favicon">
+  <title>HEXCODED favicon (light browser chrome)</title>
+  <defs>
+    <style>
+      .h-text {
+        font-family: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 900;
+        font-size: 56px;
+        letter-spacing: -0.04em;
+        text-anchor: middle;
+        fill: #22C55E;
+      }
+    </style>
+  </defs>
+  <text x="32" y="50" class="h-text">H</text>
+</svg>

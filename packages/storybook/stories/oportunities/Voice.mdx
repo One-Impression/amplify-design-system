@@ -1,0 +1,177 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Oportunities/Voice" />
+
+# Oportunities — Voice
+
+The voice is the product. Calm. Observational. Peer, not vendor. Never breathless,
+never bro-y, never "AI is excited to help you!". The anchor phrase is **"Heads up —"**.
+
+> The product whispers what it sees. It does not shout, sell, or congratulate.
+
+---
+
+## Voice Register — 8 Product Moments (LOCKED)
+
+| # | Moment | Voice pick | What we avoid |
+|---|---|---|---|
+| 1 | First signal arrives | _"Heads up — Aanya just liked 3 of your reels."_ | _"You got a new signal!"_ |
+| 2 | Empty state | _"No signals yet. The feed will fill as creators engage."_ | _"Nothing here yet!"_ / _"Get started"_ |
+| 3 | High-intent surface | _"This one feels real. Aanya saved your post on Tuesday and again today."_ | _"HOT LEAD — Aanya is interested!"_ |
+| 4 | AI suggestion | _"Want to test a sample drop? Three creators look ready."_ | _"AI recommends: launch a sample campaign"_ |
+| 5 | Confirmation | _"Sent. We'll let you know when Aanya replies."_ | _"Success! Your brief was sent!"_ |
+| 6 | Error | _"Something's off. Retrying — give us a moment."_ | _"Error 500: An unknown error occurred."_ |
+| 7 | Approval needed | _"Quick check — this brief mentions a competitor. Still send?"_ | _"WARNING: Competitor mention detected."_ |
+| 8 | Win moment | _"Aanya said yes. Brief's in her inbox."_ | _"Congratulations! 🎉 Deal closed!"_ |
+
+---
+
+## The "Heads up —" Lexicon
+
+`"Heads up —"` is the opener for **passive observations**: things the product noticed,
+not things the user asked for. It signals that the system is paying attention without
+demanding the user's.
+
+**Use it for:**
+- New signals from creators / brands
+- Pattern changes (a creator's engagement drops, a brand changes posture)
+- Pre-action notices ("Heads up — this brief mentions a competitor")
+- Calendar / scheduling reminders
+
+**Don't use it for:**
+- Errors → use _"Something's off."_
+- Confirmations → use _"Sent."_ / _"Saved."_ / _"Done."_
+- High-stakes warnings → use _"Quick check —"_ instead
+
+### Companion openers
+
+| Opener | Used for |
+|---|---|
+| `Heads up —` | passive observation |
+| `Quick check —` | requires user input / approval |
+| `Something's off.` | system error |
+| `Worth noting —` | secondary observation, less urgent |
+| `One more thing —` | follow-on info after a confirmation |
+
+---
+
+## Do / Don't
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+  {[
+    {
+      ok: '_"Heads up — Aanya saved your post."_',
+      no: '_"🚨 New signal: Aanya saved your post!"_',
+      why: 'no emojis at the front, no exclamations',
+    },
+    {
+      ok: '_"This one feels real."_',
+      no: '_"HOT LEAD DETECTED — high probability of conversion"_',
+      why: 'human language, not CRM language',
+    },
+    {
+      ok: '_"Want to test a sample drop?"_',
+      no: '_"AI suggests you should launch a sample campaign now."_',
+      why: 'a peer asks. AI does not "suggest you should"',
+    },
+    {
+      ok: '_"Sent. We\'ll let you know when Aanya replies."_',
+      no: '_"Successfully sent! You can track responses on the dashboard."_',
+      why: 'short, no over-explaining',
+    },
+    {
+      ok: '_"Something\'s off. Retrying — give us a moment."_',
+      no: '_"Oops! 😅 We hit a snag. Don\'t worry, we\'re on it!"_',
+      why: 'no apology theater, no emoji',
+    },
+    {
+      ok: '_"Aanya said yes. Brief\'s in her inbox."_',
+      no: '_"🎉 Congratulations! You closed a deal with Aanya!"_',
+      why: 'state the fact, let the user feel the win',
+    },
+  ].map((p, i) => (
+    <>
+      <div key={`ok-${i}`} style={{ padding: 16, border: '1px solid #5A8E4F', borderRadius: 8, background: '#F1F8EF', fontFamily: 'Inter, sans-serif' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#5A8E4F', marginBottom: 6 }}>DO</div>
+        <div style={{ fontSize: 14, color: '#1C1611', marginBottom: 6 }} dangerouslySetInnerHTML={{ __html: p.ok.replace(/_(.+?)_/g, '<em>$1</em>') }} />
+        <div style={{ fontSize: 12, color: '#5C5249' }}>{p.why}</div>
+      </div>
+      <div key={`no-${i}`} style={{ padding: 16, border: '1px solid #B33A3A', borderRadius: 8, background: '#FBF0F0', fontFamily: 'Inter, sans-serif' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#B33A3A', marginBottom: 6 }}>DON'T</div>
+        <div style={{ fontSize: 14, color: '#1C1611' }} dangerouslySetInnerHTML={{ __html: p.no.replace(/_(.+?)_/g, '<em>$1</em>') }} />
+      </div>
+    </>
+  ))}
+</div>
+
+---
+
+## Microcopy Library
+
+A starter pack of approved strings. Copy/paste into surfaces — don't reinvent.
+
+### Notifications
+
+```
+Heads up — Aanya just liked 3 of your reels.
+Heads up — Nourish & Co. has viewed your audience report.
+Heads up — your reply window with Aanya closes in 2 days.
+Worth noting — three creators in your category went active this week.
+```
+
+### Empty states
+
+```
+No signals yet. The feed will fill as creators engage.
+Nothing to review. We'll flag briefs that need a second look.
+Quiet week. We'll surface the next signal as it lands.
+```
+
+### AI suggestions
+
+```
+Want to test a sample drop? Three creators look ready.
+Want us to draft a reply to Aanya? You can edit before sending.
+This brief reads a little long. Want a tighter version?
+```
+
+### Confirmations
+
+```
+Sent. We'll let you know when Aanya replies.
+Saved. Pick this up anytime from the cockpit.
+Done. The brief is live and creators can see it.
+```
+
+### Approval gates
+
+```
+Quick check — this brief mentions a competitor. Still send?
+Quick check — sample is valued at ₹3K. Confirm send?
+Quick check — Aanya replied at 11pm. Send your reply now or queue for morning?
+```
+
+### Errors
+
+```
+Something's off. Retrying — give us a moment.
+That didn't go through. We saved your draft. Try again?
+Aanya's inbox is full right now. We'll retry in an hour.
+```
+
+### Win moments
+
+```
+Aanya said yes. Brief's in her inbox.
+Nourish accepted your sample. Tracking the shipment now.
+Three creators agreed today. See them all in the cockpit.
+```
+
+---
+
+## Implementation Notes
+
+- All UI strings live in `@one-impression/ui` component defaults — override per surface, never invent.
+- The opener (`Heads up —`) is rendered as a span with `font-weight: 600` to give it a soft visual anchor.
+- Em-dashes (`—`) not hyphens (`-`). Always.
+- No emojis at the **start** of strings. Mid-string emoji is fine if the source is user-generated.

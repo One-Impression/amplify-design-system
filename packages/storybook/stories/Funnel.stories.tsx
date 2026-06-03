@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Funnel } from '@amplify-ai/ui';
+import { Funnel } from '@one-impression/ui';
 
 const meta = {
   title: 'Data Viz/Funnel',

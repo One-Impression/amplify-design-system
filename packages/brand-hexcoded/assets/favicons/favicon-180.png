@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="HEXCODED apple touch icon 180">
+  <title>HEXCODED apple-touch-icon source SVG @ 180×180 — render to PNG before deploy</title>
+  <rect x="0" y="0" width="180" height="180" rx="40" ry="40" fill="#0B0B0F"/>
+  <text x="92" y="122" font-family="Outfit, sans-serif" font-weight="900" font-size="98" letter-spacing="-0.025em" text-anchor="middle" fill="#22C55E" opacity="0.85">HEX</text>
+  <text x="90" y="120" font-family="Outfit, sans-serif" font-weight="900" font-size="98" letter-spacing="-0.025em" text-anchor="middle" fill="#FFFFFF">HEX</text>
+</svg>

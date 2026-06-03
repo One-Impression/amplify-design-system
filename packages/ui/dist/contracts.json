@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-09T09:58:05.031Z",
+  "generatedAt": "2026-05-28T15:48:43.777Z",
   "tsVersion": "5.9.3",
-  "componentCount": 120,
+  "componentCount": 126,
   "statusBreakdown": {
     "stable": 46,
-    "alpha": 15,
+    "alpha": 21,
     "beta": 59
   },
   "components": [
@@ -66,6 +66,21 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.1.0"
+      }
+    },
+    {
+      "name": "AppIconOportunities",
+      "contract": "contracts/AppIconOportunities.json",
+      "filePath": "packages/ui/src/components/AppIconOportunities/AppIconOportunities.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — the locked V1 'op.' app icon in an iOS squircle (border-radius 22.37%); light + dark variants."
       }
     },
     {
@@ -157,6 +172,21 @@
       "lifecycle": {
         "status": "alpha",
         "since": "2.4.0"
+      }
+    },
+    {
+      "name": "BrandInterestCard",
+      "contract": "contracts/BrandInterestCard.json",
+      "filePath": "packages/ui/src/components/BrandInterestCard/BrandInterestCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — creator-side inbox card surfacing brand interest with reply/decline CTAs. Composes Card + Badge."
       }
     },
     {
@@ -433,6 +463,21 @@
         "status": "beta",
         "since": "2.9.0",
         "notes": "Studio v2 Wave 2 — right-rail per-agent verdicts; supports disagreementsOnly collapse + ask-the-council affordance."
+      }
+    },
+    {
+      "name": "CreatorIntentCard",
+      "contract": "contracts/CreatorIntentCard.json",
+      "filePath": "packages/ui/src/components/CreatorIntentCard/CreatorIntentCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — signature brand-side card surfacing a creator's declared intent + AI fit score + unlock CTA. Composes Card + Avatar + Badge."
       }
     },
     {
@@ -884,6 +929,21 @@
       "lifecycle": {
         "status": "stable",
         "since": "1.0.0"
+      }
+    },
+    {
+      "name": "IntentFeed",
+      "contract": "contracts/IntentFeed.json",
+      "filePath": "packages/ui/src/components/IntentFeed/IntentFeed.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — container rendering a filter strip + responsive grid of CreatorIntentCards."
       }
     },
     {
@@ -1541,6 +1601,21 @@
       }
     },
     {
+      "name": "SignalDot",
+      "contract": "contracts/SignalDot.json",
+      "filePath": "packages/ui/src/components/SignalDot/SignalDot.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 6,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — the apricot period as a standalone animated mark; supports pulse, conic-gradient fill, and 'live' presence rings; prefers-reduced-motion gated."
+      }
+    },
+    {
       "name": "Skeleton",
       "contract": "contracts/Skeleton.json",
       "filePath": "packages/ui/src/components/Skeleton/Skeleton.tsx",
@@ -1895,6 +1970,26 @@
       "lifecycle": {
         "status": "alpha",
         "since": "2.4.0"
+      }
+    },
+    {
+      "name": "Wordmark",
+      "contract": "contracts/Wordmark.json",
+      "filePath": "packages/ui/src/components/Wordmark/Wordmark.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": [
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "alpha",
+        "since": "2.14.0",
+        "notes": "Oportunities product primitive — the 'oportunities.' wordmark in Geist 600 with optional apricot→purple gradient-sweep animation; prefers-reduced-motion gated."
       }
     }
   ]

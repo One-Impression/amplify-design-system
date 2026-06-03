@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="HEXCODED Instagram story">
+  <title>HEXCODED Instagram story (1080×1920) — safe-zone 250px top, 350px bottom</title>
+  <defs>
+    <style>
+      .wm { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 140px; letter-spacing: -0.025em; fill: #FFFFFF; text-anchor: middle; }
+      .wm-shadow { fill: #22C55E; opacity: 0.7; }
+      .h-display { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 92px; fill: #FFFFFF; letter-spacing: -0.02em; text-anchor: middle; }
+      .h-meta { font-family: "Inter", sans-serif; font-size: 28px; fill: #86EFAC; letter-spacing: 0.08em; text-transform: uppercase; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1080" height="1920" fill="#0B0B0F"/>
+  <text x="540" y="380" class="h-meta">HEXCODED</text>
+  <text x="540" y="900" class="h-display">Take a brief.</text>
+  <text x="540" y="1012" class="h-display">Get a campaign.</text>
+  <text x="543" y="1573" class="wm wm-shadow">HEXCODED</text>
+  <text x="540" y="1570" class="wm">HEXCODED</text>
+</svg>

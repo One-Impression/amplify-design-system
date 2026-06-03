@@ -1,15 +1,15 @@
 /**
- * tokens — maps @amplify-ai/tokens-creator values to React Native
+ * tokens — maps @one-impression/tokens-creator values to React Native
  * compatible values for runtime resolution.
  *
  * Reads the sdui namespace from tokens-creator and re-exports as
  * flat lookup maps usable by the style resolver and useToken hook.
  */
-import { sdui } from '@amplify-ai/tokens-creator/react-native';
+import { sdui } from '@one-impression/tokens-creator/react-native';
 
 /**
  * Token category types matching the sdui namespace structure.
- * These mirror the types in @amplify-ai/ui-native/src/tokens.ts
+ * These mirror the types in @one-impression/ui-native/src/tokens.ts
  * but are defined here to avoid a hard dependency on that package.
  */
 export type TokenCategory =

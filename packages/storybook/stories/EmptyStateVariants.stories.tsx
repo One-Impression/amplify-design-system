@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EmptyState, Button } from '@amplify-ai/ui';
+import { EmptyState, Button } from '@one-impression/ui';
 
 const meta = {
   title: 'Components/EmptyState/Variants',
