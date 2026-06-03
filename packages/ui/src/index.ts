@@ -24,7 +24,7 @@ export type { BadgeProps, BadgeVariant, BadgeSize } from './components/Badge';
 
 // Card
 export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './components/Card';
-export type { CardProps, CardVariant, CardPadding, CardHeaderProps, CardTitleProps, CardDescriptionProps, CardContentProps, CardFooterProps } from './components/Card';
+export type { CardProps, CardVariant, CardPadding, CardLeftBar, CardHeaderProps, CardTitleProps, CardDescriptionProps, CardContentProps, CardFooterProps } from './components/Card';
 
 // EmptyState
 export { EmptyState } from './components/EmptyState';
