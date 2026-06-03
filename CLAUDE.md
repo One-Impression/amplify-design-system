@@ -103,3 +103,17 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+### Token groups in `tokens-oportunities` (light + dark)
+
+| Group | Keys | Notes |
+|---|---|---|
+| `surface.gradient-inlet`, `surface.gradient-upgrade` | `linear-gradient` strings | Peer-feed inlet and auth upgrade banner gradients |
+| `surface.letter-spacing` | `tight` (`-0.02em`), `caps` (`0.05em`) | Headlines and uppercase badge labels |
+| `tier` | `micro/mid/macro/mega` × `bg/text` | Creator tier band badge colors; light/dark variants differ |
+| `verify` | `oauth/dm/ops` × `bg/text` | Verification source badge colors; light/dark variants differ |
+| `platform` | `instagram`, `youtube` | Social platform brand colors — identical in light and dark |
+| `shadow` | `accent-sm/md/lg` | Apricot glow shadows; dark variant uses higher opacity |
+| `motion` | `shimmer-duration`, `shimmer-opacity`, `refresh-spin`, `refresh-done-display`, `refresh-done-fade` | Skeleton shimmer and pull-to-refresh; identical in light and dark |
+
+**Platform colors** (`platform.*`) and **motion tokens** (`motion.*`) are theme-invariant — same values in both `theme-light.json` and `theme-dark.json`. Do not create separate overrides for these.
