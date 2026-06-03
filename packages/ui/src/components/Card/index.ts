@@ -13,6 +13,7 @@ export type {
   CardProps,
   CardVariant,
   CardPadding,
+  CardLeftBar,
   CardHover,
   CardSlotProps,
   CardHeaderProps,
