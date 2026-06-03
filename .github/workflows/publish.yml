@@ -47,6 +47,7 @@ jobs:
           npm run build -w packages/tokens-brand
           npm run build -w packages/tokens-creator
           npm run build -w packages/tokens-atmosphere
+          npm run build -w packages/tokens-oportunities
           npm run build -w packages/tokens-marketing
           npm run build -w packages/ui
           npm run build -w packages/ui-native
@@ -97,7 +98,7 @@ jobs:
           set -e
           echo "@one-impression:registry=https://npm.pkg.github.com" > ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}" >> ~/.npmrc
-          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-creator ui ui-native sdui-runtime mcp-server eslint-config; do
+          for pkg in tokens-foundation tokens-brand tokens-atmosphere tokens-oportunities tokens-creator ui ui-native sdui-runtime mcp-server eslint-config; do
             EXPECTED=$(jq -r .version packages/$pkg/package.json)
             ACTUAL=$(npm view @one-impression/$pkg version 2>/dev/null || echo "MISSING")
             if [ "$EXPECTED" != "$ACTUAL" ]; then
