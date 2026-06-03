@@ -95,6 +95,19 @@ Studio-direction brand for One Impression's creator-intent platform.
 - **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
 - **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
 - **Components**: 6 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Templates**: `packages/templates-oportunities/` (`@one-impression/templates-oportunities` v1.0.0) — brand-applied, ready-to-use templates:
+  - `marketing/` — 8 self-contained HTML pages (landing, pricing, about, login, signup, onboarding 1-3). Inline CSS only, no build step. Mobile-responsive at 768px.
+  - `email/transactional/` — 5 email templates (welcome, password-reset, signal-landed, weekly-digest, payment-receipt). Table-based, all styles inline, max-width 600px, no `<script>` or external CSS.
+  - `email/marketing/` — 3 email templates (launch-announcement, feature-announcement, case-study).
+  - `deck/` — 8 slide templates (cover, section-divider, content, chart, quote, comparison, team, closing). 1920×1080 standalone HTML, print to PDF via Chrome.
+  - `business-cards/` — 9 SVG templates (CEO pre-filled for Apaksh Gupta; CTO, CDO, COO, engineer, designer, sales, support, blank). 89×54mm at 300 DPI, RGB source — convert to CMYK before sending to printer.
+  - Social and notification templates also included (LinkedIn, Instagram, X, Open Graph, push, Slack, WhatsApp).
+
+**Templates are NOT React components** — use `@one-impression/ui` for in-product UI. Templates are flat HTML/SVG for marketing, print, and comms.
+
+**Email compliance**: `payment-receipt.html` must retain GST details for Indian customers (GSTIN compliance). Never strip them. All marketing emails must include an unsubscribe footer.
+
+**Template variable syntax**: placeholders use `{{doublesCurly}}` convention. Map to your provider's merge syntax (Mailchimp `*|MERGE|*`, Sendgrid `{{merge}}`, Resend JSX).
 
 **Composition rule**: Oportunities components compose from `tokens-foundation`
 primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.).
@@ -102,4 +115,11 @@ primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.
 that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
-**Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+**Voice register**:
+
+| Surface | Register | Opener |
+|---|---|---|
+| Push, button, error, tooltip, transactional email | Direct-confident | Verb-first |
+| Empty state, success, subject line, marketing copy, onboarding | Tool-curious | `Heads up —` |
+
+**Spelling**: single-P "Oportunities" everywhere. Not "Opportunities". Non-negotiable — see `brand-oportunities/BRAND-DECISIONS.md`.
