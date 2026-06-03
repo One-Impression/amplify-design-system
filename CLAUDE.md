@@ -94,7 +94,7 @@ Studio-direction brand for One Impression's creator-intent platform.
 - **Brand assets**: `packages/brand-oportunities/` — logos, app icons, favicons, social templates, business cards, email signature
 - **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
 - **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
-- **Components**: 6 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Components**: 7 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`, `PullToRefreshRing`)
 
 **Composition rule**: Oportunities components compose from `tokens-foundation`
 primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.).
@@ -103,3 +103,26 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+### PullToRefreshRing
+
+`PullToRefreshRing` is a 3-state animated SVG ring for pull-to-refresh interactions on scrollable surfaces.
+
+**States** (`PullToRefreshState`): `idle` | `pulling` | `refreshing` | `done`
+- `idle` — renders nothing (returns `null`)
+- `pulling` — arc fills clockwise from 12 o'clock, proportional to `progress` (0–1)
+- `refreshing` — full ring (~75% arc) spins continuously
+- `done` — green checkmark scales in, holds 600ms, then fades out (total ~1100ms); component returns `null` after
+
+**Props**: `state` (required), `progress` (0–1, pulling only), `size` (px diameter, default 32), `strokeWidth` (default 3), plus standard `div` HTML attributes.
+
+**CSS tokens consumed** — these must be present in the Oportunities theme for correct appearance:
+- `--amp-oportunities-accent` — ring foreground stroke (fallback `#E68F47`)
+- `--amp-oportunities-border-soft` — ring track stroke (fallback `#F5ECDE`)
+- `--amp-oportunities-status-success` — done checkmark background (fallback `#5A8E4F`)
+- `--amp-oportunities-motion-refresh-spin` — spin animation duration (fallback `0.9s`)
+- `--amp-oportunities-motion-refresh-done-fade` — done fade duration (fallback `200ms`)
+
+**Keyframe injection**: On first render the component injects a `<style>` tag (`id="amp-pull-to-refresh-ring-keyframes"`) into `document.head` as a singleton. This is safe but be aware it is a global side-effect on mount.
+
+**Reduced motion**: Spin animation is suppressed via `@media (prefers-reduced-motion: reduce)` targeting the `.amp-refresh-spin-group` class.
