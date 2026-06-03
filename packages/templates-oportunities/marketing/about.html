@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#E89252" />
+<title>About — oportunities.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --accent: #E68F47; --apricot: #E89252; --apricot-bright: #F0A668; --terracotta: #D87B6E;
+    --purple: #6B4FA0; --ai-purple: #7B5BFF; --cream: #FDF8F3; --cream-light: #F4ECE0;
+    --ink: #0F0D0B; --ink-soft: #4A453F;
+    --display: 'Geist', system-ui, sans-serif; --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cream); color: var(--ink); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .container-wide { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  nav { padding: 24px 0; display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 40px; letter-spacing: -0.04em; color: var(--ink); }
+  .wordmark .dot { color: var(--apricot); }
+  nav .links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+  nav .cta { background: var(--apricot); color: var(--ink); padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+
+  .hero { padding: 80px 0 40px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(40px, 5vw, 64px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; }
+  .hero .lede { font-size: 20px; color: var(--ink-soft); }
+
+  .why { padding: 60px 0; }
+  .why h2 { font-family: var(--display); font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .why p { font-size: 17px; color: var(--ink-soft); margin-bottom: 16px; }
+  .pullquote { font-family: var(--display); font-size: clamp(22px, 2.5vw, 28px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.4; padding: 32px 0; color: var(--ink); border-left: 3px solid var(--apricot); padding-left: 24px; margin: 32px 0; }
+
+  .team { padding: 80px 0; background: var(--cream-light); }
+  .team h2 { font-family: var(--display); font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 32px; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .member { background: white; border-radius: 12px; padding: 24px; }
+  .member .avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--apricot), var(--terracotta)); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; color: white; font-size: 22px; }
+  .member h3 { font-family: var(--display); font-size: 18px; font-weight: 600; }
+  .member .role { font-size: 13px; color: var(--apricot); font-weight: 500; font-family: var(--mono); margin-bottom: 8px; }
+  .member p { font-size: 14px; color: var(--ink-soft); }
+
+  .investors { padding: 60px 0; text-align: center; }
+  .investors p.label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 28px; font-weight: 500; }
+  .logo-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 48px; font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: var(--ink-soft); opacity: 0.7; }
+
+  .press { padding: 60px 0; background: var(--cream-light); text-align: center; }
+  .press p.label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 28px; font-weight: 500; }
+
+  footer { padding: 48px 0; border-top: 1px solid rgba(15,13,11,0.06); font-size: 13px; color: var(--ink-soft); }
+
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: 1fr; }
+    nav .links { display: none; }
+    .logo-row { gap: 24px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="landing.html" class="wordmark">oportunities<span class="dot">.</span></a>
+      <div class="links">
+        <a href="landing.html#features">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="login.html">Sign in</a>
+      </div>
+      <a href="signup.html" class="cta">Get started</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Why Oportunities exists.</h1>
+      <p class="lede">The Indian creator economy is ~$1.2B and growing 25% YoY — but brand-creator matching still happens over WhatsApp DMs and shared spreadsheets. We're fixing that, one intent signal at a time.</p>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="container">
+      <h2>The problem we're solving.</h2>
+      <p>Brand teams in India spend 60–80% of their time on creator discovery and outreach — and most of it is reactive. By the time you spot Komal Pandey in Bali, three competitors have already pitched her. By the time you brief for Lakmé Fashion Week, the calendar is full.</p>
+      <p>Creators leak intent constantly — through Stories, trip captions, podcast appearances, product Q&As. The signal is already in the open. What's missing is a system that listens.</p>
+      <div class="pullquote">"Heads up — we want to make brand-creator matching feel less like cold outreach, and more like reading the room."</div>
+      <h2>Who we serve.</h2>
+      <p>Today: D2C brand teams running creator partnerships at scale — Mamaearth, Mokobara, boAt, Plum, INDmoney, Cred. Soon: brand houses, performance agencies, and the in-house teams at fashion week sponsors and quick-commerce players.</p>
+      <p>We're an Amplify product. Made in Bengaluru. Indian-creator-economy first.</p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="container-wide">
+      <h2>Team.</h2>
+      <div class="team-grid">
+        <div class="member">
+          <div class="avatar">AG</div>
+          <h3>Apaksh Gupta</h3>
+          <div class="role">FOUNDER / CEO</div>
+          <p>Building Amplify since 2019. Previously product at Flipkart. IIT Bombay.</p>
+        </div>
+        <div class="member">
+          <div class="avatar">EN</div>
+          <h3>Engineering</h3>
+          <div class="role">PLATFORM</div>
+          <p>The agent fleet — Aria, Zara, Penny, Pixel, Heimdall — runs on a team of practitioners who ship every day.</p>
+        </div>
+        <div class="member">
+          <div class="avatar">BS</div>
+          <h3>Brand Success</h3>
+          <div class="role">PARTNERSHIPS</div>
+          <p>Ex-creator-economy operators who've run partnerships at major D2C brands. They know the WhatsApp DM grind firsthand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="investors">
+    <div class="container-wide">
+      <p class="label">Backed by</p>
+      <div class="logo-row">
+        <span>Sequoia India</span>
+        <span>Lightspeed</span>
+        <span>Y Combinator</span>
+        <span>Better Capital</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="press">
+    <div class="container-wide">
+      <p class="label">In the press</p>
+      <div class="logo-row">
+        <span>TechCrunch</span>
+        <span>YourStory</span>
+        <span>Inc42</span>
+        <span>The Ken</span>
+        <span>Economic Times</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container-wide" style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+      <div>© 2026 Oportunities. Made in India.</div>
+      <div><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>

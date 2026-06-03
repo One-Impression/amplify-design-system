@@ -1,0 +1,71 @@
+{
+  "_meta": {
+    "event": "intent.signal.landed",
+    "voice": "tool-curious",
+    "channel_default": "#oportunities",
+    "description": "Slack message when a new intent signal lands. Routed to the brand team channel via incoming webhook."
+  },
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🔔 New intent signal",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Komal Pandey* is going to *Bali* (Jan 18 – 25, 2026).\nAI fit score *94%* with Mamaearth."
+      },
+      "accessory": {
+        "type": "image",
+        "image_url": "https://cdn.oportunities.in/avatars/komalpandeyofficial_256.jpg",
+        "alt_text": "Komal Pandey"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        { "type": "mrkdwn", "text": "*Creator*\nKomal Pandey" },
+        { "type": "mrkdwn", "text": "*Reach*\n3.1M IG · 480K YT" },
+        { "type": "mrkdwn", "text": "*Destination*\nBali, Indonesia" },
+        { "type": "mrkdwn", "text": "*Dates*\nJan 18 – 25, 2026" },
+        { "type": "mrkdwn", "text": "*Fit score*\n94%" },
+        { "type": "mrkdwn", "text": "*Unlock cost*\n5 credits" }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "View signal", "emoji": false },
+          "style": "primary",
+          "url": "https://oportunities.in/signal/sig_01HXYZ",
+          "action_id": "view_signal"
+        },
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "Unlock (5 cr)", "emoji": false },
+          "url": "https://oportunities.in/signal/sig_01HXYZ/unlock",
+          "action_id": "unlock_signal"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  <!date^1737187200^{date_short_pretty} at {time}|2026-01-18 09:00 IST>" }
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "color": "#E68F47",
+      "fallback": "New signal: Komal Pandey is going to Bali Jan 18. AI fit 94% with Mamaearth."
+    }
+  ]
+}

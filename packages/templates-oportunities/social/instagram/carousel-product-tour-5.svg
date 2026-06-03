@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities carousel slide 5 of 7 — How it works">
+  <title>oportunities — Carousel 5/7 — How it works</title>
+  <desc>How it works — three-step diagram.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 60px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 88px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .num   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.04em; fill: #E68F47; }
+      .step  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 36px; letter-spacing: -0.02em; fill: #0F0D0B; }
+      .desc  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 24px; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="140" class="wm">oportunities</text>
+  <text x="80" y="140" class="wm dot" dx="338">.</text>
+
+  <text x="80" y="280" class="kicker">How it works</text>
+  <text x="80" y="400" class="head">Listen. Predict.</text>
+  <text x="80" y="490" class="head">Surface.</text>
+
+  <text x="80" y="620" class="num">01</text>
+  <text x="200" y="600" class="step">Listen</text>
+  <text x="200" y="640" class="desc">Across 12K+ Indian creators, every day.</text>
+
+  <text x="80" y="760" class="num">02</text>
+  <text x="200" y="740" class="step">Predict</text>
+  <text x="200" y="780" class="desc">What they're about to post — 30 days ahead.</text>
+
+  <text x="80" y="900" class="num">03</text>
+  <text x="200" y="880" class="step">Surface</text>
+  <text x="200" y="920" class="desc">To brand desks at the exact right moment.</text>
+
+  <rect x="80" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="160" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="240" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="320" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="400" y="960" width="60" height="6" fill="#E68F47"/>
+  <rect x="480" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="560" y="960" width="60" height="6" fill="#F4ECE0"/>
+</svg>

@@ -1,0 +1,28 @@
+name: oportunities_brand_interest_en_v1
+category: UTILITY
+language: en
+voice: tool-curious
+variables:
+  {{1}}: brand_name           # e.g. "Mamaearth"
+  {{2}}: event_or_trip        # e.g. "Bali"
+  {{3}}: view_url             # e.g. "https://oportunities.in/b/brf_01HXYZ"
+
+---HEADER---
+Heads up —
+
+---BODY---
+{{1}} wants to partner with you on your {{2}} trip.
+
+They've shared a brief and a sample message. View now: {{3}}
+
+---FOOTER---
+— Oportunities
+
+---BUTTONS---
+- type: URL
+  text: View brief
+  url_suffix: "{{1}}"
+- type: QUICK_REPLY
+  text: Yes, interested
+- type: QUICK_REPLY
+  text: Not a fit

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" role="img" aria-label="oportunities X card 3 — Customer win">
+  <title>oportunities — X card 3 — Customer win</title>
+  <desc>Twitter card celebrating a customer win.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 40px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .brand { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.03em; fill: #7B5BFF; }
+      .num   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 88px; letter-spacing: -0.04em; fill: #E68F47; }
+      .lab   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 22px; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1200" height="627" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#sweep)"/>
+
+  <text x="72" y="84" class="wm">oportunities</text>
+  <text x="72" y="84" class="wm dot" dx="226">.</text>
+
+  <text x="72" y="200" class="kicker">Customer win</text>
+  <text x="72" y="290" class="brand">Mamaearth</text>
+  <text x="72" y="360" class="head">22 paid deals · 30 days.</text>
+
+  <text x="72" y="490" class="num">7.4x</text>
+  <text x="72" y="540" class="lab">conversion vs cold outreach</text>
+
+  <text x="400" y="490" class="num">87%</text>
+  <text x="400" y="540" class="lab">creator reply rate</text>
+
+  <text x="720" y="490" class="num">3.2</text>
+  <text x="720" y="540" class="lab">avg days to close</text>
+</svg>

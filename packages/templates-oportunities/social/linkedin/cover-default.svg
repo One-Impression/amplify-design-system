@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" role="img" aria-label="oportunities LinkedIn default cover">
+  <title>oportunities — LinkedIn default cover — wordmark plus brand partners</title>
+  <desc>Default ongoing cover with wordmark, tagline, and brand partner strip.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot  { fill: #E68F47; }
+      .tag  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 26px; letter-spacing: -0.01em; fill: #4A453F; }
+      .brand{ font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 22px; letter-spacing: -0.01em; fill: #6B635A; }
+      .label{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 16px; letter-spacing: 0.08em; fill: #7B5BFF; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1584" height="396" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1584" height="6" fill="url(#rule)"/>
+
+  <text x="120" y="180" class="wm">oportunities</text>
+  <text x="120" y="180" class="wm dot" dx="540">.</text>
+  <text x="120" y="240" class="tag">Creator-intent intelligence for India's next billion brand-creator collaborations.</text>
+
+  <text x="120" y="320" class="label">Trusted by</text>
+  <text x="120" y="360" class="brand">Mamaearth  ·  boAt  ·  Sugar Cosmetics  ·  Wakefit  ·  Plum  ·  Beardo</text>
+</svg>

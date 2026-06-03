@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" role="img" aria-label="oportunities X card 2 — Product launch">
+  <title>oportunities — X card 2 — Product launch</title>
+  <desc>Twitter card announcing the product launch.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 40px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 88px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 28px; fill: #4A453F; }
+      .url   { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.04em; fill: #7B5BFF; }
+    </style>
+  </defs>
+  <rect width="1200" height="627" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#sweep)"/>
+
+  <text x="72" y="84" class="wm">oportunities</text>
+  <text x="72" y="84" class="wm dot" dx="226">.</text>
+
+  <text x="72" y="200" class="kicker">Now live</text>
+  <text x="72" y="310" class="head">Oportunities</text>
+  <text x="72" y="400" class="head">just launched.</text>
+
+  <text x="72" y="490" class="sub">Creator-intent intelligence — for India's</text>
+  <text x="72" y="525" class="sub">brand teams. First 100 free.</text>
+
+  <text x="72" y="580" class="url">oportunities.in</text>
+
+  <circle cx="1080" cy="320" r="64" fill="#E68F47"/>
+  <circle cx="990" cy="320" r="32" fill="#7B5BFF"/>
+</svg>

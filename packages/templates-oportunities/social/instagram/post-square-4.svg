@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities Instagram square 4 — Weekly stats">
+  <title>oportunities — Instagram square 4 — Signals this week</title>
+  <desc>Data visualization showing signals delivered this week.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 64px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .num   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 132px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .accent{ fill: #E68F47; }
+      .lab   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 26px; fill: #4A453F; }
+      .small { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 18px; letter-spacing: 0.06em; fill: #6B635A; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="130" class="wm">oportunities</text>
+  <text x="80" y="130" class="wm dot" dx="318">.</text>
+
+  <text x="80" y="260" class="kicker">This week on oportunities</text>
+  <text x="80" y="350" class="head">Signals delivered.</text>
+
+  <text x="80" y="540" class="num">3,</text>
+  <text x="190" y="540" class="num accent">812</text>
+
+  <text x="80" y="600" class="lab">signals shipped to 47 brand desks</text>
+
+  <line x1="80" y1="680" x2="1000" y2="680" stroke="#E68F47" stroke-width="2"/>
+
+  <text x="80" y="740" class="small">Creators tracked</text>
+  <text x="80" y="800" class="num">12,400</text>
+
+  <text x="600" y="740" class="small">Avg lead time</text>
+  <text x="600" y="800" class="num">27d</text>
+
+  <circle cx="990" cy="1010" r="32" fill="#E68F47"/>
+</svg>

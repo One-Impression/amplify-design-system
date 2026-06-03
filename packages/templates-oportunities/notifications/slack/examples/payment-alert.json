@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "event": "payment.alert",
+    "voice": "direct-confident",
+    "channel_default": "DM to billing admin",
+    "description": "Billing / payment alert. Goes to DM, never a public channel. Used for success, failure, and credit-low.",
+    "variant_examples": ["payment_success", "payment_failed", "credits_low"]
+  },
+  "variants": {
+    "payment_success": {
+      "blocks": [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "✓ Payment processed", "emoji": true }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*₹10,000* charged · Oportunities Pro renewed for 1 month.\nNext renewal: Feb 18, 2026."
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": { "type": "plain_text", "text": "View receipt", "emoji": false },
+              "style": "primary",
+              "url": "https://oportunities.in/billing/invoice/inv_01HXYZ",
+              "action_id": "view_receipt"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  Invoice INV-01HXYZ" }
+          ]
+        }
+      ],
+      "attachments": [{ "color": "#E68F47", "fallback": "Payment processed: ₹10,000 charged for Oportunities Pro renewal." }]
+    },
+    "payment_failed": {
+      "blocks": [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "⚠ Payment failed", "emoji": true }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "Renewal charge *₹10,000* failed — card declined. Subscription pauses in 3 days unless fixed."
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": { "type": "plain_text", "text": "Update card", "emoji": false },
+              "style": "danger",
+              "url": "https://oportunities.in/billing/payment-method",
+              "action_id": "update_card"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  Attempt 1 of 3" }
+          ]
+        }
+      ],
+      "attachments": [{ "color": "#D87B6E", "fallback": "Payment failed: ₹10,000 charge declined. Update card to avoid pause." }]
+    },
+    "credits_low": {
+      "blocks": [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "⚠ Low credits", "emoji": true }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*5 credits* left. Top up to keep unlocking signals."
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": { "type": "plain_text", "text": "Top up", "emoji": false },
+              "style": "primary",
+              "url": "https://oportunities.in/billing/top-up",
+              "action_id": "topup"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  Threshold: 5" }
+          ]
+        }
+      ],
+      "attachments": [{ "color": "#E68F47", "fallback": "Low credits: 5 left. Top up to keep unlocking signals." }]
+    }
+  }
+}

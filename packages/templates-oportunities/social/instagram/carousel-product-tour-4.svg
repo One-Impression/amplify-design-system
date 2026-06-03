@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities carousel slide 4 of 7 — Product">
+  <title>oportunities — Carousel 4/7 — The product</title>
+  <desc>Product slide: AI Idea Feed.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 60px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .name  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .meta  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 22px; fill: #4A453F; }
+      .sig   { font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 26px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .small { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 16px; letter-spacing: 0.06em; fill: #6B635A; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="140" class="wm">oportunities</text>
+  <text x="80" y="140" class="wm dot" dx="338">.</text>
+
+  <text x="80" y="280" class="kicker">The product</text>
+  <text x="80" y="400" class="head">AI Idea Feed.</text>
+
+  <rect x="80" y="460" width="920" height="220" rx="24" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <circle cx="150" cy="550" r="36" fill="#E68F47"/>
+  <text x="210" y="540" class="name">Komal Pandey</text>
+  <text x="210" y="572" class="meta">Fashion · 2.1M · Mumbai</text>
+  <text x="120" y="630" class="small">Predicted post — 12 June</text>
+  <text x="120" y="665" class="sig">Sustainable summer fits</text>
+
+  <rect x="80" y="710" width="920" height="220" rx="24" fill="#FFFFFF" stroke="#E68F47" stroke-width="2"/>
+  <circle cx="150" cy="800" r="36" fill="#7B5BFF"/>
+  <text x="210" y="790" class="name">Ranveer Allahbadia</text>
+  <text x="210" y="822" class="meta">Lifestyle · 4.5M · Mumbai</text>
+  <text x="120" y="880" class="small">Predicted post — 18 June</text>
+  <text x="120" y="915" class="sig">Mental wellness tools roundup</text>
+
+  <rect x="80" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="160" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="240" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="320" y="960" width="60" height="6" fill="#E68F47"/>
+  <rect x="400" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="480" y="960" width="60" height="6" fill="#F4ECE0"/>
+  <rect x="560" y="960" width="60" height="6" fill="#F4ECE0"/>
+</svg>

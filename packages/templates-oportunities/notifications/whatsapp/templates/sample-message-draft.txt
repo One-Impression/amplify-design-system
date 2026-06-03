@@ -1,0 +1,26 @@
+name: oportunities_sample_outreach_draft_en_v1
+category: UTILITY
+language: en
+voice: tool-curious
+purpose: |
+  This is the AI-drafted outreach message the BRAND sends to the creator from
+  the brand's own WhatsApp Business number. Oportunities surfaces this draft
+  inside the brief panel and lets the brand customise before sending.
+
+  Not registered with Meta as an Oportunities-owned template — this is content
+  for the brand's own WABA. We provide it as a starting draft only.
+
+variables:
+  {{1}}: creator_name         # e.g. "Komal"
+  {{2}}: event_or_trip        # e.g. "Bali trip"
+  {{3}}: brand_name           # e.g. "Mamaearth"
+  {{4}}: product              # e.g. "sunscreen line"
+
+---BODY---
+Hi {{1}}! Saw your {{2}} is coming up — {{3}} would love to send our new {{4}} for the trip + discuss a partnership. Free this week to chat?
+
+---NOTES---
+- Keep ≤ 280 chars (WhatsApp preview limit on most devices)
+- One soft question at the end ("Free this week to chat?") — Tool-curious register
+- No emoji at start; max 1 emoji inside body if brand chooses
+- Brand can edit but the Oportunities-suggested baseline is approved by our copy review

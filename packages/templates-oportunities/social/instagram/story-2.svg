@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="oportunities Instagram story 2 — Today">
+  <title>oportunities — Instagram story 2 — Today on oportunities</title>
+  <desc>Daily stat update story.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 64px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .kicker{ font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 26px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; }
+      .head  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 84px; letter-spacing: -0.03em; fill: #0F0D0B; }
+      .num   { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 240px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .acc   { fill: #E68F47; }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 36px; letter-spacing: -0.01em; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="200" class="wm">oportunities</text>
+  <text x="80" y="200" class="wm dot" dx="358">.</text>
+
+  <text x="80" y="700" class="kicker">Today on oportunities</text>
+  <text x="80" y="800" class="head">Signals shipped.</text>
+
+  <text x="80" y="1080" class="num">547</text>
+  <text x="80" y="1180" class="sub">creator-intent signals delivered today</text>
+
+  <line x1="80" y1="1280" x2="1000" y2="1280" stroke="#E68F47" stroke-width="3"/>
+  <text x="80" y="1360" class="kicker">Across 47 brand desks</text>
+
+  <circle cx="540" cy="1780" r="40" fill="#E68F47"/>
+</svg>

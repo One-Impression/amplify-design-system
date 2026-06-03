@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Oportunities — Content Slide</title>
+<style>
+  :root {
+    --cream:      #FDF8F3;
+    --ink:        #0F0D0B;
+    --apricot:    #E89252;
+    --apricot-2:  #F0A668;
+    --muted:      rgba(15,13,11,0.6);
+    --rule:       rgba(15,13,11,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; }
+  body {
+    font-family: "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .stage {
+    width: 100%;
+    height: 100%;
+    padding: 96px 120px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 56px;
+  }
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    color: var(--muted);
+  }
+  .wordmark {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-size: 28px;
+    color: var(--ink);
+  }
+  .wordmark .dot { color: var(--apricot); }
+  .slide-no { font-feature-settings: "tnum"; }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .eyebrow {
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--apricot);
+  }
+  .title {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    font-size: 88px;
+    line-height: 1.05;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .bullet {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .bullet .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--apricot);
+    margin-top: 18px;
+  }
+  .bullet .label {
+    font-size: 34px;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  .bullet .sub {
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .aside {
+    background: rgba(232,146,82,0.10);
+    border-radius: 24px;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .aside .ka { font-size: 22px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--apricot); font-weight: 500; }
+  .aside .kv { font-size: 96px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-feature-settings: "tnum"; }
+  .aside .ks { font-size: 24px; color: var(--muted); line-height: 1.4; }
+
+  .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+    font-size: 20px;
+    color: var(--muted);
+  }
+  .footer-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-mark::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--apricot);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="top-bar">
+      <div class="wordmark">oportunities<span class="dot">.</span></div>
+      <div class="slide-no">07 / 24</div>
+    </div>
+
+    <div class="head">
+      <div class="eyebrow">Why now</div>
+      <div class="title">Creator-intent is a new data category.</div>
+    </div>
+
+    <div class="body">
+      <div class="bullets">
+        <div class="bullet">
+          <div class="dot"></div>
+          <div>
+            <div class="label">Travel, life-events, launches — public on Instagram before any agency sees them.</div>
+            <div class="sub">3.2M new creator posts/day in India. Intent buried in 90% of them.</div>
+          </div>
+        </div>
+        <div class="bullet">
+          <div class="dot"></div>
+          <div>
+            <div class="label">Brands are paying for outreach that fires after the moment is gone.</div>
+            <div class="sub">Average gap from intent → outreach = 18 days. We compress to 2 hours.</div>
+          </div>
+        </div>
+        <div class="bullet">
+          <div class="dot"></div>
+          <div>
+            <div class="label">AI fit-scoring closes the discovery loop without manual research.</div>
+            <div class="sub">94% top-fit accuracy vs human reviewer baseline.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aside">
+        <div class="ka">Top fit this week</div>
+        <div class="kv">96%</div>
+        <div class="ks">Diipa Khosla → Maldives launch, matched to Forest Essentials.</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="footer-mark">oportunities.in</div>
+      <div>WHY NOW · 03</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="oportunities Instagram story 1 — Wordmark reveal">
+  <title>oportunities — Instagram story 1 — Wordmark animation reveal</title>
+  <desc>Wordmark reveal frame, intended as the final frame of a brand animation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="50%" stop-color="#D87B6E"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 144px; letter-spacing: -0.04em; fill: #0F0D0B; text-anchor: middle; }
+      .dot   { fill: url(#sweep); }
+      .sub   { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 36px; letter-spacing: -0.01em; fill: #4A453F; text-anchor: middle; }
+      .small { font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.1em; fill: #7B5BFF; text-transform: uppercase; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+  <rect x="0" y="1912" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="540" y="880" class="small">A brand built in India</text>
+  <text x="540" y="1020" class="wm">oportunities.</text>
+  <text x="540" y="1100" class="sub">Know what creators are about to do.</text>
+
+  <circle cx="540" cy="1700" r="56" fill="#E68F47"/>
+  <circle cx="640" cy="1700" r="28" fill="#7B5BFF"/>
+</svg>

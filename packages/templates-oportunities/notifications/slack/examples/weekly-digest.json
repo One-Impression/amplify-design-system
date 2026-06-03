@@ -1,0 +1,60 @@
+{
+  "_meta": {
+    "event": "digest.weekly",
+    "voice": "tool-curious",
+    "channel_default": "#oportunities",
+    "description": "Monday 09:00 user-local weekly summary, fanned to Slack when the workspace has opted in."
+  },
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🔔 Your weekly digest is in",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Heads up — *47 new signals* this week. Top fit *96%*. 3 signals expired without unlock."
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        { "type": "mrkdwn", "text": "*New signals*\n47" },
+        { "type": "mrkdwn", "text": "*Above 80% fit*\n12" },
+        { "type": "mrkdwn", "text": "*Unlocked*\n5" },
+        { "type": "mrkdwn", "text": "*Expired*\n3" },
+        { "type": "mrkdwn", "text": "*Top fit*\n96% — Diipa Khosla / Maldives" },
+        { "type": "mrkdwn", "text": "*Credits used*\n25" }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "View digest", "emoji": false },
+          "style": "primary",
+          "url": "https://oportunities.in/digest/wk_2026-W03",
+          "action_id": "view_digest"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": ":small_orange_diamond: *oportunities.*  ·  Week 3, 2026" }
+      ]
+    }
+  ],
+  "attachments": [
+    {
+      "color": "#E68F47",
+      "fallback": "Weekly digest: 47 new signals this week. Top fit 96%."
+    }
+  ]
+}

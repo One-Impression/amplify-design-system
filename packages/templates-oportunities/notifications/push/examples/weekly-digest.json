@@ -1,0 +1,53 @@
+{
+  "_meta": {
+    "event": "digest.weekly",
+    "voice": "tool-curious",
+    "channel_ios": "digest",
+    "channel_android": "digest",
+    "description": "Monday 09:00 user-local weekly summary. Low priority. No sound. Frequency cap: 1/week."
+  },
+  "apns": {
+    "aps": {
+      "alert": {
+        "title": "Heads up —",
+        "body": "Your weekly digest is ready · 47 new signals this week."
+      },
+      "sound": null,
+      "badge": 1,
+      "category": "DIGEST_WEEKLY",
+      "thread-id": "digest"
+    },
+    "data": {
+      "deeplink": "oportunities://digest/wk_2026-W03",
+      "week_iso": "2026-W03",
+      "new_signals": 47,
+      "top_fit_score": 96
+    }
+  },
+  "fcm": {
+    "message": {
+      "notification": {
+        "title": "Heads up —",
+        "body": "Your weekly digest is ready · 47 new signals this week."
+      },
+      "android": {
+        "priority": "NORMAL",
+        "notification": {
+          "channel_id": "digest",
+          "color": "#E68F47",
+          "icon": "ic_notification_op",
+          "click_action": "DIGEST_WEEKLY"
+        }
+      },
+      "data": {
+        "deeplink": "oportunities://digest/wk_2026-W03",
+        "week_iso": "2026-W03",
+        "new_signals": "47",
+        "top_fit_score": "96"
+      }
+    }
+  },
+  "actions": [
+    { "id": "view", "label": "View digest" }
+  ]
+}

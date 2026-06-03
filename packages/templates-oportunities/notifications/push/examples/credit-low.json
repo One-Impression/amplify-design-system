@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "event": "credits.low",
+    "voice": "direct-confident",
+    "channel_ios": "account_alerts",
+    "channel_android": "account_alerts",
+    "description": "Fired once when credit balance falls below the threshold (default 5). De-duped for 24h."
+  },
+  "apns": {
+    "aps": {
+      "alert": {
+        "title": "Low credits",
+        "body": "5 credits left. Top up to keep unlocking signals."
+      },
+      "sound": "default",
+      "badge": 1,
+      "category": "CREDIT_LOW",
+      "thread-id": "billing"
+    },
+    "data": {
+      "deeplink": "oportunities://billing/top-up",
+      "credits_remaining": 5,
+      "threshold": 5
+    }
+  },
+  "fcm": {
+    "message": {
+      "notification": {
+        "title": "Low credits",
+        "body": "5 credits left. Top up to keep unlocking signals."
+      },
+      "android": {
+        "priority": "HIGH",
+        "notification": {
+          "channel_id": "account_alerts",
+          "color": "#E68F47",
+          "icon": "ic_notification_op",
+          "click_action": "CREDIT_LOW"
+        }
+      },
+      "data": {
+        "deeplink": "oportunities://billing/top-up",
+        "credits_remaining": "5",
+        "threshold": "5"
+      }
+    }
+  },
+  "actions": [
+    { "id": "topup", "label": "Top up" }
+  ]
+}

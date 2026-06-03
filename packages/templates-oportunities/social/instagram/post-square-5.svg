@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="oportunities Instagram square 5 — Testimonial">
+  <title>oportunities — Instagram square 5 — Testimonial quote</title>
+  <desc>Quote and testimonial template.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF8F3"/>
+      <stop offset="100%" stop-color="#F4ECE0"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E68F47"/>
+      <stop offset="100%" stop-color="#7B5BFF"/>
+    </linearGradient>
+    <style>
+      .wm    { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -0.04em; fill: #0F0D0B; }
+      .dot   { fill: #E68F47; }
+      .mark  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 320px; fill: #E68F47; opacity: 0.35; }
+      .quote { font-family: "Geist", "Inter", sans-serif; font-weight: 500; font-size: 52px; letter-spacing: -0.02em; fill: #0F0D0B; }
+      .name  { font-family: "Geist", "Inter", sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -0.01em; fill: #0F0D0B; }
+      .role  { font-family: "Geist", "Inter", sans-serif; font-weight: 400; font-size: 24px; fill: #4A453F; }
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1080" height="8" fill="url(#sweep)"/>
+
+  <text x="80" y="130" class="wm">oportunities</text>
+  <text x="80" y="130" class="wm dot" dx="318">.</text>
+
+  <text x="100" y="440" class="mark">&#8220;</text>
+
+  <text x="120" y="460" class="quote">We stopped chasing</text>
+  <text x="120" y="525" class="quote">creators. Now we</text>
+  <text x="120" y="590" class="quote">show up at the right</text>
+  <text x="120" y="655" class="quote">moment, every time.</text>
+
+  <rect x="120" y="730" width="80" height="4" fill="#E68F47"/>
+  <text x="120" y="800" class="name">Rohan Sharma</text>
+  <text x="120" y="840" class="role">Brand Lead, boAt</text>
+
+  <circle cx="990" cy="1010" r="32" fill="#E68F47"/>
+</svg>
