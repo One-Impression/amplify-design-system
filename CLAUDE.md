@@ -94,12 +94,25 @@ Studio-direction brand for One Impression's creator-intent platform.
 - **Brand assets**: `packages/brand-oportunities/` — logos, app icons, favicons, social templates, business cards, email signature
 - **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
 - **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
-- **Components**: 6 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Components**: 11 composed components in `@one-impression/ui` across two batches (see below)
+
+**Batch 1 components** (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+
+**Batch 2 components** (3.2.0) — tier progression, wishlist, habits, peer feed, celebration:
+- `TierCard` — dark card with pulsing progress bar for tier advancement
+- `WishlistCard` — wish item card with hover-reveal edit and expiry badge
+- `HabitCategoryCard` — collapsible category card with chip slot for habit/wish selection
+- `FeedItemCard` — peer activity feed card with type-colored accent bar (`event` | `wish` | `habit`)
+- `TierCelebrationModal` — full-screen fixed overlay (z-50) with bounce-in badge and staggered benefit list for tier promotions
 
 **Composition rule**: Oportunities components compose from `tokens-foundation`
 primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.).
 **Never invent new primitives for Oportunities** — add a composed component
 that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
+
+**Animation pattern**: Components that need animations inject a `<style>` element
+once via a guard (`document.getElementById(STYLE_ID)`) inside a `useEffect`. Do
+not use CSS modules or external animation libraries for Oportunities components.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
