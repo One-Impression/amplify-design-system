@@ -696,3 +696,29 @@ export type {
 // AppIconOportunities — the locked "op." app icon as a React component
 export { AppIconOportunities } from './components/AppIconOportunities';
 export type { AppIconOportunitiesProps } from './components/AppIconOportunities';
+
+// ─── Oportunities product primitives — batch 2 (2.15.0) ────────────────
+// Five additional composed components for the Oportunities creator-side
+// surfaces: tier progression, wishlist management, habit categorisation,
+// peer activity feed, and tier celebration. All self-contained; none
+// introduce new visual primitives. Consume `--amp-oportunities-*` tokens.
+
+// TierCard — dark card showing creator tier progress with pulsing bar
+export { TierCard } from './components/TierCard';
+export type { TierCardProps, TierCardProgress, TierLevel } from './components/TierCard';
+
+// WishlistCard — individual wish item card with inline edit
+export { WishlistCard } from './components/WishlistCard';
+export type { WishlistCardProps } from './components/WishlistCard';
+
+// HabitCategoryCard — collapsible category card for habit/wish selection
+export { HabitCategoryCard } from './components/HabitCategoryCard';
+export type { HabitCategoryCardProps } from './components/HabitCategoryCard';
+
+// FeedItemCard — peer activity feed card with type-colored accent bar
+export { FeedItemCard } from './components/FeedItemCard';
+export type { FeedItemCardProps, FeedItemCardAvatar, FeedItemType } from './components/FeedItemCard';
+
+// TierCelebrationModal — full-screen celebration overlay for tier promotions
+export { TierCelebrationModal } from './components/TierCelebrationModal';
+export type { TierCelebrationModalProps, TierCelebrationBenefit, CelebrationTier } from './components/TierCelebrationModal';
