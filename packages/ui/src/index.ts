@@ -696,3 +696,32 @@ export type {
 // AppIconOportunities — the locked "op." app icon as a React component
 export { AppIconOportunities } from './components/AppIconOportunities';
 export type { AppIconOportunitiesProps } from './components/AppIconOportunities';
+
+// ─── Oportunities product primitives — Batch 2 (3.1.0) ─────────────
+// Six creator-app UI primitives for the Oportunities mobile experience.
+// All consume the `tokens-oportunities` theme surface via
+// `--amp-oportunities-*` CSS vars.
+
+// NotificationBell — bell icon button with badge states
+export { NotificationBell } from './components/NotificationBell';
+export type { NotificationBellProps } from './components/NotificationBell';
+
+// WishChip — toggleable chip for wishlist/habit selection
+export { WishChip } from './components/WishChip';
+export type { WishChipProps } from './components/WishChip';
+
+// GentlePausePill — apricot rate-limit indicator with countdown
+export { GentlePausePill } from './components/GentlePausePill';
+export type { GentlePausePillProps } from './components/GentlePausePill';
+
+// OfflineBanner — sticky offline/cached-data banner with retry
+export { OfflineBanner } from './components/OfflineBanner';
+export type { OfflineBannerProps } from './components/OfflineBanner';
+
+// BrandStripTeaser — gradient teaser strip for brand interest / peer feed
+export { BrandStripTeaser } from './components/BrandStripTeaser';
+export type { BrandStripTeaserProps } from './components/BrandStripTeaser';
+
+// StatTabs — horizontal scrollable stat tabs for creator profile
+export { StatTabs } from './components/StatTabs';
+export type { StatTabsProps, StatTab } from './components/StatTabs';
