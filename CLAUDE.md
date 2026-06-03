@@ -94,7 +94,23 @@ Studio-direction brand for One Impression's creator-intent platform.
 - **Brand assets**: `packages/brand-oportunities/` — logos, app icons, favicons, social templates, business cards, email signature
 - **Brand decisions**: `packages/brand-oportunities/BRAND-DECISIONS.md` — founder-approved, do not change without sign-off
 - **Engineer hand-off**: `packages/brand-oportunities/ENGINEER-HANDOFF.md` — how to consume in a product app
-- **Components**: 6 new composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Components (Batch 1)**: 6 composed components in `@one-impression/ui` (`Wordmark`, `SignalDot`, `CreatorIntentCard`, `BrandInterestCard`, `IntentFeed`, `AppIconOportunities`)
+- **Components (Batch 2 — v3.1.0)**: 6 new UI primitives in `@one-impression/ui` for the Oportunities mobile experience:
+  - `NotificationBell` — bell icon button; props: `count`, `showDot`. States: no badge / red dot / count pill (capped at `99+`).
+  - `WishChip` — toggleable chip; props: `label`, `selected`, `disabled`, `onToggle`. States: default / selected (accent bg + checkmark) / disabled (0.4 opacity).
+  - `GentlePausePill` — apricot rate-limit indicator; props: `message`, `secondsLeft`. Injects `@keyframes` once via `<style>` tag; animation gated by `prefers-reduced-motion`.
+  - `OfflineBanner` — sticky offline/cached-data banner; props: `onRetry`. Uses `role="alert"`.
+  - `BrandStripTeaser` — gradient teaser strip; props: `variant` (`'brand'` | `'feed'`), `text`, `onClick`.
+  - `StatTabs` — horizontal scrollable stat tab bar (A6 pattern); props: `tabs: StatTab[]`, `activeIndex`, `onTabChange`. Exports `StatTab` type.
+
+  All Batch 2 components consume `--amp-oportunities-*` CSS variables from `tokens-oportunities`:
+  - `--amp-oportunities-accent-soft` (#FFE9D2)
+  - `--amp-oportunities-accent` (#E68F47)
+  - `--amp-oportunities-text-primary` (#1A1207)
+  - `--amp-oportunities-text-secondary` (#6B5C4D)
+  - `--amp-oportunities-text-tertiary` (#9C8B74)
+  - `--amp-oportunities-border` (#EFE4D4)
+  - `--amp-oportunities-ai-soft` (#EFEAFF)
 
 **Composition rule**: Oportunities components compose from `tokens-foundation`
 primitives + existing `@one-impression/ui` primitives (Card, Avatar, Badge, etc.).
