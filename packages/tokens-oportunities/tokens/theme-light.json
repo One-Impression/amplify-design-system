@@ -21,7 +21,14 @@
       "text-tertiary":  { "$value": "#8A7F73", "$description": "Tertiary / muted text" },
 
       "border":         { "$value": "#EFE4D4", "$description": "Default border — warm cream" },
-      "border-soft":    { "$value": "#F5ECDE", "$description": "Subtle divider" }
+      "border-soft":    { "$value": "#F5ECDE", "$description": "Subtle divider" },
+
+      "gradient-inlet":   { "$value": "linear-gradient(135deg, #FFE9D2 0%, #EFEAFF 100%)", "$description": "Peer-feed inlet gradient — cream to AI purple soft" },
+      "gradient-upgrade":  { "$value": "linear-gradient(135deg, #FFE9D2 0%, #EFEAFF 100%)", "$description": "Auth upgrade banner gradient" }
+    },
+    "letter-spacing": {
+      "tight": { "$value": "-0.02em", "$description": "Tight tracking for headlines and display text" },
+      "caps":  { "$value": "0.05em", "$description": "Wide tracking for uppercase badge labels" }
     }
   },
   "effort": {
@@ -101,5 +108,48 @@
     "ai-tint":          { "$value": "rgba(123, 91, 255, 0.10)", "$description": "Marketing AI purple tint background" },
     "bg-2":             { "$value": "#FAF2DE", "$description": "Marketing secondary background — band sections, alternating stripes" },
     "bg-3":             { "$value": "#F5EBD9", "$description": "Marketing tertiary background — recessed panels, footer band" }
+  },
+  "tier": {
+    "$type": "color",
+    "$description": "Creator tier band badge colors — used on peer feed, profiles, brand search, mystery cards. Each tier has a bg (badge background) and text (badge foreground).",
+    "micro-bg":   { "$value": "#EFEAFF", "$description": "Micro tier badge background — AI purple soft" },
+    "micro-text": { "$value": "#7B5BFF", "$description": "Micro tier badge text — AI purple" },
+    "mid-bg":     { "$value": "#E0F0FE", "$description": "Mid tier badge background — sky blue soft" },
+    "mid-text":   { "$value": "#1C8DEE", "$description": "Mid tier badge text — sky blue" },
+    "macro-bg":   { "$value": "#FFE9D2", "$description": "Macro tier badge background — apricot soft" },
+    "macro-text": { "$value": "#D67A35", "$description": "Macro tier badge text — apricot hover" },
+    "mega-bg":    { "$value": "#1C1611", "$description": "Mega tier badge background — warm near-black" },
+    "mega-text":  { "$value": "#FFC894", "$description": "Mega tier badge text — warm gold" }
+  },
+  "verify": {
+    "$type": "color",
+    "$description": "Verification source badge colors — OAuth, DM, and Ops verification indicators on Connected Accounts and console.",
+    "oauth-bg":   { "$value": "#D6EBDE", "$description": "OAuth verified badge background — soft green" },
+    "oauth-text": { "$value": "#2F8A4F", "$description": "OAuth verified badge text — forest green" },
+    "dm-bg":      { "$value": "#EFEAFF", "$description": "DM verified badge background — AI purple soft" },
+    "dm-text":    { "$value": "#7B5BFF", "$description": "DM verified badge text — AI purple" },
+    "ops-bg":     { "$value": "#FFE9D2", "$description": "Ops verified badge background — apricot soft" },
+    "ops-text":   { "$value": "#C6892C", "$description": "Ops verified badge text — warm amber" }
+  },
+  "platform": {
+    "$type": "color",
+    "$description": "Social platform brand colors for Connected Accounts badges and platform selector chips.",
+    "instagram": { "$value": "#E1306C", "$description": "Instagram brand pink" },
+    "youtube":   { "$value": "#FF0000", "$description": "YouTube brand red" }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$description": "Apricot accent shadows for Oportunities primary actions — unlock cards, CTA buttons, rate-limit pills.",
+    "accent-sm": { "$value": "0 1px 3px rgba(230, 143, 71, 0.15)", "$description": "Small apricot glow" },
+    "accent-md": { "$value": "0 4px 12px rgba(230, 143, 71, 0.20)", "$description": "Medium apricot glow" },
+    "accent-lg": { "$value": "0 8px 24px rgba(230, 143, 71, 0.25)", "$description": "Large apricot glow" }
+  },
+  "motion": {
+    "$description": "Oportunities-specific animation tokens for loading and refresh interactions.",
+    "shimmer-duration":     { "$value": "1.8s", "$type": "duration", "$description": "Skeleton shimmer sweep duration — 1.8s linear" },
+    "shimmer-opacity":      { "$value": "0.75", "$description": "Skeleton shimmer opacity" },
+    "refresh-spin":         { "$value": "0.9s", "$type": "duration", "$description": "Pull-to-refresh spinner rotation cycle" },
+    "refresh-done-display": { "$value": "600ms", "$type": "duration", "$description": "Pull-to-refresh checkmark display duration" },
+    "refresh-done-fade":    { "$value": "200ms", "$type": "duration", "$description": "Pull-to-refresh checkmark fade-out" }
   }
 }

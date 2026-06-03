@@ -21,7 +21,14 @@
       "text-tertiary":  { "$value": "#6A6258", "$description": "Tertiary / muted text on dark" },
 
       "border":         { "$value": "#2D2723", "$description": "Default border on dark" },
-      "border-soft":    { "$value": "#383028", "$description": "Subtle divider on dark" }
+      "border-soft":    { "$value": "#383028", "$description": "Subtle divider on dark" },
+
+      "gradient-inlet":   { "$value": "linear-gradient(135deg, #2A1F14 0%, #2A2440 100%)", "$description": "Peer-feed inlet gradient — dark warm to dark purple" },
+      "gradient-upgrade":  { "$value": "linear-gradient(135deg, #2A1F14 0%, #2A2440 100%)", "$description": "Auth upgrade banner gradient — dark" }
+    },
+    "letter-spacing": {
+      "tight": { "$value": "-0.02em", "$description": "Tight tracking for headlines and display text" },
+      "caps":  { "$value": "0.05em", "$description": "Wide tracking for uppercase badge labels" }
     }
   },
   "effort": {
@@ -39,5 +46,48 @@
     "warning":  { "$value": "#E0A84A", "$description": "Warning / needs attention — dark" },
     "danger":   { "$value": "#D5605E", "$description": "Error / blocked / rejected — dark" },
     "info":     { "$value": "#6090D2", "$description": "Informational — dark" }
+  },
+  "tier": {
+    "$type": "color",
+    "$description": "Creator tier band badge colors — dark variant. Adjusted for legibility on warm-black surfaces.",
+    "micro-bg":   { "$value": "#2A2440", "$description": "Micro tier badge background — dark purple" },
+    "micro-text": { "$value": "#9B82FF", "$description": "Micro tier badge text — brightened AI purple" },
+    "mid-bg":     { "$value": "#1A2A3D", "$description": "Mid tier badge background — dark blue" },
+    "mid-text":   { "$value": "#5AAFFF", "$description": "Mid tier badge text — brightened sky blue" },
+    "macro-bg":   { "$value": "#2A1F14", "$description": "Macro tier badge background — dark warm" },
+    "macro-text": { "$value": "#F0A668", "$description": "Macro tier badge text — brightened apricot" },
+    "mega-bg":    { "$value": "#FFC894", "$description": "Mega tier badge background — warm gold (inverted for dark)" },
+    "mega-text":  { "$value": "#1C1611", "$description": "Mega tier badge text — warm near-black (inverted for dark)" }
+  },
+  "verify": {
+    "$type": "color",
+    "$description": "Verification source badge colors — dark variant.",
+    "oauth-bg":   { "$value": "#1A2D1F", "$description": "OAuth verified badge background — dark green" },
+    "oauth-text": { "$value": "#6BC284", "$description": "OAuth verified badge text — brightened green" },
+    "dm-bg":      { "$value": "#2A2440", "$description": "DM verified badge background — dark purple" },
+    "dm-text":    { "$value": "#9B82FF", "$description": "DM verified badge text — brightened AI purple" },
+    "ops-bg":     { "$value": "#2A1F14", "$description": "Ops verified badge background — dark warm" },
+    "ops-text":   { "$value": "#E8A84C", "$description": "Ops verified badge text — brightened amber" }
+  },
+  "platform": {
+    "$type": "color",
+    "$description": "Social platform brand colors — same in dark mode (brand colors don't change per theme).",
+    "instagram": { "$value": "#E1306C", "$description": "Instagram brand pink" },
+    "youtube":   { "$value": "#FF0000", "$description": "YouTube brand red" }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$description": "Apricot accent shadows — dark variant. Stronger glow for visibility on dark surfaces.",
+    "accent-sm": { "$value": "0 1px 3px rgba(230, 143, 71, 0.25)", "$description": "Small apricot glow — dark" },
+    "accent-md": { "$value": "0 4px 12px rgba(230, 143, 71, 0.35)", "$description": "Medium apricot glow — dark" },
+    "accent-lg": { "$value": "0 8px 24px rgba(230, 143, 71, 0.45)", "$description": "Large apricot glow — dark" }
+  },
+  "motion": {
+    "$description": "Oportunities-specific animation tokens — same in dark mode (animation doesn't change per theme).",
+    "shimmer-duration":     { "$value": "1.8s", "$type": "duration", "$description": "Skeleton shimmer sweep duration — 1.8s linear" },
+    "shimmer-opacity":      { "$value": "0.75", "$description": "Skeleton shimmer opacity" },
+    "refresh-spin":         { "$value": "0.9s", "$type": "duration", "$description": "Pull-to-refresh spinner rotation cycle" },
+    "refresh-done-display": { "$value": "600ms", "$type": "duration", "$description": "Pull-to-refresh checkmark display duration" },
+    "refresh-done-fade":    { "$value": "200ms", "$type": "duration", "$description": "Pull-to-refresh checkmark fade-out" }
   }
 }
