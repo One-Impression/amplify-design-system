@@ -51,11 +51,27 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
-  ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  tokens-oportunities/ — Oportunities tokens (apricot palette, Geist + Inter + JBM, light + dark)
+  ui/                 — Shared React components (138 components as of v2.5.0; see contracts.json for full registry)
+  sdui-runtime/       — SDUI runtime (interpreter, action engine, bottom-sheet manager, loaders, providers) — currently v2.5.0
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  brand-oportunities/ — Oportunities brand assets (logos, app icons, social templates, email signatures)
 ```
+
+### sdui-runtime notable APIs (v2.5.0)
+
+- **`useLocalStore`** — exported from package root; consuming apps use this to bridge `set_local` action writes into their own stores.
+- **`ButtonRenderer`** — forwards `on_click` to the design-system Button's `onPress`. Label is rendered directly from the `TextSchema` `label` value (not routed through the Interpreter).
+- **Document-fetch client** — sends `X-Dev-Identity` header for localhost BFF URLs, matching action-engine behaviour. Local-dev identity now applies to page loads as well as actions.
+- **`getEndpoint`** — falls back to the codegen'd `EndpointPaths` catalog from the contracts package. Page-document endpoint IDs no longer need hand-maintained registry entries.
+
+### ui new components (v2.5.0, lifecycle: unknown)
+
+`BrandStripTeaser`, `FeedItemCard`, `GentlePausePill`, `HabitCategoryCard`, `NotificationBell`, `OfflineBanner`, `PullToRefreshRing`, `StatTabs`, `TierCard`, `TierCelebrationModal`, `WishChip`, `WishlistCard`
+
+All 12 are `forwardRef` components with `lifecycle.status: "unknown"`. Assign a proper lifecycle status before promoting to stable.
 
 ## Token File Format
 
