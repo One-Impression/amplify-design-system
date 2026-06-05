@@ -9,20 +9,12 @@
  *   - X-UTM-Source / X-UTM-Medium / X-UTM-Campaign (when present)
  */
 import { buildHeaders, type HeaderContext } from '../header-builders.js';
-import { isLocalhostBffUrl } from '../is-localhost.js';
-import { useDevConfigStore } from '../../state/useDevConfigStore.js';
 
 export interface AuthInterceptorConfig {
   /** Returns the current JWT token (may be null if not authenticated). */
   getAuthToken: () => string | null;
   /** App version string. */
   appVersion: string;
-  /**
-   * BFF base URL — used only to gate the localhost-only X-Dev-Identity
-   * header (mirrors the action engine's bff_call behaviour so document
-   * fetches and action calls present the same identity in local dev).
-   */
-  bffBaseUrl?: string;
   /** Optional UTM parameters for the current session. */
   getUtm?: () => HeaderContext['utm'];
 }
@@ -37,6 +29,13 @@ export interface AuthInterceptorConfig {
 export function applyAuthHeaders(
   init: RequestInit,
   config: AuthInterceptorConfig,
+  /**
+   * Local-dev identity value, read by the CALLER (keeping this function a
+   * stateless transformer — same pattern as the action engine's bff_call,
+   * which reads the dev-config store at its call site). Only ever set for
+   * localhost BFF URLs.
+   */
+  devIdentity?: string | null,
 ): RequestInit {
   const ctx: HeaderContext = {
     authToken: config.getAuthToken(),
@@ -46,11 +45,8 @@ export function applyAuthHeaders(
 
   const authHeaders = buildHeaders(ctx);
 
-  if (config.bffBaseUrl && isLocalhostBffUrl(config.bffBaseUrl)) {
-    const devIdentity = useDevConfigStore.getState().devIdentity;
-    if (devIdentity) {
-      (authHeaders as Record<string, string>)['X-Dev-Identity'] = devIdentity;
-    }
+  if (devIdentity) {
+    (authHeaders as Record<string, string>)['X-Dev-Identity'] = devIdentity;
   }
   const existingHeaders = init.headers as Record<string, string> | undefined;
 

@@ -12,6 +12,8 @@
  *   5. Extract onLoadAction if present (on-load-action interceptor)
  */
 import { getEndpoint, resolvePath, type HttpMethod } from './endpoint-registry.js';
+import { isLocalhostBffUrl } from './is-localhost.js';
+import { useDevConfigStore } from '../state/useDevConfigStore.js';
 import { applyAuthHeaders, type AuthInterceptorConfig } from './interceptors/auth.js';
 import { fetchWithRetry, type RetryConfig } from './interceptors/retry.js';
 import { throwOnError, networkError } from './interceptors/error.js';
@@ -76,7 +78,6 @@ export function createBffClient(config: BffClientConfig) {
   const authConfig: AuthInterceptorConfig = {
     getAuthToken: config.getAuthToken,
     appVersion: config.appVersion,
-    bffBaseUrl: config.bffBaseUrl,
   };
 
   const retryConfig: RetryConfig = {
@@ -130,8 +131,13 @@ export function createBffClient(config: BffClientConfig) {
       };
     }
 
-    // Apply auth headers
-    init = applyAuthHeaders(init, authConfig);
+    // Apply auth headers. The dev identity is read here at the call site
+    // (not inside the interceptor) and only for localhost BFF URLs —
+    // mirrors the action engine's bff_call.
+    const devIdentity = isLocalhostBffUrl(config.bffBaseUrl)
+      ? useDevConfigStore.getState().devIdentity
+      : undefined;
+    init = applyAuthHeaders(init, authConfig, devIdentity);
 
     // Execute with retry
     let response: Response;
