@@ -51,11 +51,19 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-oportunities/ — Oportunities tokens (apricot palette, light/dark)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime for Creator App (interpreter, action engine, bottom-sheet manager, loaders, providers)
 ```
+
+### sdui-runtime endpoint registry notes
+
+- The endpoint registry is **partially codegen'd** from the `/v1/creator/*` path convention. Routes that predate this convention are **absent from the generated catalog** and must be added manually.
+- `creator.auth.bootstrap` is one such manually-registered route — it predates `/v1/creator/*` and is required for authenticated app entry. See `packages/sdui-runtime/CHANGELOG.md` v2.5.1.
+- When adding a new route that does not follow `/v1/creator/*`, register it explicitly in the endpoint registry rather than relying on codegen.
 
 ## Token File Format
 
