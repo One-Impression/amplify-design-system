@@ -29,6 +29,13 @@ export interface AuthInterceptorConfig {
 export function applyAuthHeaders(
   init: RequestInit,
   config: AuthInterceptorConfig,
+  /**
+   * Local-dev identity value, read by the CALLER (keeping this function a
+   * stateless transformer — same pattern as the action engine's bff_call,
+   * which reads the dev-config store at its call site). Only ever set for
+   * localhost BFF URLs.
+   */
+  devIdentity?: string | null,
 ): RequestInit {
   const ctx: HeaderContext = {
     authToken: config.getAuthToken(),
@@ -37,6 +44,10 @@ export function applyAuthHeaders(
   };
 
   const authHeaders = buildHeaders(ctx);
+
+  if (devIdentity) {
+    (authHeaders as Record<string, string>)['X-Dev-Identity'] = devIdentity;
+  }
   const existingHeaders = init.headers as Record<string, string> | undefined;
 
   return {

@@ -76,10 +76,12 @@ export {
 // need to set them at boot:
 //   - useDevConfigStore: localhost-only X-Dev-Identity header
 //   - useActiveSocialStore: production X-Active-Influencer-Id header
-export { useDevConfigStore, useActiveSocialStore } from "./state/index.js";
+export { useDevConfigStore, useActiveSocialStore, useLocalStore } from "./state/index.js";
 export type {
   DevConfigState,
   DevConfigActions,
   ActiveSocialState,
   ActiveSocialActions,
+  LocalStoreState,
+  LocalStoreActions,
 } from "./state/index.js";

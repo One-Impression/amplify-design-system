@@ -1,3 +1,4 @@
+import { EndpointPaths } from '@one-impression/sdk-native-sdui';
 /**
  * endpoint-registry — maps EndpointId strings to concrete HTTP
  * method + path templates.
@@ -90,8 +91,16 @@ export const endpointRegistry: Record<string, EndpointDefinition> = {
  */
 export function getEndpoint(endpointId: string): EndpointDefinition {
   const def = endpointRegistry[endpointId];
-  if (!def) {
-    throw new Error(`[BFF] Unknown endpoint: "${endpointId}"`);
+  if (def) return def;
+
+  // Fall back to the codegen'd catalog from the contracts package
+  // (EndpointPaths is generated from the creator-bff OpenAPI spec and
+  // covers the full endpoint surface). The catalog carries paths only,
+  // so non-GET endpoints that documents fetch directly must keep an
+  // explicit method entry in endpointRegistry above.
+  const catalogPath = (EndpointPaths as Record<string, string>)[endpointId];
+  if (catalogPath) {
+    return { method: 'GET', path: catalogPath };
   }
-  return def;
+  throw new Error(`[BFF] Unknown endpoint: "${endpointId}"`);
 }
