@@ -47,6 +47,10 @@ export function resolvePath(
  */
 export const endpointRegistry: Record<string, EndpointDefinition> = {
   // Auth
+  // bootstrap predates the /v1/creator/* path convention and is absent from
+  // the codegen'd catalog; the registry carries it until the creator-bff
+  // OpenAPI spec covers it.
+  'creator.auth.bootstrap': { method: 'GET', path: '/auth/bootstrap' },
   'auth.otp-init': { method: 'POST', path: '/v1/creator/auth/otp/init' },
   'auth.otp-verify': { method: 'POST', path: '/v1/creator/auth/otp/verify' },
   'auth.refresh': { method: 'POST', path: '/v1/creator/auth/sessions/refresh' },
