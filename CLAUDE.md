@@ -77,6 +77,29 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime (`packages/sdui-runtime`)
+
+## SDUI Runtime (`packages/sdui-runtime`)
+
+### ButtonRenderer patterns
+
+- **`on_click` is NOT passed to `SduiNode`** — pass it to `DSButton.onPress` directly via `actionEngine.dispatch`. The inner Pressable in DSButton captures all touches; an outer Clickable wrapper never fires. Passing `on_click={undefined}` to SduiNode also prevents disabled buttons from dispatching via the wrapper.
+- **`label` is a `TextSchema` value** (`{ text, color?, font_size? }`), not a wire `Node`. Render it with `<DSText>` directly. Do NOT route it through `<Interpreter>` — Interpreter requires a wire `type` and will crash on every button render.
+
+### BFF client — dev identity
+
+- `X-Dev-Identity` is now injected on **document fetches** (BFF client) as well as action-engine `bff_call` requests. The `isLocalhostBffUrl` utility (`src/bff/is-localhost.ts`) is the shared gate — it matches `localhost`, `127.0.0.1`, and `10.0.2.2` only. Dev identity is read at the call site (not inside the auth interceptor) so `applyAuthHeaders` stays a stateless transformer.
+
+### Endpoint registry fallback
+
+- `getEndpoint` falls back to the codegen'd `EndpointPaths` catalog from `@one-impression/sdk-native-sdui` when an ID is not found in `endpointRegistry`. Fallback entries default to `GET`. Only add explicit entries to `endpointRegistry` when a non-GET method is required for a document fetch.
+
+### Root exports
+
+- `useLocalStore` and its types (`LocalStoreState`, `LocalStoreActions`) are exported from the package root. Consuming apps use these to bridge `set_local` writes into their own stores.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
