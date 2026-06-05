@@ -1,5 +1,11 @@
 # @one-impression/sdui-runtime
 
+## 2.5.1
+
+### Patch Changes
+
+- [#214](https://github.com/One-Impression/amplify-design-system/pull/214) [`4e81f2a`](https://github.com/One-Impression/amplify-design-system/commit/4e81f2a59936d9cfa2d63f87321ec8a6d0d6e046) Thanks [@achin-oi](https://github.com/achin-oi)! - Add creator.auth.bootstrap to the endpoint registry — the bootstrap route predates the /v1/creator/\* path convention and is absent from the codegen'd catalog, so authenticated app entry could not resolve it
+
 ## 2.5.0
 
 ### Minor Changes
