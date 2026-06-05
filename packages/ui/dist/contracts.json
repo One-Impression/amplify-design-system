@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-05-28T15:48:43.777Z",
+  "generatedAt": "2026-06-05T09:39:33.210Z",
   "tsVersion": "5.9.3",
-  "componentCount": 126,
+  "componentCount": 138,
   "statusBreakdown": {
     "stable": 46,
     "alpha": 21,
-    "beta": 59
+    "beta": 59,
+    "unknown": 12
   },
   "components": [
     {
@@ -190,6 +191,20 @@
       }
     },
     {
+      "name": "BrandStripTeaser",
+      "contract": "contracts/BrandStripTeaser.json",
+      "filePath": "packages/ui/src/components/BrandStripTeaser/BrandStripTeaser.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
       "name": "Breadcrumb",
       "contract": "contracts/Breadcrumb.json",
       "filePath": "packages/ui/src/components/Breadcrumb/Breadcrumb.tsx",
@@ -256,7 +271,7 @@
         "outlined"
       ],
       "sizes": null,
-      "propCount": 5,
+      "propCount": 6,
       "subcomponents": [
         "CardHeader",
         "CardTitle",
@@ -584,7 +599,8 @@
         "noResults",
         "noPermission",
         "error-network",
-        "error-server"
+        "error-server",
+        "tip-card"
       ],
       "sizes": null,
       "propCount": 6,
@@ -639,6 +655,20 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.1.0"
+      }
+    },
+    {
+      "name": "FeedItemCard",
+      "contract": "contracts/FeedItemCard.json",
+      "filePath": "packages/ui/src/components/FeedItemCard/FeedItemCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 10,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
       }
     },
     {
@@ -773,6 +803,20 @@
       }
     },
     {
+      "name": "GentlePausePill",
+      "contract": "contracts/GentlePausePill.json",
+      "filePath": "packages/ui/src/components/GentlePausePill/GentlePausePill.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 3,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
       "name": "GoalCard",
       "contract": "contracts/GoalCard.json",
       "filePath": "packages/ui/src/components/GoalCard/GoalCard.tsx",
@@ -786,6 +830,20 @@
         "since": "1.0.0",
         "replacedBy": "Card",
         "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "HabitCategoryCard",
+      "contract": "contracts/HabitCategoryCard.json",
+      "filePath": "packages/ui/src/components/HabitCategoryCard/HabitCategoryCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 8,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
       }
     },
     {
@@ -1198,6 +1256,34 @@
       }
     },
     {
+      "name": "NotificationBell",
+      "contract": "contracts/NotificationBell.json",
+      "filePath": "packages/ui/src/components/NotificationBell/NotificationBell.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
+      "name": "OfflineBanner",
+      "contract": "contracts/OfflineBanner.json",
+      "filePath": "packages/ui/src/components/OfflineBanner/OfflineBanner.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 2,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
       "name": "PackageCard",
       "contract": "contracts/PackageCard.json",
       "filePath": "packages/ui/src/components/PackageCard/PackageCard.tsx",
@@ -1356,6 +1442,20 @@
       "lifecycle": {
         "status": "beta",
         "since": "2.3.0"
+      }
+    },
+    {
+      "name": "PullToRefreshRing",
+      "contract": "contracts/PullToRefreshRing.json",
+      "filePath": "packages/ui/src/components/PullToRefreshRing/PullToRefreshRing.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
       }
     },
     {
@@ -1708,6 +1808,20 @@
       }
     },
     {
+      "name": "StatTabs",
+      "contract": "contracts/StatTabs.json",
+      "filePath": "packages/ui/src/components/StatTabs/StatTabs.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
       "name": "StatusBar",
       "contract": "contracts/StatusBar.json",
       "filePath": "packages/ui/src/components/StatusBar/StatusBar.tsx",
@@ -1832,6 +1946,34 @@
       }
     },
     {
+      "name": "TierCard",
+      "contract": "contracts/TierCard.json",
+      "filePath": "packages/ui/src/components/TierCard/TierCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
+      "name": "TierCelebrationModal",
+      "contract": "contracts/TierCelebrationModal.json",
+      "filePath": "packages/ui/src/components/TierCelebrationModal/TierCelebrationModal.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 4,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
       "name": "Timeline",
       "contract": "contracts/Timeline.json",
       "filePath": "packages/ui/src/components/Timeline/Timeline.tsx",
@@ -1953,6 +2095,34 @@
         "since": "1.0.0",
         "replacedBy": "Card",
         "notes": "Preset wrapper around the canonical Card primitive. Existing API remains supported; new code should compose <Card> directly."
+      }
+    },
+    {
+      "name": "WishChip",
+      "contract": "contracts/WishChip.json",
+      "filePath": "packages/ui/src/components/WishChip/WishChip.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 5,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
+      }
+    },
+    {
+      "name": "WishlistCard",
+      "contract": "contracts/WishlistCard.json",
+      "filePath": "packages/ui/src/components/WishlistCard/WishlistCard.tsx",
+      "kind": "forwardRef",
+      "variants": null,
+      "sizes": null,
+      "propCount": 7,
+      "subcomponents": [],
+      "lifecycle": {
+        "status": "unknown",
+        "since": "unknown"
       }
     },
     {
