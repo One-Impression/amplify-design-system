@@ -1,4 +1,5 @@
 import { BffCallPayloadSchema, EndpointPaths } from "@one-impression/sdk-native-sdui";
+import { isLocalhostBffUrl } from "../../bff/is-localhost.js";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 import { useDevConfigStore } from "../../state/useDevConfigStore.js";
@@ -9,9 +10,6 @@ import { useActiveSocialStore } from "../../state/useActiveSocialStore.js";
  * gateway (localhost / 127.0.0.1). Used to gate dev-only request
  * augmentation such as the X-Dev-Identity header.
  */
-function isLocalhostBffUrl(bffBaseUrl: string): boolean {
-  return bffBaseUrl.includes("localhost") || bffBaseUrl.includes("127.0.0.1");
-}
 
 /**
  * bff_call — fetches a BFF endpoint with auth, dispatches on_success/on_error

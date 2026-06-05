@@ -76,6 +76,7 @@ export function createBffClient(config: BffClientConfig) {
   const authConfig: AuthInterceptorConfig = {
     getAuthToken: config.getAuthToken,
     appVersion: config.appVersion,
+    bffBaseUrl: config.bffBaseUrl,
   };
 
   const retryConfig: RetryConfig = {
