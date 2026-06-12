@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "scheme": "sduiplayground",
     "userInterfaceStyle": "light",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "bundleIdentifier": "com.oneimpression.sduiplayground",
       "supportsTablet": true
@@ -16,7 +16,8 @@
     },
     "plugins": [
       "expo-dev-client",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-web-browser"
     ]
   }
 }

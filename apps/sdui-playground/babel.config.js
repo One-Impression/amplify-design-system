@@ -2,7 +2,7 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: ["babel-preset-expo"],
-    // react-native-reanimated's plugin MUST be listed last.
-    plugins: ["react-native-reanimated/plugin"],
+    // reanimated 4 moved its Babel plugin into react-native-worklets; MUST be last.
+    plugins: ["react-native-worklets/plugin"],
   };
 };
