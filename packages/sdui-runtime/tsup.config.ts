@@ -39,5 +39,16 @@ export default defineConfig({
     // SVG + MMKV used by icon-store (parseSvg / useIconStore)
     "react-native-svg",
     "react-native-mmkv",
+    // Optional gradient peer dep, loaded via dynamic require in gradient/.
+    // Its published source is Flow-typed, so esbuild cannot bundle it — it
+    // MUST stay external (the host app provides it).
+    "react-native-linear-gradient",
+    // Navigation peer deps (declared in peerDependencies). A library must
+    // never bundle its peers; the host app provides these.
+    "@react-navigation/native",
+    "@react-navigation/native-stack",
+    "react-native-screens",
+    "react-native-safe-area-context",
+    "react-native-gesture-handler",
   ],
 });
