@@ -1,0 +1,19 @@
+{
+  "type": "creator.ui_component.section",
+  "id": "home-header-section",
+  "data": {
+    "items": [
+      {
+        "type": "creator.snippet.page_header_image_stack",
+        "id": "campaigns-explore-header",
+        "data": {
+          "title": {
+            "text": "Explore",
+            "font_weight": "bold"
+          },
+          "images": []
+        }
+      }
+    ]
+  }
+}

@@ -1,13 +1,15 @@
 import { SheetPayloadSchema } from "@one-impression/sdk-native-sdui";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
+import { presentSheet } from "../../navigation/sheetPresenter.js";
 
 /**
  * sheet — opens a previously-registered bottom sheet by id.
  *
- * The page renderer registers `page.bottom_sheets[]` entries on mount via
- * `useBottomSheetStore.register()`. This handler simply opens the sheet by
- * id (lookup pattern) — it does NOT stamp a new sheet definition.
+ * The page renderer registers `page.bottom_sheets[]` entries on mount. This
+ * handler opens the sheet by id (lookup pattern) — it does NOT stamp a new sheet
+ * definition. `presentSheet` routes to the native-stack sheet route when
+ * `SduiNavigationHost` is mounted, else to the legacy store-based host.
  */
 export async function handleSheet(
   action: Action,
@@ -15,10 +17,5 @@ export async function handleSheet(
   _engine: ActionEngine,
 ): Promise<void> {
   const payload = SheetPayloadSchema.parse(action.payload);
-
-  // Dynamic import to avoid hard dependency on bottom-sheet store at module level.
-  const { useBottomSheetStore } = await import(
-    "../../bottom-sheet/useBottomSheetStore.js"
-  );
-  useBottomSheetStore.getState().open(payload.sheet_id);
+  presentSheet(payload.sheet_id);
 }

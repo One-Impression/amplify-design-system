@@ -2,10 +2,10 @@ import React from "react";
 import type { Media } from "@one-impression/sdk-native-sdui";
 import {
   Image as DSImage,
-  Icon as DSIcon,
   ImageStack as DSImageStack,
   ProgressIndicator as DSProgressIndicator,
 } from "@one-impression/ui-native";
+import { IconGlyph } from "../../icon-store/IconGlyph.js";
 import { describeMedia } from "./describe-media.js";
 
 /**
@@ -22,7 +22,7 @@ export function renderMedia(media: Media): React.ReactElement | null {
     case "image":
       return <DSImage {...desc.props} />;
     case "icon":
-      return <DSIcon {...desc.props} />;
+      return <IconGlyph {...desc.props} />;
     case "image_stack":
       return <DSImageStack {...desc.props} />;
     case "progress":

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BackHandler, ScrollView, RefreshControl } from "react-native";
 import type { Page } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
+import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
@@ -39,6 +40,8 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
         items: sheet.items ?? [],
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
+        overlay_on_click: (sheet as { overlay_on_click?: unknown })
+          .overlay_on_click,
       });
     }
     return () => {
@@ -84,7 +87,9 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
       }
     >
       {page.items.map((node, i) => (
-        <Interpreter key={node.id ?? `item-${i}`} node={node} />
+        <GutterItem key={node.id ?? `item-${i}`} node={node}>
+          <Interpreter node={node} />
+        </GutterItem>
       ))}
     </ScrollView>
   );

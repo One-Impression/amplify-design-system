@@ -1,0 +1,260 @@
+{
+    "id": "creator.campaigns.detail",
+    "title": "Campaign detail",
+    "protocol_version": "1.0.0",
+    "layout": "standard",
+    "items": [
+        {
+            "type": "creator.snippet.page_header",
+            "id": "hdr-Campaign detail",
+            "data": {
+                "title": {
+                    "text": "Campaign detail",
+                    "font_size": "sdui.font-size.xl",
+                    "font_weight": "bold"
+                },
+                "subtitle": {
+                    "text": "reached via the card's real on_click",
+                    "color": "sdui.color.text-muted"
+                },
+                "left_icon": {
+                    "name": "chevron-left"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.card",
+            "id": "campaigns-explore-card-fk-1",
+            "on_click": {
+                "type": "navigate",
+                "payload": {
+                    "target": "creator.campaigns.detail",
+                    "op": "push",
+                    "params": {
+                        "id": "fk-1"
+                    }
+                }
+            },
+            "data": {
+                "header": {
+                    "type": "creator.snippet.overlapping_image",
+                    "id": "campaigns-explore-card-cover-fk-1",
+                    "data": {
+                        "cover_image": {
+                            "src": "https://cdn.fake/fk-1.jpg",
+                            "height": 160,
+                            "variant": "card"
+                        },
+                        "header": {
+                            "title": {
+                                "text": "Applied",
+                                "color": "sdui.color.state-success-text"
+                            },
+                            "bg_color": {
+                                "type": "sdui.color.state-success-bg"
+                            }
+                        },
+                        "footer": {
+                            "left_image": {
+                                "src": "https://cdn.fake/b-1.png",
+                                "container_shape": "rounded",
+                                "width": 60,
+                                "height": 60
+                            },
+                            "right_tags": [
+                                {
+                                    "type": "creator.ui_component.tag",
+                                    "id": "tag-21",
+                                    "data": {
+                                        "label": {
+                                            "text": "Recommended",
+                                            "color": "sdui.color.neutral-inverse"
+                                        },
+                                        "gradient": {
+                                            "angle": 90,
+                                            "colors": [
+                                                "#F55DC1",
+                                                "#495AF4"
+                                            ]
+                                        },
+                                        "border_color": "sdui.color.neutral-inverse",
+                                        "border_radius": 24
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "items": [
+                    {
+                        "type": "creator.snippet.info_row",
+                        "id": "campaigns-explore-card-fk-1-brand-name",
+                        "data": {
+                            "title": {
+                                "text": "Lumina Beauty",
+                                "font_weight": "medium",
+                                "font_size": "sdui.font-size.md"
+                            }
+                        }
+                    },
+                    {
+                        "type": "creator.snippet.info_row",
+                        "id": "campaigns-explore-card-fk-1-subtitle",
+                        "data": {
+                            "title": {
+                                "text": "Skincare \u00b7 Maharashtra",
+                                "font_weight": "regular",
+                                "font_size": "sdui.font-size.xs",
+                                "color": "sdui.color.neutral-medium"
+                            }
+                        }
+                    },
+                    {
+                        "type": "creator.snippet.group_chips",
+                        "id": "campaigns-explore-card-fk-1-tags",
+                        "data": {
+                            "items": [
+                                {
+                                    "type": "creator.ui_component.tag",
+                                    "id": "campaigns-explore-card-fk-1-tag-0",
+                                    "data": {
+                                        "label": {
+                                            "text": "Skincare"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "creator.ui_component.tag",
+                                    "id": "campaigns-explore-card-fk-1-tag-1",
+                                    "data": {
+                                        "label": {
+                                            "text": "Beauty"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "creator.snippet.separator",
+                        "id": "campaigns-explore-card-fk-1-separator",
+                        "data": {
+                            "color": "sdui.color.neutral-subtle",
+                            "margin_vertical": "6"
+                        }
+                    },
+                    {
+                        "type": "creator.snippet.info_row",
+                        "id": "campaigns-explore-card-fk-1-offer",
+                        "data": {
+                            "title": {
+                                "text": "\u20b940,000 cash + product",
+                                "font_weight": "regular",
+                                "font_size": "sdui.font-size.xs"
+                            },
+                            "left_media": {
+                                "type": "icon",
+                                "icon": {
+                                    "name": "CashIcon"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "creator.snippet.info_row",
+                        "id": "campaigns-explore-card-fk-1-reward-condition",
+                        "data": {
+                            "title": {
+                                "text": "Post 1 reel + 2 stories",
+                                "font_weight": "regular",
+                                "font_size": "sdui.font-size.xs"
+                            },
+                            "left_media": {
+                                "type": "icon",
+                                "icon": {
+                                    "name": "InfoIcon"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "footer": {
+                    "type": "creator.snippet.info_row",
+                    "id": "info-row-11",
+                    "data": {
+                        "title": {
+                            "text": "You applied 2 days ago",
+                            "font_weight": "regular",
+                            "font_size": "sdui.font-size.sm"
+                        }
+                    }
+                },
+                "bg_color": "sdui.color.neutral-inverse",
+                "border_color": "sdui.color.neutral-subtle"
+            },
+            "config": {
+                "footer_bg_color": "sdui.color.primary-weak"
+            }
+        },
+        {
+            "type": "creator.snippet.section_header",
+            "id": "sample-section-header-26",
+            "data": {
+                "title": {
+                    "text": "Section title",
+                    "font_size": "sdui.font-size.lg",
+                    "font_weight": "bold"
+                },
+                "subtitle": {
+                    "text": "Optional supporting copy"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.info_row",
+            "id": "sample-info-row-27",
+            "data": {
+                "title": {
+                    "text": "Reward",
+                    "font_weight": "medium",
+                    "font_size": "sdui.font-size.md"
+                },
+                "subtitle": {
+                    "text": "\u20b940,000 cash + product",
+                    "color": "sdui.color.text-muted"
+                },
+                "right_icon": {
+                    "name": "chevron-right"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.separator",
+            "id": "sample-separator-28",
+            "data": {}
+        },
+        {
+            "type": "creator.snippet.page_footer",
+            "id": "ftr-Apply now",
+            "data": {
+                "primary_button": {
+                    "type": "creator.ui_component.button",
+                    "id": "btn-Apply now",
+                    "data": {
+                        "label": {
+                            "text": "Apply now"
+                        },
+                        "variant": "primary"
+                    }
+                }
+            }
+        }
+    ],
+    "on_back_press": {
+        "type": "navigate",
+        "payload": {
+            "op": "pop",
+            "target": ""
+        }
+    }
+}

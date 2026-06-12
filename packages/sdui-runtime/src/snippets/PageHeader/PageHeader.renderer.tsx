@@ -19,7 +19,7 @@ export function PageHeaderRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => (
-        <Box padding={16}>
+        <Box>
           <Stack direction="row" align="center" justify="space-between">
             <Stack direction="row" align="center" gap={8}>
               {v.left_icon && (

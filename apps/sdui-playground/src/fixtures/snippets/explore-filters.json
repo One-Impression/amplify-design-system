@@ -1,0 +1,124 @@
+{
+  "type": "creator.ui_component.section",
+  "id": "home-filters-section",
+  "data": {
+    "items": [
+      {
+        "type": "creator.snippet.group_chips",
+        "id": "campaigns-explore-filters-group",
+        "data": {
+          "items": [
+            {
+              "type": "creator.ui_component.chip",
+              "id": "campaigns-explore-filter-chip-skincare",
+              "data": {
+                "label": {
+                  "text": "Skincare"
+                },
+                "selected": false,
+                "right_tag": {
+                  "label": {
+                    "text": "1"
+                  }
+                }
+              },
+              "on_click": {
+                "type": "bff_call",
+                "target": "creator.home.tab",
+                "payload": {
+                  "endpoint": "creator.home.tab",
+                  "method": "GET",
+                  "query_params": {
+                    "tab": "explore",
+                    "chip_filter": "skincare"
+                  }
+                }
+              }
+            },
+            {
+              "type": "creator.ui_component.chip",
+              "id": "campaigns-explore-filter-chip-beauty",
+              "data": {
+                "label": {
+                  "text": "Beauty"
+                },
+                "selected": false,
+                "right_tag": {
+                  "label": {
+                    "text": "1"
+                  }
+                }
+              },
+              "on_click": {
+                "type": "bff_call",
+                "target": "creator.home.tab",
+                "payload": {
+                  "endpoint": "creator.home.tab",
+                  "method": "GET",
+                  "query_params": {
+                    "tab": "explore",
+                    "chip_filter": "beauty"
+                  }
+                }
+              }
+            },
+            {
+              "type": "creator.ui_component.chip",
+              "id": "campaigns-explore-filter-chip-fitness",
+              "data": {
+                "label": {
+                  "text": "Fitness"
+                },
+                "selected": false,
+                "right_tag": {
+                  "label": {
+                    "text": "1"
+                  }
+                }
+              },
+              "on_click": {
+                "type": "bff_call",
+                "target": "creator.home.tab",
+                "payload": {
+                  "endpoint": "creator.home.tab",
+                  "method": "GET",
+                  "query_params": {
+                    "tab": "explore",
+                    "chip_filter": "fitness"
+                  }
+                }
+              }
+            },
+            {
+              "type": "creator.ui_component.chip",
+              "id": "campaigns-explore-filter-chip-food",
+              "data": {
+                "label": {
+                  "text": "Food"
+                },
+                "selected": false,
+                "right_tag": {
+                  "label": {
+                    "text": "1"
+                  }
+                }
+              },
+              "on_click": {
+                "type": "bff_call",
+                "target": "creator.home.tab",
+                "payload": {
+                  "endpoint": "creator.home.tab",
+                  "method": "GET",
+                  "query_params": {
+                    "tab": "explore",
+                    "chip_filter": "food"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -16,6 +16,12 @@ export interface SheetEntry {
   items: Node[];
   on_dismiss?: unknown;
   on_open?: unknown;
+  /**
+   * Server-driven click-action fired when the dimmed backdrop/overlay is
+   * tapped (route-based sheet host only). Falls back to `on_dismiss` when
+   * absent; the sheet closes either way.
+   */
+  overlay_on_click?: unknown;
 }
 
 interface BottomSheetState {
