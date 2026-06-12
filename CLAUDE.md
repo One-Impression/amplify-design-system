@@ -85,6 +85,62 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Playground (`apps/sdui-playground`)
+
+## SDUI Playground (`apps/sdui-playground`)
+
+An on-device Expo app for developing the SDUI rendering layer in isolation — no publish cycle, no gateway dependency. Renders real SDUI page contracts (JSON fixtures) through the actual `sdui-runtime` + `ui-native` + `tokens-creator` workspace packages.
+
+**Stack**: Expo SDK 54 · React Native 0.81.5 · React 19.1.0 · New Architecture (Fabric/bridgeless)
+
+**Key facts**:
+- `apps/*` must be listed in the root `workspaces` alongside `packages/*`.
+- Root `package.json` `overrides` pin `react`/`react-dom` to `19.1.0` and `react-native` to `0.81.5` repo-wide. Root `.npmrc` sets `legacy-peer-deps=true`. Do not remove either — they prevent npm from hoisting a wrong RN version.
+- Metro resolves `@one-impression/sdui-runtime` and `@one-impression/ui-native` **directly from source** (`src/index.ts`) via `resolveRequest` aliases in `metro.config.js`, enabling Fast Refresh on renderer edits without a build step.
+- A single copy of `react`/`react-native` is enforced via `extraNodeModules` in `metro.config.js`. Without this, workspace packages can pull a second copy → "Invalid hook call" red-screen.
+- `react-native-mmkv` must be v3+ under New Architecture (bridgeless JSI); v2 cannot bind.
+- The `react-native-worklets/plugin` Babel plugin **must be last** in `babel.config.js`.
+
+**Run loop**:
+```bash
+# From apps/sdui-playground/
+
+# Fixture server (serves page JSON on port 3012; edit a .json → picked up on next fetch, no restart)
+npm run serve:fixtures
+adb reverse tcp:3012 tcp:3012
+
+# Metro on port 8082 (creator-app holds 8081)
+adb reverse tcp:8082 tcp:8082
+RCT_METRO_PORT=8082 npx expo start --dev-client --port 8082 --clear
+
+# Native rebuild (only needed after adding a native dep or config-plugin change)
+CI=1 npx expo prebuild --platform android --no-install
+(cd android && JAVA_HOME=/opt/homebrew/opt/openjdk@17 ./gradlew :app:installDebug)
+```
+
+**Fixture server** (`server/fixture-server.mjs`, port 3012):
+- `GET /sdui/page/:target` → serves `server/pages/:target.json` fresh on every request.
+- `GET /v1/creator/assets/icons-manifest` → serves `packages/tokens-creator/dist/icons/manifest.json` for `IconStoreProvider`.
+- `GET /healthz` → lists available page targets.
+
+**Contract validation**:
+```bash
+node scripts/validate-contracts.mjs
+```
+Validates all `server/pages/*.json` against `PageSchema` (from `sdk-native-sdui`) and per-action payload schemas. Reports unknown fields stripped by Zod and schema violations.
+
+**SDUI rendering changes shipped with the playground**:
+- `SduiNavigationHost` — runtime-owned native-stack with per-transition types; bottom sheets as `transparentModal` routes.
+- **Page gutter** — 12 px symmetric gutter + vertical row-gap owned by the layout container, not individual snippets. Per-type and backend-overridable.
+- **Icons** — rendered via `IconGlyph` + `IconStoreProvider`; SVGs resolved from the MMKV-persisted manifest with bundled-essentials fallback.
+- **Token resolvers** — accept both short camelCase keys and the fully-qualified `sdui.<group>.<kebab>` wire form (`lookupToken`).
+- **Card** — `elevation` prop (`none|sm|md|lg|xl`), outer-shadow/inner-clip structure; defaults match the legacy creator card (`neutralSubtle` border, no shadow, `neutralInverse` bg, `lg` radius, `md` padding).
+- **sdk-native-sdui v3** — `InfoRow` field renamed `status_tag` → `tag`; `Text` field renamed `weight` → `font_weight`.
+
+**Do not add** EAS / Expo cloud build config here — the playground is local-only.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
