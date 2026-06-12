@@ -1,5 +1,25 @@
 # @one-impression/sdui-runtime
 
+## 2.6.0
+
+### Minor Changes
+
+- [#217](https://github.com/One-Impression/amplify-design-system/pull/217) [`5a525db`](https://github.com/One-Impression/amplify-design-system/commit/5a525dbb3846d46f229a2eb8beb73636d998997c) Thanks [@achin-oi](https://github.com/achin-oi)! - SDUI rendering layer: card, gutter, icons, and tag/badge support.
+
+  - **ui-native Card** now matches the legacy creator card defaults — thin
+    `neutralSubtle` border, no shadow (`elevation: 'none'`), `neutralInverse`
+    background, `lg` radius, `md` padding — with an outer/inner structure and a
+    new optional `elevation` prop (`none|sm|md|lg|xl`) plus `resolveShadow`.
+  - **Token resolvers** accept the long `sdui.<group>.<kebab>` wire form in
+    addition to the short camelCase keys, so contracts using fully-qualified
+    token strings resolve correctly.
+  - **Page gutter** is now container-owned: a single 12px gutter with symmetric
+    vertical row-gap, per-type and backend-overridable.
+  - **Icons** render through `IconStoreProvider` + `IconGlyph`, resolving SVGs
+    from the manifest (MMKV) with bundled essentials fallback.
+  - **InfoRow** consumes the renamed `tag` field and renders count/dot badges;
+    Text uses `font_weight`. Aligns with `sdk-native-sdui` v3.
+
 ## 2.5.1
 
 ### Patch Changes
@@ -24,6 +44,7 @@
 - [#191](https://github.com/One-Impression/amplify-design-system/pull/191) [`0a8b509`](https://github.com/One-Impression/amplify-design-system/commit/0a8b509a9c09031973f0ca1fcba7046a7d660103) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - feat(sdui-runtime): Card header/footer slot rendering, on_view one-shot, X-Active-Influencer-Id header injection
 
   Three additive changes to the runtime that unblock the Explore listing surface and close a long-standing correctness gap on view-impression dispatch.
+
   - **Card renderer — header / items / footer slots.** `CardSnippetSchema` (sdk-native-sdui ^2.8.0) now exposes `data.header?: Node`, `data.items?: Node[]`, and `data.footer?: Node` plus a sibling `config?: { footer_bg_color?: ColorToken }`. `CardRenderer` composes them in the legacy `CardSnippetType1` order (header → items → footer). When `config.footer_bg_color` is set, the footer slot is wrapped in a `Box` with the resolved background color so the footer can carry its own banner stripe inside an otherwise-neutral card body. `on_click` and `on_view` on the card node itself continue to flow through `SduiNode`'s Clickable + Viewable wrappers; header/footer Nodes carry their own actions and dispatch independently via `Interpreter`.
   - **`SduiNode.on_view` — one-shot per instance.** `handleViewed` previously dispatched `props.on_view` every time `Viewable` fired its callback, which meant scroll-back-up over a feed item would re-emit the impression — duplicate analytics, duplicate side effects, duplicate server-side spend. The wire contract treats `on_view` as a single-impression signal. Added a per-instance `firedRef` that flips to `true` before the first dispatch and short-circuits subsequent calls. New Node instances (e.g. items appended via `append_items` pagination) get their own ref and fire their own `on_view` once when scrolled into view. The set-before-dispatch ordering matters and is covered by a regression test.
   - **`bff_call` — X-Active-Influencer-Id header.** A creator may have multiple linked social influencer profiles; the active selection scopes every BFF read (catalog, earnings, feed). Added a new `useActiveSocialStore` zustand store (`activeInfluencerId: string | null`, `setActiveInfluencerId(...)`) exported from the package's public surface. `bff_call` always injects the `X-Active-Influencer-Id` header when the store has a value — applied to every environment, not localhost-gated (unlike `X-Dev-Identity`). When the store is `null`, the header is omitted and the server falls back to its default scoping for the authenticated creator.
@@ -37,6 +58,7 @@
 - [#189](https://github.com/One-Impression/amplify-design-system/pull/189) [`34089db`](https://github.com/One-Impression/amplify-design-system/commit/34089db8a9c2e7d655e2be90dd55840bc4f71d6a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - fix(sdui-runtime): home BC renderer fixes — Tab icon + tap dispatch, InfoRow flat status_tag label, optimistic tab-bar active state
 
   Renderer-level bugs and a UX gap found by on-device E2E of the home BC against `sdk-native-sdui@^2.6.0`. Visible bugs are caught by `SduiErrorBoundary` so they render as fallback boxes rather than crash the screen.
+
   - **`TabRenderer` — icon crash.** The renderer wrapped `v.icon` in `<Interpreter node={v.icon} />`, but `icon` is a flat `IconSchema` (`{ name, size?, color? }`), not an SDUI node — so `Interpreter` called `resolveRenderer(undefined)` and crashed on `.startsWith()`. The footer's 3 tabs rendered as fallback boxes. Fix: render `<DSIcon name={v.icon.name} size={v.icon.size} color={v.icon.color} />`, matching the established pattern in `ChipRenderer`, `PageHeader`, `InfoIconRow`, and 6 other renderers that consume `IconSchema`.
   - **`TabRenderer` — tap swallowed.** `DSTab` is itself a `Pressable`. Passing `on_click` to `SduiNode` wrapped the tab in an outer `Clickable` Pressable, but in RN the deepest Pressable under the touch point wins — so the inner DSTab Pressable swallowed the tap and the outer handler never fired. (`DSTab.types.ts` already documents this expectation.) Fix: dispatch `on_click` locally via `useActionEngine` and pass the press handler directly as `DSTab.onPress`; intentionally do not forward `on_click` to `SduiNode` (so no outer Clickable wraps). `on_load` / `on_view` / `on_dismount` continue to flow through `SduiNode` unchanged.
   - **`InfoRow` — status_tag label flat-text bug.** The renderer passed the whole `v.status_tag.label` object to `DSTag.label`, but `status_tag.label` is a flat `TextSchema` (`{ text, color?, font_size?, font_weight? }`), not a string. React rendered it as a child and threw "Objects are not valid as a React child (found: object with keys {text})." Every `info_row` on the home Explore feed rendered as a fallback box (no title/subtitle/status tag). Fix: `label={v.status_tag.label.text}`, same pattern title/subtitle/badge already use in this renderer.
@@ -51,6 +73,7 @@
 - [#185](https://github.com/One-Impression/amplify-design-system/pull/185) [`600c0d8`](https://github.com/One-Impression/amplify-design-system/commit/600c0d8391465a524cce3205153a938bd273a76c) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - fix(sdui-runtime): read flat label, resolve bff_call via EndpointPaths, lock sdk peer-dep
 
   Align the runtime with the `@one-impression/sdk-native-sdui` wire contract (the source of truth), fixing two on-device home-page crashes and closing the version gap that let the drift go uncaught:
+
   - **Flat label reads (crash fix):** the `label` (and `subtitle`) fields are declared as a flat `TextSchema` (`{ text, ... }`), but the `Tab`, `Tag`, `Chip`, `Checkbox`, `Radio`, `SelectableItem`, and `Input` ui_component renderers read them as nested nodes (`v.label.data.text`), throwing "Cannot read property 'text' of undefined". They now read `v.label.text` / `v.subtitle.text`.
   - **bff_call endpoint resolution (404 fix):** `bff_call` previously treated the logical endpoint id (e.g. `creator.home.tab`) as a literal path, requesting `/creator.home.tab`. It now resolves the id through `EndpointPaths` (id → `/v1/...`), substitutes path params into the resolved path, trims a trailing slash off the base URL to avoid a double slash, and throws if an id is unregistered.
   - **Peer-dep tightened:** `@one-impression/sdk-native-sdui` peerDependency raised from `>=1.0.0` to `^2.6.0` (the contract version that ships `EndpointPaths`), so this whole class of schema/renderer drift surfaces at install time instead of on the simulator. Added as a devDependency at `^2.6.0` so the `EndpointPaths` import resolves at build/test time.
@@ -63,6 +86,7 @@
 ### Patch Changes
 
 - [#177](https://github.com/One-Impression/amplify-design-system/pull/177) [`d5c6678`](https://github.com/One-Impression/amplify-design-system/commit/d5c6678c5cdb6836bf02026a5f5147046d023e0a) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - PageFeed renderer now reads `data.config` (gradient / bg_color / scroll_header_color) and `data.footer` to match the legacy PageType3 visual hierarchy:
+
   - `config.gradient` — absolute-positioned gradient backdrop. Uses `react-native-linear-gradient` when the host app installs it (optional peer); falls back to a solid first-color View otherwise so the runtime still works without the native dep.
   - `config.bg_color.type` — solid token-name background when no gradient is provided.
   - `config.scroll_header_color.type` — header tint applied to the filters bar once the user has scrolled (binary toggle; legacy uses an interpolated animation).
@@ -75,6 +99,7 @@
   The matching `config` / `footer` schema fields are added on the upstream `@one-impression/sdk-native-sdui` PageFeed schema; until that package republishes, the renderer reads them through an `extractFeedPageData` helper that casts `page.data` to the augmented shape.
 
 - [#178](https://github.com/One-Impression/amplify-design-system/pull/178) [`c92de1f`](https://github.com/One-Impression/amplify-design-system/commit/c92de1f1918c64a43df9614db9d0eb7a94c499a8) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - `TabsFooter` renderer is now legacy-faithful and supports active-index styling:
+
   - Renders each tab Node in an equal-width slot (`flex: 1` per tab), matching legacy `TabsFooterSnippetType1.styles.ts`.
   - Adds the top border + soft top-edge shadow from the legacy snippet so the footer reads as a pinned bottom navigation.
   - Reads `data.active_index` and overrides each tab Node's `data.active` flag accordingly — the inner `Tab` renderer (`creator.ui_component.tab`) already paints the active state via `data.active`, so the active tab gets the primary-color tint automatically.
@@ -138,6 +163,7 @@
 - [#112](https://github.com/One-Impression/amplify-design-system/pull/112) [`a79afd9`](https://github.com/One-Impression/amplify-design-system/commit/a79afd94f6b272e33124f20d30c53a8c9e30adc4) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - feat(sdui-runtime): add @one-impression/sdui-runtime@1.0.0 — SDUI runtime foundation
 
   New package providing the foundation layer for the SDUI runtime in amplify-creator-app:
+
   - SduiNode base wrapper (Zod validation, error boundary, click/view/load/dismount lifecycle, telemetry)
   - Interpreter dispatcher (type-based renderer lookup with forward-compat fallback)
   - PageRoot page container dispatcher
@@ -152,6 +178,7 @@
 ### Minor Changes
 
 - [#114](https://github.com/One-Impression/amplify-design-system/pull/114) [`643c3c1`](https://github.com/One-Impression/amplify-design-system/commit/643c3c10e4ad57984afd1da81e9dbc0e4480665e) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Add SDUI action handlers and capability handlers (Task 23, Brief [#264](https://github.com/One-Impression/amplify-design-system/issues/264))
+
   - 13 action verb handlers: navigate, bff_call, sheet, dismiss, toast,
     reload_section, replace_section, append_items, set_local, emit_telemetry,
     compound, capability dispatcher, deeplink
@@ -164,6 +191,7 @@
   - Populated action and capability registries
 
 - [#113](https://github.com/One-Impression/amplify-design-system/pull/113) [`085ab77`](https://github.com/One-Impression/amplify-design-system/commit/085ab77b870aaebeda3e2e3fa3d06c779eea1280) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Add BFF client, Zustand state stores, icon store, and theme bridge to sdui-runtime.
+
   - BFF client with auth/retry/error/on-load-action interceptors and TanStack Query hooks
   - 8 Zustand stores: page, bottom-sheet-data, bottom-sheet-form, navigation-stack, search-params, aerobar, file-upload, auth
   - Icon store with MMKV persistence, essentials fallback, and foreground re-fetch policy
@@ -175,6 +203,7 @@
   WebViewPageWithAction page container renderers under src/pages/.
   Populates the pageContainerRegistry so PageRoot can dispatch to the
   correct layout based on the BFF page envelope's layout field.
+
   - PageStandard: scrollable page with pull-to-refresh and back-press handling
   - PageStickyFooter: keyboard-aware layout with pinned footer for forms/checkout
   - PageFeed: FlatList-based infinite-scroll feed with filter chips, load-more, empty state
@@ -183,6 +212,7 @@
 
 - [#134](https://github.com/One-Impression/amplify-design-system/pull/134) [`66d2325`](https://github.com/One-Impression/amplify-design-system/commit/66d23254b99b36c57c9fc2cbc3897d5dab52e385) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - Add runtime handlers for the new SDUI primitives shipped in
   `@one-impression/sdk-native-sdui` v2.1.0.
+
   - `cond:local` evaluator — predicate primitive over the local Zustand store.
     Supports `eq`, `ne`, `gt`, `lt`, `gte`, `lte`, `exists`, `not_exists`. Plugs
     into any guard slot via a typed `Cond` union; unknown discriminator values
@@ -217,6 +247,7 @@
 - [#116](https://github.com/One-Impression/amplify-design-system/pull/116) [`e2b5cb1`](https://github.com/One-Impression/amplify-design-system/commit/e2b5cb15bf924aa670e8f6d3be778f36d3fd5491) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - feat(sdui-runtime): add 43 Tier 2 snippet renderers for Creator App SDUI
 
   Populates the snippet registry with renderers for all Creator BFF snippet types:
+
   - Layout / Utility (12): GroupConfig, GroupSteps, GroupSnippets, GroupChips, Card,
     BannerImage, EmptySpace, Separator, Loader, Aerobar, EmptyState, Steps
   - Headers / Footers (11): PageHeader, PageHeaderImageStack, PageFooter,

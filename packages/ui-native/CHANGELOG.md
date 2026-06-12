@@ -1,5 +1,25 @@
 # @one-impression/ui-native
 
+## 2.1.0
+
+### Minor Changes
+
+- [#217](https://github.com/One-Impression/amplify-design-system/pull/217) [`5a525db`](https://github.com/One-Impression/amplify-design-system/commit/5a525dbb3846d46f229a2eb8beb73636d998997c) Thanks [@achin-oi](https://github.com/achin-oi)! - SDUI rendering layer: card, gutter, icons, and tag/badge support.
+
+  - **ui-native Card** now matches the legacy creator card defaults — thin
+    `neutralSubtle` border, no shadow (`elevation: 'none'`), `neutralInverse`
+    background, `lg` radius, `md` padding — with an outer/inner structure and a
+    new optional `elevation` prop (`none|sm|md|lg|xl`) plus `resolveShadow`.
+  - **Token resolvers** accept the long `sdui.<group>.<kebab>` wire form in
+    addition to the short camelCase keys, so contracts using fully-qualified
+    token strings resolve correctly.
+  - **Page gutter** is now container-owned: a single 12px gutter with symmetric
+    vertical row-gap, per-type and backend-overridable.
+  - **Icons** render through `IconStoreProvider` + `IconGlyph`, resolving SVGs
+    from the manifest (MMKV) with bundled essentials fallback.
+  - **InfoRow** consumes the renamed `tag` field and renders count/dot badges;
+    Text uses `font_weight`. Aligns with `sdk-native-sdui` v3.
+
 ## 2.0.2
 
 ### Patch Changes
@@ -29,6 +49,7 @@
 - [#110](https://github.com/One-Impression/amplify-design-system/pull/110) [`82f1b5c`](https://github.com/One-Impression/amplify-design-system/commit/82f1b5cd55a275995e83858089bed047374574fa) Thanks [@mridulgupta-oi](https://github.com/mridulgupta-oi)! - feat(ui-native): initial release — 18 React Native primitives for Creator App SDUI
 
   Token-resolved components consuming @one-impression/tokens-creator/react-native:
+
   - Layout: Box, Stack
   - Foundation: Text, Icon, Image, Separator
   - Interactive: Button, Card, Input, Chip, Checkbox, Radio, Tag, Tab
