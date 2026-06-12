@@ -52,6 +52,8 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native primitives for Creator App SDUI (token-resolved; v2.1.0+: Card elevation prop, long-form token resolver, container-owned page gutter, IconStoreProvider/IconGlyph icon rendering, InfoRow tag/badge support)
+  sdui-runtime/       — SDUI interpreter, action engine, renderers, stores for Creator App (v2.6.0+: Card renderer with elevation, long sdui.<group>.<kebab> token wire form, 12px container-owned gutter, icon rendering via IconStoreProvider+IconGlyph, InfoRow tag field + font_weight; peer-dep @one-impression/sdk-native-sdui ^3)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
