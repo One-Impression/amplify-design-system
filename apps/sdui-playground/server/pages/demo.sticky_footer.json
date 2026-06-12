@@ -1,0 +1,97 @@
+{
+    "id": "demo.sticky_footer",
+    "title": "Sticky footer page",
+    "protocol_version": "1.0.0",
+    "layout": "sticky_footer",
+    "items": [
+        {
+            "type": "creator.snippet.page_header",
+            "id": "hdr-Sticky footer",
+            "data": {
+                "title": {
+                    "text": "Sticky footer",
+                    "font_size": "sdui.font-size.xl",
+                    "font_weight": "bold"
+                },
+                "subtitle": {
+                    "text": "footer stays pinned while body scrolls",
+                    "color": "sdui.color.text-muted"
+                },
+                "left_icon": {
+                    "name": "chevron-left"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.section_header",
+            "id": "sample-section-header-22",
+            "data": {
+                "title": {
+                    "text": "Section title",
+                    "font_size": "sdui.font-size.lg",
+                    "font_weight": "bold"
+                },
+                "subtitle": {
+                    "text": "Optional supporting copy"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.info_row",
+            "id": "sample-info-row-23",
+            "data": {
+                "title": {
+                    "text": "Reward",
+                    "font_weight": "medium",
+                    "font_size": "sdui.font-size.md"
+                },
+                "subtitle": {
+                    "text": "\u20b940,000 cash + product",
+                    "color": "sdui.color.text-muted"
+                },
+                "right_icon": {
+                    "name": "chevron-right"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.separator",
+            "id": "sample-separator-24",
+            "data": {}
+        },
+        {
+            "type": "creator.snippet.info_row",
+            "id": "sample-info-row-25",
+            "data": {
+                "title": {
+                    "text": "Reward",
+                    "font_weight": "medium",
+                    "font_size": "sdui.font-size.md"
+                },
+                "subtitle": {
+                    "text": "\u20b940,000 cash + product",
+                    "color": "sdui.color.text-muted"
+                },
+                "right_icon": {
+                    "name": "chevron-right"
+                }
+            }
+        },
+        {
+            "type": "creator.snippet.page_footer",
+            "id": "ftr-Continue",
+            "data": {
+                "primary_button": {
+                    "type": "creator.ui_component.button",
+                    "id": "btn-Continue",
+                    "data": {
+                        "label": {
+                            "text": "Continue"
+                        },
+                        "variant": "primary"
+                    }
+                }
+            }
+        }
+    ]
+}

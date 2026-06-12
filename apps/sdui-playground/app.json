@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "SDUI Playground",
+    "slug": "sdui-playground",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "sduiplayground",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "ios": {
+      "bundleIdentifier": "com.oneimpression.sduiplayground",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.oneimpression.sduiplayground"
+    },
+    "plugins": [
+      "expo-dev-client",
+      "expo-secure-store"
+    ]
+  }
+}

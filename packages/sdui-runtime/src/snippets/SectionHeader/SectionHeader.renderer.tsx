@@ -19,12 +19,12 @@ export function SectionHeaderRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => (
-        <Box paddingHorizontal={16} paddingVertical={8}>
+        <Box>
           <Stack direction="row" align="center" justify="space-between">
             <Stack direction="column" gap={2}>
               <Text
                 color={v.title.color}
-                size={v.title.font_size}
+                size={v.title.font_size ?? "lg"}
                 weight={v.title.font_weight}
               >
                 {v.title.text}

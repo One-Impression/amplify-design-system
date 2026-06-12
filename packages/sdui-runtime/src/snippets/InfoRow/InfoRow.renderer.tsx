@@ -5,12 +5,12 @@ import {
   Box,
   Stack,
   Text,
-  Icon as DSIcon,
   Card as DSCard,
   Tag as DSTag,
   ProgressIndicator as DSProgressIndicator,
 } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
+import { IconGlyph } from "../../icon-store/IconGlyph.js";
 import { renderMedia } from "../_shared/render-media.js";
 
 export function InfoRowRenderer(node: Node): React.ReactElement {
@@ -59,31 +59,27 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
               </Stack>
             </Box>
             <Stack direction="row" align="center" gap={8}>
-              {v.status_tag && (
-                <DSTag
-                  label={v.status_tag.label.text}
-                  variant={v.status_tag.variant}
-                  color={v.status_tag.color}
-                />
-              )}
-              {v.badge && (
-                <Box
-                  bg={v.badge.bg_color}
-                  rounded={v.badge.border_radius ?? 12}
-                  paddingHorizontal={8}
-                  paddingVertical={2}
-                >
-                  <Text
-                    color={v.badge.color}
-                    size={v.badge.font_size ?? 12}
+              {v.tag && <DSTag label={v.tag.label.text} />}
+              {v.badge &&
+                (v.badge.dot ? (
+                  // count/dot indicator (BadgeSchema = { count, dot, color }) —
+                  // a labelled pill is a `tag`, not a badge.
+                  <Box bg={v.badge.color ?? "#E5484D"} rounded={5} width={10} height={10} />
+                ) : v.badge.count != null ? (
+                  <Box
+                    bg={v.badge.color ?? "#E5484D"}
+                    rounded={999}
+                    paddingHorizontal={6}
+                    paddingVertical={2}
                   >
-                    {v.badge.text}
-                  </Text>
-                </Box>
-              )}
+                    <Text color="#FFFFFF" size={12}>
+                      {String(v.badge.count)}
+                    </Text>
+                  </Box>
+                ) : null)}
               {v.right_media && renderMedia(v.right_media)}
               {v.right_icon && (
-                <DSIcon
+                <IconGlyph
                   name={v.right_icon.name}
                   size={v.right_icon.size}
                   color={v.right_icon.color}
@@ -101,7 +97,7 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
           );
         }
 
-        return <Box padding={12}>{content}</Box>;
+        return <Box>{content}</Box>;
       }}
     </SduiNode>
   );

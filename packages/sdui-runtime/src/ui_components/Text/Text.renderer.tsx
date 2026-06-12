@@ -22,7 +22,7 @@ export function TextRenderer(node: Node): React.ReactElement {
           variant={v.variant}
           color={v.color}
           size={v.font_size}
-          weight={v.weight}
+          weight={v.font_weight}
           align={v.alignment}
           numberOfLines={v.max_lines}
         >

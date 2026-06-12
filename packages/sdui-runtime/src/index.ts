@@ -85,3 +85,39 @@ export type {
   LocalStoreState,
   LocalStoreActions,
 } from "./state/index.js";
+
+// ── Icon store (manifest fetch/persist + name→SVG glyph resolution) ──
+export {
+  IconStoreProvider,
+  IconGlyph,
+  useIconStore,
+  parseSvg,
+} from "./icon-store/index.js";
+export type {
+  IconStoreProviderProps,
+  IconGlyphProps,
+} from "./icon-store/index.js";
+
+// ── Navigation (runtime-owned native-stack + unified page/sheet back) ──
+// See ./navigation/README.md. Uses the react-navigation + screens peer deps.
+export {
+  SduiNavigationHost,
+  SduiSheetScreen,
+  navigationRef,
+  applyNavigate,
+  goBack,
+  pushSheet,
+  popSheet,
+  presentSheet,
+  dismissSheet,
+  setSheetPresenter,
+  SDUI_PAGE_ROUTE,
+  SDUI_SHEET_ROUTE,
+} from "./navigation/index.js";
+export type {
+  SduiNavigationHostProps,
+  ResolvePage,
+  SduiRootParamList,
+  SheetPresenter,
+  SheetDismisser,
+} from "./navigation/index.js";

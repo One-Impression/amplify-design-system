@@ -1,5 +1,7 @@
 export { IconStoreProvider } from './IconStoreProvider.js';
 export type { IconStoreProviderProps } from './IconStoreProvider.js';
+export { IconGlyph } from './IconGlyph.js';
+export type { IconGlyphProps } from './IconGlyph.js';
 export { useIconStore } from './useIconStore.js';
 export type { IconStoreResult } from './useIconStore.js';
 export { parseSvg, clearSvgCache } from './parseSvg.js';

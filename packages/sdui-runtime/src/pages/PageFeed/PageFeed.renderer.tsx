@@ -9,6 +9,7 @@ import {
 import { useShallow } from "zustand/react/shallow";
 import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
+import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
@@ -143,6 +144,8 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
         items: sheet.items ?? [],
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
+        overlay_on_click: (sheet as { overlay_on_click?: unknown })
+          .overlay_on_click,
       });
     }
     return () => {
@@ -194,7 +197,11 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   }, [actionEngine, onLoadMore]);
 
   const renderItem = useCallback(
-    ({ item }: { item: Node }) => <Interpreter node={item} />,
+    ({ item }: { item: Node }) => (
+      <GutterItem node={item}>
+        <Interpreter node={item} />
+      </GutterItem>
+    ),
     [],
   );
 

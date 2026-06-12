@@ -1,0 +1,790 @@
+{
+  "id": "catalog.home",
+  "title": "SDUI Playground",
+  "protocol_version": "1.0.0",
+  "layout": "standard",
+  "items": [
+    {
+      "type": "creator.snippet.section_header",
+      "id": "section-header-1",
+      "data": {
+        "title": {
+          "text": "Pages",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Full pages with their headers, footers & snippets",
+          "color": "sdui.color.text-muted"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-2",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Standard page",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "plain \u2014 nothing",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-3",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.sticky_footer"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Sticky footer page",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card only",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {}
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-4",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.feed"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Feed page",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + left icon",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-5",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "creator.campaigns.detail"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Campaign detail",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + right icon",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "right_icon": {
+          "name": "chevron-right"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "section-header-6",
+      "data": {
+        "title": {
+          "text": "Navigation styles",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Same page pushed with a different transition",
+          "color": "sdui.color.text-muted"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-7",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard",
+          "params": {
+            "transition": "slide_from_right"
+          }
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Push from right",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + left + right",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-8",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard",
+          "params": {
+            "transition": "slide_from_bottom"
+          }
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Push from bottom",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + icons + tag",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "tag": {
+          "label": {
+            "text": "New"
+          }
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-9",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard",
+          "params": {
+            "transition": "fade"
+          }
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Fade",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + icons + badge(count)",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "badge": {
+          "count": 3
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-10",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard",
+          "params": {
+            "presentation": "modal"
+          }
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Modal (slide up)",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + icons + badge(dot)",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "badge": {
+          "dot": true
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-11",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.standard",
+          "params": {
+            "transition": "flip"
+          }
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Flip",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "EVERYTHING (count)",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "tag": {
+          "label": {
+            "text": "New"
+          }
+        },
+        "badge": {
+          "count": 3
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "section-header-12",
+      "data": {
+        "title": {
+          "text": "Bottom sheets",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Overlays opened by the sheet action",
+          "color": "sdui.color.text-muted"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-13",
+      "on_click": {
+        "type": "sheet",
+        "payload": {
+          "sheet_id": "sheet.info"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Info bottom sheet",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "EVERYTHING (dot)",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "star-filled"
+          }
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "tag": {
+          "label": {
+            "text": "New"
+          }
+        },
+        "badge": {
+          "dot": true
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-14",
+      "on_click": {
+        "type": "sheet",
+        "payload": {
+          "sheet_id": "sheet.confirm"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Confirm bottom sheet",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "no card + tag + badge",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "right_icon": {
+          "name": "chevron-right"
+        },
+        "tag": {
+          "label": {
+            "text": "New"
+          }
+        },
+        "badge": {
+          "count": 3
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "section-header-15",
+      "data": {
+        "title": {
+          "text": "Most used snippets",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Rendered inline \u2014 the common ones",
+          "color": "sdui.color.text-muted"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.card",
+      "id": "campaigns-explore-card-fk-1",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "target": "creator.campaigns.detail",
+          "op": "push",
+          "params": {
+            "id": "fk-1"
+          }
+        }
+      },
+      "data": {
+        "header": {
+          "type": "creator.snippet.overlapping_image",
+          "id": "campaigns-explore-card-cover-fk-1",
+          "data": {
+            "cover_image": {
+              "src": "https://cdn.fake/fk-1.jpg",
+              "height": 160,
+              "variant": "card"
+            },
+            "header": {
+              "title": {
+                "text": "Applied",
+                "color": "sdui.color.state-success-text"
+              },
+              "bg_color": {
+                "type": "sdui.color.state-success-bg"
+              }
+            },
+            "footer": {
+              "left_image": {
+                "src": "https://cdn.fake/b-1.png",
+                "container_shape": "rounded",
+                "width": 60,
+                "height": 60
+              },
+              "right_tags": [
+                {
+                  "type": "creator.ui_component.tag",
+                  "id": "tag-21",
+                  "data": {
+                    "label": {
+                      "text": "Recommended",
+                      "color": "sdui.color.neutral-inverse"
+                    },
+                    "gradient": {
+                      "angle": 90,
+                      "colors": [
+                        "#F55DC1",
+                        "#495AF4"
+                      ]
+                    },
+                    "border_color": "sdui.color.neutral-inverse",
+                    "border_radius": 24
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "items": [
+          {
+            "type": "creator.snippet.info_row",
+            "id": "campaigns-explore-card-fk-1-brand-name",
+            "data": {
+              "title": {
+                "text": "Lumina Beauty",
+                "font_weight": "medium",
+                "font_size": "sdui.font-size.md"
+              }
+            }
+          },
+          {
+            "type": "creator.snippet.info_row",
+            "id": "campaigns-explore-card-fk-1-subtitle",
+            "data": {
+              "title": {
+                "text": "Skincare \u00b7 Maharashtra",
+                "font_weight": "regular",
+                "font_size": "sdui.font-size.xs",
+                "color": "sdui.color.neutral-medium"
+              }
+            }
+          },
+          {
+            "type": "creator.snippet.group_chips",
+            "id": "campaigns-explore-card-fk-1-tags",
+            "data": {
+              "items": [
+                {
+                  "type": "creator.ui_component.tag",
+                  "id": "campaigns-explore-card-fk-1-tag-0",
+                  "data": {
+                    "label": {
+                      "text": "Skincare"
+                    }
+                  }
+                },
+                {
+                  "type": "creator.ui_component.tag",
+                  "id": "campaigns-explore-card-fk-1-tag-1",
+                  "data": {
+                    "label": {
+                      "text": "Beauty"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.separator",
+            "id": "campaigns-explore-card-fk-1-separator",
+            "data": {
+              "color": "sdui.color.neutral-subtle",
+              "margin_vertical": "6"
+            }
+          },
+          {
+            "type": "creator.snippet.info_row",
+            "id": "campaigns-explore-card-fk-1-offer",
+            "data": {
+              "title": {
+                "text": "\u20b940,000 cash + product",
+                "font_weight": "regular",
+                "font_size": "sdui.font-size.xs"
+              },
+              "left_media": {
+                "type": "icon",
+                "icon": {
+                  "name": "CashIcon"
+                }
+              }
+            }
+          },
+          {
+            "type": "creator.snippet.info_row",
+            "id": "campaigns-explore-card-fk-1-reward-condition",
+            "data": {
+              "title": {
+                "text": "Post 1 reel + 2 stories",
+                "font_weight": "regular",
+                "font_size": "sdui.font-size.xs"
+              },
+              "left_media": {
+                "type": "icon",
+                "icon": {
+                  "name": "InfoIcon"
+                }
+              }
+            }
+          }
+        ],
+        "footer": {
+          "type": "creator.snippet.info_row",
+          "id": "info-row-11",
+          "data": {
+            "title": {
+              "text": "You applied 2 days ago",
+              "font_weight": "regular",
+              "font_size": "sdui.font-size.sm"
+            }
+          }
+        },
+        "bg_color": "sdui.color.neutral-inverse",
+        "border_color": "sdui.color.neutral-subtle"
+      },
+      "config": {
+        "footer_bg_color": "sdui.color.primary-weak"
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "sample-info-row-1",
+      "data": {
+        "title": {
+          "text": "Reward",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + tag only (no icons)",
+          "color": "sdui.color.text-muted"
+        },
+        "card": {},
+        "tag": {
+          "label": {
+            "text": "New"
+          }
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "sample-section-header-2",
+      "data": {
+        "title": {
+          "text": "Section title",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Optional supporting copy"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.group_chips",
+      "id": "sample-group-chips-3",
+      "data": {
+        "items": [
+          {
+            "type": "creator.ui_component.tag",
+            "id": "sample-tag-4",
+            "data": {
+              "label": {
+                "text": "Skincare"
+              }
+            }
+          },
+          {
+            "type": "creator.ui_component.tag",
+            "id": "sample-tag-5",
+            "data": {
+              "label": {
+                "text": "Beauty"
+              }
+            }
+          },
+          {
+            "type": "creator.ui_component.tag",
+            "id": "sample-tag-6",
+            "data": {
+              "label": {
+                "text": "Lifestyle"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "creator.snippet.separator",
+      "id": "sample-separator-7",
+      "data": {}
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "section-header-16",
+      "data": {
+        "title": {
+          "text": "Everything",
+          "font_weight": "bold"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-17",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "catalog.all_snippets"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "All snippets",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "card + badge only (no icons)",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "badge": {
+          "count": 3
+        }
+      }
+    }
+  ],
+  "bottom_sheets": [
+    {
+      "id": "sheet.info",
+      "title": "Info",
+      "size": "medium",
+      "items": [
+        {
+          "type": "creator.snippet.section_header",
+          "id": "sheet-hd-Info bottom sheet",
+          "data": {
+            "title": {
+              "text": "Info bottom sheet",
+              "font_size": "sdui.font-size.lg",
+              "font_weight": "bold"
+            }
+          }
+        },
+        {
+          "type": "creator.snippet.info_row",
+          "id": "sheet-row-Info bottom sheet",
+          "data": {
+            "title": {
+              "text": "Tap the dimmed overlay, drag down, or press back to dismiss \u2014 all pop the same route.",
+              "color": "sdui.color.text-muted"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "sheet.confirm",
+      "title": "Confirm",
+      "size": "small",
+      "items": [
+        {
+          "type": "creator.snippet.section_header",
+          "id": "sheet-hd-Are you sure?",
+          "data": {
+            "title": {
+              "text": "Are you sure?",
+              "font_size": "sdui.font-size.lg",
+              "font_weight": "bold"
+            }
+          }
+        },
+        {
+          "type": "creator.snippet.info_row",
+          "id": "sheet-row-Are you sure?",
+          "data": {
+            "title": {
+              "text": "Tapping the overlay fires its click-action (a toast) and then dismisses.",
+              "color": "sdui.color.text-muted"
+            }
+          }
+        }
+      ],
+      "overlay_on_click": {
+        "type": "toast",
+        "payload": {
+          "message": "Dismissed via overlay tap",
+          "level": "info"
+        }
+      }
+    }
+  ]
+}
