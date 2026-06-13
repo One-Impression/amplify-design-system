@@ -102,12 +102,20 @@ const FloatingLabelInput = React.forwardRef<TextInput, InputProps>(
     }, [floated, anim]);
 
     // Resting label aligns with the text start — past any leading adornment.
-    const labelLeft =
+    // Resting (placeholder): aligned with the text start — shifted past a
+    // leading adornment so it doesn't overlap it. Floated: snaps to the field's
+    // standard top-left corner regardless of adornments (cleaner notch; labels
+    // the whole field). So `left` animates leftward as the label floats up.
+    const restingLeft =
       sdui.component.field.paddingX +
       (leading ? leadingWidth + sdui.spacing.sm : 0);
+    const floatedLeft = sdui.component.field.paddingX;
 
     const labelStyle = {
-      left: labelLeft,
+      left: anim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [restingLeft, floatedLeft],
+      }),
       top: anim.interpolate({ inputRange: [0, 1], outputRange: [14, -10] }),
       // Resting = body size (placeholder-equivalent); floated = caption size
       // (matches helper/error text). Token-driven so it tracks the type scale.

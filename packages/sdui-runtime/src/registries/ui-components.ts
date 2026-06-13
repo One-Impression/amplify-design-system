@@ -17,6 +17,7 @@ import { TabRenderer } from "../ui_components/Tab/index.js";
 import { ProgressIndicatorRenderer } from "../ui_components/ProgressIndicator/index.js";
 import { SearchBarRenderer } from "../ui_components/SearchBar/index.js";
 import { SelectableItemRenderer } from "../ui_components/SelectableItem/index.js";
+import { SelectTriggerRenderer } from "../ui_components/SelectTrigger/index.js";
 import { ScrollViewRenderer } from "../ui_components/ScrollView/index.js";
 
 export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
@@ -37,5 +38,6 @@ export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElem
   "creator.ui_component.progress_indicator": ProgressIndicatorRenderer,
   "creator.ui_component.search_bar": SearchBarRenderer,
   "creator.ui_component.selectable_item": SelectableItemRenderer,
+  "creator.ui_component.select_trigger": SelectTriggerRenderer,
   "creator.ui_component.scroll_view": ScrollViewRenderer,
 };

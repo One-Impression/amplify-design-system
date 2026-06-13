@@ -7,6 +7,8 @@ import {
   View,
 } from "react-native";
 import { useShallow } from "zustand/react/shallow";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { sdui } from "@one-impression/tokens-creator/react-native";
 import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
@@ -99,6 +101,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const register = useBottomSheetStore((s) => s.register);
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
+  const insets = useSafeAreaInsets();
   const [loadingMore, setLoadingMore] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const loadingMoreRef = useRef(false);
@@ -142,6 +145,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        header: (sheet as { header?: Node }).header,
         footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
@@ -289,7 +293,10 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
           onEndReachedThreshold={0.5}
           onScroll={handleScroll}
           scrollEventThrottle={16}
-          contentContainerStyle={items?.length ? undefined : styles.container}
+          contentContainerStyle={[
+            items?.length ? null : styles.container,
+            { paddingBottom: insets.bottom + sdui.spacing.lg },
+          ]}
           refreshControl={
             page.on_refresh ? (
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

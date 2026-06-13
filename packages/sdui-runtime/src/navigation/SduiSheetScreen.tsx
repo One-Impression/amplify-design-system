@@ -126,20 +126,27 @@ export function SduiSheetScreen({
       backdropComponent={renderBackdrop}
       footerComponent={sheet.footer ? renderFooter : undefined}
     >
-      <BottomSheetScrollView
-        contentContainerStyle={[
-          styles.content,
-          // Reserve room so the last item isn't hidden behind the pinned footer.
-          sheet.footer && styles.contentWithFooter,
-        ]}
-      >
-        <BottomSheetContext.Provider value={{ insideSheet: true }}>
-          {sheet.title ? <Text style={styles.title}>{sheet.title}</Text> : null}
+      <BottomSheetContext.Provider value={{ insideSheet: true }}>
+        {/* Pinned header SLOT — a wire `bottom_sheet_header` snippet rendered
+            OUTSIDE the scroll area so it (and any search field it carries)
+            stays put as `items` scroll. Symmetric with the footer slot.
+            Replaces the plain `title` text when present. */}
+        {sheet.header ? <Interpreter node={sheet.header} /> : null}
+        <BottomSheetScrollView
+          contentContainerStyle={[
+            styles.content,
+            // Reserve room so the last item isn't hidden behind the pinned footer.
+            sheet.footer && styles.contentWithFooter,
+          ]}
+        >
+          {!sheet.header && sheet.title ? (
+            <Text style={styles.title}>{sheet.title}</Text>
+          ) : null}
           {sheet.items.map((node, i) => (
             <Interpreter key={node.id ?? i} node={node} />
           ))}
-        </BottomSheetContext.Provider>
-      </BottomSheetScrollView>
+        </BottomSheetScrollView>
+      </BottomSheetContext.Provider>
     </BottomSheet>
   );
 }

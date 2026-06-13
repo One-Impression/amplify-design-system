@@ -46,7 +46,6 @@ export { ListRenderer } from "./List/index.js";
 
 // Input / Selection
 export { InputRenderer } from "./Input/index.js";
-export { PhoneNumberInputRenderer } from "./PhoneNumberInput/index.js";
 export { ToggleInputRenderer } from "./ToggleInput/index.js";
 export { SingleSelectInputRenderer } from "./SingleSelectInput/index.js";
 export { MultiSelectInputRenderer } from "./MultiSelectInput/index.js";

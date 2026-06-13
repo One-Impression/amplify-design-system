@@ -15,6 +15,13 @@ export interface SheetEntry {
   size: string;
   items: Node[];
   /**
+   * Optional pinned header node, rendered at the TOP of the sheet OUTSIDE the
+   * scroll area (mirrors a page's header slot + the sheet's footer slot). A
+   * `bottom_sheet_header` / `bottom_sheet_header_with_search` snippet; owns its
+   * own surface. When present it replaces the plain `title` text.
+   */
+  header?: Node;
+  /**
    * Optional sticky footer node, pinned at the bottom of the sheet OUTSIDE
    * the scroll area (mirrors a page's sticky-footer slot). Rendered via
    * gorhom's `BottomSheetFooter` so it stays put as `items` scroll.
