@@ -142,6 +142,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
         overlay_on_click: (sheet as { overlay_on_click?: unknown })

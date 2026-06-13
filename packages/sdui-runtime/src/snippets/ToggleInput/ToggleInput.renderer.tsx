@@ -5,8 +5,22 @@ import { Box, Stack, Text } from "@one-impression/ui-native";
 import { Switch } from "react-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+import { useFormField, useFormId } from "../../form/index.js";
+import type { ValidationRule } from "../../validation/index.js";
 
 export function ToggleInputRenderer(node: Node): React.ReactElement {
+  const data = node.data as
+    | { form_id?: string; field_name?: string; value?: boolean; validations?: ValidationRule[] }
+    | undefined;
+  const formId = useFormId(data?.form_id);
+  const field = useFormField<boolean>(
+    formId,
+    data?.field_name,
+    data?.value ?? false,
+    data?.validations,
+  );
+  const errorText = field.touched ? field.error ?? undefined : undefined;
+
   return (
     <SduiNode
       data={node.data}
@@ -22,8 +36,11 @@ export function ToggleInputRenderer(node: Node): React.ReactElement {
       {(v) => (
         <ToggleInputInner
           label={v.label}
-          value={v.value}
+          value={field.value}
           disabled={v.disabled}
+          errorText={errorText}
+          onToggle={field.setValue}
+          onTouched={field.markTouched}
           onChange={node.data?.on_change}
         />
       )}
@@ -35,20 +52,31 @@ function ToggleInputInner({
   label,
   value,
   disabled,
+  errorText,
+  onToggle,
+  onTouched,
   onChange,
 }: {
   label: { text?: string; color?: string; font_size?: number; font_weight?: string };
-  value?: boolean;
+  value: boolean;
   disabled?: boolean;
+  /** Touched-gated error message (undefined = none). */
+  errorText?: string;
+  /** Store-backed setter for this field's boolean value. */
+  onToggle: (next: boolean) => void;
+  /** Mark touched (toggling is an interaction). */
+  onTouched: () => void;
   onChange?: unknown;
 }): React.ReactElement {
   const actionEngine = useActionEngine();
 
   const handleChange = useCallback(
     (newValue: boolean) => {
+      onToggle(newValue);
+      onTouched();
       if (onChange) actionEngine.dispatch(onChange as any);
     },
-    [actionEngine, onChange],
+    [actionEngine, onChange, onToggle, onTouched],
   );
 
   return (
@@ -62,11 +90,16 @@ function ToggleInputInner({
           {label.text}
         </Text>
         <Switch
-          value={value ?? false}
+          value={value}
           disabled={disabled}
           onValueChange={handleChange}
         />
       </Stack>
+      {errorText && (
+        <Text size={12} color="#DC2626">
+          {errorText}
+        </Text>
+      )}
     </Box>
   );
 }

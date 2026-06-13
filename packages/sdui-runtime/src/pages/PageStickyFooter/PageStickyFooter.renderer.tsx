@@ -8,7 +8,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import type { Page } from "@one-impression/sdk-native-sdui";
+import type { Page, Node } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
@@ -26,9 +26,6 @@ const styles = StyleSheet.create({
   },
   bodyScroll: {
     flex: 1,
-  },
-  footer: {
-    // Footer is pinned at the bottom, outside the scroll area
   },
 });
 
@@ -65,6 +62,7 @@ export function PageStickyFooterRenderer({
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
         overlay_on_click: (sheet as { overlay_on_click?: unknown })
@@ -136,11 +134,7 @@ export function PageStickyFooterRenderer({
   return (
     <View style={styles.container}>
       {wrappedBody}
-      {footer ? (
-        <View style={styles.footer}>
-          <Interpreter node={footer as any} />
-        </View>
-      ) : null}
+      {footer ? <Interpreter node={footer as any} /> : null}
     </View>
   );
 }

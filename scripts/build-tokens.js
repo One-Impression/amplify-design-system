@@ -350,6 +350,7 @@ function buildReactNative() {
   const sduiRadius = {};
   const sduiBorderWidth = {};
   const sduiComponentButton = {};
+  const sduiComponentField = {};
 
   for (const [key, value] of Object.entries(flat)) {
     // ── SDUI tokens (sdui-* prefix) ──
@@ -384,6 +385,10 @@ function buildReactNative() {
       const name = key.replace('sdui-component-button-', '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
       const numVal = parseInt(String(value), 10);
       if (!isNaN(numVal)) sduiComponentButton[name] = numVal;
+    } else if (key.startsWith('sdui-component-field-')) {
+      const name = key.replace('sdui-component-field-', '').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+      const numVal = parseInt(String(value), 10);
+      if (!isNaN(numVal)) sduiComponentField[name] = numVal;
     }
     // ── Theme / semantic / primitive color tokens ──
     else if (key.startsWith('theme-color-') || key.startsWith('semantic-')) {
@@ -414,7 +419,7 @@ function buildReactNative() {
     iconSize: sduiIconSize,
     radius: sduiRadius,
     borderWidth: sduiBorderWidth,
-    component: { button: sduiComponentButton },
+    component: { button: sduiComponentButton, field: sduiComponentField },
   };
   // Populate sdui.color from the sdui-color-* entries already in colors
   for (const [key, value] of Object.entries(flat)) {

@@ -16,6 +16,7 @@ import { handleCompound } from "./compound.js";
 import { handleCapability } from "./capability.js";
 import { handleDeeplink } from "./deeplink.js";
 import { handleBranch } from "./branch.js";
+import { handleSubmit } from "./submit.js";
 
 export {
   handleNavigate,
@@ -32,6 +33,7 @@ export {
   handleCapability,
   handleDeeplink,
   handleBranch,
+  handleSubmit,
 };
 
 /**
@@ -53,4 +55,5 @@ export const actionHandlerMap: Record<string, ActionHandler> = {
   compound: handleCompound,
   deeplink: handleDeeplink,
   branch: handleBranch,
+  submit: handleSubmit,
 };

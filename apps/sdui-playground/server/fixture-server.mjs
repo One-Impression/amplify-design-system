@@ -13,12 +13,15 @@ import { dirname, join } from "node:path";
  * their normal metro Fast Refresh; only page content lives here.
  *
  * `GET /sdui/page/:target` → ./pages/:target.json   |   `GET /healthz`
+ * `POST /submit/:formId` → echoes the body; 422 with field errors for a
+ *   server-only "name taken" rule (demonstrates the submit on_error path).
  *
  * Run: `npm run serve:fixtures`. Reach from the emulator with
  * `adb reverse tcp:3012 tcp:3012`.
  */
 const PORT = Number(process.env.PORT ?? 3012);
 const PAGE_PREFIX = "/sdui/page/";
+const SUBMIT_PREFIX = "/submit/";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PAGES_DIR = join(HERE, "pages");
 // The full icon manifest (all 225 glyphs) the IconStoreProvider fetches.
@@ -37,6 +40,20 @@ const listTargets = async () =>
   (await readdir(PAGES_DIR))
     .filter((f) => f.endsWith(".json"))
     .map((f) => f.slice(0, -".json".length));
+
+/** Collect a request body and parse it as JSON ({} on empty/invalid). */
+const readJsonBody = (req) =>
+  new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (c) => (raw += c));
+    req.on("end", () => {
+      try {
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch {
+        resolve({});
+      }
+    });
+  });
 
 const server = createServer(async (req, res) => {
   const url = req.url ?? "/";
@@ -58,6 +75,21 @@ const server = createServer(async (req, res) => {
     } catch (e) {
       json(res, 500, { error: `icon manifest unavailable: ${String(e)}` });
     }
+    return;
+  }
+
+  // Form submission target. Echoes the merged body the runtime POSTs, and
+  // demonstrates server-authoritative field errors: a "taken" campaign name is
+  // rejected with a 422 the client can't pre-check (a uniqueness rule).
+  if (req.method === "POST" && url.startsWith(SUBMIT_PREFIX)) {
+    const formId = decodeURIComponent(url.slice(SUBMIT_PREFIX.length));
+    const submitted = await readJsonBody(req);
+    console.log(`[fixture-server] submit ${formId}:`, JSON.stringify(submitted));
+    if (typeof submitted.campaign_name === "string" && submitted.campaign_name.trim().toLowerCase() === "taken") {
+      json(res, 422, { errors: { campaign_name: "That campaign name is taken" } });
+      return;
+    }
+    json(res, 200, { ok: true, form_id: formId, received: submitted });
     return;
   }
 

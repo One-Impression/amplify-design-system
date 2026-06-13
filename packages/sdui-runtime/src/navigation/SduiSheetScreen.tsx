@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet, Text } from "react-native";
 import BottomSheet, {
   BottomSheetBackdrop,
+  BottomSheetFooter,
   BottomSheetScrollView,
   type BottomSheetBackdropProps,
+  type BottomSheetFooterProps,
 } from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Action } from "@one-impression/sdk-native-sdui";
@@ -97,6 +99,20 @@ export function SduiSheetScreen({
     [handleOverlayPress],
   );
 
+  // Sticky footer — pinned at the bottom of the sheet OUTSIDE the scroll area
+  // (the same shape a sticky-footer page gives a screen). gorhom's
+  // `BottomSheetFooter` keeps it fixed while `items` scroll behind it; the
+  // footer node (a `page_footer`) owns its own surface + safe-area inset.
+  const renderFooter = useCallback(
+    (props: BottomSheetFooterProps) =>
+      sheet?.footer ? (
+        <BottomSheetFooter {...props}>
+          <Interpreter node={sheet.footer} />
+        </BottomSheetFooter>
+      ) : null,
+    [sheet?.footer],
+  );
+
   if (!sheet) return null;
 
   return (
@@ -108,8 +124,15 @@ export function SduiSheetScreen({
       enableDynamicSizing={false}
       onClose={handleClose}
       backdropComponent={renderBackdrop}
+      footerComponent={sheet.footer ? renderFooter : undefined}
     >
-      <BottomSheetScrollView contentContainerStyle={styles.content}>
+      <BottomSheetScrollView
+        contentContainerStyle={[
+          styles.content,
+          // Reserve room so the last item isn't hidden behind the pinned footer.
+          sheet.footer && styles.contentWithFooter,
+        ]}
+      >
         <BottomSheetContext.Provider value={{ insideSheet: true }}>
           {sheet.title ? <Text style={styles.title}>{sheet.title}</Text> : null}
           {sheet.items.map((node, i) => (
@@ -123,5 +146,6 @@ export function SduiSheetScreen({
 
 const styles = StyleSheet.create({
   content: { paddingHorizontal: 16, paddingBottom: 32 },
+  contentWithFooter: { paddingBottom: 96 },
   title: { fontSize: 18, fontWeight: "700", paddingVertical: 12 },
 });

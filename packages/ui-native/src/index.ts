@@ -49,6 +49,9 @@ export type { SeparatorProps } from './primitives/Separator';
 // Button
 export { Button } from './primitives/Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './primitives/Button';
+// Per-variant colors (bg / text / border) — exported so consumers composing
+// custom button label content can match the variant's text color.
+export { variantColors as buttonVariantColors } from './primitives/Button/Button.styles';
 
 // Card
 export { Card } from './primitives/Card';
