@@ -14,6 +14,12 @@ export interface SheetEntry {
   title?: string;
   size: string;
   items: Node[];
+  /**
+   * Optional sticky footer node, pinned at the bottom of the sheet OUTSIDE
+   * the scroll area (mirrors a page's sticky-footer slot). Rendered via
+   * gorhom's `BottomSheetFooter` so it stays put as `items` scroll.
+   */
+  footer?: Node;
   on_dismiss?: unknown;
   on_open?: unknown;
   /**

@@ -19,6 +19,7 @@ declare module '@one-impression/tokens-creator/react-native' {
     borderWidth: Record<string, number>;
     component: {
       button: Record<string, number>;
+      field: Record<string, number>;
     };
   };
 }

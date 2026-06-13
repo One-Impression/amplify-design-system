@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BackHandler, ScrollView, RefreshControl } from "react-native";
-import type { Page } from "@one-impression/sdk-native-sdui";
+import type { Page, Node } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
@@ -38,6 +38,7 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
         overlay_on_click: (sheet as { overlay_on_click?: unknown })

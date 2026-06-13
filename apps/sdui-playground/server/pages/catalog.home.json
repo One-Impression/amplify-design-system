@@ -53,12 +53,60 @@
       },
       "data": {
         "title": {
-          "text": "Sticky footer page",
+          "text": "Sticky footer — transparent, 2 buttons",
           "font_weight": "medium",
           "font_size": "sdui.font-size.md"
         },
         "subtitle": {
-          "text": "card only",
+          "text": "transparent footer · secondary + primary",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {}
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-3b",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.sticky_footer.white_2"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Sticky footer — white, 2 buttons",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "white surface · secondary + primary",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {}
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-3c",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.sticky_footer.white_1"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Sticky footer — white, 1 button",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "white surface · single CTA",
           "color": "sdui.color.text-muted",
           "font_size": "sdui.font-size.sm"
         },
@@ -113,6 +161,33 @@
         },
         "subtitle": {
           "text": "card + right icon",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "right_icon": {
+          "name": "chevron-right"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-form",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.form"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Form — all input types",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "text · email · number · phone · single/multi select · toggle · upload + sticky submit",
           "color": "sdui.color.text-muted",
           "font_size": "sdui.font-size.sm"
         },
@@ -749,7 +824,28 @@
             }
           }
         }
-      ]
+      ],
+      "footer": {
+        "type": "creator.snippet.page_footer",
+        "id": "sheet-ftr-Info bottom sheet",
+        "data": {
+          "background": "transparent",
+          "primary_button": {
+            "type": "creator.ui_component.button",
+            "id": "sheet-btn-GotIt",
+            "on_click": {
+              "type": "dismiss",
+              "payload": {}
+            },
+            "data": {
+              "label": {
+                "text": "Got it"
+              },
+              "variant": "primary"
+            }
+          }
+        }
+      }
     },
     {
       "id": "sheet.confirm",

@@ -1,6 +1,6 @@
 {
-    "id": "demo.sticky_footer",
-    "title": "Sticky footer page",
+    "id": "demo.sticky_footer.white_1",
+    "title": "Sticky footer — white, 1 button",
     "protocol_version": "1.0.0",
     "layout": "sticky_footer",
     "data": {
@@ -8,17 +8,6 @@
             "type": "creator.snippet.page_footer",
             "id": "ftr-Continue",
             "data": {
-                "background": "transparent",
-                "secondary_button": {
-                    "type": "creator.ui_component.button",
-                    "id": "btn-SaveForLater",
-                    "data": {
-                        "label": {
-                            "text": "Save for later"
-                        },
-                        "variant": "secondary"
-                    }
-                },
                 "primary_button": {
                     "type": "creator.ui_component.button",
                     "id": "btn-Continue",
@@ -38,12 +27,12 @@
             "id": "hdr-Sticky footer",
             "data": {
                 "title": {
-                    "text": "Sticky footer",
+                    "text": "White footer · 1 button",
                     "font_size": "sdui.font-size.xl",
                     "font_weight": "bold"
                 },
                 "subtitle": {
-                    "text": "footer stays pinned while body scrolls",
+                    "text": "white surface bar, single primary CTA",
                     "color": "sdui.color.text-muted"
                 },
                 "left_icon": {
@@ -69,15 +58,6 @@
             "type": "creator.snippet.info_row",
             "id": "sample-info-row-23",
             "data": {
-                "left_media": {
-                    "type": "image",
-                    "image": {
-                        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",
-                        "width": 40,
-                        "height": 40,
-                        "container_shape": "circle"
-                    }
-                },
                 "title": {
                     "text": "Reward",
                     "font_weight": "medium",

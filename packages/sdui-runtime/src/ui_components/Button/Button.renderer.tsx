@@ -1,10 +1,25 @@
 import React from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { ButtonComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Button as DSButton, Text as DSText } from "@one-impression/ui-native";
+import {
+  Button as DSButton,
+  Text as DSText,
+  buttonVariantColors,
+} from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+
+/**
+ * The wire button-size enum (`small|medium|large`, ButtonSizeSchema) differs
+ * from ui-native's `sm|md|lg`. Map it here — the renderer is the adapter.
+ * Without this, any explicit wire size crashes ui-native's sizeStyles lookup.
+ */
+const SIZE_MAP: Record<string, "sm" | "md" | "lg"> = {
+  small: "sm",
+  medium: "md",
+  large: "lg",
+};
 
 export function ButtonRenderer(node: Node): React.ReactElement {
   const actionEngine = useActionEngine();
@@ -25,10 +40,12 @@ export function ButtonRenderer(node: Node): React.ReactElement {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v) => (
+      {(v) => {
+        const dsSize = v.size ? SIZE_MAP[v.size] : undefined;
+        return (
         <DSButton
           variant={v.variant}
-          size={v.size}
+          size={dsSize}
           loading={v.loading}
           disabled={v.disabled}
           onPress={
@@ -40,12 +57,27 @@ export function ButtonRenderer(node: Node): React.ReactElement {
               ButtonComponentSchema types it that way, so render it directly
               instead of routing through the Interpreter (which requires a
               wire `type` and crashed on every button). */}
-          <DSText color={v.label.color} size={v.label.font_size}>
+          {/* Default the label color to the variant's text color (e.g. white
+              on a primary/purple button) unless the contract overrides it. */}
+          {/* Label typography is intrinsic to the button, not required from
+              the backend: size follows the button's `size` (falling back to a
+              comfortable default) and weight is semibold. The contract only
+              overrides via label.color / label.font_size. The renderer owns
+              this because it renders the label directly, bypassing the
+              Button's own string-label styling. */}
+          <DSText
+            color={
+              v.label.color ?? buttonVariantColors[v.variant ?? "primary"]?.text
+            }
+            size={v.label.font_size ?? "md"}
+            weight="semibold"
+          >
             {v.label.text}
           </DSText>
           {v.icon_right && <Interpreter node={v.icon_right} />}
         </DSButton>
-      )}
+        );
+      }}
     </SduiNode>
   );
 }

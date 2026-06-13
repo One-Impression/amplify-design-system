@@ -1,11 +1,85 @@
 import React, { useCallback } from "react";
+import { Pressable } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { PhoneNumberInputSchema } from "@one-impression/sdk-native-sdui";
-import { Input as DSInput, Box, Stack, Text } from "@one-impression/ui-native";
+import { Input as DSInput, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+import { useFormField, useFormId } from "../../form/index.js";
+import { useBottomSheetStore } from "../../bottom-sheet/index.js";
+import { presentSheet } from "../../navigation/sheetPresenter.js";
+import { COUNTRIES, countryForDialCode, DEFAULT_COUNTRY } from "../../data/countries.js";
+import type { ValidationRule } from "../../validation/index.js";
 
+/**
+ * Phone number = the generic Input + a leading country-code chip (NOT a bespoke
+ * input). The chip opens a bottom sheet whose body is the `single_select_input`
+ * we already built — bound to the same form via `form_id`, options sourced from
+ * the runtime country dataset, with `on_change: dismiss` for tap-to-pick-and-close.
+ * Two form fields result: the number (`field_name`) + the dial code
+ * (`<field_name>_country_code`).
+ */
 export function PhoneNumberInputRenderer(node: Node): React.ReactElement {
+  const data = node.data as
+    | { form_id?: string; field_name?: string; value?: string; validations?: ValidationRule[] }
+    | undefined;
+  const formId = useFormId(data?.form_id);
+  const fieldName = data?.field_name;
+  const ccFieldName = fieldName ? `${fieldName}_country_code` : undefined;
+
+  const numberField = useFormField<string>(
+    formId,
+    fieldName,
+    data?.value ?? "",
+    data?.validations,
+  );
+  const ccField = useFormField<string>(
+    formId,
+    ccFieldName,
+    DEFAULT_COUNTRY.dialCode,
+  );
+  const register = useBottomSheetStore((s) => s.register);
+  const actionEngine = useActionEngine();
+
+  const errorText = numberField.touched ? numberField.error ?? undefined : undefined;
+
+  // Build + register the country-picker sheet (single-select bound to the form's
+  // country-code field) and present it. Reuses the route sheet + single-select.
+  const openCountryPicker = useCallback(() => {
+    if (!formId || !ccFieldName) return;
+    const options: Node[] = COUNTRIES.map((c) => ({
+      type: "creator.ui_component.selectable_item",
+      id: `cc-${c.iso}`,
+      data: {
+        label: { text: `${c.flag}  ${c.name}` },
+        subtitle: { text: c.dialCode },
+        value: c.dialCode,
+      },
+    })) as unknown as Node[];
+
+    const singleSelect = {
+      type: "creator.snippet.single_select_input",
+      id: `cc-select-${ccFieldName}`,
+      data: {
+        form_id: formId,
+        field_name: ccFieldName,
+        selected_value: ccField.value,
+        // Tap a country → single-select writes the dial code → sheet dismisses.
+        on_change: { type: "dismiss", payload: {} },
+        options,
+      },
+    } as unknown as Node;
+
+    const sheetId = `__cc_picker_${formId}_${ccFieldName}`;
+    register(sheetId, {
+      id: sheetId,
+      title: "Select country",
+      size: "large",
+      items: [singleSelect],
+    });
+    presentSheet(sheetId);
+  }, [formId, ccFieldName, ccField.value, register]);
+
   return (
     <SduiNode
       data={node.data}
@@ -18,96 +92,42 @@ export function PhoneNumberInputRenderer(node: Node): React.ReactElement {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v) => (
-        <PhoneNumberInputInner
-          label={v.label}
-          value={v.value}
-          countryCode={v.country_code}
-          placeholder={v.placeholder}
-          required={v.required}
-          disabled={v.disabled}
-          onChange={node.data?.on_change}
-          onSubmit={node.data?.on_submit}
-          onFocus={node.data?.on_focus}
-          onBlur={node.data?.on_blur}
-        />
-      )}
-    </SduiNode>
-  );
-}
-
-function PhoneNumberInputInner({
-  label,
-  value,
-  countryCode,
-  placeholder,
-  required,
-  disabled,
-  onChange,
-  onSubmit,
-  onFocus,
-  onBlur,
-}: {
-  label?: { text?: string; color?: string; font_size?: number; font_weight?: string };
-  value?: string;
-  countryCode?: string;
-  placeholder?: { text?: string };
-  required?: boolean;
-  disabled?: boolean;
-  onChange?: unknown;
-  onSubmit?: unknown;
-  onFocus?: unknown;
-  onBlur?: unknown;
-}): React.ReactElement {
-  const actionEngine = useActionEngine();
-
-  const handleChange = useCallback(
-    (text: string) => {
-      if (onChange) actionEngine.dispatch(onChange as any);
-    },
-    [actionEngine, onChange],
-  );
-
-  const handleSubmit = useCallback(() => {
-    if (onSubmit) actionEngine.dispatch(onSubmit as any);
-  }, [actionEngine, onSubmit]);
-
-  const handleFocus = useCallback(() => {
-    if (onFocus) actionEngine.dispatch(onFocus as any);
-  }, [actionEngine, onFocus]);
-
-  const handleBlur = useCallback(() => {
-    if (onBlur) actionEngine.dispatch(onBlur as any);
-  }, [actionEngine, onBlur]);
-
-  return (
-    <Box>
-      {label && (
-        <Text
-          color={label.color}
-          size={label.font_size}
-          weight={label.font_weight}
-        >
-          {label.text}{required ? " *" : ""}
-        </Text>
-      )}
-      <Stack direction="row" align="center" gap={8}>
-        <Box paddingHorizontal={12} paddingVertical={8} bg="#F5F5F5" rounded={8}>
-          <Text>{countryCode ?? "+91"}</Text>
-        </Box>
-        <Box flex={1}>
+      {(v) => {
+        const country = countryForDialCode(ccField.value);
+        const labelText = v.label?.text
+          ? `${v.label.text}${v.required ? " *" : ""}`
+          : undefined;
+        const chip = (
+          <Pressable onPress={openCountryPicker} disabled={v.disabled} hitSlop={6}>
+            <Stack direction="row" align="center" gap={4}>
+              <Text size={16}>{country.flag}</Text>
+              <Text size={14} color="#222">{country.dialCode}</Text>
+              <Text size={12} color="#999">▾</Text>
+            </Stack>
+          </Pressable>
+        );
+        return (
           <DSInput
-            placeholder={placeholder?.text}
-            value={value}
-            disabled={disabled}
+            label={labelText}
+            floatingLabel
+            leading={chip}
+            value={numberField.value}
+            placeholder={v.placeholder?.text}
+            disabled={v.disabled}
+            error={!!errorText}
+            helperText={errorText}
             keyboardType="phone-pad"
-            onChangeText={handleChange}
-            onSubmitEditing={handleSubmit}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onChangeText={(t) => {
+              numberField.setValue(t);
+              if (node.data?.on_change) actionEngine.dispatch(node.data.on_change as any);
+            }}
+            onBlur={() => {
+              numberField.markTouched();
+              if (node.data?.on_blur) actionEngine.dispatch(node.data.on_blur as any);
+            }}
           />
-        </Box>
-      </Stack>
-    </Box>
+        );
+      }}
+    </SduiNode>
   );
 }
