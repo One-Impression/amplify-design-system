@@ -4,6 +4,33 @@
   "protocol_version": "1.0.0",
   "layout": "sticky_footer",
   "data": {
+    "header": {
+      "type": "creator.snippet.page_header",
+      "id": "form-header",
+      "data": {
+        "title": {
+          "text": "New campaign",
+          "font_size": "sdui.font-size.xl",
+          "font_weight": "bold",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "subtitle": {
+          "text": "Tell us about your brief",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "left_icon": {
+          "name": "back-icon",
+          "size": "sdui.icon-size.lg",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "background": {
+          "gradient": {
+            "colors": ["#4F46E5", "#9333EA", "#EC4899"],
+            "angle": 120
+          }
+        }
+      }
+    },
     "footer": {
       "type": "creator.snippet.page_footer",
       "id": "form-footer",
@@ -109,9 +136,10 @@
               "field_name": "budget",
               "input_type": "number",
               "label": {
-                "text": "Budget (₹)",
+                "text": "Budget",
                 "font_weight": "semiBold"
               },
+              "leading": { "text": "₹" },
               "placeholder": {
                 "text": "50000"
               },
@@ -124,15 +152,35 @@
             }
           },
           {
-            "type": "creator.snippet.phone_number_input",
+            "type": "creator.snippet.input",
             "id": "f-phone",
             "data": {
               "field_name": "phone",
+              "input_type": "phone",
               "label": {
                 "text": "Phone number",
                 "font_weight": "semiBold"
               },
-              "country_code": "+91",
+              "leading": {
+                "type": "creator.ui_component.select_trigger",
+                "id": "phone-cc-trigger",
+                "data": {
+                  "form_id": "campaign",
+                  "field_name": "phone_country_code",
+                  "default_value": "+91",
+                  "trailing_icon": "chevron-down",
+                  "value_display": {
+                    "+91": "🇮🇳 +91", "+1": "🇺🇸 +1", "+44": "🇬🇧 +44",
+                    "+971": "🇦🇪 +971", "+65": "🇸🇬 +65", "+61": "🇦🇺 +61",
+                    "+49": "🇩🇪 +49", "+33": "🇫🇷 +33", "+81": "🇯🇵 +81",
+                    "+55": "🇧🇷 +55", "+62": "🇮🇩 +62"
+                  }
+                },
+                "on_click": {
+                  "type": "sheet",
+                  "payload": { "sheet_id": "country_picker" }
+                }
+              },
               "placeholder": {
                 "text": "98765 43210"
               },
@@ -270,6 +318,38 @@
           }
         ]
       }
+    }
+  ],
+  "bottom_sheets": [
+    {
+      "id": "country_picker",
+      "title": "Select country",
+      "size": "large",
+      "items": [
+        {
+          "type": "creator.snippet.single_select_input",
+          "id": "country-select",
+          "data": {
+            "form_id": "campaign",
+            "field_name": "phone_country_code",
+            "selected_value": "+91",
+            "on_change": { "type": "dismiss", "payload": {} },
+            "options": [
+              { "type": "creator.ui_component.selectable_item", "id": "cc-IN", "data": { "label": { "text": "🇮🇳  India" }, "subtitle": { "text": "+91" }, "value": "+91" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-US", "data": { "label": { "text": "🇺🇸  United States" }, "subtitle": { "text": "+1" }, "value": "+1" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-GB", "data": { "label": { "text": "🇬🇧  United Kingdom" }, "subtitle": { "text": "+44" }, "value": "+44" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-AE", "data": { "label": { "text": "🇦🇪  United Arab Emirates" }, "subtitle": { "text": "+971" }, "value": "+971" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-SG", "data": { "label": { "text": "🇸🇬  Singapore" }, "subtitle": { "text": "+65" }, "value": "+65" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-AU", "data": { "label": { "text": "🇦🇺  Australia" }, "subtitle": { "text": "+61" }, "value": "+61" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-DE", "data": { "label": { "text": "🇩🇪  Germany" }, "subtitle": { "text": "+49" }, "value": "+49" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-FR", "data": { "label": { "text": "🇫🇷  France" }, "subtitle": { "text": "+33" }, "value": "+33" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-JP", "data": { "label": { "text": "🇯🇵  Japan" }, "subtitle": { "text": "+81" }, "value": "+81" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-BR", "data": { "label": { "text": "🇧🇷  Brazil" }, "subtitle": { "text": "+55" }, "value": "+55" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-ID", "data": { "label": { "text": "🇮🇩  Indonesia" }, "subtitle": { "text": "+62" }, "value": "+62" } }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

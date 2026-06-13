@@ -48,7 +48,6 @@ import { ListRenderer } from "../snippets/List/index.js";
 
 // Input / Selection
 import { InputRenderer } from "../snippets/Input/index.js";
-import { PhoneNumberInputRenderer } from "../snippets/PhoneNumberInput/index.js";
 import { ToggleInputRenderer } from "../snippets/ToggleInput/index.js";
 import { SingleSelectInputRenderer } from "../snippets/SingleSelectInput/index.js";
 import { MultiSelectInputRenderer } from "../snippets/MultiSelectInput/index.js";
@@ -109,9 +108,8 @@ export const snippetRegistry: Record<string, (node: Node) => React.ReactElement>
   "creator.snippet.info_breakdown_row": InfoBreakdownRowRenderer,
   "creator.snippet.list": ListRenderer,
 
-  // Input / Selection (6)
+  // Input / Selection
   "creator.snippet.input": InputRenderer,
-  "creator.snippet.phone_number_input": PhoneNumberInputRenderer,
   "creator.snippet.toggle_input": ToggleInputRenderer,
   "creator.snippet.single_select_input": SingleSelectInputRenderer,
   "creator.snippet.multi_select_input": MultiSelectInputRenderer,

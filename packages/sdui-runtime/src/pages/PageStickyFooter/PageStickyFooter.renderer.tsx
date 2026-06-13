@@ -48,8 +48,9 @@ export function PageStickyFooterRenderer({
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
 
   const pageData = page.data as
-    | { footer?: unknown; keyboard_aware?: boolean }
+    | { header?: unknown; footer?: unknown; keyboard_aware?: boolean }
     | undefined;
+  const header = pageData?.header;
   const footer = pageData?.footer;
   const keyboardAware = pageData?.keyboard_aware ?? false;
 
@@ -62,6 +63,7 @@ export function PageStickyFooterRenderer({
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        header: (sheet as { header?: Node }).header,
         footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
@@ -133,6 +135,10 @@ export function PageStickyFooterRenderer({
 
   return (
     <View style={styles.container}>
+      {/* Pinned top header SLOT — symmetric with the sticky footer slot below.
+          Owns its own top chrome (safe-area + background); the native nav
+          header is hidden when this is present (see SduiNavigationHost). */}
+      {header ? <Interpreter node={header as any} /> : null}
       {wrappedBody}
       {footer ? <Interpreter node={footer as any} /> : null}
     </View>

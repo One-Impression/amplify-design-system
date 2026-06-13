@@ -1,18 +1,71 @@
 import React, { useCallback } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InputSnippetSchema } from "@one-impression/sdk-native-sdui";
-import { Input as DSInput, Box } from "@one-impression/ui-native";
+import { Input as DSInput, Box, Icon as DSIcon, Stack, Text } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
+import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useFormField, useFormId } from "../../form/index.js";
 import type { ValidationRule } from "../../validation/index.js";
 
+/** Lightweight static shorthand for a leading/trailing slot. */
+interface AdornmentSpec {
+  icon?: string;
+  text?: string;
+}
+
+/** Static icon/text adornment for a leading/trailing slot. */
+function Adornment({ icon, text }: AdornmentSpec): React.ReactElement | null {
+  if (!icon && !text) return null;
+  return (
+    <Stack direction="row" align="center" gap={4}>
+      {icon ? <DSIcon name={icon} size={18} color="#666" /> : null}
+      {text ? <Text size={14} color="#666">{text}</Text> : null}
+    </Stack>
+  );
+}
+
+/**
+ * Resolve a leading/trailing slot from the wire. A full Node (has `type`) is
+ * rendered via the Interpreter — so the slot holds ANYTHING (icon, text, a
+ * `select_trigger` that opens a picker sheet). A `{ icon, text }` shorthand
+ * renders a lightweight static adornment.
+ */
+function adornmentNode(
+  spec: AdornmentSpec | Node | undefined,
+): React.ReactNode {
+  if (!spec) return undefined;
+  if ((spec as Node).type) return <Interpreter node={spec as Node} />;
+  const s = spec as AdornmentSpec;
+  return s.icon || s.text ? <Adornment icon={s.icon} text={s.text} /> : undefined;
+}
+
+const KEYBOARD: Record<string, "default" | "numeric" | "email-address" | "phone-pad" | "decimal-pad"> = {
+  number: "numeric",
+  email: "email-address",
+  phone: "phone-pad",
+  decimal: "decimal-pad",
+};
+
+/**
+ * The one generic text input. Handles every `input_type` (text/email/number/
+ * phone/decimal → keyboard) and optional `leading`/`trailing` slots from the
+ * wire — a `{ icon, text }` shorthand, or any Node (rendered via Interpreter,
+ * e.g. a `select_trigger` that opens a picker sheet). Phone is just this input
+ * with `input_type: "phone"` + a `select_trigger` leading — no bespoke snippet.
+ */
 export function InputRenderer(node: Node): React.ReactElement {
-  // `form_id` is a wire extension read raw (not yet in the schema). The field
-  // binds to the form store by (form_id, field_name); when either is absent the
-  // binding is inert and the input is just locally controlled by `data.value`.
+  // `form_id` / `leading` / `trailing` are wire extensions read raw (not yet in
+  // the schema). The field binds to the store by (form_id, field_name).
   const data = node.data as
-    | { form_id?: string; field_name?: string; value?: string; validations?: ValidationRule[] }
+    | {
+        form_id?: string;
+        field_name?: string;
+        value?: string;
+        validations?: ValidationRule[];
+        leading?: AdornmentSpec | Node;
+        trailing?: AdornmentSpec | Node;
+      }
     | undefined;
   const formId = useFormId(data?.form_id);
   const field = useFormField<string>(
@@ -21,8 +74,11 @@ export function InputRenderer(node: Node): React.ReactElement {
     data?.value ?? "",
     data?.validations,
   );
-  // Show the error only once the field is touched (design D8).
+
   const errorText = field.touched ? field.error ?? undefined : undefined;
+
+  const leadingNode = adornmentNode(data?.leading);
+  const trailingNode = adornmentNode(data?.trailing);
 
   return (
     <SduiNode
@@ -46,6 +102,8 @@ export function InputRenderer(node: Node): React.ReactElement {
           disabled={v.disabled}
           maxLength={v.max_length}
           errorText={errorText}
+          leading={leadingNode}
+          trailing={trailingNode}
           onChangeValue={field.setValue}
           onBlurField={field.markTouched}
           onChange={node.data?.on_change}
@@ -67,6 +125,8 @@ function InputInner({
   disabled,
   maxLength,
   errorText,
+  leading,
+  trailing,
   onChangeValue,
   onBlurField,
   onChange,
@@ -81,11 +141,10 @@ function InputInner({
   required?: boolean;
   disabled?: boolean;
   maxLength?: number;
-  /** Touched-gated error message to show below the input (undefined = none). */
   errorText?: string;
-  /** Store-backed setter for this field's value. */
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
   onChangeValue: (next: string) => void;
-  /** Mark this field touched (on blur) so its error can surface. */
   onBlurField: () => void;
   onChange?: unknown;
   onSubmit?: unknown;
@@ -96,9 +155,7 @@ function InputInner({
 
   const handleChange = useCallback(
     (text: string) => {
-      // Primary: write the typed value into the form store.
       onChangeValue(text);
-      // Secondary: fire the server-declared on_change side effect, if any.
       if (onChange) actionEngine.dispatch(onChange as any);
     },
     [actionEngine, onChange, onChangeValue],
@@ -113,15 +170,11 @@ function InputInner({
   }, [actionEngine, onFocus]);
 
   const handleBlur = useCallback(() => {
-    // Primary: mark touched so a validation error can show.
     onBlurField();
-    // Secondary: fire the server-declared on_blur side effect, if any.
     if (onBlur) actionEngine.dispatch(onBlur as any);
   }, [actionEngine, onBlur, onBlurField]);
 
-  // Material-style floating label: the label lives INSIDE the input (placeholder
-  // when empty, floats to the top border on focus/value) — so no separate label
-  // Text above. The `required` marker rides on the label string.
+  // Floating label lives inside the field; the `required` marker rides on it.
   const labelText = label?.text
     ? `${label.text}${required ? " *" : ""}`
     : undefined;
@@ -131,13 +184,15 @@ function InputInner({
       <DSInput
         label={labelText}
         floatingLabel
+        leading={leading}
+        trailing={trailing}
         placeholder={placeholder?.text}
         value={value}
         disabled={disabled}
         maxLength={maxLength}
         error={!!errorText}
         helperText={errorText}
-        keyboardType={inputType === "number" ? "numeric" : inputType === "email" ? "email-address" : "default"}
+        keyboardType={(inputType && KEYBOARD[inputType]) || "default"}
         onChangeText={handleChange}
         onSubmitEditing={handleSubmit}
         onFocus={handleFocus}
