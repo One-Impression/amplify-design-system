@@ -84,7 +84,7 @@ export function GroupConfigRenderer(node: Node): React.ReactElement {
           <DSCard
             bg={cfg.card.bg_color}
             borderColor={cfg.card.border_color}
-            elevation={(cfg.card.elevation ?? "sm") as never}
+            elevation={cfg.card.elevation as never}
           >
             {content}
           </DSCard>
