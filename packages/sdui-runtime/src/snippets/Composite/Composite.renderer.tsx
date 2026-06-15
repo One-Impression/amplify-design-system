@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { z } from "zod";
 import { View, StyleSheet, type LayoutChangeEvent } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
+import { CompositeSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Card as DSCard } from "@one-impression/ui-native";
 import { sdui } from "@one-impression/tokens-creator/react-native";
 import { SduiNode } from "../../sdui-node/index.js";
@@ -13,17 +13,15 @@ import { Interpreter } from "../../interpreter/index.js";
  * The composite owns ARRANGEMENT (gutter, full-bleed, overlap, gaps) — never
  * CONTENTS. New arrangements are new `layout` values, never new snippet types.
  *
- * Reads `data` raw (permissive `z.any()` schema) until the typed
- * discriminated-union schema lands in `@one-impression/sdk-native-sdui`. The
- * SduiNode wrapper still gives it the clickable / viewable / trigger wiring.
+ * Validated against the typed discriminated-union `CompositeSchema.shape.data`
+ * from `@one-impression/sdk-native-sdui`; SduiNode handles the
+ * clickable / viewable / trigger wiring.
  *
  * Implemented layouts:
  *   - "cover"        media (full-bleed) + overlay chips + float (edge-overlap)
- *                    + body (gutter-inset rows) + banner (full-width footer)
+ *                    + body (gutter-inset rows) + footer (full-width strip)
  *   - "stack"/"row"  generic linear arrangement (supersedes group_config)
  */
-
-const RAW_SCHEMA = z.any();
 
 // Internal rhythm — owned by the composite, sourced from tokens (same discipline
 // as the page gutter). Not declared per-instance on the wire.
@@ -232,7 +230,7 @@ export function CompositeRenderer(node: Node): React.ReactElement | null {
   return (
     <SduiNode
       data={node.data}
-      schema={RAW_SCHEMA}
+      schema={CompositeSchema.shape.data}
       id={node.id}
       type={node.type}
       on_click={node.on_click}
@@ -242,7 +240,10 @@ export function CompositeRenderer(node: Node): React.ReactElement | null {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v: Record<string, unknown>) => {
+      {(validated) => {
+        // The slot components read fields defensively off a loose record; the
+        // discriminated union is already validated by SduiNode above.
+        const v = validated as Record<string, unknown>;
         switch (layout) {
           case "cover":
             return <CoverLayout v={v} />;

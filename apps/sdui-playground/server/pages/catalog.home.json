@@ -833,7 +833,7 @@
       "id": "grp-horizontal",
       "data": {
         "stacking": "horizontal",
-        "gap": "sm",
+        "gap": "sdui.spacing.sm",
         "items": [
           { "type": "creator.ui_component.tag", "id": "grp-tag-reach", "data": { "label": { "text": "Reach", "color": "sdui.color.neutral-inverse" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } },
           { "type": "creator.ui_component.tag", "id": "grp-tag-eng", "data": { "label": { "text": "Engagement", "color": "sdui.color.neutral-inverse" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } },
@@ -874,7 +874,7 @@
       "id": "grp-horizontal-cards",
       "data": {
         "stacking": "horizontal",
-        "gap": "md",
+        "gap": "sdui.spacing.md",
         "item_flex": "equal",
         "items": [
           { "type": "creator.snippet.info_row", "id": "grp-card-mon", "data": { "title": { "text": "Mon", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "12 leads", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } },
@@ -897,7 +897,7 @@
       "data": {
         "stacking": "vertical",
         "card": {},
-        "gap": "md",
+        "gap": "sdui.spacing.md",
         "items": [
           { "type": "creator.snippet.info_row", "id": "grp-cv-1", "data": { "title": { "text": "Reach", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "1.2M accounts", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
           { "type": "creator.snippet.info_row", "id": "grp-cv-2", "data": { "title": { "text": "Engagement", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "84K interactions", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
@@ -919,7 +919,7 @@
       "data": {
         "stacking": "horizontal",
         "card": {},
-        "gap": "md",
+        "gap": "sdui.spacing.md",
         "item_flex": "equal",
         "items": [
           { "type": "creator.snippet.info_row", "id": "grp-ch-1", "data": { "title": { "text": "Reach", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "1.2M", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
