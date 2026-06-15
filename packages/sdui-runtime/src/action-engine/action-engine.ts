@@ -13,6 +13,25 @@ import { actionHandlerMap } from "./handlers/index.js";
 import { handleCapability } from "./handlers/capability.js";
 
 /**
+ * Pending debounce timers, keyed by logical action identity (verb + target +
+ * endpoint). A rapid burst of "the same" action (e.g. a filter toggled several
+ * times) collapses onto the trailing dispatch — only the last run executes,
+ * after the window elapses. Module-level so a timer survives across the
+ * separate dispatch() calls a burst produces.
+ */
+const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+/** Stable key for coalescing repeat dispatches of "the same" action. */
+function debounceKey(action: Action): string {
+  const payload = action.payload as
+    | { endpoint?: string; target?: string }
+    | undefined;
+  const target = action.target ?? payload?.target ?? "";
+  const endpoint = payload?.endpoint ?? "";
+  return `${action.type}|${target}|${endpoint}`;
+}
+
+/**
  * Creates an ActionEngine instance bound to the given config.
  *
  * The engine exposes a single `dispatch` method that handlers use
@@ -42,6 +61,39 @@ async function dispatchAction(
   engine: ActionEngine,
 ): Promise<void> {
   const { type } = action;
+
+  // Backend-controlled debounce. When debounce_ms > 0, coalesce a rapid burst
+  // of this action onto the trailing dispatch: cancel any pending timer for
+  // this key and schedule the run after the window. The scheduled dispatch
+  // strips debounce_ms so it executes immediately (no re-debounce loop) and is
+  // fire-and-forget — the caller's promise resolves now, which is the intended
+  // debounce semantics. Errors in the detached run route through on_error (in
+  // the recursive dispatch) or are logged rather than left as unhandled.
+  const debounceMs = action.debounce_ms;
+  if (typeof debounceMs === "number" && debounceMs > 0) {
+    const key = debounceKey(action);
+    const existing = debounceTimers.get(key);
+    if (existing) clearTimeout(existing);
+    const timer = setTimeout(() => {
+      debounceTimers.delete(key);
+      void dispatchAction({ ...action, debounce_ms: 0 }, config, engine).catch(
+        (err) => {
+          console.warn(`action-engine: debounced "${type}" failed`, err);
+        },
+      );
+    }, debounceMs);
+    debounceTimers.set(key, timer);
+    return;
+  }
+
+  // Immediate dispatch supersedes any pending debounced run of the same key:
+  // e.g. a tab switch (reload, no debounce) cancels an in-flight filter
+  // reload so a stale filtered page can't land on top of the new tab.
+  const pending = debounceTimers.get(debounceKey(action));
+  if (pending) {
+    clearTimeout(pending);
+    debounceTimers.delete(debounceKey(action));
+  }
 
   // Route capability:* actions to the capability dispatcher.
   if (type.startsWith("capability:")) {

@@ -47,6 +47,14 @@ export interface PageStoreState {
   loading: boolean;
   /** Page-level error. */
   error: string | null;
+  /**
+   * Regions with a `reload` currently in flight, keyed by region name
+   * (`"header"`, `"content"`, …). A page renderer shows a region's skeleton
+   * while its entry is true. Set by the `reload` handler from the action's
+   * `regions`, cleared when the partial response merges. Regions not named in
+   * any in-flight reload (e.g. the footer shell) stay rendered.
+   */
+  loadingRegions: Record<string, boolean>;
 }
 
 export interface PageStoreActions {
@@ -82,6 +90,16 @@ export interface PageStoreActions {
    * Consumer: `handleAppendItems`.
    */
   appendItems: (targetId: string, items: Node[], options?: AppendItemsOptions) => void;
+  /**
+   * Apply a `reload` response as a PARTIAL page: shallow-merge `partial.data`
+   * into the live page's `data` (so unrefreshed regions + skeletons survive)
+   * and, when `partial.items` is present, replace top-level `items` (raw —
+   * node-level fields like `viewability` survive). No-op (with a warning) when
+   * no page is loaded.
+   */
+  mergeRegions: (partial: { data?: Record<string, unknown>; items?: Node[] }) => void;
+  /** Mark/clear a set of regions as reloading — drives their skeletons. */
+  setRegionsLoading: (regions: string[], loading: boolean) => void;
   /** Set loading state for a specific section. */
   setSectionLoading: (sectionId: string, loading: boolean) => void;
   /** Set error state for a specific section. */
@@ -100,6 +118,7 @@ const initialState: PageStoreState = {
   sections: {},
   loading: false,
   error: null,
+  loadingRegions: {},
 };
 
 /**
@@ -212,6 +231,26 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
 
   setPageTree: (page) =>
     set({ page, pageId: page.id, loading: false, error: null }),
+
+  mergeRegions: (partial) =>
+    set((state) => {
+      if (!state.page) {
+        console.warn("usePageStore.mergeRegions: no page loaded");
+        return {};
+      }
+      const nextData = partial.data
+        ? { ...(state.page.data ?? {}), ...partial.data }
+        : state.page.data;
+      const nextItems = partial.items ?? state.page.items;
+      return { page: { ...state.page, data: nextData, items: nextItems } };
+    }),
+
+  setRegionsLoading: (regions, loading) =>
+    set((state) => {
+      const next = { ...state.loadingRegions };
+      for (const r of regions) next[r] = loading;
+      return { loadingRegions: next };
+    }),
 
   replaceSection: (sectionId, data) =>
     set((state) => ({

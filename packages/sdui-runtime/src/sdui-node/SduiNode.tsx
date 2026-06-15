@@ -10,6 +10,9 @@ import { useViewportManaged } from "../viewport/index.js";
 import { useActionEngine } from "../action-engine/useActionEngine.js";
 import { useTelemetry } from "../telemetry/useTelemetry.js";
 import { parseNodeData } from "./parseNodeData.js";
+import { useShallow } from "zustand/react/shallow";
+import { useLocalStore } from "../state/useLocalStore.js";
+import { resolveRenderBindings } from "../action-engine/cond/resolve-render-bindings.js";
 
 interface TrackEvent {
   name: string;
@@ -41,14 +44,28 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
   // also fire on_view here through the onLayout proxy (which fires on render).
   const viewportManaged = useViewportManaged();
 
+  // Resolve render-time bindings reactively: any `data` field that is a
+  // `{ ref: "$.local.*" }` (e.g. a chip's `selected`, a tab's `active`) is read
+  // from the local store, so the node reflects local state the instant
+  // set_local runs — no reload. Non-binding nodes get back the SAME `data`
+  // reference, so this subscription never re-renders them on unrelated writes.
+  const boundData = useLocalStore(
+    useShallow((s) =>
+      resolveRenderBindings(
+        props.data as Record<string, unknown> | undefined,
+        s.data,
+      ),
+    ),
+  );
+
   // Parse defensively. A naked `schema.parse(...)` call would throw on
   // malformed or stale wire payloads and crash the entire page. During
   // the SDUI migration window, that's a real risk every time a handler
   // ships before its renderer (or vice versa) — so we fall back to a
   // discreet placeholder and emit telemetry instead.
   const parsed = useMemo(
-    () => parseNodeData(props.schema, props.data),
-    [props.schema, props.data],
+    () => parseNodeData(props.schema, boundData),
+    [props.schema, boundData],
   );
 
   useEffect(() => {

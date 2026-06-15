@@ -8,7 +8,7 @@ import { styles } from './Chip.styles';
  * Chip — a compact, selectable element for filters and multi-select.
  */
 export const Chip = React.forwardRef<View, ChipProps>(
-  ({ label, selected = false, disabled = false, icon, style, ...props }, ref) => {
+  ({ label, selected = false, disabled = false, icon, trailingIcon, style, ...props }, ref) => {
     return (
       <Pressable
         ref={ref}
@@ -25,6 +25,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
       >
         {icon}
         <Text style={[styles.label, selected && styles.labelSelected]}>{label}</Text>
+        {trailingIcon}
       </Pressable>
     );
   },

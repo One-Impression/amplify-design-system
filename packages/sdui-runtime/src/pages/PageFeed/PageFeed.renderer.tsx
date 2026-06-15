@@ -1,121 +1,70 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  BackHandler,
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-  View,
-} from "react-native";
-import { useShallow } from "zustand/react/shallow";
+import React, { useCallback, useRef, useState } from "react";
+import { FlatList, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { sdui } from "@one-impression/tokens-creator/react-native";
-import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
+import type { Node, Action } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useTelemetry } from "../../telemetry/useTelemetry.js";
-import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
-import { usePageRefresh } from "../../hooks/usePageRefresh.js";
-import { useAppStateSession } from "../../hooks/useAppStateSession.js";
-import { usePageStore } from "../../state/usePageStore.js";
 import { Gradient, type GradientItem } from "../../gradient/index.js";
 import { ViewportManagedProvider, fireViewability } from "../../viewport/index.js";
-import { extractFeedPageData, type FeedPageData } from "./extractFeedPageData.js";
+import { usePageScaffold } from "../_shared/usePageScaffold.js";
+import type { Page } from "@one-impression/sdk-native-sdui";
 
 interface PageProps {
   page: Page;
 }
 
+interface FeedConfig {
+  gradient?: GradientItem;
+  bg_color?: { type: string };
+}
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  /**
-   * Wrapping View that holds the gradient (absolute-positioned) behind the
-   * body. Mirrors legacy PageType3's outer `View` — flex:1 + position:relative
-   * so absolute-filled children paint behind the scroll body.
-   */
-  outer: {
-    flex: 1,
-    position: "relative",
-  },
-  /**
-   * Sticky top header region — rendered above the scrolling body, distinct
-   * from `items`. Legacy PageType3 keeps `header` (searchBar / profileHeader)
-   * outside the scroll view so it stays pinned.
-   */
-  header: {
-    width: "100%",
-  },
-  /** Body column that scrolls (FlatList) — sits above the gradient. */
-  body: {
-    flex: 1,
-  },
-  /**
-   * Pinned bottom footer slot. Legacy PageType3 renders `footer` inside
-   * `ScreenContainer` *outside* the scroll view, so the footer never moves
-   * with scroll content.
-   */
-  footer: {
-    width: "100%",
-  },
-  filterBar: {
-    flexDirection: "row",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  filterChip: {
-    marginRight: 8,
-  },
+  outer: { flex: 1, position: "relative" },
+  header: { width: "100%" },
+  body: { flex: 1 },
+  footer: { width: "100%" },
 });
 
-export type { FeedPageData };
-
 /**
- * Infinite-scroll feed page with horizontal filter chips, configurable
- * background (gradient or solid token color), and an optional pinned-bottom
- * footer slot.
- *
- * Legacy equivalent: PageType3.
- *
- * Uses FlatList (not ScrollView) for virtualized rendering of page.items.
- * Supports:
- * - `data.config.gradient`     — absolute-positioned gradient backdrop
- * - `data.config.bg_color`     — solid background token used when no gradient
- * - `data.config.scroll_header_color` — header tint applied while scrolled
- * - `data.footer`              — single Node pinned above the safe area (does
- *                                NOT scroll with the body)
- * - `data.filters`             — horizontal filter chips bar at the top
- * - Infinite scroll via on_load_more action
- * - Loader node displayed while fetching more items
- * - Empty state node when items is empty
- * - Pull-to-refresh via page.on_refresh
- *
- * NOTE: the matching `config` / `footer` schema fields are added on the
- * upstream `@one-impression/sdk-native-sdui` PageFeed schema. Until that
- * package republishes, the renderer reads them through
- * {@link extractFeedPageData} which casts the page `data` to the
- * augmented shape — the cast becomes a no-op once the upstream types
- * catch up.
+ * Feed layout — pure zone geometry over {@link usePageScaffold}. Three zones:
+ * a pinned `header` (region), a scrolling `content` body (region = top-level
+ * `items`, virtualized via FlatList), and a pinned `footer` (region — the shell).
+ * The scaffold decides content-vs-skeleton per region; this renderer only places
+ * each zone and owns content virtualization + viewport-driven infinite scroll.
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
+  const { page: livePage, getRegion, isRegionLoading, refreshing, onRefresh } =
+    usePageScaffold(page);
   const actionEngine = useActionEngine();
   const telemetry = useTelemetry();
-  const register = useBottomSheetStore((s) => s.register);
-  const unregister = useBottomSheetStore((s) => s.unregister);
-  const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const insets = useSafeAreaInsets();
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const loadingMoreRef = useRef(false);
 
-  // Viewport lifecycle for list items — real visibility via FlatList's
-  // onViewableItemsChanged (NOT onLayout). Fires each item's on_view/on_exit
-  // triggers per policy; one-shot triggers dedup against `viewFiredRef`. This is
-  // how backend-driven infinite scroll works: the BFF puts an `on_view`
-  // load-more on the Nth-last card; it fires only when that card is truly seen.
+  const data = (livePage.data ?? {}) as Record<string, unknown>;
+  const config = data.config as FeedConfig | undefined;
+  const gradient = config?.gradient;
+  const bgColorToken = config?.bg_color?.type;
+
+  // Regions resolved by the scaffold (content or skeleton, as appropriate).
+  const headerNodes = getRegion("header");
+  const footerNodes = getRegion("footer");
+
+  // Content zone is virtualized, so we choose FlatList (items) vs a plain
+  // skeleton list ourselves rather than via getRegion.
+  const items = (livePage.items ?? []) as Node[];
+  const contentSkeleton = data.content_skeleton as Node | undefined;
+  const showContentSkeleton =
+    !!contentSkeleton && (isRegionLoading("content") || items.length === 0);
+
+  // The header zone pads the top safe-area only while it shows the skeleton (the
+  // real page_header self-insets); avoids the skeleton sliding under the status bar.
+  const headerIsSkeleton = isRegionLoading("header") || !data.header;
+
+  // Viewport lifecycle for list items — real visibility (NOT onLayout). Powers
+  // backend-driven infinite scroll (a card's on_view load-more) + impressions.
   const viewFiredRef = useRef<Set<string>>(new Set());
-  // viewabilityConfig MUST be a stable reference — FlatList throws if it changes.
   const viewabilityConfigRef = useRef({
     itemVisiblePercentThreshold: 50,
     minimumViewTime: 250,
@@ -134,101 +83,6 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     },
   ).current;
 
-  const pageData = extractFeedPageData(page.data);
-  const { header, filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
-    pageData;
-  const gradient = config?.gradient as GradientItem | undefined;
-  const bgColorToken = config?.bg_color?.type;
-  const scrollHeaderColorToken = config?.scroll_header_color?.type;
-
-  // Sync the server-provided page tree into usePageStore on mount / whenever
-  // the page prop reference changes. This makes `replaceNode` / `appendItems`
-  // (dispatched from action handlers like reload_section / append_items)
-  // reactively flow back into this renderer below.
-  useEffect(() => {
-    usePageStore.getState().setPageTree(page);
-  }, [page]);
-
-  // Subscribe to the store for live updates to items. We fall back to the
-  // prop value when the store hasn't been populated yet (first render before
-  // the setPageTree effect commits) or when the store currently holds a
-  // different page (e.g. during a navigation transition). useShallow keeps
-  // the read atomic — pageId + items together — so the renderer can't see a
-  // torn snapshot under React 18 concurrent rendering.
-  const items = usePageStore(
-    useShallow((s) => {
-      if (s.pageId === page.id && s.page) {
-        return s.page.items;
-      }
-      return page.items;
-    }),
-  );
-
-  // Register inline bottom sheets (do not open) — see PageStandard for details.
-  useEffect(() => {
-    if (!page.bottom_sheets) return;
-    for (const sheet of page.bottom_sheets) {
-      register(sheet.id, {
-        id: sheet.id,
-        title: sheet.title,
-        size: sheet.size ?? "medium",
-        items: sheet.items ?? [],
-        header: (sheet as { header?: Node }).header,
-        footer: (sheet as { footer?: Node }).footer,
-        on_dismiss: sheet.on_dismiss,
-        on_open: sheet.on_open,
-        overlay_on_click: (sheet as { overlay_on_click?: unknown })
-          .overlay_on_click,
-      });
-    }
-    return () => {
-      if (!page.bottom_sheets) return;
-      for (const sheet of page.bottom_sheets) {
-        unregister(sheet.id);
-      }
-    };
-  }, [page.bottom_sheets, register, unregister]);
-
-  // Page lifecycle: on_load / on_dismount
-  useEffect(() => {
-    if (page.on_load) actionEngine.dispatch(page.on_load);
-    return () => {
-      if (page.on_dismount) actionEngine.dispatch(page.on_dismount);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // App foreground / background triggers
-  useAppStateSession(page.on_app_foreground, page.on_app_background);
-
-  // Hardware back-press handler (Android)
-  useEffect(() => {
-    if (!page.on_back_press) return;
-    const handler = () => {
-      actionEngine.dispatch(page.on_back_press!);
-      return true;
-    };
-    const subscription = BackHandler.addEventListener(
-      "hardwareBackPress",
-      handler,
-    );
-    return () => subscription.remove();
-  }, [actionEngine, page.on_back_press]);
-
-  // Infinite scroll — dispatch on_load_more when user scrolls near the bottom
-  const handleEndReached = useCallback(() => {
-    if (!onLoadMore || loadingMoreRef.current) return;
-    loadingMoreRef.current = true;
-    setLoadingMore(true);
-    actionEngine.dispatch(onLoadMore as Action);
-    // Reset loading state after timeout as safety net.
-    // The BFF response will re-render the page with new/appended items.
-    setTimeout(() => {
-      loadingMoreRef.current = false;
-      setLoadingMore(false);
-    }, 5000);
-  }, [actionEngine, onLoadMore]);
-
   const renderItem = useCallback(
     ({ item }: { item: Node }) => (
       <GutterItem node={item}>
@@ -237,62 +91,11 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     ),
     [],
   );
-
   const keyExtractor = useCallback(
     (item: Node, index: number) => item.id ?? `feed-item-${index}`,
     [],
   );
 
-  // Footer of the FlatList (NOT the pinned page footer): show loader node
-  // while loading more items.
-  const renderListFooter = useCallback(() => {
-    if (loadingMore && loader) {
-      return <Interpreter node={loader} />;
-    }
-    return null;
-  }, [loadingMore, loader]);
-
-  // Empty state when no items
-  const renderEmpty = useCallback(() => {
-    if (emptyState) {
-      return <Interpreter node={emptyState} />;
-    }
-    return null;
-  }, [emptyState]);
-
-  // Filter chips bar rendered as FlatList header. When `data.config.scroll_header_color`
-  // is set we tint the filter bar background after the user has scrolled,
-  // matching legacy `headerBg` Animated interpolation as a binary toggle.
-  const renderHeader = useCallback(() => {
-    if (!filters || filters.length === 0) return null;
-    const tint =
-      gradient && scrolled && scrollHeaderColorToken
-        ? { backgroundColor: scrollHeaderColorToken }
-        : null;
-    return (
-      <View style={[styles.filterBar, tint]}>
-        {filters.map((filterNode, i) => (
-          <View key={filterNode.id ?? `filter-${i}`} style={styles.filterChip}>
-            <Interpreter node={filterNode} />
-          </View>
-        ))}
-      </View>
-    );
-  }, [filters, gradient, scrolled, scrollHeaderColorToken]);
-
-  const handleScroll = useCallback(
-    (event: { nativeEvent: { contentOffset: { y: number } } }) => {
-      const y = event.nativeEvent.contentOffset.y;
-      if (y > 0 && !scrolled) setScrolled(true);
-      else if (y <= 0 && scrolled) setScrolled(false);
-    },
-    [scrolled],
-  );
-
-  // Background resolution:
-  // - When a gradient is present the gradient itself paints the backdrop.
-  // - Else if a token bg_color was provided we apply it as a solid fill.
-  // - Else: fall back to default transparent (host page / theme decides).
   const containerStyle =
     !gradient && bgColorToken
       ? [styles.outer, { backgroundColor: bgColorToken }]
@@ -301,46 +104,52 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   return (
     <View style={containerStyle}>
       {gradient ? <Gradient item={gradient} /> : null}
-      {/* Sticky top region above the scrolling body — distinct from `items`.
-          Legacy pageType3 renders `header` (searchBar / profileHeader) outside
-          the scroll view so it stays pinned. */}
-      {header ? (
-        <View style={styles.header}>
-          <Interpreter node={header} />
+
+      {/* Pinned header zone — region nodes (page_header + filters) or skeleton. */}
+      {headerNodes.length > 0 ? (
+        <View style={[styles.header, headerIsSkeleton ? { paddingTop: insets.top } : null]}>
+          {headerNodes.map((node, i) => (
+            <Interpreter key={node.id ?? `header-${i}`} node={node} />
+          ))}
         </View>
       ) : null}
-      {/* The list owns viewport detection for its items, so SduiNode defers its
-          on_view/on_exit to onViewableItemsChanged (real visibility) below. */}
+
+      {/* Scrolling content zone — items (virtualized) or content skeleton. */}
       <ViewportManagedProvider>
         <View style={styles.body}>
-          <FlatList
-            data={items}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            ListHeaderComponent={renderHeader}
-            ListFooterComponent={renderListFooter}
-            ListEmptyComponent={renderEmpty}
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={0.5}
-            onViewableItemsChanged={handleViewableItemsChanged}
-            viewabilityConfig={viewabilityConfigRef.current}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            contentContainerStyle={[
-              items?.length ? null : styles.container,
-              { paddingBottom: insets.bottom + sdui.spacing.lg },
-            ]}
-            refreshControl={
-              page.on_refresh ? (
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              ) : undefined
-            }
-          />
+          {showContentSkeleton ? (
+            <ScrollView
+              scrollEnabled={false}
+              contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
+            >
+              <GutterItem node={contentSkeleton!}>
+                <Interpreter node={contentSkeleton!} />
+              </GutterItem>
+            </ScrollView>
+          ) : (
+            <FlatList
+              data={items}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              onViewableItemsChanged={handleViewableItemsChanged}
+              viewabilityConfig={viewabilityConfigRef.current}
+              contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
+              refreshControl={
+                livePage.on_refresh ? (
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                ) : undefined
+              }
+            />
+          )}
         </View>
       </ViewportManagedProvider>
-      {footer ? (
+
+      {/* Pinned footer zone — the shell (tabs); never reloaded. */}
+      {footerNodes.length > 0 ? (
         <View style={styles.footer}>
-          <Interpreter node={footer} />
+          {footerNodes.map((node, i) => (
+            <Interpreter key={node.id ?? `footer-${i}`} node={node} />
+          ))}
         </View>
       ) : null}
     </View>

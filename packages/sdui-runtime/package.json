@@ -34,12 +34,12 @@
     "build": "tsup && tsc --emitDeclarationOnly --noCheck",
     "dev": "tsup --watch",
     "lint": "eslint src/",
-    "test": "tsx --test src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts src/bottom-sheet/__tests__/*.test.ts src/snippets/_shared/__tests__/*.test.ts src/state/__tests__/*.test.ts src/snippets/Form/__tests__/*.test.ts src/sdui-node/__tests__/*.test.ts src/registries/__tests__/*.test.ts src/snippets/Steps/__tests__/*.test.ts src/pages/PageFeed/__tests__/*.test.ts src/snippets/TabsFooter/__tests__/*.test.ts src/__tests__/*.test.ts"
+    "test": "tsx --test src/action-engine/__tests__/*.test.ts src/action-engine/cond/__tests__/*.test.ts src/action-engine/handlers/__tests__/*.test.ts src/bottom-sheet/__tests__/*.test.ts src/snippets/_shared/__tests__/*.test.ts src/state/__tests__/*.test.ts src/snippets/Form/__tests__/*.test.ts src/sdui-node/__tests__/*.test.ts src/registries/__tests__/*.test.ts src/snippets/Steps/__tests__/*.test.ts src/pages/PageFeed/__tests__/*.test.ts src/snippets/TabsFooter/__tests__/*.test.ts src/__tests__/*.test.ts"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
-    "@one-impression/sdk-native-sdui": "^3.2.0",
+    "@one-impression/sdk-native-sdui": "^3.4.0",
     "@one-impression/ui-native": ">=2.0.2",
     "@one-impression/tokens-creator": ">=3.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
@@ -82,7 +82,7 @@
     }
   },
   "devDependencies": {
-    "@one-impression/sdk-native-sdui": "^3.2.0",
+    "@one-impression/sdk-native-sdui": "^3.4.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
   },

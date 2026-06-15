@@ -8,6 +8,7 @@ import { handleSheet } from "./sheet.js";
 import { handleDismiss } from "./dismiss.js";
 import { handleToast } from "./toast.js";
 import { handleReloadSection } from "./reload-section.js";
+import { handleReload } from "./reload.js";
 import { handleReplaceSection } from "./replace-section.js";
 import { handleAppendItems } from "./append-items.js";
 import { handleSetLocal } from "./set-local.js";
@@ -25,6 +26,7 @@ export {
   handleDismiss,
   handleToast,
   handleReloadSection,
+  handleReload,
   handleReplaceSection,
   handleAppendItems,
   handleSetLocal,
@@ -48,6 +50,7 @@ export const actionHandlerMap: Record<string, ActionHandler> = {
   dismiss: handleDismiss,
   toast: handleToast,
   reload_section: handleReloadSection,
+  reload: handleReload,
   replace_section: handleReplaceSection,
   append_items: handleAppendItems,
   set_local: handleSetLocal,

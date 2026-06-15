@@ -11,6 +11,7 @@ import { BannerImageRenderer } from "../snippets/BannerImage/index.js";
 import { EmptySpaceRenderer } from "../snippets/EmptySpace/index.js";
 import { SeparatorRenderer } from "../snippets/Separator/index.js";
 import { LoaderRenderer } from "../snippets/Loader/index.js";
+import { SkeletonRenderer } from "../snippets/Skeleton/index.js";
 import { AerobarRenderer } from "../snippets/Aerobar/index.js";
 import { EmptyStateRenderer } from "../snippets/EmptyState/index.js";
 import { StepsRenderer } from "../snippets/Steps/index.js";
@@ -75,6 +76,7 @@ export const snippetRegistry: Record<string, (node: Node) => React.ReactElement>
   "creator.snippet.empty_space": EmptySpaceRenderer,
   "creator.snippet.separator": SeparatorRenderer,
   "creator.snippet.loader": LoaderRenderer,
+  "creator.snippet.skeleton": SkeletonRenderer,
   "creator.snippet.aerobar": AerobarRenderer,
   "creator.snippet.empty_state": EmptyStateRenderer,
   "creator.snippet.steps": StepsRenderer,
