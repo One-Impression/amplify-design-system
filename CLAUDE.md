@@ -77,6 +77,50 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI System (sdui-runtime / ui-native)
+
+## SDUI System (sdui-runtime / ui-native)
+
+New capabilities added in this repo that affect how SDUI pages and snippets are authored.
+
+### Composite snippet
+`sdui.snippet.composite` is the new composing primitive. Its `data.layout` discriminant (`cover` / `stack` / `row`) defines the slot-set; slots hold arbitrary child Nodes. The composite owns arrangement only (gutter, full-bleed media, edge-overlap float, header/footer strips) — never contents.
+
+- Use `cover` for campaign/card layouts: slots are `header_bg`, `header`, `media`, `overlay`, `float`, `float_end`, `body`, `footer`.
+- `stack` / `row` supersede `group_config` for linear layouts.
+- `resolveRenderer` now dispatches on the **layer segment** (`.snippet.` / `.ui_component.`) so both legacy `creator.*` and new `sdui.*` type prefixes resolve. Do not assume a hardcoded `creator.` namespace.
+
+### Form system
+Forms are server-driven and keyed by `form_id`.
+
+- Snippet: `creator.snippet.form` wraps field snippets; `form_id` keys the store.
+- Supported field snippets: `creator.snippet.input` (text/email/number/phone), `creator.snippet.single_select_input`, `creator.snippet.multi_select_input`.
+- Validation types: `required`, `min_length`, `regex`, `min`, `max`, `min_selected`, `match_field`.
+- Submit action: `{ type: "submit", payload: { form_id, endpoint, method, request_body, on_success, on_error } }`. Validates all fields before POST; server 422 with `{ errors: { field: message } }` writes back into the field error map.
+- Phone number is composed, not bespoke: generic `input` with a `select_trigger` leading slot that opens a `single_select_input` bottom sheet for country-code selection.
+- Design reference: `packages/sdui-runtime/FORM-SYSTEM-DESIGN.md`.
+
+### Wire header slot (`page_header`)
+Pages now support a `data.header` wire slot symmetric with `data.footer`. Supported on `standard`, `sticky_footer`, `feed` layouts and bottom sheets.
+
+- `creator.snippet.page_header` owns top chrome: safe-area inset, solid or gradient background (`data.background.gradient.colors` + `angle`), and a pressable `left_icon` back affordance.
+- When a wire header is present the native nav header is hidden automatically.
+- Bottom-sheet header pins outside the scroll view and replaces the plain sheet title.
+
+### Tag theming
+`creator.ui_component.tag` now reads its full wire data:
+- `bg_color` / `text_color` — solid pill colour.
+- `gradient: { colors, angle }` — multi-stop gradient clipped to the pill.
+- `icon: { name }` — glyph resolved via the icon store, sized inline to the label.
+
+### Token groups added
+- `component.field` — `{ height:48, paddingX:16, paddingY:12, radius:8 }` in `tokens-creator`. Shared by Input, SelectableItem, and Button.
+- `component.tag` — `{ paddingX:12, paddingY:6, radius:8, fontSize:12 }` in `tokens-creator`. Shared system radius + font scale for all tags.
+
+Both groups are wired through the theme JSON, `build-tokens.js` native emit, and `ui-native`/`sdui-runtime` type declarations.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
