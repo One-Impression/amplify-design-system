@@ -85,6 +85,47 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Runtime — Region Page Model
+
+## SDUI Runtime — Region Page Model
+
+Introduced in `feat/sdui-request-context-primitives` on `@one-impression/sdk-native-sdui@^3.4.0`. Full design doc: `packages/sdui-runtime/REGION-PAGE-MODEL.md`.
+
+### Core concepts
+
+- **Regions**: named slots in a page — `header` (`data.header`, a `Node[]`), `content` (`items`), `footer` (`data.footer`, shell/persistent).
+- **Shell-first lifecycle**: initial load returns only the shell (footer + region skeletons + `on_load`). `on_load` fires `reload(["header","content"])` for the default state. Tab switches and first content load are the same operation.
+- **`reload` action** (replaces deprecated `reload_page`/`reload_content`): region-scoped fetch + partial-page merge. `response.data` shallow-merges into `page.data`; `response.items` replaces `items`. Named regions drive which skeletons show while in flight.
+- **`usePageScaffold`**: base hook owning lifecycle (`on_load`/`on_dismount`/back/app-state), live-page subscription, partial-merge, per-region loading, bottom-sheet registration, refresh, and `getRegion(name) → content-or-skeleton`. Layouts reduce to zone geometry only.
+- **Render-bindings**: `{ ref: "$.local.<key>" }` (plus `contains` for array membership, `equals` for scalar) resolved reactively **before** schema validation in `SduiNode`. Chip `selected` and tab `active` reflect local state instantly with no reload.
+- **`set_local` `array_toggle`**: toggles a value in/out of an array key — used for multi-select filter chips.
+- **Backend-controlled debounce** (`debounce_ms` on any action): coalesces rapid bursts to the trailing dispatch. An immediate dispatch (e.g. tab switch) cancels any pending debounced run of the same key. Key = `type|target|endpoint`.
+- **`creator.snippet.skeleton`**: BFF-composed shimmer renderer. Declare `rows` (`rect`/`line`/`circle` bars, `row` groups, `justify`), `repeat`, `card`. Store per-region skeletons as `data.<region>_skeleton` in the shell.
+
+### Reload trigger matrix
+
+| Trigger | `reload` regions | Footer |
+|---|---|---|
+| first load / tab switch | `["header","content"]` | persists |
+| filter toggle (`debounce_ms: 400`) | `["content"]` | persists |
+| pull-to-refresh | `["content"]` | persists |
+
+### Fixture server env var
+
+Set `SDUI_FIXTURE_LATENCY_MS=3000` when running the sdui-playground fixture server to add simulated reload latency so skeleton shimmers are observable during hand-testing. Default is 0 (off).
+
+### Package versions
+
+- `@one-impression/sdk-native-sdui` peer dep bumped to `^3.4.0` in `sdui-runtime`, `ui-native`, and `sdui-playground`.
+- Changeset: `minor` on both `@one-impression/sdui-runtime` and `@one-impression/ui-native`.
+- `ui-native` `Chip` gains a `trailingIcon` slot (remove × on selected multi-select chips).
+
+### What lives in Pixel vs here
+
+This is runtime/contract code — it lives here. Do not move region-page model logic to Pixel. Pixel governs token/design drift; this repo owns the SDUI execution primitives.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
