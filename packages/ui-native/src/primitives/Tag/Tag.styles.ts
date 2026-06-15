@@ -17,15 +17,20 @@ export const styles = StyleSheet.create({
   base: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: sdui.spacing.sm,
-    paddingVertical: sdui.spacing.xs,
-    borderRadius: sdui.radius.xs,
+    // component.tag rhythm — shares radius with button/field (8) and uses the
+    // system font scale, so tags/chips no longer look sharper + smaller than
+    // every other surface.
+    paddingHorizontal: sdui.component.tag.paddingX,
+    paddingVertical: sdui.component.tag.paddingY,
+    borderRadius: sdui.component.tag.radius,
     borderWidth: sdui.borderWidth.thin,
     gap: sdui.spacing.xs,
     alignSelf: 'flex-start',
+    // Clip an absolute-fill background node (e.g. a gradient) to the pill radius.
+    overflow: 'hidden',
   },
   label: {
-    fontSize: sdui.fontSize.xs,
+    fontSize: sdui.component.tag.fontSize,
     fontWeight: '500',
   },
 });

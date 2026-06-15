@@ -20,6 +20,7 @@ declare module '@one-impression/tokens-creator/react-native' {
     component: {
       button: Record<string, number>;
       field: Record<string, number>;
+      tag: Record<string, number>;
     };
   };
 }
