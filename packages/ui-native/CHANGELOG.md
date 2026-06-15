@@ -1,5 +1,47 @@
 # @one-impression/ui-native
 
+## 2.2.0
+
+### Minor Changes
+
+- [#222](https://github.com/One-Impression/amplify-design-system/pull/222) [`07f8ebe`](https://github.com/One-Impression/amplify-design-system/commit/07f8ebe7defca4f442cef00cd9601fe9ac38d8be) Thanks [@achin-oi](https://github.com/achin-oi)! - SDUI composite snippet, form system, header slot, and Tag theming.
+
+  - **`sdui.snippet.composite`** — one composing snippet whose `data.layout`
+    discriminant (`cover` / `stack` / `row`) names a slot-set + placement; slots
+    hold arbitrary child Nodes. Owns arrangement (gutter, full-bleed media,
+    edge-overlap float, header/footer strips), never contents. `resolveRenderer`
+    now dispatches on the layer segment (`.snippet.` / `.ui_component.`) so legacy
+    `creator.*` and domain-neutral `sdui.*` types both resolve.
+  - **Header slot** — `page_header` as a wire slot (top safe-area inset +
+    solid/gradient background + pressable back affordance) across page types and
+    bottom sheets; the native nav header is hidden when a wire header is present.
+  - **Form system** — `form_id`-keyed store, `useFormField`, validation evaluator,
+    decoupled `submit` action; `component.field` token rhythm; composable
+    `select_trigger` (replaces the bespoke phone-number input).
+  - **Tag theming** — the Tag renderer now honors the wire `bg_color` /
+    `text_color` / `gradient` / glyph `icon` fields (previously every tag rendered
+    as the default white pill). Adds a `component.tag` token group so tags share
+    the system radius + font scale, with the icon sized to the label.
+  - **group_config** card no longer forces an `sm` shadow — it falls back to the
+    Card default elevation like every other snippet card.
+
+- [#229](https://github.com/One-Impression/amplify-design-system/pull/229) [`e2cdb64`](https://github.com/One-Impression/amplify-design-system/commit/e2cdb64d36c7e223559c0abc7848889976926e7b) Thanks [@achin-oi](https://github.com/achin-oi)! - SDUI region page model — the runtime for shell-first, region-scoped pages (tabbed / filtered feeds), on `@one-impression/sdk-native-sdui@^3.4.0`.
+
+  **Runtime**
+
+  - **`usePageScaffold`** — base page scaffold owning every cross-cutting concern (lifecycle `on_load`/`on_dismount`/back/app-state, live-page subscription, the `reload` partial-merge, per-region loading, bottom-sheet registration, refresh) and exposing `getRegion(name)` → content-or-skeleton. Layouts reduce to zone geometry. `PageFeed` moved onto it.
+  - **Region-scoped `reload`** + **partial-page merge** in `usePageStore` (`response.data` shallow-merges, `response.items` replaces; per-region loading flags).
+  - **Reactive render-bindings** — `{ ref: "$.local.<key>" }` (+ `contains`/`equals`) resolved before validation in `SduiNode`, so a chip's `selected` / a tab's `active` reflect local state instantly with no reload.
+  - **`set_local` `array_toggle`** handler (multi-select membership) + **backend-controlled debounce** in the action engine.
+  - **`creator.snippet.skeleton`** renderer — composable shimmer (`rect`/`line`/`circle` bars, horizontal row groups, padding), shown per region while reloading.
+  - Fixes: Chip wires `on_click` via the pressable + shows a remove × (trailing) via the icon-store glyph; `TabsFooter` bottom safe-area; nav host hides the native header when a header **region** is declared (`data.header_skeleton`), not only `data.header`.
+
+  **ui-native**
+
+  - `Chip` gains a `trailingIcon` slot (remove × on selected multi-select chips).
+
+  Additive — existing pages/snippets unchanged. Supersedes the unreleased `reload_page`/`reload_content` primitives.
+
 ## 2.1.0
 
 ### Minor Changes
