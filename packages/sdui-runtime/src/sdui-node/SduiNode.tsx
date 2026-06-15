@@ -6,6 +6,7 @@ import { SduiErrorBoundary } from "./SduiErrorBoundary.js";
 import { SduiFallback } from "./SduiFallback.js";
 import { Clickable } from "../clickable/Clickable.js";
 import { Viewable } from "../viewable/Viewable.js";
+import { useViewportManaged } from "../viewport/index.js";
 import { useActionEngine } from "../action-engine/useActionEngine.js";
 import { useTelemetry } from "../telemetry/useTelemetry.js";
 import { parseNodeData } from "./parseNodeData.js";
@@ -35,6 +36,10 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
 ): React.ReactElement {
   const actionEngine = useActionEngine();
   const telemetry = useTelemetry();
+  // When an ancestor surface (e.g. a feed FlatList) manages viewport detection,
+  // it fires the view lifecycle centrally via real visibility — so we must NOT
+  // also fire on_view here through the onLayout proxy (which fires on render).
+  const viewportManaged = useViewportManaged();
 
   // Parse defensively. A naked `schema.parse(...)` call would throw on
   // malformed or stale wire payloads and crash the entire page. During
@@ -112,7 +117,9 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
       nodeId={props.id}
       fallback={<SduiFallback nodeId={props.id} nodeType={props.type} />}
     >
-      <Viewable onView={handleViewed}>
+      {viewportManaged ? (
+        // Managed surface owns the view lifecycle (real visibility) — render the
+        // clickable content directly, no onLayout-based Viewable.
         <Clickable
           onPress={
             props.on_click
@@ -122,7 +129,19 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
         >
           {props.children(parsed.value)}
         </Clickable>
-      </Viewable>
+      ) : (
+        <Viewable onView={handleViewed}>
+          <Clickable
+            onPress={
+              props.on_click
+                ? () => actionEngine.dispatch(props.on_click!)
+                : undefined
+            }
+          >
+            {props.children(parsed.value)}
+          </Clickable>
+        </Viewable>
+      )}
     </SduiErrorBoundary>
   );
 }

@@ -13,11 +13,13 @@ import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+import { useTelemetry } from "../../telemetry/useTelemetry.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
 import { usePageStore } from "../../state/usePageStore.js";
 import { Gradient, type GradientItem } from "../../gradient/index.js";
+import { ViewportManagedProvider, fireViewability } from "../../viewport/index.js";
 import { extractFeedPageData, type FeedPageData } from "./extractFeedPageData.js";
 
 interface PageProps {
@@ -98,6 +100,7 @@ export type { FeedPageData };
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const actionEngine = useActionEngine();
+  const telemetry = useTelemetry();
   const register = useBottomSheetStore((s) => s.register);
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
@@ -105,6 +108,31 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const [loadingMore, setLoadingMore] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const loadingMoreRef = useRef(false);
+
+  // Viewport lifecycle for list items — real visibility via FlatList's
+  // onViewableItemsChanged (NOT onLayout). Fires each item's on_view/on_exit
+  // triggers per policy; one-shot triggers dedup against `viewFiredRef`. This is
+  // how backend-driven infinite scroll works: the BFF puts an `on_view`
+  // load-more on the Nth-last card; it fires only when that card is truly seen.
+  const viewFiredRef = useRef<Set<string>>(new Set());
+  // viewabilityConfig MUST be a stable reference — FlatList throws if it changes.
+  const viewabilityConfigRef = useRef({
+    itemVisiblePercentThreshold: 50,
+    minimumViewTime: 250,
+  });
+  const handleViewableItemsChanged = useRef(
+    ({ changed }: { changed: { item: Node; isViewable: boolean }[] }) => {
+      const deps = {
+        fired: viewFiredRef.current,
+        dispatch: (a: Action) => actionEngine.dispatch(a),
+        emit: (name: string, params?: Record<string, unknown>) =>
+          telemetry.emit(name, params),
+      };
+      for (const { item, isViewable } of changed) {
+        fireViewability(item, isViewable ? "view" : "exit", deps);
+      }
+    },
+  ).current;
 
   const pageData = extractFeedPageData(page.data);
   const { header, filters, on_load_more: onLoadMore, loader, empty_state: emptyState, config, footer } =
@@ -281,29 +309,35 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
           <Interpreter node={header} />
         </View>
       ) : null}
-      <View style={styles.body}>
-        <FlatList
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          ListHeaderComponent={renderHeader}
-          ListFooterComponent={renderListFooter}
-          ListEmptyComponent={renderEmpty}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.5}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          contentContainerStyle={[
-            items?.length ? null : styles.container,
-            { paddingBottom: insets.bottom + sdui.spacing.lg },
-          ]}
-          refreshControl={
-            page.on_refresh ? (
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            ) : undefined
-          }
-        />
-      </View>
+      {/* The list owns viewport detection for its items, so SduiNode defers its
+          on_view/on_exit to onViewableItemsChanged (real visibility) below. */}
+      <ViewportManagedProvider>
+        <View style={styles.body}>
+          <FlatList
+            data={items}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            ListHeaderComponent={renderHeader}
+            ListFooterComponent={renderListFooter}
+            ListEmptyComponent={renderEmpty}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
+            onViewableItemsChanged={handleViewableItemsChanged}
+            viewabilityConfig={viewabilityConfigRef.current}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={[
+              items?.length ? null : styles.container,
+              { paddingBottom: insets.bottom + sdui.spacing.lg },
+            ]}
+            refreshControl={
+              page.on_refresh ? (
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              ) : undefined
+            }
+          />
+        </View>
+      </ViewportManagedProvider>
       {footer ? (
         <View style={styles.footer}>
           <Interpreter node={footer} />

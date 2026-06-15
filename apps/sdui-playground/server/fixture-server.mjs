@@ -55,6 +55,84 @@ const readJsonBody = (req) =>
     });
   });
 
+// ─── Campaigns feed (composite cards + backend-driven infinite scroll) ───────
+// The feed renders `sdui.snippet.composite` cards as top-level page.items. The
+// 2nd-last card of each batch carries a `viewability.on_view` (policy: once)
+// that bff_calls this server for the next batch; the server returns an
+// `append_items` action. The LAST batch omits `on_view`, so it self-terminates
+// — the cursor lives entirely here, never on the client.
+const FEED_PAGE_SIZE = 5;
+const FEED_TOTAL = 15;
+const FEED_BRANDS = [
+  "Lumina Beauty", "Verde Skincare", "Aura Cosmetics", "Nova Wellness",
+  "Bloom Organics", "Ceré Paris", "Indigo Hair", "Solstice Fragrance",
+];
+
+function campaignCard(i) {
+  const brand = FEED_BRANDS[(i - 1) % FEED_BRANDS.length];
+  return {
+    type: "sdui.snippet.composite",
+    id: `campaign-${i}`,
+    on_click: { type: "navigate", payload: { target: "creator.campaigns.detail", op: "push", params: { id: String(i) } } },
+    data: {
+      layout: "cover",
+      surface: { bg_color: "sdui.color.neutral-inverse", border_color: "sdui.color.neutral-subtle" },
+      media: { type: "creator.snippet.banner_image", id: `m-${i}`, data: { image: { src: `https://picsum.photos/seed/camp${i}/640/320`, aspect_ratio: 2 } } },
+      float: { type: "creator.ui_component.image", id: `a-${i}`, data: { src: `https://picsum.photos/seed/brand${i}/120`, width: 64, height: 64, border_radius: "sdui.radius.full" } },
+      float_end: [
+        { type: "creator.ui_component.tag", id: `cash-${i}`, data: { label: { text: `₹${(1000 + i * 200).toLocaleString("en-IN")} Cash` }, bg_color: "sdui.color.positive-weak", text_color: "sdui.color.positive" } },
+      ],
+      body: [
+        { type: "creator.snippet.info_row", id: `n-${i}`, data: { title: { text: `${brand} · #${i}`, font_weight: "medium", font_size: "sdui.font-size.lg" } } },
+        { type: "creator.snippet.info_row", id: `meta-${i}`, data: { title: { text: "Beauty · Micro creators", font_size: "sdui.font-size.sm", color: "sdui.color.neutral-medium" } } },
+      ],
+      footer: { type: "creator.snippet.info_row", id: `f-${i}`, data: { title: { text: "Apply now — closes soon", font_size: "sdui.font-size.sm" } } },
+    },
+  };
+}
+
+// `nextCursor` null ⇒ last page (no on_view ⇒ stops). Otherwise the 2nd-last
+// card carries the load-more trigger pointing at the next cursor.
+function campaignBatch(startId, count, nextCursor) {
+  const cards = [];
+  for (let k = 0; k < count; k++) {
+    const card = campaignCard(startId + k);
+    if (nextCursor !== null && k === count - 2) {
+      card.viewability = {
+        on_view: [{
+          id: "load-more",
+          policy: "once",
+          action: { type: "bff_call", payload: { endpoint: "creator.campaigns.list", method: "GET", query_params: { cursor: String(nextCursor) } } },
+        }],
+      };
+    }
+    cards.push(card);
+  }
+  return cards;
+}
+
+function buildFeedPage() {
+  const nextCursor = FEED_TOTAL > FEED_PAGE_SIZE ? FEED_PAGE_SIZE : null;
+  return {
+    id: "demo.feed",
+    title: "Campaigns",
+    protocol_version: "1.0.0",
+    layout: "feed",
+    data: {
+      header: {
+        type: "creator.snippet.page_header",
+        id: "feed-hdr",
+        data: {
+          title: { text: "Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
+          subtitle: { text: "infinite scroll · composite cards", color: "sdui.color.neutral-inverse" },
+          background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
+        },
+      },
+    },
+    items: campaignBatch(1, FEED_PAGE_SIZE, nextCursor),
+  };
+}
+
 const server = createServer(async (req, res) => {
   const url = req.url ?? "/";
   // eslint-disable-next-line no-console
@@ -93,8 +171,32 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  // Campaigns pagination — the load-more bff_call (creator.campaigns.list →
+  // /v1/creator/campaigns) lands here. Returns an `append_items` action that the
+  // bff_call handler dispatches. The cursor is tracked server-side via the query
+  // param baked into each batch's load-more trigger; the final page omits it.
+  if (url.startsWith("/v1/creator/campaigns")) {
+    const cursor = Number(new URL(url, "http://x").searchParams.get("cursor") || "0");
+    const count = Math.min(FEED_PAGE_SIZE, FEED_TOTAL - cursor);
+    if (count <= 0) {
+      json(res, 200, { action: { type: "append_items", payload: { target: "demo.feed", items: [], has_more: false } } });
+      return;
+    }
+    const nextCursor = cursor + count < FEED_TOTAL ? cursor + count : null;
+    const items = campaignBatch(cursor + 1, count, nextCursor);
+    console.log(`[fixture-server] campaigns cursor=${cursor} → cards ${cursor + 1}..${cursor + count} (next=${nextCursor})`);
+    json(res, 200, { action: { type: "append_items", payload: { target: "demo.feed", items, has_more: nextCursor !== null } } });
+    return;
+  }
+
   if (url.startsWith(PAGE_PREFIX)) {
     const target = decodeURIComponent(url.slice(PAGE_PREFIX.length));
+    // Generated campaigns feed (composite cards + infinite scroll) — overrides
+    // any on-disk fixture of the same name.
+    if (target === "demo.feed") {
+      json(res, 200, buildFeedPage());
+      return;
+    }
     // Guard against path traversal — target is a flat page id, never a path.
     if (target.includes("/") || target.includes("..")) {
       json(res, 400, { error: `invalid target "${target}"` });
