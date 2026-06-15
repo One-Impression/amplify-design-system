@@ -283,6 +283,13 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
         );
         return {};
       }
+      // Top-level append: a feed renders `page.items` directly (each item is a
+      // card), so paginating it targets the page id and appends to that array.
+      // (Nested list/section nodes still append into their own `data.items`
+      // via appendItemsInTree below.)
+      if (targetId === state.page.id) {
+        return { page: { ...state.page, items: [...state.page.items, ...items] } };
+      }
       const [nextItems, matched, mutated] = appendItemsInTree(
         state.page.items,
         targetId,
