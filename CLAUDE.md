@@ -85,6 +85,31 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Runtime (sdui-runtime)
+
+## SDUI Runtime (sdui-runtime)
+
+Current version: **2.7.0** (`packages/sdui-runtime/`)
+
+Key capabilities shipped as of 2.7.0:
+
+- **`sdui.snippet.composite`** — composing snippet with `data.layout` discriminant (`cover` / `stack` / `row`); owns arrangement, never contents. `resolveRenderer` dispatches on layer segment (`.snippet.` / `.ui_component.`) so both legacy `creator.*` and `sdui.*` types resolve.
+- **`usePageScaffold`** — base page scaffold owning lifecycle (`on_load`/`on_dismount`/back/app-state), live-page subscription, `reload` partial-merge, per-region loading, bottom-sheet registration, and refresh. Exposes `getRegion(name)` → content-or-skeleton.
+- **Region-scoped `reload` + partial-page merge** — `response.data` shallow-merges; `response.items` replaces; per-region loading flags in `usePageStore`.
+- **Reactive render-bindings** — `{ ref: "$.local.<key>" }` (+ `contains`/`equals`) resolved before validation in `SduiNode`; chip `selected` / tab `active` reflect local state instantly without a reload.
+- **`set_local` `array_toggle`** handler for multi-select membership + backend-controlled debounce in the action engine.
+- **Viewport-visibility lifecycle** — `PageFeed` uses FlatList `onViewableItemsChanged` (50% / 250ms) to fire `on_view` / `on_exit` triggers with per-trigger `policy` (`once` | `every`); `once`-dedup keyed by `(node_id, trigger_id)`.
+- **Backend-driven infinite scroll** — BFF places `on_view` (policy `once`) load-more on the Nth-last card and returns `append_items`; cursor is entirely server-side.
+- **Form system** — `form_id`-keyed store, `useFormField`, validation evaluator, decoupled `submit` action, composable `select_trigger`. Uses `component.field` token group.
+- **Header slot** — `page_header` wire slot (top safe-area + solid/gradient background + pressable back); native nav header hidden when wire header present.
+- **Tag theming** — Tag renderer now honors `bg_color` / `text_color` / `gradient` / glyph `icon` from wire. New `component.tag` token group (radius + font scale + icon size).
+- **`creator.snippet.skeleton`** — composable shimmer renderer (`rect`/`line`/`circle` bars, row groups, padding) shown per-region while reloading.
+- **SDK peer** — requires `@one-impression/sdk-native-sdui@^3.4.0`; composite renderer validated against `CompositeSchema.shape.data` discriminated union (not `z.any()`).
+
+Related package bumps in this release: `@one-impression/tokens-creator@3.3.0`, `@one-impression/ui-native@2.2.0` (`Chip` gains `trailingIcon` slot).
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
