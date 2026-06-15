@@ -131,6 +131,13 @@
         "padding-x": { "$value": "16", "$type": "dimension", "$description": "Horizontal padding" },
         "padding-y": { "$value": "12", "$type": "dimension", "$description": "Vertical padding (applies when content exceeds one line)" },
         "radius":    { "$value": "8",  "$type": "dimension", "$description": "Border radius (matches button.radius)" }
+      },
+      "tag": {
+        "$description": "Tag / chip component tokens — shared rhythm for metadata labels and chips so they match the field/button radius and the system font scale",
+        "padding-x": { "$value": "12", "$type": "dimension", "$description": "Horizontal padding" },
+        "padding-y": { "$value": "6",  "$type": "dimension", "$description": "Vertical padding" },
+        "radius":    { "$value": "8",  "$type": "dimension", "$description": "Border radius (matches button.radius / field.radius)" },
+        "font-size": { "$value": "12", "$type": "dimension", "$description": "Label font size (matches button.font-size-sm)" }
       }
     }
   }
