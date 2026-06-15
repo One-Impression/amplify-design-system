@@ -85,6 +85,50 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Runtime — Viewport Lifecycle & Backend-Driven Infinite Scroll
+
+## SDUI Runtime — Viewport Lifecycle & Backend-Driven Infinite Scroll
+
+### Viewport lifecycle (`packages/sdui-runtime/src/viewport/`)
+
+`PageFeed` detects real item visibility via FlatList `onViewableItemsChanged` (50% threshold / 250 ms minimum). This replaces the `onLayout` proxy, which fires on render — not on actual visibility.
+
+- **`ViewportManagedProvider`** — wrap a FlatList in this context to signal that the surface owns the view lifecycle for its subtree. `SduiNode` reads `useViewportManaged()` and skips its own `<Viewable>` wrapper when inside this context.
+- **`fireViewability(node, phase, deps)`** — fires `on_view` / `on_exit` triggers for a node, honoring per-trigger `policy`:
+  - `once` (default) — dedup keyed `${node_id}::${phase}::${trigger_id}`; stored in a `Set` passed via `deps.fired`.
+  - `every` — always fires.
+  - Scalar `node.on_view` is treated as a single `once` trigger.
+  - `view_events` telemetry fires once per node on first view.
+- Called by `PageFeedRenderer`'s `handleViewableItemsChanged` ref; NOT by `SduiNode` directly when inside a managed surface.
+
+**Do not add a `<Viewable>` wrapper inside a `ViewportManagedProvider` subtree** — it will double-fire on_view via the onLayout path.
+
+### Backend-driven infinite scroll
+
+The BFF owns all pagination decisions. The client never decides when to load more.
+
+Pattern:
+1. BFF returns the first batch as `page.items` in a `layout: feed` page.
+2. The **(N-2)th-last** card in each batch carries a `viewability.on_view` trigger with `policy: once` and an `action` of type `bff_call` pointing at the next cursor.
+3. When that card becomes visible, `fireViewability` dispatches the `bff_call`, which returns an `append_items` action.
+4. The **final batch** omits `on_view` entirely — this terminates scroll with no client-side flag.
+5. Cursor is a query param baked into the trigger by the server; the client never stores or increments it.
+
+### `append_items` handler notes
+
+- **`usePageStore.appendItems`** now supports top-level (feed) append: if `target === page.id`, items are appended directly to `page.items`. Nested list/section nodes still route through `appendItemsInTree`.
+- The handler appends **raw nodes** (not strict-parsed) so node-level fields like `viewability` are not stripped by an older SDK schema. Nodes are validated at render time by `SduiNode`.
+
+### SDK version
+
+`@one-impression/sdk-native-sdui` **^3.2.0** is required — it ships the typed `viewability` contract (`on_view` / `on_exit` / `policy`). The raw-append approach in `append-items.ts` remains as belt-and-suspenders for forward-compatibility.
+
+### Playground demo
+
+`demo.feed` in the fixture server demonstrates the full flow: 15 cards over 2 backend-driven loads (page size 5 → 10 → 15), with cursor advancing server-side and clean termination on the last batch.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
