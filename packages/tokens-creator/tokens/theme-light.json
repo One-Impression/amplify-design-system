@@ -124,6 +124,20 @@
         "font-size-sm":   { "$value": "12", "$type": "dimension", "$description": "Small button font size" },
         "font-size-md":   { "$value": "14", "$type": "dimension", "$description": "Medium button font size" },
         "font-size-lg":   { "$value": "16", "$type": "dimension", "$description": "Large button font size" }
+      },
+      "field": {
+        "$description": "Field/control component tokens — shared sizing for inputs, select rows, and other interactive form controls so they share one height, padding, and radius",
+        "height":    { "$value": "48", "$type": "dimension", "$description": "Control height / touch target, applied as minHeight (matches button.height-lg)" },
+        "padding-x": { "$value": "16", "$type": "dimension", "$description": "Horizontal padding" },
+        "padding-y": { "$value": "12", "$type": "dimension", "$description": "Vertical padding (applies when content exceeds one line)" },
+        "radius":    { "$value": "8",  "$type": "dimension", "$description": "Border radius (matches button.radius)" }
+      },
+      "tag": {
+        "$description": "Tag / chip component tokens — shared rhythm for metadata labels and chips so they match the field/button radius and the system font scale",
+        "padding-x": { "$value": "12", "$type": "dimension", "$description": "Horizontal padding" },
+        "padding-y": { "$value": "6",  "$type": "dimension", "$description": "Vertical padding" },
+        "radius":    { "$value": "8",  "$type": "dimension", "$description": "Border radius (matches button.radius / field.radius)" },
+        "font-size": { "$value": "12", "$type": "dimension", "$description": "Label font size (matches button.font-size-sm)" }
       }
     }
   }

@@ -1,0 +1,355 @@
+{
+  "id": "demo.form",
+  "title": "Form",
+  "protocol_version": "1.0.0",
+  "layout": "sticky_footer",
+  "data": {
+    "header": {
+      "type": "creator.snippet.page_header",
+      "id": "form-header",
+      "data": {
+        "title": {
+          "text": "New campaign",
+          "font_size": "sdui.font-size.xl",
+          "font_weight": "bold",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "subtitle": {
+          "text": "Tell us about your brief",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "left_icon": {
+          "name": "back-icon",
+          "size": "sdui.icon-size.lg",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "background": {
+          "gradient": {
+            "colors": ["#7C3AED", "#F2F2F2"],
+            "angle": 180
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "creator.snippet.page_footer",
+      "id": "form-footer",
+      "data": {
+        "primary_button": {
+          "type": "creator.ui_component.button",
+          "id": "form-submit",
+          "on_click": {
+            "type": "submit",
+            "payload": {
+              "form_id": "campaign",
+              "endpoint": "/submit/campaign",
+              "method": "POST",
+              "request_body": { "source": "onboarding" },
+              "on_success": {
+                "type": "toast",
+                "payload": { "message": "Campaign created", "level": "success" }
+              },
+              "on_error": {
+                "type": "toast",
+                "payload": { "message": "Couldn’t submit — check the form", "level": "error" }
+              }
+            }
+          },
+          "data": {
+            "label": {
+              "text": "Submit"
+            },
+            "variant": "primary",
+            "size": "large"
+          }
+        }
+      }
+    }
+  },
+  "items": [
+    {
+      "type": "creator.snippet.section_header",
+      "id": "form-hdr",
+      "data": {
+        "title": {
+          "text": "Create campaign",
+          "font_size": "sdui.font-size.lg",
+          "font_weight": "bold"
+        },
+        "subtitle": {
+          "text": "Every input snippet the runtime renders",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.form",
+      "id": "campaign-form",
+      "data": {
+        "form_id": "campaign",
+        "fields": [
+          {
+            "type": "creator.snippet.input",
+            "id": "f-name",
+            "data": {
+              "field_name": "campaign_name",
+              "input_type": "text",
+              "label": {
+                "text": "Campaign name",
+                "font_weight": "semiBold"
+              },
+              "placeholder": {
+                "text": "e.g. Summer Launch"
+              },
+              "required": true,
+              "validations": [
+                { "type": "required", "error": "Campaign name is required" },
+                { "type": "min_length", "value": 3, "error": "At least 3 characters" }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.input",
+            "id": "f-email",
+            "data": {
+              "field_name": "email",
+              "input_type": "email",
+              "label": {
+                "text": "Contact email",
+                "font_weight": "semiBold"
+              },
+              "placeholder": {
+                "text": "you@brand.com"
+              },
+              "required": true,
+              "validations": [
+                { "type": "required", "error": "Email is required" },
+                { "type": "regex", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "error": "Enter a valid email" }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.input",
+            "id": "f-budget",
+            "data": {
+              "field_name": "budget",
+              "input_type": "number",
+              "label": {
+                "text": "Budget",
+                "font_weight": "semiBold"
+              },
+              "leading": { "text": "₹" },
+              "placeholder": {
+                "text": "50000"
+              },
+              "max_length": 8,
+              "validations": [
+                { "type": "required", "error": "Budget is required" },
+                { "type": "min", "value": 1000, "error": "Minimum ₹1,000" },
+                { "type": "max", "value": 50000, "error": "Maximum ₹50,000" }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.input",
+            "id": "f-phone",
+            "data": {
+              "field_name": "phone",
+              "input_type": "phone",
+              "label": {
+                "text": "Phone number",
+                "font_weight": "semiBold"
+              },
+              "leading": {
+                "type": "creator.ui_component.select_trigger",
+                "id": "phone-cc-trigger",
+                "data": {
+                  "form_id": "campaign",
+                  "field_name": "phone_country_code",
+                  "default_value": "+91",
+                  "trailing_icon": "chevron-down",
+                  "value_display": {
+                    "+91": "🇮🇳 +91", "+1": "🇺🇸 +1", "+44": "🇬🇧 +44",
+                    "+971": "🇦🇪 +971", "+65": "🇸🇬 +65", "+61": "🇦🇺 +61",
+                    "+49": "🇩🇪 +49", "+33": "🇫🇷 +33", "+81": "🇯🇵 +81",
+                    "+55": "🇧🇷 +55", "+62": "🇮🇩 +62"
+                  }
+                },
+                "on_click": {
+                  "type": "sheet",
+                  "payload": { "sheet_id": "country_picker" }
+                }
+              },
+              "placeholder": {
+                "text": "98765 43210"
+              },
+              "required": true
+            }
+          },
+          {
+            "type": "creator.snippet.single_select_input",
+            "id": "f-objective",
+            "data": {
+              "field_name": "objective",
+              "label": {
+                "text": "Campaign objective",
+                "font_weight": "semiBold"
+              },
+              "selected_value": "awareness",
+              "required": true,
+              "options": [
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "obj-awareness",
+                  "data": {
+                    "label": {
+                      "text": "Brand awareness"
+                    },
+                    "subtitle": {
+                      "text": "Maximise reach & impressions"
+                    },
+                    "value": "awareness",
+                    "selected": true
+                  }
+                },
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "obj-conversions",
+                  "data": {
+                    "label": {
+                      "text": "Conversions"
+                    },
+                    "subtitle": {
+                      "text": "Drive purchases on your store"
+                    },
+                    "value": "conversions",
+                    "selected": false
+                  }
+                },
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "obj-engagement",
+                  "data": {
+                    "label": {
+                      "text": "Engagement"
+                    },
+                    "value": "engagement",
+                    "selected": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.multi_select_input",
+            "id": "f-platforms",
+            "data": {
+              "field_name": "platforms",
+              "label": {
+                "text": "Platforms",
+                "font_weight": "semiBold"
+              },
+              "min": 1,
+              "max": 3,
+              "selected_values": ["instagram"],
+              "options": [
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "pf-ig",
+                  "data": {
+                    "label": {
+                      "text": "Instagram"
+                    },
+                    "value": "instagram",
+                    "selected": true
+                  }
+                },
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "pf-yt",
+                  "data": {
+                    "label": {
+                      "text": "YouTube"
+                    },
+                    "value": "youtube",
+                    "selected": false
+                  }
+                },
+                {
+                  "type": "creator.ui_component.selectable_item",
+                  "id": "pf-x",
+                  "data": {
+                    "label": {
+                      "text": "X (Twitter)"
+                    },
+                    "value": "x",
+                    "selected": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "creator.snippet.toggle_input",
+            "id": "f-renew",
+            "data": {
+              "field_name": "auto_renew",
+              "label": {
+                "text": "Auto-renew monthly",
+                "font_weight": "semiBold"
+              },
+              "value": true
+            }
+          },
+          {
+            "type": "creator.snippet.upload_file",
+            "id": "f-brief",
+            "data": {
+              "field_name": "brief",
+              "label": {
+                "text": "Campaign brief",
+                "font_weight": "semiBold"
+              },
+              "accepted_types": ["PDF", "DOCX"],
+              "max_size_mb": 10,
+              "max_files": 3
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "bottom_sheets": [
+    {
+      "id": "country_picker",
+      "title": "Select country",
+      "size": "large",
+      "items": [
+        {
+          "type": "creator.snippet.single_select_input",
+          "id": "country-select",
+          "data": {
+            "form_id": "campaign",
+            "field_name": "phone_country_code",
+            "selected_value": "+91",
+            "on_change": { "type": "dismiss", "payload": {} },
+            "options": [
+              { "type": "creator.ui_component.selectable_item", "id": "cc-IN", "data": { "label": { "text": "🇮🇳  India" }, "subtitle": { "text": "+91" }, "value": "+91" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-US", "data": { "label": { "text": "🇺🇸  United States" }, "subtitle": { "text": "+1" }, "value": "+1" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-GB", "data": { "label": { "text": "🇬🇧  United Kingdom" }, "subtitle": { "text": "+44" }, "value": "+44" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-AE", "data": { "label": { "text": "🇦🇪  United Arab Emirates" }, "subtitle": { "text": "+971" }, "value": "+971" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-SG", "data": { "label": { "text": "🇸🇬  Singapore" }, "subtitle": { "text": "+65" }, "value": "+65" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-AU", "data": { "label": { "text": "🇦🇺  Australia" }, "subtitle": { "text": "+61" }, "value": "+61" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-DE", "data": { "label": { "text": "🇩🇪  Germany" }, "subtitle": { "text": "+49" }, "value": "+49" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-FR", "data": { "label": { "text": "🇫🇷  France" }, "subtitle": { "text": "+33" }, "value": "+33" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-JP", "data": { "label": { "text": "🇯🇵  Japan" }, "subtitle": { "text": "+81" }, "value": "+81" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-BR", "data": { "label": { "text": "🇧🇷  Brazil" }, "subtitle": { "text": "+55" }, "value": "+55" } },
+              { "type": "creator.ui_component.selectable_item", "id": "cc-ID", "data": { "label": { "text": "🇮🇩  Indonesia" }, "subtitle": { "text": "+62" }, "value": "+62" } }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -59,9 +59,13 @@ export function resolveRenderer(
 ): ComponentType<Node> | null {
   let renderer: ComponentType<Node> | undefined;
 
-  if (type.startsWith("creator.ui_component.")) {
+  // Dispatch on the LAYER segment, not a hardcoded leading namespace, so both
+  // the legacy `creator.*` types and the domain-neutral `sdui.*` types resolve
+  // during (and after) the namespace migration. Registry keys carry the full
+  // type string, so the lookup stays exact either way.
+  if (type.includes(".ui_component.")) {
     renderer = uiComponentRegistry[type];
-  } else if (type.startsWith("creator.snippet.")) {
+  } else if (type.includes(".snippet.")) {
     renderer = snippetRegistry[type];
   }
 

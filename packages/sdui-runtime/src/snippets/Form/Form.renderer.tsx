@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useCallback } from "react";
+import React, { createContext, useContext, useRef, useCallback, useEffect } from "react";
 import { Pressable } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { FormSchema } from "@one-impression/sdk-native-sdui";
@@ -6,6 +6,8 @@ import { Box, Stack } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
+import { FormIdContext } from "../../form/index.js";
+import { useFormStore } from "../../state/index.js";
 import { mergeFormValuesIntoAction } from "./form-values.js";
 import type { FormState } from "./form-values.js";
 
@@ -23,6 +25,20 @@ export function useFormContext(): FormState {
 }
 
 export function FormRenderer(node: Node): React.ReactElement {
+  // `form_id` is a wire extension (not yet in FormSchema — read raw, promote to
+  // the SDK later). Falls back to the node id so a form always has an id.
+  const formId =
+    (node.data as { form_id?: string } | undefined)?.form_id ?? node.id;
+
+  // Register the form in the store on mount; drop it on unmount so navigating
+  // away doesn't leave orphan form state. Idempotent + non-destructive.
+  const register = useFormStore((s) => s.register);
+  const unregister = useFormStore((s) => s.unregister);
+  useEffect(() => {
+    register(formId);
+    return () => unregister(formId);
+  }, [formId, register, unregister]);
+
   return (
     <SduiNode
       data={node.data}
@@ -36,7 +52,10 @@ export function FormRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => (
-        <FormInner fields={v.fields} submitButton={v.submit_button} />
+        // Provide the form id to nested fields (id-only; state lives in the store).
+        <FormIdContext.Provider value={formId}>
+          <FormInner fields={v.fields} submitButton={v.submit_button} />
+        </FormIdContext.Provider>
       )}
     </SduiNode>
   );

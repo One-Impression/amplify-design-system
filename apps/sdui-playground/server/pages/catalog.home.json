@@ -3,6 +3,30 @@
   "title": "SDUI Playground",
   "protocol_version": "1.0.0",
   "layout": "standard",
+  "data": {
+    "header": {
+      "type": "creator.snippet.page_header",
+      "id": "home-header",
+      "data": {
+        "title": {
+          "text": "SDUI Playground",
+          "font_size": "sdui.font-size.xl",
+          "font_weight": "bold",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "subtitle": {
+          "text": "Full pages, headers, footers & snippets",
+          "color": "sdui.color.neutral-inverse"
+        },
+        "background": {
+          "gradient": {
+            "colors": ["#7C3AED", "#F2F2F2"],
+            "angle": 180
+          }
+        }
+      }
+    }
+  },
   "items": [
     {
       "type": "creator.snippet.section_header",
@@ -53,12 +77,60 @@
       },
       "data": {
         "title": {
-          "text": "Sticky footer page",
+          "text": "Sticky footer — transparent, 2 buttons",
           "font_weight": "medium",
           "font_size": "sdui.font-size.md"
         },
         "subtitle": {
-          "text": "card only",
+          "text": "transparent footer · secondary + primary",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {}
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-3b",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.sticky_footer.white_2"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Sticky footer — white, 2 buttons",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "white surface · secondary + primary",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {}
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-3c",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.sticky_footer.white_1"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Sticky footer — white, 1 button",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "white surface · single CTA",
           "color": "sdui.color.text-muted",
           "font_size": "sdui.font-size.sm"
         },
@@ -113,6 +185,33 @@
         },
         "subtitle": {
           "text": "card + right icon",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "right_icon": {
+          "name": "chevron-right"
+        }
+      }
+    },
+    {
+      "type": "creator.snippet.info_row",
+      "id": "launcher-form",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.form"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Form — all input types",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "text · email · number · phone · single/multi select · toggle · upload + sticky submit",
           "color": "sdui.color.text-muted",
           "font_size": "sdui.font-size.sm"
         },
@@ -720,6 +819,114 @@
           "count": 3
         }
       }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "grp-hdr-h",
+      "data": {
+        "title": { "text": "Group stacking · horizontal", "font_size": "sdui.font-size.lg", "font_weight": "bold" },
+        "subtitle": { "text": "group_config · stacking: horizontal", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "creator.snippet.group_config",
+      "id": "grp-horizontal",
+      "data": {
+        "stacking": "horizontal",
+        "gap": "sm",
+        "items": [
+          { "type": "creator.ui_component.tag", "id": "grp-tag-reach", "data": { "label": { "text": "Reach", "color": "sdui.color.neutral-inverse" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } },
+          { "type": "creator.ui_component.tag", "id": "grp-tag-eng", "data": { "label": { "text": "Engagement", "color": "sdui.color.neutral-inverse" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } },
+          { "type": "creator.ui_component.tag", "id": "grp-tag-conv", "data": { "label": { "text": "Conversions", "color": "sdui.color.neutral-inverse" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } }
+        ]
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "grp-hdr-v",
+      "data": {
+        "title": { "text": "Group stacking · vertical", "font_size": "sdui.font-size.lg", "font_weight": "bold" },
+        "subtitle": { "text": "group_config · stacking: vertical", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "creator.snippet.group_config",
+      "id": "grp-vertical",
+      "data": {
+        "stacking": "vertical",
+        "items": [
+          { "type": "creator.snippet.info_row", "id": "grp-row-1", "data": { "title": { "text": "Vertical item 1", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "stacked top to bottom", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } },
+          { "type": "creator.snippet.info_row", "id": "grp-row-2", "data": { "title": { "text": "Vertical item 2", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "stacked top to bottom", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } },
+          { "type": "creator.snippet.info_row", "id": "grp-row-3", "data": { "title": { "text": "Vertical item 3", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "stacked top to bottom", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } }
+        ]
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "grp-hdr-hcards",
+      "data": {
+        "title": { "text": "Group stacking · horizontal cards", "font_size": "sdui.font-size.lg", "font_weight": "bold" },
+        "subtitle": { "text": "group_config · stacking: horizontal · card snippets side by side", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "creator.snippet.group_config",
+      "id": "grp-horizontal-cards",
+      "data": {
+        "stacking": "horizontal",
+        "gap": "md",
+        "item_flex": "equal",
+        "items": [
+          { "type": "creator.snippet.info_row", "id": "grp-card-mon", "data": { "title": { "text": "Mon", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "12 leads", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } },
+          { "type": "creator.snippet.info_row", "id": "grp-card-tue", "data": { "title": { "text": "Tue", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "18 leads", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } },
+          { "type": "creator.snippet.info_row", "id": "grp-card-wed", "data": { "title": { "text": "Wed", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "9 leads", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }, "card": {} } }
+        ]
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "grp-hdr-cardv",
+      "data": {
+        "title": { "text": "Group · one card, plain children (vertical)", "font_size": "sdui.font-size.lg", "font_weight": "bold" },
+        "subtitle": { "text": "group_config · card on the group · children have no cards", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "creator.snippet.group_config",
+      "id": "grp-cardv",
+      "data": {
+        "stacking": "vertical",
+        "card": {},
+        "gap": "md",
+        "items": [
+          { "type": "creator.snippet.info_row", "id": "grp-cv-1", "data": { "title": { "text": "Reach", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "1.2M accounts", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
+          { "type": "creator.snippet.info_row", "id": "grp-cv-2", "data": { "title": { "text": "Engagement", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "84K interactions", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
+          { "type": "creator.snippet.info_row", "id": "grp-cv-3", "data": { "title": { "text": "Conversions", "font_weight": "medium", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "2,310 orders", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } }
+        ]
+      }
+    },
+    {
+      "type": "creator.snippet.section_header",
+      "id": "grp-hdr-cardh",
+      "data": {
+        "title": { "text": "Group · one card, plain children (horizontal)", "font_size": "sdui.font-size.lg", "font_weight": "bold" },
+        "subtitle": { "text": "group_config · card on the group · children have no cards", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "creator.snippet.group_config",
+      "id": "grp-cardh",
+      "data": {
+        "stacking": "horizontal",
+        "card": {},
+        "gap": "md",
+        "item_flex": "equal",
+        "items": [
+          { "type": "creator.snippet.info_row", "id": "grp-ch-1", "data": { "title": { "text": "Reach", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "1.2M", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
+          { "type": "creator.snippet.info_row", "id": "grp-ch-2", "data": { "title": { "text": "Eng.", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "84K", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } },
+          { "type": "creator.snippet.info_row", "id": "grp-ch-3", "data": { "title": { "text": "Conv.", "font_weight": "bold", "font_size": "sdui.font-size.md" }, "subtitle": { "text": "2.3K", "color": "sdui.color.text-muted", "font_size": "sdui.font-size.sm" } } }
+        ]
+      }
     }
   ],
   "bottom_sheets": [
@@ -749,7 +956,28 @@
             }
           }
         }
-      ]
+      ],
+      "footer": {
+        "type": "creator.snippet.page_footer",
+        "id": "sheet-ftr-Info bottom sheet",
+        "data": {
+          "background": "transparent",
+          "primary_button": {
+            "type": "creator.ui_component.button",
+            "id": "sheet-btn-GotIt",
+            "on_click": {
+              "type": "dismiss",
+              "payload": {}
+            },
+            "data": {
+              "label": {
+                "text": "Got it"
+              },
+              "variant": "primary"
+            }
+          }
+        }
+      }
     },
     {
       "id": "sheet.confirm",

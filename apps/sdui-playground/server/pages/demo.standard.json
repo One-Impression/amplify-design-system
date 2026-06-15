@@ -267,22 +267,6 @@
           }
         ]
       }
-    },
-    {
-      "type": "creator.snippet.page_footer",
-      "id": "ftr-Primary action",
-      "data": {
-        "primary_button": {
-          "type": "creator.ui_component.button",
-          "id": "btn-Primary action",
-          "data": {
-            "label": {
-              "text": "Primary action"
-            },
-            "variant": "primary"
-          }
-        }
-      }
     }
   ]
 }

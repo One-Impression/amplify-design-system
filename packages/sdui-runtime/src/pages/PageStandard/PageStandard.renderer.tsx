@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { BackHandler, ScrollView, RefreshControl } from "react-native";
-import type { Page } from "@one-impression/sdk-native-sdui";
+import { BackHandler, ScrollView, RefreshControl, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { sdui } from "@one-impression/tokens-creator/react-native";
+import type { Page, Node } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../../interpreter/index.js";
 import { GutterItem } from "../../layout/page-gutter.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
@@ -24,6 +26,7 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const register = useBottomSheetStore((s) => s.register);
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
+  const insets = useSafeAreaInsets();
 
   // Register inline bottom sheets so sheet actions can open them later.
   // Sheets are pre-registered (not opened) — the sheet action handler
@@ -38,6 +41,8 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
         title: sheet.title,
         size: sheet.size ?? "medium",
         items: sheet.items ?? [],
+        header: (sheet as { header?: Node }).header,
+        footer: (sheet as { footer?: Node }).footer,
         on_dismiss: sheet.on_dismiss,
         on_open: sheet.on_open,
         overlay_on_click: (sheet as { overlay_on_click?: unknown })
@@ -78,19 +83,31 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
     return () => subscription.remove();
   }, [actionEngine, page.on_back_press]);
 
+  // Optional pinned top header SLOT — symmetric with the sticky footer slot.
+  // When present the runtime hides the native nav header (see SduiNavigationHost)
+  // and this wire snippet owns the top chrome (safe-area inset + background).
+  const header = (page.data as { header?: Node } | undefined)?.header;
+
   return (
-    <ScrollView
-      refreshControl={
-        page.on_refresh ? (
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        ) : undefined
-      }
-    >
-      {page.items.map((node, i) => (
-        <GutterItem key={node.id ?? `item-${i}`} node={node}>
-          <Interpreter node={node} />
-        </GutterItem>
-      ))}
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      {header ? <Interpreter node={header} /> : null}
+      <ScrollView
+        style={{ flex: 1 }}
+        // Bottom safe-area inset + a base buffer so the last item clears the home
+        // indicator with breathing room. Applied to every scroll page by default.
+        contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
+        refreshControl={
+          page.on_refresh ? (
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          ) : undefined
+        }
+      >
+        {page.items.map((node, i) => (
+          <GutterItem key={node.id ?? `item-${i}`} node={node}>
+            <Interpreter node={node} />
+          </GutterItem>
+        ))}
+      </ScrollView>
+    </View>
   );
 }

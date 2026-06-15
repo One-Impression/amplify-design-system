@@ -1,8 +1,9 @@
 /**
  * Type declarations for @one-impression/tokens-creator/react-native
  *
- * The tokens-creator package generates tokens.native.js at build time
- * without .d.ts files. This declaration provides type safety for consumers.
+ * The tokens-creator package generates tokens.native.js at build time without
+ * .d.ts files. This mirrors the declaration in ui-native so the runtime can use
+ * `sdui.*` tokens directly (header chrome, page spacing) with type safety.
  */
 declare module '@one-impression/tokens-creator/react-native' {
   export const colors: Record<string, string>;

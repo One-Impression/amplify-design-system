@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { sdui } from "@one-impression/tokens-creator/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
@@ -87,8 +88,16 @@ function makePageScreen(resolvePage: ResolvePage) {
 
     // Reflect the loaded page's title in the native header once it arrives
     // (the static screen options can't know it before the fetch resolves).
+    // When the page declares a wire header SLOT (`data.header`), hide the native
+    // nav header entirely — the wire `page_header` snippet owns the top chrome
+    // (safe-area inset + background), symmetric with the footer slot.
     useEffect(() => {
-      if (page?.title) navigation.setOptions({ title: page.title });
+      const hasWireHeader = !!(page?.data as { header?: unknown } | undefined)
+        ?.header;
+      navigation.setOptions({ headerShown: !hasWireHeader });
+      if (page?.title && !hasWireHeader) {
+        navigation.setOptions({ title: page.title });
+      }
     }, [page, navigation]);
 
     if (loading) return <DefaultPageSkeleton />;
@@ -123,13 +132,20 @@ function SduiNavigator({
 >): React.ReactElement {
   const PageScreen = useMemo(() => makePageScreen(resolvePage), [resolvePage]);
   return (
-    <Stack.Navigator
-      screenOptions={{
-        animation: "slide_from_right",
-        gestureEnabled: true,
-        ...screenOptions,
-      }}
-    >
+    <>
+      {/* Inverse app chrome by default: branded header bg + light title/icons,
+          and a matching light-content status bar. App/runtime-owned (device
+          chrome, not page content); a consumer can override via screenOptions. */}
+      <StatusBar barStyle="light-content" backgroundColor={sdui.color.primary} />
+      <Stack.Navigator
+        screenOptions={{
+          animation: "slide_from_right",
+          gestureEnabled: true,
+          headerStyle: { backgroundColor: sdui.color.primary },
+          headerTintColor: sdui.color.neutralInverse,
+          ...screenOptions,
+        }}
+      >
       <Stack.Screen
         name={SDUI_PAGE_ROUTE}
         component={PageScreen}
@@ -163,7 +179,8 @@ function SduiNavigator({
           contentStyle: styles.transparent,
         }}
       />
-    </Stack.Navigator>
+      </Stack.Navigator>
+    </>
   );
 }
 

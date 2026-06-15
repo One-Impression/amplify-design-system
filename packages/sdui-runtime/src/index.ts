@@ -59,6 +59,12 @@ export {
 // ── Snippets ──
 export { renderMedia } from "./snippets/_shared/index.js";
 export { FormContext, useFormContext } from "./snippets/Form/index.js";
+// Form binding — id-only form_id context + the store-backed field hook.
+export { FormIdContext, useFormId, useFormField } from "./form/index.js";
+export type { FormFieldBinding } from "./form/index.js";
+// Validation — pure declarative evaluator (promote to the SDK pkg later, D7).
+export { evaluateField } from "./validation/index.js";
+export type { ValidationRule, EvaluableValue, EvaluateContext } from "./validation/index.js";
 
 // ── Registries ──
 export {
@@ -84,6 +90,13 @@ export type {
   ActiveSocialActions,
   LocalStoreState,
   LocalStoreActions,
+} from "./state/index.js";
+export { useFormStore, selectFormIsValid } from "./state/index.js";
+export type {
+  FormFieldValue,
+  FormEntry,
+  FormStoreState,
+  FormStoreActions,
 } from "./state/index.js";
 
 // ── Icon store (manifest fetch/persist + name→SVG glyph resolution) ──

@@ -17,6 +17,16 @@ export type {
   BottomSheetFormActions,
 } from './useBottomSheetFormStore.js';
 
+// Form state — keyed by form_id; the single source of truth for server-driven
+// forms (supersedes the unwired single-form useBottomSheetFormStore).
+export { useFormStore, selectFormIsValid } from './useFormStore.js';
+export type {
+  FormFieldValue,
+  FormEntry,
+  FormStoreState,
+  FormStoreActions,
+} from './useFormStore.js';
+
 // Navigation stack
 export { useNavigationStackStore } from './useNavigationStackStore.js';
 export type {

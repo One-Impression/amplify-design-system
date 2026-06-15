@@ -1,6 +1,7 @@
 import type { Node } from "@one-impression/sdk-native-sdui";
 
 // Layout / Utility
+import { CompositeRenderer } from "../snippets/Composite/index.js";
 import { GroupConfigRenderer } from "../snippets/GroupConfig/index.js";
 import { GroupStepsRenderer } from "../snippets/GroupSteps/index.js";
 import { GroupSnippetsRenderer } from "../snippets/GroupSnippets/index.js";
@@ -48,7 +49,6 @@ import { ListRenderer } from "../snippets/List/index.js";
 
 // Input / Selection
 import { InputRenderer } from "../snippets/Input/index.js";
-import { PhoneNumberInputRenderer } from "../snippets/PhoneNumberInput/index.js";
 import { ToggleInputRenderer } from "../snippets/ToggleInput/index.js";
 import { SingleSelectInputRenderer } from "../snippets/SingleSelectInput/index.js";
 import { MultiSelectInputRenderer } from "../snippets/MultiSelectInput/index.js";
@@ -63,7 +63,9 @@ import { ChipRenderer } from "../snippets/Chip/index.js";
  * info rows, inputs, and chips.
  */
 export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  // Layout / Utility (12)
+  // Layout / Utility
+  // First citizen of the domain-neutral `sdui.*` namespace (see migration plan).
+  "sdui.snippet.composite": CompositeRenderer,
   "creator.snippet.group_config": GroupConfigRenderer,
   "creator.snippet.group_steps": GroupStepsRenderer,
   "creator.snippet.group_snippets": GroupSnippetsRenderer,
@@ -109,9 +111,8 @@ export const snippetRegistry: Record<string, (node: Node) => React.ReactElement>
   "creator.snippet.info_breakdown_row": InfoBreakdownRowRenderer,
   "creator.snippet.list": ListRenderer,
 
-  // Input / Selection (6)
+  // Input / Selection
   "creator.snippet.input": InputRenderer,
-  "creator.snippet.phone_number_input": PhoneNumberInputRenderer,
   "creator.snippet.toggle_input": ToggleInputRenderer,
   "creator.snippet.single_select_input": SingleSelectInputRenderer,
   "creator.snippet.multi_select_input": MultiSelectInputRenderer,
