@@ -52,6 +52,11 @@ import { SduiRuntimeProvider, IconStoreProvider, applyNavigate } from "@one-impr
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
+// One source of truth — both the action engine (bff_call / reload) and the icon
+// store hit your BFF, so derive both from a single constant (and reuse it in
+// resolvePage, §5) rather than repeating the literal.
+const BFF_BASE_URL = "https://api.your-app.com";
+
 export function Providers({ children }) {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -59,14 +64,14 @@ export function Providers({ children }) {
         <BottomSheetModalProvider>
           <QueryClientProvider client={queryClient}>
             <SduiRuntimeProvider
-              bffConfig={{ baseUrl: "https://api.your-app.com" }}
+              bffConfig={{ baseUrl: BFF_BASE_URL }}
               authConfig={{ getToken: () => authStore.accessToken ?? null }}
               telemetryConfig={{ emitter: { emit: (e, p) => analytics.track(e, p) } }}
               onNavigate={(op, target, params) => applyNavigate(op, target, params)}
               onToast={(level, message) => showToast(level, message)}
               onDeeplink={(url) => Linking.openURL(url)}
             >
-              <IconStoreProvider bffBaseUrl="https://api.your-app.com" authToken={authStore.accessToken}>
+              <IconStoreProvider bffBaseUrl={BFF_BASE_URL} authToken={authStore.accessToken}>
                 {children}
               </IconStoreProvider>
             </SduiRuntimeProvider>
@@ -101,8 +106,9 @@ for localhost BFFs only, `X-Dev-Identity` — both handled internally.
 import { SduiNavigationHost } from "@one-impression/sdui-runtime";
 import type { Page } from "@one-impression/sdk-native-sdui";
 
+// BFF_BASE_URL is the same shared constant from §3.
 async function resolvePage(screenId: string): Promise<Page> {
-  const res = await fetch(`https://api.your-app.com/sdui/page/${encodeURIComponent(screenId)}`);
+  const res = await fetch(`${BFF_BASE_URL}/sdui/page/${encodeURIComponent(screenId)}`);
   if (!res.ok) throw new Error(`page ${screenId} → ${res.status}`);
   return (await res.json()) as Page;
 }
