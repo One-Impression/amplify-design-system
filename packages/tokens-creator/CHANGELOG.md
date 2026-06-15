@@ -1,5 +1,30 @@
 # @one-impression/tokens-creator
 
+## 3.3.0
+
+### Minor Changes
+
+- [#222](https://github.com/One-Impression/amplify-design-system/pull/222) [`07f8ebe`](https://github.com/One-Impression/amplify-design-system/commit/07f8ebe7defca4f442cef00cd9601fe9ac38d8be) Thanks [@achin-oi](https://github.com/achin-oi)! - SDUI composite snippet, form system, header slot, and Tag theming.
+
+  - **`sdui.snippet.composite`** — one composing snippet whose `data.layout`
+    discriminant (`cover` / `stack` / `row`) names a slot-set + placement; slots
+    hold arbitrary child Nodes. Owns arrangement (gutter, full-bleed media,
+    edge-overlap float, header/footer strips), never contents. `resolveRenderer`
+    now dispatches on the layer segment (`.snippet.` / `.ui_component.`) so legacy
+    `creator.*` and domain-neutral `sdui.*` types both resolve.
+  - **Header slot** — `page_header` as a wire slot (top safe-area inset +
+    solid/gradient background + pressable back affordance) across page types and
+    bottom sheets; the native nav header is hidden when a wire header is present.
+  - **Form system** — `form_id`-keyed store, `useFormField`, validation evaluator,
+    decoupled `submit` action; `component.field` token rhythm; composable
+    `select_trigger` (replaces the bespoke phone-number input).
+  - **Tag theming** — the Tag renderer now honors the wire `bg_color` /
+    `text_color` / `gradient` / glyph `icon` fields (previously every tag rendered
+    as the default white pill). Adds a `component.tag` token group so tags share
+    the system radius + font scale, with the icon sized to the label.
+  - **group_config** card no longer forces an `sm` shadow — it falls back to the
+    Card default elevation like every other snippet card.
+
 ## 3.2.0
 
 ### Minor Changes
@@ -9,6 +34,7 @@
   Adds four bg + text token pairs to the `sdui.color.*` namespace and surfaces them through a new `palette.state.*` group. These are reserved for the persistent banner that communicates where a campaign / opportunity sits in its lifecycle — distinct from `palette.status.*`, which is for inline messaging (toasts, form errors).
 
   Tokens added (light + dark theme):
+
   - `state-neutral-bg` / `state-neutral-text` — info / pending review (warm-grey surface).
   - `state-action-required-bg` / `state-action-required-text` — creator must act (amber).
   - `state-success-bg` / `state-success-text` — approved / paid (green).
