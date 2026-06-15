@@ -1,6 +1,7 @@
 import type { Node } from "@one-impression/sdk-native-sdui";
 
 // Layout / Utility
+import { CompositeRenderer } from "../snippets/Composite/index.js";
 import { GroupConfigRenderer } from "../snippets/GroupConfig/index.js";
 import { GroupStepsRenderer } from "../snippets/GroupSteps/index.js";
 import { GroupSnippetsRenderer } from "../snippets/GroupSnippets/index.js";
@@ -62,7 +63,9 @@ import { ChipRenderer } from "../snippets/Chip/index.js";
  * info rows, inputs, and chips.
  */
 export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  // Layout / Utility (12)
+  // Layout / Utility
+  // First citizen of the domain-neutral `sdui.*` namespace (see migration plan).
+  "sdui.snippet.composite": CompositeRenderer,
   "creator.snippet.group_config": GroupConfigRenderer,
   "creator.snippet.group_steps": GroupStepsRenderer,
   "creator.snippet.group_snippets": GroupSnippetsRenderer,
