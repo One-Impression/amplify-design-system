@@ -20,6 +20,10 @@ import { dirname, join } from "node:path";
  * `adb reverse tcp:3012 tcp:3012`.
  */
 const PORT = Number(process.env.PORT ?? 3012);
+// Optional simulated reload latency (ms) so the shimmer/skeleton is observable
+// while hand-testing the playground. Off by default (0) so it never slows
+// automated callers; set SDUI_FIXTURE_LATENCY_MS=3000 to watch the skeletons.
+const RELOAD_LATENCY_MS = Number(process.env.SDUI_FIXTURE_LATENCY_MS) || 0;
 const PAGE_PREFIX = "/sdui/page/";
 const SUBMIT_PREFIX = "/submit/";
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -55,82 +59,233 @@ const readJsonBody = (req) =>
     });
   });
 
-// ─── Campaigns feed (composite cards + backend-driven infinite scroll) ───────
-// The feed renders `sdui.snippet.composite` cards as top-level page.items. The
-// 2nd-last card of each batch carries a `viewability.on_view` (policy: once)
-// that bff_calls this server for the next batch; the server returns an
-// `append_items` action. The LAST batch omits `on_view`, so it self-terminates
-// — the cursor lives entirely here, never on the client.
-const FEED_PAGE_SIZE = 5;
-const FEED_TOTAL = 15;
-const FEED_BRANDS = [
-  "Lumina Beauty", "Verde Skincare", "Aura Cosmetics", "Nova Wellness",
-  "Bloom Organics", "Ceré Paris", "Indigo Hair", "Solstice Fragrance",
+// ─── Campaigns feed — request-context demo (tabs + multi-select filters) ─────
+// The whole feed page is a function of a request context: { tab, filters }. The
+// header (filter chips) + footer (tabs) are dumb selection surfaces; the BFF
+// owns the page per context. Tapping a chip toggles it in `selected_filters`
+// (set_local array_toggle) then fires a DEBOUNCED `reload_page`; tapping a tab
+// sets `selected_tab`, clears filters, and reloads immediately; pull-to-refresh
+// reloads the current context. `reload_page` re-fetches THIS route with the
+// bound context and the runtime replaces the whole page (header + filters +
+// footer + items). The cursor for context lives entirely in the local store via
+// `{ ref: "$.local.* }` bindings — the client takes no filtering decisions.
+const TABS = [
+  { id: "for_you", label: "For You" },
+  { id: "applied", label: "Applied" },
+  { id: "saved", label: "Saved" },
+];
+const FILTERS = [
+  { id: "beauty", label: "Beauty" },
+  { id: "wellness", label: "Wellness" },
+  { id: "fashion", label: "Fashion" },
+  { id: "tech", label: "Tech" },
+];
+// Fixed catalog — each campaign carries a category + the tabs it appears under.
+const CAMPAIGNS = [
+  { id: 1, brand: "Lumina Beauty", category: "beauty", reward: 3000, tabs: ["for_you", "saved"] },
+  { id: 2, brand: "Verde Skincare", category: "beauty", reward: 2200, tabs: ["for_you", "applied"] },
+  { id: 3, brand: "Nova Wellness", category: "wellness", reward: 4500, tabs: ["for_you"] },
+  { id: 4, brand: "Bloom Organics", category: "wellness", reward: 1800, tabs: ["for_you", "saved"] },
+  { id: 5, brand: "Ceré Paris", category: "fashion", reward: 5200, tabs: ["for_you", "applied"] },
+  { id: 6, brand: "Indigo Hair", category: "fashion", reward: 2600, tabs: ["for_you"] },
+  { id: 7, brand: "PixelPlay", category: "tech", reward: 6000, tabs: ["for_you", "applied"] },
+  { id: 8, brand: "Solstice Audio", category: "tech", reward: 3400, tabs: ["for_you", "saved"] },
+  { id: 9, brand: "Aura Cosmetics", category: "beauty", reward: 2800, tabs: ["for_you"] },
+  { id: 10, brand: "Terra Fit", category: "wellness", reward: 3900, tabs: ["for_you", "applied"] },
 ];
 
-function campaignCard(i) {
-  const brand = FEED_BRANDS[(i - 1) % FEED_BRANDS.length];
+const CATEGORY_LABEL = Object.fromEntries(FILTERS.map((f) => [f.id, f.label]));
+
+// One region-scoped `reload` verb. `regions` names what it refreshes:
+//   ["content"]            → filter toggle / pull-refresh (header + footer stay)
+//   ["header","content"]   → tab switch / first load (footer shell stays)
+// The runtime sends `regions` + the bound context to the server, shows each
+// region's skeleton while in flight, and merges the partial response. The
+// context cursor lives entirely in the local store via `{ ref: "$.local.* }`.
+const boundContext = {
+  tab: { ref: "$.local.selected_tab" },
+  filter: { ref: "$.local.selected_filters" },
+};
+const reload = (regions, debounceMs) => ({
+  type: "reload",
+  ...(debounceMs ? { debounce_ms: debounceMs } : {}),
+  payload: { endpoint: "creator.campaigns.list", method: "GET", regions, query_params: { ...boundContext } },
+});
+
+function campaignCard(c) {
   return {
     type: "sdui.snippet.composite",
-    id: `campaign-${i}`,
-    on_click: { type: "navigate", payload: { target: "creator.campaigns.detail", op: "push", params: { id: String(i) } } },
+    id: `campaign-${c.id}`,
+    on_click: { type: "navigate", payload: { target: "creator.campaigns.detail", op: "push", params: { id: String(c.id) } } },
     data: {
       layout: "cover",
       surface: { bg_color: "sdui.color.neutral-inverse", border_color: "sdui.color.neutral-subtle" },
-      media: { type: "creator.snippet.banner_image", id: `m-${i}`, data: { image: { src: `https://picsum.photos/seed/camp${i}/640/320`, aspect_ratio: 2 } } },
-      float: { type: "creator.ui_component.image", id: `a-${i}`, data: { src: `https://picsum.photos/seed/brand${i}/120`, width: 64, height: 64, border_radius: "sdui.radius.full" } },
+      media: { type: "creator.snippet.banner_image", id: `m-${c.id}`, data: { image: { src: `https://picsum.photos/seed/camp${c.id}/640/320`, aspect_ratio: 2 } } },
+      float: { type: "creator.ui_component.image", id: `a-${c.id}`, data: { src: `https://picsum.photos/seed/brand${c.id}/120`, width: 64, height: 64, border_radius: "sdui.radius.full" } },
       float_end: [
-        { type: "creator.ui_component.tag", id: `cash-${i}`, data: { label: { text: `₹${(1000 + i * 200).toLocaleString("en-IN")} Cash` }, bg_color: "sdui.color.positive-weak", text_color: "sdui.color.positive" } },
+        { type: "creator.ui_component.tag", id: `cash-${c.id}`, data: { label: { text: `₹${c.reward.toLocaleString("en-IN")} Cash` }, bg_color: "sdui.color.positive-weak", text_color: "sdui.color.positive" } },
       ],
       body: [
-        { type: "creator.snippet.info_row", id: `n-${i}`, data: { title: { text: `${brand} · #${i}`, font_weight: "medium", font_size: "sdui.font-size.lg" } } },
-        { type: "creator.snippet.info_row", id: `meta-${i}`, data: { title: { text: "Beauty · Micro creators", font_size: "sdui.font-size.sm", color: "sdui.color.neutral-medium" } } },
+        { type: "creator.snippet.info_row", id: `n-${c.id}`, data: { title: { text: c.brand, font_weight: "medium", font_size: "sdui.font-size.lg" } } },
+        { type: "creator.snippet.info_row", id: `meta-${c.id}`, data: { title: { text: `${CATEGORY_LABEL[c.category]} · Micro creators`, font_size: "sdui.font-size.sm", color: "sdui.color.neutral-medium" } } },
       ],
-      footer: { type: "creator.snippet.info_row", id: `f-${i}`, data: { title: { text: "Apply now — closes soon", font_size: "sdui.font-size.sm" } } },
+      footer: { type: "creator.snippet.info_row", id: `f-${c.id}`, data: { title: { text: "Apply now — closes soon", font_size: "sdui.font-size.sm" } } },
     },
   };
 }
 
-// `nextCursor` null ⇒ last page (no on_view ⇒ stops). Otherwise the 2nd-last
-// card carries the load-more trigger pointing at the next cursor.
-function campaignBatch(startId, count, nextCursor) {
-  const cards = [];
-  for (let k = 0; k < count; k++) {
-    const card = campaignCard(startId + k);
-    if (nextCursor !== null && k === count - 2) {
-      card.viewability = {
-        on_view: [{
-          id: "load-more",
-          policy: "once",
-          action: { type: "bff_call", payload: { endpoint: "creator.campaigns.list", method: "GET", query_params: { cursor: String(nextCursor) } } },
-        }],
-      };
-    }
-    cards.push(card);
-  }
-  return cards;
-}
-
-function buildFeedPage() {
-  const nextCursor = FEED_TOTAL > FEED_PAGE_SIZE ? FEED_PAGE_SIZE : null;
+// A filter chip. `selected` is a RENDER BINDING to local state — it re-renders
+// the instant the chip toggles, no reload (the renderer shows a × when
+// selected). Tapping toggles the filter into `selected_filters` and fires a
+// debounced CONTENT-only reload; the header (and these chips) stay static.
+function filterChip(f) {
   return {
-    id: "demo.feed",
-    title: "Campaigns",
-    protocol_version: "1.0.0",
-    layout: "feed",
-    data: {
-      header: {
-        type: "creator.snippet.page_header",
-        id: "feed-hdr",
-        data: {
-          title: { text: "Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
-          subtitle: { text: "infinite scroll · composite cards", color: "sdui.color.neutral-inverse" },
-          background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
-        },
+    type: "creator.snippet.chip",
+    id: `filter-${f.id}`,
+    on_click: {
+      type: "compound",
+      payload: {
+        actions: [
+          { type: "set_local", payload: { key: "selected_filters", op: "array_toggle", value: f.id } },
+          reload(["content"], 400),
+        ],
       },
     },
-    items: campaignBatch(1, FEED_PAGE_SIZE, nextCursor),
+    data: {
+      label: { text: f.label },
+      // reactive: true when selected_filters includes this filter's id.
+      selected: { ref: "$.local.selected_filters", contains: f.id },
+      bg_color: "sdui.color.neutral-weak",
+      selected_bg_color: "sdui.color.primary-weak",
+    },
   };
+}
+
+// A footer tab. `active` is a RENDER BINDING to local `selected_tab` — it
+// highlights instantly on tap (optimistic), before the API returns. Tapping
+// sets the tab, clears filters (filters are local to a tab), and fires a
+// full-page reload.
+function tabNode(t) {
+  return {
+    type: "creator.ui_component.tab",
+    id: `tab-${t.id}`,
+    on_click: {
+      type: "compound",
+      payload: {
+        actions: [
+          { type: "set_local", payload: { key: "selected_tab", op: "set", value: t.id } },
+          { type: "set_local", payload: { key: "selected_filters", op: "set", value: [] } },
+          reload(["header", "content"], 0),
+        ],
+      },
+    },
+    // reactive: active when selected_tab equals this tab's id.
+    data: { label: { text: t.label }, active: { ref: "$.local.selected_tab", equals: t.id } },
+  };
+}
+
+function selectCampaigns(tab, filters) {
+  return CAMPAIGNS.filter(
+    (c) => c.tabs.includes(tab) && (filters.length === 0 || filters.includes(c.category)),
+  );
+}
+
+// ── Regions ──────────────────────────────────────────────────────────────────
+// header region = [page_header, group_chips(filters)] — a Node[] the runtime
+// stacks in the header zone. Per-tab (refreshed on tab switch). content region =
+// the items array. footer region = the tabs shell (loaded once).
+
+function headerRegion(tab, filters) {
+  const tabLabel = TABS.find((t) => t.id === tab).label;
+  const subtitle =
+    filters.length > 0
+      ? `${selectCampaigns(tab, filters).length} in ${filters.map((f) => CATEGORY_LABEL[f]).join(", ")}`
+      : `${selectCampaigns(tab, filters).length} campaigns`;
+  return [
+    {
+      type: "creator.snippet.page_header",
+      id: "feed-hdr",
+      data: {
+        title: { text: "My Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
+        subtitle: { text: `${tabLabel} · ${subtitle}`, color: "sdui.color.neutral-inverse" },
+        right_icon: { name: "search", color: "sdui.color.neutral-inverse" },
+        background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
+      },
+    },
+    // Chips' selected state is render-bound to local — instant, no reload.
+    { type: "creator.snippet.group_chips", id: "feed-filters", data: { items: FILTERS.map(filterChip) } },
+  ];
+}
+
+const contentItems = (tab, filters) => selectCampaigns(tab, filters).map(campaignCard);
+
+// Per-region skeletons (BFF-composed, cached in the shell so they show
+// instantly). Composed to MATCH the content they stand in for:
+//   header  → title line + right-icon circle (spaced), subtitle, a chip row
+//   content → cards: media + (logo circle + cash-tag pill) + brand + meta
+const headerSkeleton = {
+  type: "creator.snippet.skeleton",
+  id: "skel-header",
+  data: {
+    padding: 16,
+    rows: [
+      { row: [{ shape: "line", height: 24, width: "55%" }, { shape: "circle", width: 24 }], justify: "between" },
+      { shape: "line", height: 14, width: "35%" },
+      // filter chip row — four rounded pills
+      { row: FILTERS.map(() => ({ shape: "rect", height: 32, width: 76, radius: 16 })) },
+    ],
+  },
+};
+const contentSkeleton = {
+  type: "creator.snippet.skeleton",
+  id: "skel-content",
+  data: {
+    card: true,
+    repeat: 4,
+    rows: [
+      { shape: "rect", height: 140 },
+      // overlapping logo circle + cash-tag pill
+      { row: [{ shape: "circle", width: 48 }, { shape: "rect", height: 28, width: 96, radius: 14 }], justify: "between" },
+      { shape: "line", height: 18, width: "55%" },
+      { shape: "line", height: 12, width: "40%" },
+    ],
+  },
+};
+
+// The SHELL: footer (loaded once) + per-region skeletons; on_load seeds the
+// default context and fires reload(["header","content"]) to stream the tab in.
+function buildShell() {
+  return {
+    id: "demo.feed",
+    title: "My Campaigns",
+    protocol_version: "1.0.0",
+    layout: "feed",
+    on_load: {
+      type: "compound",
+      payload: {
+        actions: [
+          { type: "set_local", payload: { key: "selected_tab", op: "set", value: TABS[0].id } },
+          { type: "set_local", payload: { key: "selected_filters", op: "set", value: [] } },
+          reload(["header", "content"], 0),
+        ],
+      },
+    },
+    on_refresh: reload(["content"], 0),
+    data: {
+      footer: { type: "creator.snippet.tabs_footer", id: "feed-tabs", data: { items: TABS.map(tabNode) } },
+      header_skeleton: headerSkeleton,
+      content_skeleton: contentSkeleton,
+    },
+    items: [],
+  };
+}
+
+// A `reload` partial response: only the requested regions.
+function buildPartial(regions, tab, filters) {
+  const out = {};
+  if (regions.includes("header")) out.data = { ...(out.data ?? {}), header: headerRegion(tab, filters) };
+  if (regions.includes("content")) out.items = contentItems(tab, filters);
+  return out;
 }
 
 const server = createServer(async (req, res) => {
@@ -171,30 +326,29 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  // Campaigns pagination — the load-more bff_call (creator.campaigns.list →
-  // /v1/creator/campaigns) lands here. Returns an `append_items` action that the
-  // bff_call handler dispatches. The cursor is tracked server-side via the query
-  // param baked into each batch's load-more trigger; the final page omits it.
+  // Campaigns `reload` — lands here with `regions` (CSV) + the bound context
+  // (tab + filter CSV). Returns a PARTIAL page with only the requested regions:
+  // `["content"]` → { items }, `["header","content"]` → { data:{header}, items }.
   if (url.startsWith("/v1/creator/campaigns")) {
-    const cursor = Number(new URL(url, "http://x").searchParams.get("cursor") || "0");
-    const count = Math.min(FEED_PAGE_SIZE, FEED_TOTAL - cursor);
-    if (count <= 0) {
-      json(res, 200, { action: { type: "append_items", payload: { target: "demo.feed", items: [], has_more: false } } });
-      return;
-    }
-    const nextCursor = cursor + count < FEED_TOTAL ? cursor + count : null;
-    const items = campaignBatch(cursor + 1, count, nextCursor);
-    console.log(`[fixture-server] campaigns cursor=${cursor} → cards ${cursor + 1}..${cursor + count} (next=${nextCursor})`);
-    json(res, 200, { action: { type: "append_items", payload: { target: "demo.feed", items, has_more: nextCursor !== null } } });
+    // Simulate reload latency only when explicitly opted in (see RELOAD_LATENCY_MS).
+    if (RELOAD_LATENCY_MS > 0) await new Promise((r) => setTimeout(r, RELOAD_LATENCY_MS));
+    const params = new URL(url, "http://x").searchParams;
+    const tab = TABS.some((t) => t.id === params.get("tab")) ? params.get("tab") : TABS[0].id;
+    const filterCsv = params.get("filter") || "";
+    const filters = (filterCsv ? filterCsv.split(",") : []).filter((f) => FILTERS.some((x) => x.id === f));
+    const regions = (params.get("regions") || "content").split(",").filter(Boolean);
+    console.log(`[fixture-server] campaigns reload regions=[${regions.join(",")}] tab=${tab} filters=[${filters.join(",")}]`);
+    json(res, 200, buildPartial(regions, tab, filters));
     return;
   }
 
   if (url.startsWith(PAGE_PREFIX)) {
     const target = decodeURIComponent(url.slice(PAGE_PREFIX.length));
-    // Generated campaigns feed (composite cards + infinite scroll) — overrides
-    // any on-disk fixture of the same name.
+    // Generated campaigns feed (shell-first region demo) — overrides any on-disk
+    // fixture of the same name. Initial load returns the SHELL (footer +
+    // skeletons); on_load streams in the default tab via reload.
     if (target === "demo.feed") {
-      json(res, 200, buildFeedPage());
+      json(res, 200, buildShell());
       return;
     }
     // Guard against path traversal — target is a flat page id, never a path.

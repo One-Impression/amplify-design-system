@@ -69,3 +69,20 @@ test("resolveValue — missing context resolves to null", () => {
 test("resolveValue — unknown ref form resolves to null", () => {
   assert.equal(resolveValue({ ref: "$.unknown_form" }), null);
 });
+
+test("resolveValue — $.local.<key> flat lookup (request context)", () => {
+  const ctx = { local: { selected_tab: "active", selected_filters: ["a", "b"] } };
+  assert.equal(resolveValue({ ref: "$.local.selected_tab" }, ctx), "active");
+  assert.deepEqual(resolveValue({ ref: "$.local.selected_filters" }, ctx), ["a", "b"]);
+});
+
+test("resolveValue — $.local uses the literal (flat) key, not pluck-traversal", () => {
+  // The local store keys by literal dot-path strings (set_local/get semantics).
+  const ctx = { local: { "form.submitted": true } };
+  assert.equal(resolveValue({ ref: "$.local.form.submitted" }, ctx), true);
+});
+
+test("resolveValue — $.local missing key / missing context resolves to null", () => {
+  assert.equal(resolveValue({ ref: "$.local.nope" }, { local: {} }), null);
+  assert.equal(resolveValue({ ref: "$.local.anything" }), null);
+});

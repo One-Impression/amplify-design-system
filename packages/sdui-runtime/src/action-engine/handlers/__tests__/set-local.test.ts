@@ -153,3 +153,48 @@ test("set_local — merge with non-object resolved value is a no-op", async () =
   // u is unchanged — null merge would corrupt the record.
   assert.deepEqual(useLocalStore.getState().get("u"), { id: "u1" });
 });
+
+async function arrayToggle(key: string, value: unknown): Promise<void> {
+  await handleSetLocal(
+    { type: "set_local", payload: { key, op: "array_toggle", value } },
+    noopConfig,
+    noopEngine,
+  );
+}
+
+test("set_local — array_toggle adds to a missing key (creates array)", async () => {
+  resetStore();
+  await arrayToggle("selected_filters", "beauty");
+  assert.deepEqual(useLocalStore.getState().get("selected_filters"), ["beauty"]);
+});
+
+test("set_local — array_toggle adds a second distinct value", async () => {
+  resetStore();
+  await arrayToggle("selected_filters", "beauty");
+  await arrayToggle("selected_filters", "wellness");
+  assert.deepEqual(useLocalStore.getState().get("selected_filters"), [
+    "beauty",
+    "wellness",
+  ]);
+});
+
+test("set_local — array_toggle removes an existing value", async () => {
+  resetStore();
+  useLocalStore.getState().set("selected_filters", ["beauty", "wellness"]);
+  await arrayToggle("selected_filters", "beauty");
+  assert.deepEqual(useLocalStore.getState().get("selected_filters"), ["wellness"]);
+});
+
+test("set_local — array_toggle round-trips (add then remove → empty)", async () => {
+  resetStore();
+  await arrayToggle("f", "x");
+  await arrayToggle("f", "x");
+  assert.deepEqual(useLocalStore.getState().get("f"), []);
+});
+
+test("set_local — array_toggle on a non-array key starts fresh", async () => {
+  resetStore();
+  useLocalStore.getState().set("f", "not-an-array");
+  await arrayToggle("f", "x");
+  assert.deepEqual(useLocalStore.getState().get("f"), ["x"]);
+});

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { TabsFooterSchema } from "@one-impression/sdk-native-sdui";
 import { SduiNode } from "../../sdui-node/index.js";
@@ -63,6 +64,10 @@ export function TabsFooterRenderer(node: Node): React.ReactElement {
     () => ({ activeTabId: localActiveTabId, setActiveTabId: setLocalActiveTabId }),
     [localActiveTabId],
   );
+  // Bottom safe-area inset so the bar clears the home indicator / gesture bar.
+  // Applied as paddingBottom on the bar itself (not an outer gap) so the white
+  // background extends to the device edge, with the tabs sitting above it.
+  const insets = useSafeAreaInsets();
 
   return (
     <SduiNode
@@ -90,7 +95,7 @@ export function TabsFooterRenderer(node: Node): React.ReactElement {
 
         return (
           <TabBarActiveContext.Provider value={ctxValue}>
-            <View style={styles.container}>
+            <View style={[styles.container, { paddingBottom: 12 + insets.bottom }]}>
               {items.map((item, i) => (
                 <View key={item.id || `tab-${i}`} style={styles.tabSlot}>
                   <Interpreter node={item} />

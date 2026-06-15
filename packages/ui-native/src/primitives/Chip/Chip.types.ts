@@ -8,8 +8,10 @@ export interface ChipProps extends Omit<PressableProps, 'style'> {
   selected?: boolean;
   /** Disabled state. */
   disabled?: boolean;
-  /** Icon element. */
+  /** Leading icon element (rendered before the label). */
   icon?: React.ReactNode;
+  /** Trailing icon element (rendered after the label) — e.g. a remove × on a selected filter chip. */
+  trailingIcon?: React.ReactNode;
   /** Additional style overrides. */
   style?: ViewProps['style'];
 }

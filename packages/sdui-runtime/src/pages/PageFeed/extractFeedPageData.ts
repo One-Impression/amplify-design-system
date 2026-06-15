@@ -18,6 +18,13 @@ export interface FeedPageData {
   empty_state?: Node;
   config?: FeedPageConfig;
   footer?: Node;
+  /**
+   * BFF-provided skeleton shown over the content area while a reload is in
+   * flight (filter change → content-only; tab switch → whole page). Lives in
+   * the page envelope so it's cached client-side and renders instantly, with no
+   * round-trip. A list of placeholder nodes (e.g. shimmer cards).
+   */
+  skeleton?: Node[];
 }
 
 export interface FeedPageConfig {

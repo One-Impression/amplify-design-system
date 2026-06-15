@@ -69,5 +69,20 @@ export async function handleSetLocal(
     case "remove":
       store.remove(payload.key);
       break;
+    case "array_toggle": {
+      // Add `resolvedValue` to the array at key if absent, remove it if
+      // present (creates `[value]` when the key is empty / not an array).
+      // The membership op behind multi-select (e.g. a filter chip toggling
+      // its id in/out of `selected_filters`). A null/undefined resolve is a
+      // no-op rather than pushing null into the set.
+      if (resolvedValue === null || resolvedValue === undefined) break;
+      const current = store.get(payload.key);
+      const arr = Array.isArray(current) ? [...current] : [];
+      const idx = arr.findIndex((x) => x === resolvedValue);
+      if (idx >= 0) arr.splice(idx, 1);
+      else arr.push(resolvedValue);
+      store.set(payload.key, arr);
+      break;
+    }
   }
 }
