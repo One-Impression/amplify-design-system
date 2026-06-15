@@ -84,6 +84,8 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 3. **All token changes** go through direct PR (Pixel will detect drift and auto-cascade)
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
+6. **SDUI `group_config` gap values** must use long-form spacing tokens (e.g. `sdui.spacing.sm`, `sdui.spacing.md`) — short-form aliases (e.g. `"sm"`, `"md"`) are rejected by the typed schema
+7. **SDUI composite renderer** validates against `CompositeSchema.shape.data` (discriminated union) from `@one-impression/sdk-native-sdui` — do not revert to `z.any()`. Requires `sdk-native-sdui@^3.1.0` as a peer dep of `sdui-runtime`
 
 ## Oportunities theme (newest product line)
 
