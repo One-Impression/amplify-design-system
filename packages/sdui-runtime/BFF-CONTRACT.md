@@ -53,6 +53,8 @@ A page can render a **shell** first (chrome + skeletons), then stream regions in
 
 The runtime sends `regions` + the bound context as query params; return exactly the named regions. Full model + worked example: [`REGION-PAGE-MODEL.md`](./REGION-PAGE-MODEL.md).
 
+**Latest-wins per region.** Reloads are coordinated by the regions they target: a new `reload` of a region takes ownership from any in-flight `reload` of that region, so only the most recent response is applied — chained tab switches render just the latest tab, never a flicker through every response in arrival order. Reloads targeting *disjoint* regions run in parallel untouched. An in-flight reload is aborted only when *all* its regions have been superseded; if only some were (e.g. a `["content"]` filter landing over an in-flight `["header","content"]` tab switch), it still applies the regions it owns. This is automatic — the BFF declares no concurrency flag.
+
 ## 4. Action vocabulary
 
 Every interactive field (`on_click`, `on_load`, `on_refresh`, a chip's `on_click`, …) is an `Action`:
