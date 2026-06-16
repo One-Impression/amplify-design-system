@@ -36,9 +36,9 @@ const BASE_PAGE = {
   protocol_version: "1.0.0",
   layout: "feed",
   data: {
-    footer: { type: "creator.snippet.tabs_footer", id: "feed-tabs", data: { items: [] } },
-    header_skeleton: { type: "creator.snippet.skeleton", id: "sk-h", data: {} },
-    content_skeleton: { type: "creator.snippet.skeleton", id: "sk-c", data: {} },
+    footer: { type: "sdui.snippet.tabs_footer", id: "feed-tabs", data: { items: [] } },
+    header_skeleton: { type: "sdui.snippet.skeleton", id: "sk-h", data: {} },
+    content_skeleton: { type: "sdui.snippet.skeleton", id: "sk-c", data: {} },
   },
   items: [],
 } as unknown as Page;
@@ -84,7 +84,7 @@ const flush = () => new Promise<void>((r) => setImmediate(r));
 const composite = (id: string) =>
   ({ type: "sdui.snippet.composite", id, data: {} }) as unknown as Node;
 const header = (id: string) =>
-  [{ type: "creator.snippet.page_header", id, data: {} }] as unknown as Node[];
+  [{ type: "sdui.snippet.page_header", id, data: {} }] as unknown as Node[];
 
 beforeEach(() => {
   originalFetch = globalThis.fetch;
@@ -120,7 +120,7 @@ test("reload — content-only response replaces items, preserves chrome", async 
 
 test("reload — header+content response merges data.header and replaces items", async () => {
   installFetch({
-    data: { header: [{ type: "creator.snippet.page_header", id: "h1", data: {} }] },
+    data: { header: [{ type: "sdui.snippet.page_header", id: "h1", data: {} }] },
     items: [{ type: "sdui.snippet.composite", id: "c1", data: {} }],
   });
   await handleReload(

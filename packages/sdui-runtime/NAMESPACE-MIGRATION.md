@@ -1,79 +1,44 @@
-# Namespace migration — `creator.*` → `sdui.*`
+# Namespace migration — `creator.*` → `sdui.*` (complete)
 
-The SDUI node vocabulary is presentation, not domain — snippet/ui-component
-types should be namespaced `sdui.*`, not `creator.*`. This makes the design
-system app-neutral (any app, not just the creator app, can emit and render the
-core types). This doc is the migration plan.
+The SDUI node vocabulary is presentation, not domain, so snippet / ui-component
+types are namespaced `sdui.*` (not `creator.*`) — the design system is
+app-neutral, usable by any app rather than just the creator app. **This migration
+is complete: `creator.*` is fully removed across the SDK, runtime, and
+fixtures.** This doc is the record.
 
-## Current state
+## End state
 
-- Node types are written as hand-coded string literals, **one per schema file**
-  (`z.literal("creator.snippet.x")`) and one per builder (`type: "creator..."`).
-  There is no shared prefix constant — the prefix is duplicated ~63× in the SDK.
-- **`composite` is already on `sdui.*`** (`sdui.snippet.composite`) — a partial
-  migration that proves the target and that both prefixes coexist in practice.
-- The runtime resolver (`registries/node-registry.ts`) dispatches on the **layer
-  segment** (`.snippet.` / `.ui_component.`), **not** the `creator.` prefix — so
-  `sdui.*` and `creator.*` route through the same lane with no dispatch change.
-  Only the registry **lookup maps** are keyed by the full literal.
+- **SDK (`sdk-native-sdui`)** — every schema discriminant and builder emits
+  `sdui.snippet.*` / `sdui.ui_component.*`. No `creator.*` remains.
+- **Runtime (`sdui-runtime`)** — the renderer registries are keyed `sdui.*` only.
+  The resolver dispatches on the layer segment (`.snippet.` / `.ui_component.`),
+  unchanged.
+- **Fixtures / playground** — all emit `sdui.*`.
 
-### Inventory (surfaces that carry the prefix)
+Pages were never affected — the `layout` field (`feed`/`standard`/…) is not
+prefixed.
 
-| Repo | Surface | Count |
-|------|---------|-------|
-| amplify-schemas | `z.literal("creator.…")` schema discriminants | ~63 files |
-| amplify-schemas | builders emitting `type: "creator.…"` | ~63 |
-| amplify-design-system | runtime registry map keys (`snippets.ts` + `ui-components.ts`) | ~62 |
-| amplify-design-system | playground fixture / BFF emitters | ~235 literals |
+## How it shipped (staged, runtime-first)
 
-Pages are unaffected — the `layout` field (`feed`/`standard`/…) is not prefixed.
+The migration ran dual-accept so nothing broke mid-rollout, then dropped the old
+prefix once no producer emitted it:
 
-## Strategy — dual-accept, non-breaking until the last step
+1. **Runtime registry alias** — added `sdui.*` keys alongside `creator.*` so the
+   runtime could render the new prefix before any producer emitted it. Shipped
+   first.
+2. **SDK rename** — renamed discriminants + builders `creator.* → sdui.*` (plain
+   single literals; no union helper — `NodeSchema.type` is a generic `z.string()`,
+   so prefix is never enforced per-node, and a union would have broken the
+   `MediaSchema` / `cond` discriminated unions that key on a *different* `type`).
+3. **Flip emitters** — fixtures moved to `sdui.*`.
+4. **Cleanup (this change)** — dropped every `creator.*` key/literal: registries
+   simplified to plain `sdui.*` maps, renderer internals + fixtures swept. Done
+   now, while there is **no live app** consuming the design system, so the break
+   has zero blast radius — and before a live app pins anything to `creator.*`.
 
-The running app and deployed BFFs emit `creator.*` today, so a hard rename would
-break them. The migration accepts **both** prefixes during the transition and
-only drops `creator.*` once nothing emits it.
+## If `creator.*` ever needs to be re-accepted
 
-No schema-level union/helper is needed — `NodeSchema.type` is a generic
-`z.string()`, so node validation accepts **any** prefix. Backward-compatibility
-comes from three places, not a union:
-
-1. **SDK** — rename schema discriminants + builders `creator.* → sdui.*` (plain
-   single literals; keeps `MediaSchema`/`cond` discriminated-unions intact).
-2. **Runtime registry** — keep the `creator.*` keys AND add `sdui.*` aliases, so
-   old payloads still resolve a renderer. (The resolver already dispatches on the
-   `.snippet.`/`.ui_component.` segment, so only the map keys change.)
-3. **Generic `NodeSchema`** — accepts both at the validation boundary.
-
-A union discriminator was the original idea but is both unnecessary (the type
-field isn't enforced per-node) and unsafe (it would break the discriminated
-unions that key on a *different* `type` field).
-
-## Steps
-
-**Step 1 — runtime registry alias (one PR, patch). Ships FIRST.** Add `sdui.*`
-keys alongside `creator.*` in the registry maps (alias to the same renderers).
-Dispatch is unchanged. This must publish + be adopted **before** any producer
-emits `sdui.*`, so the runtime can render the new prefix the moment it appears.
-
-**Step 2 — SDK rename + emit-new (one PR, minor). Ships SECOND.** Rename each
-schema discriminant and builder `creator.* → sdui.*` (plain literals). Tests
-assert builders emit `sdui.*`. Publish. Old `creator.*` payloads still validate
-(generic `NodeSchema`).
-
-**Step 3 — flip emitters (per surface, mechanical).** Switch fixtures / BFFs
-`creator.* → sdui.*`. Both prefixes are accepted, so there is no coordination
-deadline — each emitter flips when ready.
-
-**Step 4 — cleanup (the only breaking step, deferred).** Once telemetry shows no
-`creator.*` traffic, drop the `creator.` half of each union (helper change, ~1
-line each) and the alias registry keys.
-
-### Order
-
-**Runtime alias (1) → SDK rename (2) → emitters (3) → cleanup (4).** Runtime
-goes first so it can render `sdui.*` before any producer emits it. Steps 1–3 are
-non-breaking and can ship immediately; Step 4 waits for zero `creator.*` traffic.
-
-The bulk (Steps 1–2) is mechanical — applied with a codemod over the schema /
-builder / registry files (no helper needed).
+It won't for current apps, but for reference: the runtime resolver is already
+segment-based, so re-accepting a legacy prefix is purely additive — alias the old
+keys back into the registries. The SDK's generic `NodeSchema` accepts any `type`
+string regardless of prefix.

@@ -7,7 +7,7 @@ import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useFormField, useFormId } from "../../form/index.js";
 import type { ValidationRule } from "../../validation/index.js";
 
-/** The data carried by a `creator.ui_component.selectable_item` option node. */
+/** The data carried by a `sdui.ui_component.selectable_item` option node. */
 interface OptionData {
   label?: { text?: string };
   subtitle?: { text?: string };

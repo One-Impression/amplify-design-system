@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#242](https://github.com/One-Impression/amplify-design-system/pull/242) [`41e6539`](https://github.com/One-Impression/amplify-design-system/commit/41e6539f259db7cf982fb2f1f82648f8cbf87444) Thanks [@achin-oi](https://github.com/achin-oi)! - Alias the `sdui.*` node-type namespace in the renderer registries. Every `creator.snippet.*` / `creator.ui_component.*` key now has an `sdui.*` alias resolving to the same renderer, so both prefixes render identically while emitters migrate `creator.* → sdui.*`. The resolver dispatch (on the `.snippet.`/`.ui_component.` segment) is unchanged; `creator.*` keys are retained for backward compatibility. See `NAMESPACE-MIGRATION.md`.
+- [#242](https://github.com/One-Impression/amplify-design-system/pull/242) [`41e6539`](https://github.com/One-Impression/amplify-design-system/commit/41e6539f259db7cf982fb2f1f82648f8cbf87444) Thanks [@achin-oi](https://github.com/achin-oi)! - Alias the `sdui.*` node-type namespace in the renderer registries. Every `sdui.snippet.*` / `sdui.ui_component.*` key now has an `sdui.*` alias resolving to the same renderer, so both prefixes render identically while emitters migrate `creator.* → sdui.*`. The resolver dispatch (on the `.snippet.`/`.ui_component.` segment) is unchanged; `creator.*` keys are retained for backward compatibility. See `NAMESPACE-MIGRATION.md`.
 
 ## 2.8.2
 
@@ -68,7 +68,7 @@
   - **Region-scoped `reload`** + **partial-page merge** in `usePageStore` (`response.data` shallow-merges, `response.items` replaces; per-region loading flags).
   - **Reactive render-bindings** — `{ ref: "$.local.<key>" }` (+ `contains`/`equals`) resolved before validation in `SduiNode`, so a chip's `selected` / a tab's `active` reflect local state instantly with no reload.
   - **`set_local` `array_toggle`** handler (multi-select membership) + **backend-controlled debounce** in the action engine.
-  - **`creator.snippet.skeleton`** renderer — composable shimmer (`rect`/`line`/`circle` bars, horizontal row groups, padding), shown per region while reloading.
+  - **`sdui.snippet.skeleton`** renderer — composable shimmer (`rect`/`line`/`circle` bars, horizontal row groups, padding), shown per region while reloading.
   - Fixes: Chip wires `on_click` via the pressable + shows a remove × (trailing) via the icon-store glyph; `TabsFooter` bottom safe-area; nav host hides the native header when a header **region** is declared (`data.header_skeleton`), not only `data.header`.
 
   **ui-native**
@@ -186,7 +186,7 @@
   - `config.gradient` — absolute-positioned gradient backdrop. Uses `react-native-linear-gradient` when the host app installs it (optional peer); falls back to a solid first-color View otherwise so the runtime still works without the native dep.
   - `config.bg_color.type` — solid token-name background when no gradient is provided.
   - `config.scroll_header_color.type` — header tint applied to the filters bar once the user has scrolled (binary toggle; legacy uses an interpolated animation).
-  - `data.footer` — a single SDUI Node rendered pinned at the bottom of the page, OUTSIDE the FlatList, so it does not scroll with the body. Designed for `creator.snippet.tabs_footer` on the home page.
+  - `data.footer` — a single SDUI Node rendered pinned at the bottom of the page, OUTSIDE the FlatList, so it does not scroll with the body. Designed for `sdui.snippet.tabs_footer` on the home page.
 
   Existing `filters`, `loader`, `empty_state`, and `on_load_more` behavior is unchanged.
 
@@ -198,7 +198,7 @@
 
   - Renders each tab Node in an equal-width slot (`flex: 1` per tab), matching legacy `TabsFooterSnippetType1.styles.ts`.
   - Adds the top border + soft top-edge shadow from the legacy snippet so the footer reads as a pinned bottom navigation.
-  - Reads `data.active_index` and overrides each tab Node's `data.active` flag accordingly — the inner `Tab` renderer (`creator.ui_component.tab`) already paints the active state via `data.active`, so the active tab gets the primary-color tint automatically.
+  - Reads `data.active_index` and overrides each tab Node's `data.active` flag accordingly — the inner `Tab` renderer (`sdui.ui_component.tab`) already paints the active state via `data.active`, so the active tab gets the primary-color tint automatically.
   - `on_click` is dispatched per-tab via the existing Tab → `SduiNode` → `Clickable` chain — no extra wrapping layer here. Producers can therefore keep all per-tab navigation/state mutations on the Tab Node itself.
   - Active-index override is non-mutating: tabs without `active_index` keep their producer-supplied `data.active`.
 

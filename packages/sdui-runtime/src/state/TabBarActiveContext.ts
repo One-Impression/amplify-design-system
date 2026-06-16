@@ -1,7 +1,7 @@
 /**
  * Optimistic tab-bar active state.
  *
- * Tab bars (e.g. `creator.snippet.tabs_footer`) are inherently mutually-
+ * Tab bars (e.g. `sdui.snippet.tabs_footer`) are inherently mutually-
  * exclusive selectables: the user taps one, the indicator should follow
  * the finger *immediately* — not after a BFF round-trip. If the
  * `active_index` only updated on a server response, the highlight would

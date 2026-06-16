@@ -48,7 +48,7 @@ export const FULL_BLEED_TYPES = new Set<string>([]);
 export const GAP_OVERRIDES: Record<string, SpacingToken> = {
   // Section headers break sections — give them a full gutter (12) per side
   // instead of the default 6, so they separate more strongly.
-  "creator.snippet.section_header": "md",
+  "sdui.snippet.section_header": "md",
 };
 
 /** Should this node bleed to the container edges (skip the horizontal gutter)? */

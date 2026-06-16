@@ -1,15 +1,15 @@
 {
-  "type": "creator.ui_component.section",
+  "type": "sdui.ui_component.section",
   "id": "home-filters-section",
   "data": {
     "items": [
       {
-        "type": "creator.snippet.group_chips",
+        "type": "sdui.snippet.group_chips",
         "id": "campaigns-explore-filters-group",
         "data": {
           "items": [
             {
-              "type": "creator.ui_component.chip",
+              "type": "sdui.ui_component.chip",
               "id": "campaigns-explore-filter-chip-skincare",
               "data": {
                 "label": {
@@ -36,7 +36,7 @@
               }
             },
             {
-              "type": "creator.ui_component.chip",
+              "type": "sdui.ui_component.chip",
               "id": "campaigns-explore-filter-chip-beauty",
               "data": {
                 "label": {
@@ -63,7 +63,7 @@
               }
             },
             {
-              "type": "creator.ui_component.chip",
+              "type": "sdui.ui_component.chip",
               "id": "campaigns-explore-filter-chip-fitness",
               "data": {
                 "label": {
@@ -90,7 +90,7 @@
               }
             },
             {
-              "type": "creator.ui_component.chip",
+              "type": "sdui.ui_component.chip",
               "id": "campaigns-explore-filter-chip-food",
               "data": {
                 "label": {

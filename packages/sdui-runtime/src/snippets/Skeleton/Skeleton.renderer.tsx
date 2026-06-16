@@ -4,7 +4,7 @@ import type { Node } from "@one-impression/sdk-native-sdui";
 import { sdui } from "@one-impression/tokens-creator/react-native";
 
 /**
- * creator.snippet.skeleton — a generic loading shimmer, composed by the BFF.
+ * sdui.snippet.skeleton — a generic loading shimmer, composed by the BFF.
  *
  * Pure presentation (no on_click / lifecycle), so it renders directly. The
  * runtime supplies only the shimmer mechanics (an opacity pulse + placeholder

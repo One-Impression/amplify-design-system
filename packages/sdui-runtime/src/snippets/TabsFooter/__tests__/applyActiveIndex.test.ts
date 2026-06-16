@@ -6,7 +6,7 @@ import { applyActiveIndex } from "../applyActiveIndex.ts";
 function makeTab(id: string, active = false): Node {
   return {
     id,
-    type: "creator.ui_component.tab",
+    type: "sdui.ui_component.tab",
     data: {
       label: { text: id },
       active,
@@ -58,7 +58,7 @@ test("dispatches per-tab on_click (verified by interpreter — on_click is prese
 
 test("passes through Nodes whose data is not a plain object", () => {
   // Defensive: producer ships a bogus tab — we must not crash.
-  const bogus = { id: "bogus", type: "creator.ui_component.tab", data: null } as unknown as Node;
+  const bogus = { id: "bogus", type: "sdui.ui_component.tab", data: null } as unknown as Node;
   const tab = makeTab("ok");
   const out = applyActiveIndex([bogus, tab], 0);
   assert.equal(out[0], bogus);
