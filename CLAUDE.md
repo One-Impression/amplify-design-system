@@ -52,6 +52,14 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native primitives for Creator App (SDUI-driven, token-resolved); current: v2.3.0
+                        Includes: CircularProgress (SVG ring with optional centered content; requires react-native-svg peer dep)
+  sdui-runtime/       — SDUI interpreter, action engine, bottom-sheet manager, loaders, providers; current: v2.8.0
+                        • info_row progress supports shape: "ring" (CircularProgress) and shape: "bar" (default linear)
+                        • progress value is normalized against max
+                        • info_row tags pass bg_color/label.color through to pill
+                        • reload is latest-wins per region (rapid tab switches discard in-flight stale reloads)
+                        • icon SVG comments (JSX and HTML) are stripped before SvgXml rendering
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
