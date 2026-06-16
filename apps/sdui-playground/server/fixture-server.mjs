@@ -195,7 +195,124 @@ function selectCampaigns(tab, filters) {
 // stacks in the header zone. Per-tab (refreshed on tab switch). content region =
 // the items array. footer region = the tabs shell (loaded once).
 
+// ── Settings page (3rd tab) ──────────────────────────────────────────────────
+// Demonstrates that a totally different page is JUST a different BFF response:
+// the `saved` tab returns a simple header + info-row + group snippets instead of
+// the campaign feed. Same region reload, same runtime — no frontend change.
+// info_row is a full list row: left media (avatar/icon), title + subtitle, a
+// right-side tag/badge/progress, and a chevron. Same snippet drives every row
+// in the Profile screen — only the slots filled differ.
+const infoRow = (id, text, opts = {}) => ({
+  type: "creator.snippet.info_row",
+  id,
+  data: {
+    title: { text, font_size: opts.size ?? "sdui.font-size.md", font_weight: opts.weight ?? "medium" },
+    ...(opts.subtitle
+      ? { subtitle: { text: opts.subtitle, color: "sdui.color.neutral-medium", font_size: "sdui.font-size.sm" } }
+      : {}),
+    ...(opts.avatar
+      ? { left_media: { type: "image", image: { src: opts.avatar, width: 48, height: 48, container_shape: "circle" } } }
+      : opts.icon
+        ? { left_media: { type: "icon", icon: { name: opts.icon, color: "sdui.color.primary" } } }
+        : {}),
+    ...(opts.tag
+      ? { tag: { label: { text: opts.tag, color: opts.tagColor ?? "sdui.color.notice" }, bg_color: opts.tagBg ?? "sdui.color.notice-weak" } }
+      : {}),
+    ...(opts.progress != null
+      ? { progress: { value: opts.progress, max: 100, label: { text: `${opts.progress}%` } } }
+      : {}),
+    ...(opts.ring != null
+      ? {
+          right_media: {
+            type: "progress",
+            progress: {
+              value: opts.ring,
+              max: 100,
+              shape: "ring",
+              label: { text: `${opts.ring}%` },
+              color: "sdui.color.primary",
+              track_color: "sdui.color.neutral-subtle",
+            },
+          },
+        }
+      : {}),
+    ...(opts.chevron === false || opts.ring != null
+      ? {}
+      : { right_icon: { name: "chevron-right", color: "sdui.color.neutral-medium" } }),
+    ...(opts.card ? { card: opts.card === true ? {} : opts.card } : {}),
+  },
+});
+const sectionHeader = (id, text) => ({
+  type: "creator.snippet.section_header",
+  id,
+  data: { title: { text, font_weight: "bold", font_size: "sdui.font-size.lg" } },
+});
+// Carded vertical group — one white rounded card surface wrapping the rows
+// (same `group_config` + `card` pattern the home page uses for its sections).
+// Flat (no elevation) so every card reads consistently with the "Need help"
+// tiles, which render through info_row's `card` and pass no elevation.
+const group = (id, items) => ({
+  type: "creator.snippet.group_config",
+  id,
+  data: { stacking: "vertical", card: { bg_color: "sdui.color.neutral-inverse" }, items },
+});
+// Horizontal equal-width cards (e.g. the 3 "Need help" tiles) — each child carries
+// its own card surface; item_flex:"equal" splits the row width evenly.
+const groupRow = (id, items) => ({
+  type: "creator.snippet.group_config",
+  id,
+  data: { stacking: "horizontal", item_flex: "equal", gap: "sdui.spacing.sm", items },
+});
+
+const settingsHeader = () => [
+  {
+    type: "creator.snippet.page_header",
+    id: "settings-hdr",
+    data: {
+      title: { text: "Profile", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
+      background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
+    },
+  },
+];
+const settingsContent = () => [
+  // Profile card — avatar (left media) + name + phone + chevron.
+  infoRow("set-name", "Sonali Kalra", {
+    weight: "bold", size: "sdui.font-size.lg", subtitle: "+91 99584 78802",
+    avatar: "https://picsum.photos/seed/sonali/120",
+  }),
+  group("set-earnings", [infoRow("set-earn", "My earnings", { icon: "earnings" })]),
+  // "Get discovered quickly" — header row carries the progress circle (no chevron),
+  // sub-rows carry a left icon + a count tag + chevron.
+  group("set-discover", [
+    infoRow("set-disc-h", "Get discovered quickly", {
+      weight: "bold", subtitle: "Complete your profile to attract brands", ring: 41,
+    }),
+    infoRow("set-personal", "Personal details", { icon: "profile-icon", tag: "8/9" }),
+    infoRow("set-about-me", "About me", { icon: "key-message", tag: "2/6" }),
+    infoRow("set-social", "Connect social accounts", { icon: "connect-social-accounts", subtitle: "To get Verified tag", tag: "0" }),
+  ]),
+  group("set-paid", [
+    infoRow("set-paid-h", "Get paid quickly", {
+      weight: "bold", subtitle: "Set up payment details to receive payments", ring: 0,
+    }),
+    infoRow("set-kyc", "KYC details", { icon: "kyc-details", tag: "Not Verified", tagColor: "sdui.color.negative", tagBg: "sdui.color.negative-weak" }),
+    infoRow("set-pay", "Payment methods", { icon: "payment-details", tag: "0" }),
+    infoRow("set-ship", "Shipping address", { icon: "document", tag: "0" }),
+  ]),
+  group("set-actions", [
+    infoRow("set-prof-actions", "Profile actions", { icon: "nav-profile" }),
+    infoRow("set-about-app", "About", { icon: "document" }),
+  ]),
+  sectionHeader("set-help-h", "Need help"),
+  groupRow("set-help", [
+    infoRow("set-call", "Call", { icon: "call-us", chevron: false, card: true }),
+    infoRow("set-email", "Email", { icon: "email-us", chevron: false, card: true }),
+    infoRow("set-chat", "Chat", { icon: "chat-with-us", chevron: false, card: true }),
+  ]),
+];
+
 function headerRegion(tab, filters) {
+  if (tab === "saved") return settingsHeader();
   const tabLabel = TABS.find((t) => t.id === tab).label;
   const subtitle =
     filters.length > 0
@@ -217,7 +334,8 @@ function headerRegion(tab, filters) {
   ];
 }
 
-const contentItems = (tab, filters) => selectCampaigns(tab, filters).map(campaignCard);
+const contentItems = (tab, filters) =>
+  tab === "saved" ? settingsContent() : selectCampaigns(tab, filters).map(campaignCard);
 
 // Per-region skeletons (BFF-composed, cached in the shell so they show
 // instantly). Composed to MATCH the content they stand in for:

@@ -4,6 +4,8 @@ import {
   Image as DSImage,
   ImageStack as DSImageStack,
   ProgressIndicator as DSProgressIndicator,
+  CircularProgress as DSCircularProgress,
+  Text as DSText,
 } from "@one-impression/ui-native";
 import { IconGlyph } from "../../icon-store/IconGlyph.js";
 import { describeMedia } from "./describe-media.js";
@@ -25,8 +27,23 @@ export function renderMedia(media: Media): React.ReactElement | null {
       return <IconGlyph {...desc.props} />;
     case "image_stack":
       return <DSImageStack {...desc.props} />;
-    case "progress":
-      return <DSProgressIndicator {...desc.props} />;
+    case "progress": {
+      const { shape, label, value, trackColor, fillColor } = desc.props;
+      if (shape === "ring") {
+        return (
+          <DSCircularProgress value={value} trackColor={trackColor} fillColor={fillColor}>
+            {label ? (
+              <DSText size={12} weight="bold">
+                {label}
+              </DSText>
+            ) : null}
+          </DSCircularProgress>
+        );
+      }
+      return (
+        <DSProgressIndicator value={value} trackColor={trackColor} fillColor={fillColor} />
+      );
+    }
     default: {
       const _exhaustive: never = desc;
       void _exhaustive;

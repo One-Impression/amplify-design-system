@@ -50,7 +50,11 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
                 )}
                 {v.progress && (
                   <DSProgressIndicator
-                    value={v.progress.value}
+                    value={
+                      v.progress.max != null && v.progress.max > 0
+                        ? v.progress.value / v.progress.max
+                        : v.progress.value
+                    }
                     trackColor={v.progress.track_color}
                     fillColor={v.progress.fill_color}
                     height={v.progress.height}
@@ -59,7 +63,13 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
               </Stack>
             </Box>
             <Stack direction="row" align="center" gap={8}>
-              {v.tag && <DSTag label={v.tag.label.text} />}
+              {v.tag && (
+                <DSTag
+                  label={v.tag.label.text}
+                  bgColor={v.tag.bg_color}
+                  textColor={v.tag.label.color}
+                />
+              )}
               {v.badge &&
                 (v.badge.dot ? (
                   // count/dot indicator (BadgeSchema = { count, dot, color }) —

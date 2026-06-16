@@ -22,9 +22,10 @@
     "test": "jest"
   },
   "peerDependencies": {
+    "@one-impression/tokens-creator": ">=3.0.0",
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
-    "@one-impression/tokens-creator": ">=3.0.0"
+    "react-native-svg": ">=13.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
