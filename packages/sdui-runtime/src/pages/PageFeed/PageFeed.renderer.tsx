@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
  * each zone and owns content virtualization + viewport-driven infinite scroll.
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
-  const { page: livePage, getRegion, isRegionLoading, refreshing, onRefresh } =
+  const { page: livePage, getUiZone, isUiZoneLoading, refreshing, onRefresh } =
     usePageScaffold(page);
   const actionEngine = useActionEngine();
   const telemetry = useTelemetry();
@@ -47,20 +47,20 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   const gradient = config?.gradient;
   const bgColorToken = config?.bg_color?.type;
 
-  // Regions resolved by the scaffold (content or skeleton, as appropriate).
-  const headerNodes = getRegion("header");
-  const footerNodes = getRegion("footer");
+  // UI zones resolved by the scaffold (content or skeleton, as appropriate).
+  const headerNodes = getUiZone("header");
+  const footerNodes = getUiZone("footer");
 
   // Content zone is virtualized, so we choose FlatList (items) vs a plain
-  // skeleton list ourselves rather than via getRegion.
+  // skeleton list ourselves rather than via getUiZone.
   const items = (livePage.items ?? []) as Node[];
   const contentSkeleton = data.content_skeleton as Node | undefined;
   const showContentSkeleton =
-    !!contentSkeleton && (isRegionLoading("content") || items.length === 0);
+    !!contentSkeleton && (isUiZoneLoading("content") || items.length === 0);
 
   // The header zone pads the top safe-area only while it shows the skeleton (the
   // real page_header self-insets); avoids the skeleton sliding under the status bar.
-  const headerIsSkeleton = isRegionLoading("header") || !data.header;
+  const headerIsSkeleton = isUiZoneLoading("header") || !data.header;
 
   // Viewport lifecycle for list items — real visibility (NOT onLayout). Powers
   // backend-driven infinite scroll (a card's on_view load-more) + impressions.

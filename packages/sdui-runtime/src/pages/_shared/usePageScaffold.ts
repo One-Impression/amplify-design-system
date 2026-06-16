@@ -8,7 +8,7 @@ import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageStore } from "../../state/usePageStore.js";
 
-/** Normalize a region slot (single node, array, or absent) to a node array. */
+/** Normalize a UI-zone slot (single node, array, or absent) to a node array. */
 function toNodeArray(value: unknown): Node[] {
   if (Array.isArray(value)) return value.filter(Boolean) as Node[];
   return value ? [value as Node] : [];
@@ -18,32 +18,32 @@ export interface PageScaffold {
   /** The live page tree (store-backed once an action mutates it; prop until then). */
   page: Page;
   /**
-   * Resolve a region to the nodes to render: its content, or its skeleton while
-   * the region is reloading / not yet loaded. Convention: region `"content"`
-   * maps to top-level `items`; any other region `X` maps to `data.X`, with its
-   * placeholder at `data.X_skeleton`. Always returns an array the zone maps over.
+   * Resolve a UI zone to the nodes to render: its content, or its skeleton while
+   * the zone is reloading / not yet loaded. Convention: zone `"content"` maps to
+   * top-level `items`; any other zone `X` maps to `data.X`, with its placeholder
+   * at `data.X_skeleton`. Always returns an array the layout maps over.
    */
-  getRegion: (name: string) => Node[];
-  /** True while a `reload` naming this region is in flight. */
-  isRegionLoading: (name: string) => boolean;
+  getUiZone: (name: string) => Node[];
+  /** True while a `reload` naming this UI zone is in flight. */
+  isUiZoneLoading: (name: string) => boolean;
   refreshing: boolean;
   onRefresh: () => void;
 }
 
 /**
  * Base page scaffold — owns every cross-cutting page concern so a layout
- * renderer is reduced to pure zone geometry (where each region sits, what pins
+ * renderer is reduced to pure zone geometry (where each UI zone sits, what pins
  * vs scrolls). Shared by all page layouts:
  *
  * - lifecycle: `on_load` (once) / `on_dismount` / hardware back / app fg-bg
  * - live-page subscription + the `reload` partial-merge (via usePageStore)
- * - per-region loading → skeleton selection (`getRegion`)
+ * - per-zone loading → skeleton selection (`getUiZone`)
  * - inline bottom-sheet registration
  * - pull-to-refresh
  *
- * A layout calls this and places `getRegion("header" | "content" | "footer" | …)`
- * in its zones; the region/skeleton/reload capability is uniform and dormant for
- * pages that declare no regions/skeletons.
+ * A layout calls this and places `getUiZone("header" | "content" | "footer" | …)`
+ * in its zones; the zone/skeleton/reload capability is uniform and dormant for
+ * pages that declare no UI zones/skeletons.
  */
 export function usePageScaffold(page: Page): PageScaffold {
   const actionEngine = useActionEngine();
@@ -55,7 +55,7 @@ export function usePageScaffold(page: Page): PageScaffold {
   const livePage = usePageStore(
     useShallow((s): Page => (s.pageId === page.id && s.page ? s.page : page)),
   );
-  const loadingRegions = usePageStore((s) => s.loadingRegions);
+  const loadingUiZones = usePageStore((s) => s.loadingUiZones);
 
   const { refreshing, onRefresh } = usePageRefresh(livePage.on_refresh);
 
@@ -109,27 +109,27 @@ export function usePageScaffold(page: Page): PageScaffold {
     };
   }, [page.bottom_sheets, register, unregister]);
 
-  const isRegionLoading = useCallback(
-    (name: string) => !!loadingRegions[name],
-    [loadingRegions],
+  const isUiZoneLoading = useCallback(
+    (name: string) => !!loadingUiZones[name],
+    [loadingUiZones],
   );
 
-  const getRegion = useCallback(
+  const getUiZone = useCallback(
     (name: string): Node[] => {
       const data = (livePage.data ?? {}) as Record<string, unknown>;
       const isContent = name === "content";
       const content = isContent ? livePage.items : data[name];
       const skeleton = isContent ? data.content_skeleton : data[`${name}_skeleton`];
       const contentArr = toNodeArray(content);
-      // Show the skeleton while the region is reloading OR before it has any
+      // Show the skeleton while the zone is reloading OR before it has any
       // content (the shell case, before on_load's reload fills it).
-      if (skeleton && (loadingRegions[name] || contentArr.length === 0)) {
+      if (skeleton && (loadingUiZones[name] || contentArr.length === 0)) {
         return toNodeArray(skeleton);
       }
       return contentArr;
     },
-    [livePage, loadingRegions],
+    [livePage, loadingUiZones],
   );
 
-  return { page: livePage, getRegion, isRegionLoading, refreshing, onRefresh };
+  return { page: livePage, getUiZone, isUiZoneLoading, refreshing, onRefresh };
 }

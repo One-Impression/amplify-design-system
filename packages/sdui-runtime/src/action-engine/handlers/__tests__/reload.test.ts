@@ -83,15 +83,17 @@ const flush = () => new Promise<void>((r) => setImmediate(r));
 
 const composite = (id: string) =>
   ({ type: "sdui.snippet.composite", id, data: {} }) as unknown as Node;
+// The header UI zone is a single node (the producer wraps page_header + filters
+// in one container); the merge stores it as-is under `data.header`.
 const header = (id: string) =>
-  [{ type: "sdui.snippet.page_header", id, data: {} }] as unknown as Node[];
+  ({ type: "sdui.snippet.page_header", id, data: {} }) as unknown as Node;
 
 beforeEach(() => {
   originalFetch = globalThis.fetch;
   lastUrl = undefined;
   __resetReloadConcurrency();
   useLocalStore.setState({ data: {} });
-  usePageStore.setState({ page: BASE_PAGE, pageId: BASE_PAGE.id, loadingRegions: {} });
+  usePageStore.setState({ page: BASE_PAGE, pageId: BASE_PAGE.id, loadingUiZones: {} });
 });
 
 afterEach(() => {
@@ -105,7 +107,7 @@ const reloadAction = (payload: Record<string, unknown>): Action =>
 test("reload — content-only response replaces items, preserves chrome", async () => {
   installFetch({ items: [{ type: "sdui.snippet.composite", id: "c1", data: {} }] });
   await handleReload(
-    reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] }),
+    reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }),
     config,
     noopEngine,
   );
@@ -115,21 +117,21 @@ test("reload — content-only response replaces items, preserves chrome", async 
   // footer + skeletons (unrefreshed data) survive the partial merge.
   assert.ok((page.data as Record<string, unknown>).footer);
   assert.ok((page.data as Record<string, unknown>).header_skeleton);
-  assert.equal(usePageStore.getState().loadingRegions.content, false);
+  assert.equal(usePageStore.getState().loadingUiZones.content, false);
 });
 
 test("reload — header+content response merges data.header and replaces items", async () => {
   installFetch({
-    data: { header: [{ type: "sdui.snippet.page_header", id: "h1", data: {} }] },
+    data: { header: { type: "sdui.snippet.page_header", id: "h1", data: {} } },
     items: [{ type: "sdui.snippet.composite", id: "c1", data: {} }],
   });
   await handleReload(
-    reloadAction({ endpoint: "creator.campaigns.list", regions: ["header", "content"] }),
+    reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header", "content"] }),
     config,
     noopEngine,
   );
-  const data = usePageStore.getState().page!.data as Record<string, unknown>;
-  assert.ok(Array.isArray(data.header));
+  const data = usePageStore.getState().page!.data as Record<string, Node>;
+  assert.equal(data.header.id, "h1");
   assert.ok(data.footer, "footer (unrefreshed) preserved");
   assert.equal(usePageStore.getState().page!.items[0].id, "c1");
 });
@@ -141,7 +143,7 @@ test("reload — binds $.local refs into the query string", async () => {
   await handleReload(
     reloadAction({
       endpoint: "creator.campaigns.list",
-      regions: ["content"],
+      ui_zones: ["content"],
       query_params: { tab: { ref: "$.local.selected_tab" }, filter: { ref: "$.local.selected_filters" } },
     }),
     config,
@@ -155,44 +157,44 @@ test("reload — binds $.local refs into the query string", async () => {
 test("reload — clears loading even on a non-OK response (and throws)", async () => {
   installFetch({ error: "boom" }, 500);
   await assert.rejects(
-    () => handleReload(reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] }), config, noopEngine),
+    () => handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine),
     /reload: BFF GET .* returned 500/,
   );
-  assert.equal(usePageStore.getState().loadingRegions.content, false);
+  assert.equal(usePageStore.getState().loadingUiZones.content, false);
 });
 
-test("reload — chained same-region reloads: latest wins, earlier aborted, skeleton held", async () => {
+test("reload — chained same-zone reloads: latest wins, earlier aborted, skeleton held", async () => {
   const pendings = installDeferredFetch();
-  const a = reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] });
-  const b = reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] });
+  const a = reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] });
+  const b = reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] });
 
   const pA = handleReload(a, config, noopEngine);
   await flush(); // A reaches its fetch (pending)
   assert.equal(pendings.length, 1);
-  assert.equal(usePageStore.getState().loadingRegions.content, true);
+  assert.equal(usePageStore.getState().loadingUiZones.content, true);
 
   const pB = handleReload(b, config, noopEngine);
   await flush(); // B claims content → aborts A; B reaches its fetch
   assert.equal(pendings[0].signal!.aborted, true, "A's fetch aborted by B");
   assert.equal(pendings.length, 2);
   assert.equal(pendings[1].signal!.aborted, false);
-  assert.equal(usePageStore.getState().loadingRegions.content, true, "skeleton held across hand-off");
+  assert.equal(usePageStore.getState().loadingUiZones.content, true, "skeleton held across hand-off");
 
   await pA; // A was aborted → resolves without applying or clearing loading
   assert.equal(usePageStore.getState().page!.items.length, 0, "A applied nothing");
-  assert.equal(usePageStore.getState().loadingRegions.content, true, "A did not clear loading");
+  assert.equal(usePageStore.getState().loadingUiZones.content, true, "A did not clear loading");
 
   pendings[1].resolve({ items: [composite("b")] });
   await pB;
   assert.equal(usePageStore.getState().page!.items[0].id, "b", "only the latest response rendered");
-  assert.equal(usePageStore.getState().loadingRegions.content, false);
+  assert.equal(usePageStore.getState().loadingUiZones.content, false);
 });
 
-test("reload — disjoint regions run in parallel, neither aborted", async () => {
+test("reload — disjoint zones run in parallel, neither aborted", async () => {
   const pendings = installDeferredFetch();
-  const pH = handleReload(reloadAction({ endpoint: "creator.campaigns.list", regions: ["header"] }), config, noopEngine);
+  const pH = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header"] }), config, noopEngine);
   await flush();
-  const pC = handleReload(reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] }), config, noopEngine);
+  const pC = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine);
   await flush();
 
   assert.equal(pendings.length, 2);
@@ -204,16 +206,16 @@ test("reload — disjoint regions run in parallel, neither aborted", async () =>
   await Promise.all([pH, pC]);
 
   const page = usePageStore.getState().page!;
-  assert.equal((page.data as Record<string, Node[]>).header[0].id, "h1");
+  assert.equal((page.data as Record<string, Node>).header.id, "h1");
   assert.equal(page.items[0].id, "c1");
 });
 
-test("reload — partial overlap: newer wins the shared region, older still applies its own", async () => {
+test("reload — partial overlap: newer wins the shared zone, older still applies its own", async () => {
   const pendings = installDeferredFetch();
   // Tab switch: header + content. Filter: content only, lands mid-flight.
-  const pTab = handleReload(reloadAction({ endpoint: "creator.campaigns.list", regions: ["header", "content"] }), config, noopEngine);
+  const pTab = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header", "content"] }), config, noopEngine);
   await flush();
-  const pFilter = handleReload(reloadAction({ endpoint: "creator.campaigns.list", regions: ["content"] }), config, noopEngine);
+  const pFilter = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine);
   await flush();
 
   // Filter took `content`; tab still owns `header`, so its fetch is NOT aborted.
@@ -226,8 +228,8 @@ test("reload — partial overlap: newer wins the shared region, older still appl
   await pFilter;
 
   const page = usePageStore.getState().page!;
-  assert.equal((page.data as Record<string, Node[]>).header[0].id, "hTab", "header from the tab reload applied");
+  assert.equal((page.data as Record<string, Node>).header.id, "hTab", "header from the tab reload applied");
   assert.equal(page.items[0].id, "filtered", "content from the filter reload won; tab's content dropped");
-  assert.equal(usePageStore.getState().loadingRegions.content, false);
-  assert.equal(usePageStore.getState().loadingRegions.header, false);
+  assert.equal(usePageStore.getState().loadingUiZones.content, false);
+  assert.equal(usePageStore.getState().loadingUiZones.header, false);
 });

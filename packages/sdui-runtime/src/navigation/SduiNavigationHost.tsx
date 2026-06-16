@@ -92,8 +92,8 @@ function makePageScreen(resolvePage: ResolvePage) {
     // nav header entirely — the wire `page_header` snippet owns the top chrome
     // (safe-area inset + background), symmetric with the footer slot.
     useEffect(() => {
-      // The page owns its top chrome if it renders a header region — either the
-      // header content (`data.header`) OR, in the shell-first region model, a
+      // The page owns its top chrome if it renders a header zone — either the
+      // header content (`data.header`) OR, in the shell-first UI-zone model, a
       // header placeholder (`data.header_skeleton`) that a `reload` fills in.
       // Either way, hide the native nav header so it doesn't double up with the
       // wire `page_header`.

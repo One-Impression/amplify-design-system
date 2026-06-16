@@ -67,7 +67,7 @@ test("reads footer slot", () => {
   assert.equal(out.footer?.type, "sdui.snippet.tabs_footer");
 });
 
-test("reads header slot (sticky top region, distinct from items)", () => {
+test("reads header slot (sticky top zone, distinct from items)", () => {
   const out = extractFeedPageData({
     header: {
       id: "home-header",
