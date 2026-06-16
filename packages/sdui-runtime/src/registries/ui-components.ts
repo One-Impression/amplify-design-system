@@ -20,7 +20,7 @@ import { SelectableItemRenderer } from "../ui_components/SelectableItem/index.js
 import { SelectTriggerRenderer } from "../ui_components/SelectTrigger/index.js";
 import { ScrollViewRenderer } from "../ui_components/ScrollView/index.js";
 
-export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
+const baseUiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
   "creator.ui_component.button": ButtonRenderer,
   "creator.ui_component.text": TextRenderer,
   "creator.ui_component.card": CardRenderer,
@@ -40,4 +40,13 @@ export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElem
   "creator.ui_component.selectable_item": SelectableItemRenderer,
   "creator.ui_component.select_trigger": SelectTriggerRenderer,
   "creator.ui_component.scroll_view": ScrollViewRenderer,
+};
+
+// Namespace migration: alias every `creator.*` entry to its `sdui.*` key so both
+// prefixes resolve to the same renderer while emitters move creator.* -> sdui.*.
+export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
+  ...baseUiComponentRegistry,
+  ...Object.fromEntries(
+    Object.entries(baseUiComponentRegistry).map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
+  ),
 };

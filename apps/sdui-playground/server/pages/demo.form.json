@@ -5,7 +5,7 @@
   "layout": "sticky_footer",
   "data": {
     "header": {
-      "type": "creator.snippet.page_header",
+      "type": "sdui.snippet.page_header",
       "id": "form-header",
       "data": {
         "title": {
@@ -32,11 +32,11 @@
       }
     },
     "footer": {
-      "type": "creator.snippet.page_footer",
+      "type": "sdui.snippet.page_footer",
       "id": "form-footer",
       "data": {
         "primary_button": {
-          "type": "creator.ui_component.button",
+          "type": "sdui.ui_component.button",
           "id": "form-submit",
           "on_click": {
             "type": "submit",
@@ -68,7 +68,7 @@
   },
   "items": [
     {
-      "type": "creator.snippet.section_header",
+      "type": "sdui.snippet.section_header",
       "id": "form-hdr",
       "data": {
         "title": {
@@ -84,13 +84,13 @@
       }
     },
     {
-      "type": "creator.snippet.form",
+      "type": "sdui.snippet.form",
       "id": "campaign-form",
       "data": {
         "form_id": "campaign",
         "fields": [
           {
-            "type": "creator.snippet.input",
+            "type": "sdui.snippet.input",
             "id": "f-name",
             "data": {
               "field_name": "campaign_name",
@@ -110,7 +110,7 @@
             }
           },
           {
-            "type": "creator.snippet.input",
+            "type": "sdui.snippet.input",
             "id": "f-email",
             "data": {
               "field_name": "email",
@@ -130,7 +130,7 @@
             }
           },
           {
-            "type": "creator.snippet.input",
+            "type": "sdui.snippet.input",
             "id": "f-budget",
             "data": {
               "field_name": "budget",
@@ -152,7 +152,7 @@
             }
           },
           {
-            "type": "creator.snippet.input",
+            "type": "sdui.snippet.input",
             "id": "f-phone",
             "data": {
               "field_name": "phone",
@@ -162,7 +162,7 @@
                 "font_weight": "semiBold"
               },
               "leading": {
-                "type": "creator.ui_component.select_trigger",
+                "type": "sdui.ui_component.select_trigger",
                 "id": "phone-cc-trigger",
                 "data": {
                   "form_id": "campaign",
@@ -188,7 +188,7 @@
             }
           },
           {
-            "type": "creator.snippet.single_select_input",
+            "type": "sdui.snippet.single_select_input",
             "id": "f-objective",
             "data": {
               "field_name": "objective",
@@ -200,7 +200,7 @@
               "required": true,
               "options": [
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "obj-awareness",
                   "data": {
                     "label": {
@@ -214,7 +214,7 @@
                   }
                 },
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "obj-conversions",
                   "data": {
                     "label": {
@@ -228,7 +228,7 @@
                   }
                 },
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "obj-engagement",
                   "data": {
                     "label": {
@@ -242,7 +242,7 @@
             }
           },
           {
-            "type": "creator.snippet.multi_select_input",
+            "type": "sdui.snippet.multi_select_input",
             "id": "f-platforms",
             "data": {
               "field_name": "platforms",
@@ -255,7 +255,7 @@
               "selected_values": ["instagram"],
               "options": [
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "pf-ig",
                   "data": {
                     "label": {
@@ -266,7 +266,7 @@
                   }
                 },
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "pf-yt",
                   "data": {
                     "label": {
@@ -277,7 +277,7 @@
                   }
                 },
                 {
-                  "type": "creator.ui_component.selectable_item",
+                  "type": "sdui.ui_component.selectable_item",
                   "id": "pf-x",
                   "data": {
                     "label": {
@@ -291,7 +291,7 @@
             }
           },
           {
-            "type": "creator.snippet.toggle_input",
+            "type": "sdui.snippet.toggle_input",
             "id": "f-renew",
             "data": {
               "field_name": "auto_renew",
@@ -303,7 +303,7 @@
             }
           },
           {
-            "type": "creator.snippet.upload_file",
+            "type": "sdui.snippet.upload_file",
             "id": "f-brief",
             "data": {
               "field_name": "brief",
@@ -327,7 +327,7 @@
       "size": "large",
       "items": [
         {
-          "type": "creator.snippet.single_select_input",
+          "type": "sdui.snippet.single_select_input",
           "id": "country-select",
           "data": {
             "form_id": "campaign",
@@ -335,17 +335,17 @@
             "selected_value": "+91",
             "on_change": { "type": "dismiss", "payload": {} },
             "options": [
-              { "type": "creator.ui_component.selectable_item", "id": "cc-IN", "data": { "label": { "text": "🇮🇳  India" }, "subtitle": { "text": "+91" }, "value": "+91" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-US", "data": { "label": { "text": "🇺🇸  United States" }, "subtitle": { "text": "+1" }, "value": "+1" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-GB", "data": { "label": { "text": "🇬🇧  United Kingdom" }, "subtitle": { "text": "+44" }, "value": "+44" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-AE", "data": { "label": { "text": "🇦🇪  United Arab Emirates" }, "subtitle": { "text": "+971" }, "value": "+971" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-SG", "data": { "label": { "text": "🇸🇬  Singapore" }, "subtitle": { "text": "+65" }, "value": "+65" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-AU", "data": { "label": { "text": "🇦🇺  Australia" }, "subtitle": { "text": "+61" }, "value": "+61" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-DE", "data": { "label": { "text": "🇩🇪  Germany" }, "subtitle": { "text": "+49" }, "value": "+49" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-FR", "data": { "label": { "text": "🇫🇷  France" }, "subtitle": { "text": "+33" }, "value": "+33" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-JP", "data": { "label": { "text": "🇯🇵  Japan" }, "subtitle": { "text": "+81" }, "value": "+81" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-BR", "data": { "label": { "text": "🇧🇷  Brazil" }, "subtitle": { "text": "+55" }, "value": "+55" } },
-              { "type": "creator.ui_component.selectable_item", "id": "cc-ID", "data": { "label": { "text": "🇮🇩  Indonesia" }, "subtitle": { "text": "+62" }, "value": "+62" } }
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-IN", "data": { "label": { "text": "🇮🇳  India" }, "subtitle": { "text": "+91" }, "value": "+91" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-US", "data": { "label": { "text": "🇺🇸  United States" }, "subtitle": { "text": "+1" }, "value": "+1" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-GB", "data": { "label": { "text": "🇬🇧  United Kingdom" }, "subtitle": { "text": "+44" }, "value": "+44" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-AE", "data": { "label": { "text": "🇦🇪  United Arab Emirates" }, "subtitle": { "text": "+971" }, "value": "+971" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-SG", "data": { "label": { "text": "🇸🇬  Singapore" }, "subtitle": { "text": "+65" }, "value": "+65" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-AU", "data": { "label": { "text": "🇦🇺  Australia" }, "subtitle": { "text": "+61" }, "value": "+61" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-DE", "data": { "label": { "text": "🇩🇪  Germany" }, "subtitle": { "text": "+49" }, "value": "+49" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-FR", "data": { "label": { "text": "🇫🇷  France" }, "subtitle": { "text": "+33" }, "value": "+33" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-JP", "data": { "label": { "text": "🇯🇵  Japan" }, "subtitle": { "text": "+81" }, "value": "+81" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-BR", "data": { "label": { "text": "🇧🇷  Brazil" }, "subtitle": { "text": "+55" }, "value": "+55" } },
+              { "type": "sdui.ui_component.selectable_item", "id": "cc-ID", "data": { "label": { "text": "🇮🇩  Indonesia" }, "subtitle": { "text": "+62" }, "value": "+62" } }
             ]
           }
         }

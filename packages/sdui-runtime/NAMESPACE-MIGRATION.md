@@ -34,33 +34,32 @@ The running app and deployed BFFs emit `creator.*` today, so a hard rename would
 break them. The migration accepts **both** prefixes during the transition and
 only drops `creator.*` once nothing emits it.
 
-A small helper centralizes the dual-accept so the final flip is one-line:
+No schema-level union/helper is needed — `NodeSchema.type` is a generic
+`z.string()`, so node validation accepts **any** prefix. Backward-compatibility
+comes from three places, not a union:
 
-```ts
-// schemas/nodeType.ts
-export const snippetType = (name: string) =>
-  z.union([z.literal(`creator.snippet.${name}`), z.literal(`sdui.snippet.${name}`)]);
-export const uiComponentType = (name: string) =>
-  z.union([z.literal(`creator.ui_component.${name}`), z.literal(`sdui.ui_component.${name}`)]);
-```
+1. **SDK** — rename schema discriminants + builders `creator.* → sdui.*` (plain
+   single literals; keeps `MediaSchema`/`cond` discriminated-unions intact).
+2. **Runtime registry** — keep the `creator.*` keys AND add `sdui.*` aliases, so
+   old payloads still resolve a renderer. (The resolver already dispatches on the
+   `.snippet.`/`.ui_component.` segment, so only the map keys change.)
+3. **Generic `NodeSchema`** — accepts both at the validation boundary.
 
-Builders keep an explicit `sdui.*` string literal (preserves literal-type
-inference on the node's `type`).
+A union discriminator was the original idea but is both unnecessary (the type
+field isn't enforced per-node) and unsafe (it would break the discriminated
+unions that key on a *different* `type` field).
 
 ## Steps
 
-**Step 0 — helper (SDK).** Add `schemas/nodeType.ts` with `snippetType` /
-`uiComponentType` dual-accept helpers.
+**Step 1 — runtime registry alias (one PR, patch). Ships FIRST.** Add `sdui.*`
+keys alongside `creator.*` in the registry maps (alias to the same renderers).
+Dispatch is unchanged. This must publish + be adopted **before** any producer
+emits `sdui.*`, so the runtime can render the new prefix the moment it appears.
 
-**Step 1 — SDK dual-accept + emit-new (one PR, minor, non-breaking).**
-Replace each schema's `z.literal("creator.X")` with `snippetType("X")` /
-`uiComponentType("X")`; switch each builder to emit `sdui.X`. Tests assert both
-prefixes parse and builders emit `sdui.*`. Publish. Old `creator.*` payloads
-still validate.
-
-**Step 2 — runtime registry alias (one PR, patch).** Add `sdui.*` keys alongside
-`creator.*` in the registry maps (alias to the same renderers). Dispatch is
-unchanged. Publish.
+**Step 2 — SDK rename + emit-new (one PR, minor). Ships SECOND.** Rename each
+schema discriminant and builder `creator.* → sdui.*` (plain literals). Tests
+assert builders emit `sdui.*`. Publish. Old `creator.*` payloads still validate
+(generic `NodeSchema`).
 
 **Step 3 — flip emitters (per surface, mechanical).** Switch fixtures / BFFs
 `creator.* → sdui.*`. Both prefixes are accepted, so there is no coordination
@@ -72,8 +71,9 @@ line each) and the alias registry keys.
 
 ### Order
 
-SDK (0+1) → runtime (2) → emitters (3) → cleanup (4). Steps 0–3 are
+**Runtime alias (1) → SDK rename (2) → emitters (3) → cleanup (4).** Runtime
+goes first so it can render `sdui.*` before any producer emits it. Steps 1–3 are
 non-breaking and can ship immediately; Step 4 waits for zero `creator.*` traffic.
 
-The bulk (Steps 1–2) is mechanical — best applied with a codemod over the schema
-/ builder / registry files plus the helper, not by hand.
+The bulk (Steps 1–2) is mechanical — applied with a codemod over the schema /
+builder / registry files (no helper needed).

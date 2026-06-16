@@ -120,16 +120,16 @@ function campaignCard(c) {
     data: {
       layout: "cover",
       surface: { bg_color: "sdui.color.neutral-inverse", border_color: "sdui.color.neutral-subtle" },
-      media: { type: "creator.snippet.banner_image", id: `m-${c.id}`, data: { image: { src: `https://picsum.photos/seed/camp${c.id}/640/320`, aspect_ratio: 2 } } },
-      float: { type: "creator.ui_component.image", id: `a-${c.id}`, data: { src: `https://picsum.photos/seed/brand${c.id}/120`, width: 64, height: 64, border_radius: "sdui.radius.full" } },
+      media: { type: "sdui.snippet.banner_image", id: `m-${c.id}`, data: { image: { src: `https://picsum.photos/seed/camp${c.id}/640/320`, aspect_ratio: 2 } } },
+      float: { type: "sdui.ui_component.image", id: `a-${c.id}`, data: { src: `https://picsum.photos/seed/brand${c.id}/120`, width: 64, height: 64, border_radius: "sdui.radius.full" } },
       float_end: [
-        { type: "creator.ui_component.tag", id: `cash-${c.id}`, data: { label: { text: `₹${c.reward.toLocaleString("en-IN")} Cash` }, bg_color: "sdui.color.positive-weak", text_color: "sdui.color.positive" } },
+        { type: "sdui.ui_component.tag", id: `cash-${c.id}`, data: { label: { text: `₹${c.reward.toLocaleString("en-IN")} Cash` }, bg_color: "sdui.color.positive-weak", text_color: "sdui.color.positive" } },
       ],
       body: [
-        { type: "creator.snippet.info_row", id: `n-${c.id}`, data: { title: { text: c.brand, font_weight: "medium", font_size: "sdui.font-size.lg" } } },
-        { type: "creator.snippet.info_row", id: `meta-${c.id}`, data: { title: { text: `${CATEGORY_LABEL[c.category]} · Micro creators`, font_size: "sdui.font-size.sm", color: "sdui.color.neutral-medium" } } },
+        { type: "sdui.snippet.info_row", id: `n-${c.id}`, data: { title: { text: c.brand, font_weight: "medium", font_size: "sdui.font-size.lg" } } },
+        { type: "sdui.snippet.info_row", id: `meta-${c.id}`, data: { title: { text: `${CATEGORY_LABEL[c.category]} · Micro creators`, font_size: "sdui.font-size.sm", color: "sdui.color.neutral-medium" } } },
       ],
-      footer: { type: "creator.snippet.info_row", id: `f-${c.id}`, data: { title: { text: "Apply now — closes soon", font_size: "sdui.font-size.sm" } } },
+      footer: { type: "sdui.snippet.info_row", id: `f-${c.id}`, data: { title: { text: "Apply now — closes soon", font_size: "sdui.font-size.sm" } } },
     },
   };
 }
@@ -140,7 +140,7 @@ function campaignCard(c) {
 // debounced CONTENT-only reload; the header (and these chips) stay static.
 function filterChip(f) {
   return {
-    type: "creator.snippet.chip",
+    type: "sdui.snippet.chip",
     id: `filter-${f.id}`,
     on_click: {
       type: "compound",
@@ -167,7 +167,7 @@ function filterChip(f) {
 // full-page reload.
 function tabNode(t) {
   return {
-    type: "creator.ui_component.tab",
+    type: "sdui.ui_component.tab",
     id: `tab-${t.id}`,
     on_click: {
       type: "compound",
@@ -203,7 +203,7 @@ function selectCampaigns(tab, filters) {
 // right-side tag/badge/progress, and a chevron. Same snippet drives every row
 // in the Profile screen — only the slots filled differ.
 const infoRow = (id, text, opts = {}) => ({
-  type: "creator.snippet.info_row",
+  type: "sdui.snippet.info_row",
   id,
   data: {
     title: { text, font_size: opts.size ?? "sdui.font-size.md", font_weight: opts.weight ?? "medium" },
@@ -243,7 +243,7 @@ const infoRow = (id, text, opts = {}) => ({
   },
 });
 const sectionHeader = (id, text) => ({
-  type: "creator.snippet.section_header",
+  type: "sdui.snippet.section_header",
   id,
   data: { title: { text, font_weight: "bold", font_size: "sdui.font-size.lg" } },
 });
@@ -252,21 +252,21 @@ const sectionHeader = (id, text) => ({
 // Flat (no elevation) so every card reads consistently with the "Need help"
 // tiles, which render through info_row's `card` and pass no elevation.
 const group = (id, items) => ({
-  type: "creator.snippet.group_config",
+  type: "sdui.snippet.group_config",
   id,
   data: { stacking: "vertical", card: { bg_color: "sdui.color.neutral-inverse" }, items },
 });
 // Horizontal equal-width cards (e.g. the 3 "Need help" tiles) — each child carries
 // its own card surface; item_flex:"equal" splits the row width evenly.
 const groupRow = (id, items) => ({
-  type: "creator.snippet.group_config",
+  type: "sdui.snippet.group_config",
   id,
   data: { stacking: "horizontal", item_flex: "equal", gap: "sdui.spacing.sm", items },
 });
 
 const settingsHeader = () => [
   {
-    type: "creator.snippet.page_header",
+    type: "sdui.snippet.page_header",
     id: "settings-hdr",
     data: {
       title: { text: "Profile", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
@@ -320,7 +320,7 @@ function headerRegion(tab, filters) {
       : `${selectCampaigns(tab, filters).length} campaigns`;
   return [
     {
-      type: "creator.snippet.page_header",
+      type: "sdui.snippet.page_header",
       id: "feed-hdr",
       data: {
         title: { text: "My Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
@@ -330,7 +330,7 @@ function headerRegion(tab, filters) {
       },
     },
     // Chips' selected state is render-bound to local — instant, no reload.
-    { type: "creator.snippet.group_chips", id: "feed-filters", data: { items: FILTERS.map(filterChip) } },
+    { type: "sdui.snippet.group_chips", id: "feed-filters", data: { items: FILTERS.map(filterChip) } },
   ];
 }
 
@@ -342,7 +342,7 @@ const contentItems = (tab, filters) =>
 //   header  → title line + right-icon circle (spaced), subtitle, a chip row
 //   content → cards: media + (logo circle + cash-tag pill) + brand + meta
 const headerSkeleton = {
-  type: "creator.snippet.skeleton",
+  type: "sdui.snippet.skeleton",
   id: "skel-header",
   data: {
     padding: 16,
@@ -355,7 +355,7 @@ const headerSkeleton = {
   },
 };
 const contentSkeleton = {
-  type: "creator.snippet.skeleton",
+  type: "sdui.snippet.skeleton",
   id: "skel-content",
   data: {
     card: true,
@@ -390,7 +390,7 @@ function buildShell() {
     },
     on_refresh: reload(["content"], 0),
     data: {
-      footer: { type: "creator.snippet.tabs_footer", id: "feed-tabs", data: { items: TABS.map(tabNode) } },
+      footer: { type: "sdui.snippet.tabs_footer", id: "feed-tabs", data: { items: TABS.map(tabNode) } },
       header_skeleton: headerSkeleton,
       content_skeleton: contentSkeleton,
     },

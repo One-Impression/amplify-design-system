@@ -63,7 +63,7 @@ import { ChipRenderer } from "../snippets/Chip/index.js";
  * 43 snippets covering layout, headers, footers, cards, images,
  * info rows, inputs, and chips.
  */
-export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
+const baseSnippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
   // Layout / Utility
   // First citizen of the domain-neutral `sdui.*` namespace (see migration plan).
   "sdui.snippet.composite": CompositeRenderer,
@@ -122,4 +122,13 @@ export const snippetRegistry: Record<string, (node: Node) => React.ReactElement>
 
   // Chip (1)
   "creator.snippet.chip": ChipRenderer,
+};
+
+// Namespace migration: alias every `creator.*` entry to its `sdui.*` key so both
+// prefixes resolve to the same renderer while emitters move creator.* -> sdui.*.
+export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
+  ...baseSnippetRegistry,
+  ...Object.fromEntries(
+    Object.entries(baseSnippetRegistry).map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
+  ),
 };

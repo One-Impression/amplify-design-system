@@ -15,21 +15,21 @@
                 "layout": "cover",
                 "surface": { "bg_color": "sdui.color.neutral-inverse", "border_color": "sdui.color.neutral-subtle" },
                 "header_bg": "sdui.color.notice-weak",
-                "header": { "type": "creator.snippet.info_row", "id": "c-hdr", "data": { "title": { "text": "New Brand Name is eagerly waiting for your creative magic", "font_size": "sdui.font-size.sm", "color": "sdui.color.notice" } } },
-                "media": { "type": "creator.snippet.banner_image", "id": "c-media", "data": { "image": { "src": "https://picsum.photos/seed/lumina/640/320", "aspect_ratio": 2 } } },
+                "header": { "type": "sdui.snippet.info_row", "id": "c-hdr", "data": { "title": { "text": "New Brand Name is eagerly waiting for your creative magic", "font_size": "sdui.font-size.sm", "color": "sdui.color.notice" } } },
+                "media": { "type": "sdui.snippet.banner_image", "id": "c-media", "data": { "image": { "src": "https://picsum.photos/seed/lumina/640/320", "aspect_ratio": 2 } } },
                 "overlay": [
-                    { "type": "creator.ui_component.tag", "id": "c-rec", "data": { "label": { "text": "Recommended" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } }
+                    { "type": "sdui.ui_component.tag", "id": "c-rec", "data": { "label": { "text": "Recommended" }, "gradient": { "angle": 90, "colors": ["#F55DC1", "#495AF4"] } } }
                 ],
-                "float": { "type": "creator.ui_component.image", "id": "c-avatar", "data": { "src": "https://picsum.photos/seed/nb/120", "width": 72, "height": 72, "border_radius": "sdui.radius.full" } },
+                "float": { "type": "sdui.ui_component.image", "id": "c-avatar", "data": { "src": "https://picsum.photos/seed/nb/120", "width": 72, "height": 72, "border_radius": "sdui.radius.full" } },
                 "float_end": [
-                    { "type": "creator.ui_component.tag", "id": "c-prod", "data": { "label": { "text": "worth ₹1500" }, "gradient": { "angle": 90, "colors": ["#FFF7DC", "#FDE68A"] }, "text_color": "sdui.color.state-action-required-text", "icon": { "name": "product-benefits" } } },
-                    { "type": "creator.ui_component.tag", "id": "c-cash", "data": { "label": { "text": "₹2400 Cash" }, "bg_color": "sdui.color.positive-weak", "text_color": "sdui.color.positive" } }
+                    { "type": "sdui.ui_component.tag", "id": "c-prod", "data": { "label": { "text": "worth ₹1500" }, "gradient": { "angle": 90, "colors": ["#FFF7DC", "#FDE68A"] }, "text_color": "sdui.color.state-action-required-text", "icon": { "name": "product-benefits" } } },
+                    { "type": "sdui.ui_component.tag", "id": "c-cash", "data": { "label": { "text": "₹2400 Cash" }, "bg_color": "sdui.color.positive-weak", "text_color": "sdui.color.positive" } }
                 ],
                 "body": [
-                    { "type": "creator.snippet.info_row", "id": "c-name", "data": { "title": { "text": "New Brand Name", "font_weight": "medium", "font_size": "sdui.font-size.lg" } } },
-                    { "type": "creator.snippet.info_row", "id": "c-meta", "data": { "title": { "text": "Beauty · Jnsn (26 February - Micro creators)", "font_size": "sdui.font-size.sm", "color": "sdui.color.neutral-medium" } } }
+                    { "type": "sdui.snippet.info_row", "id": "c-name", "data": { "title": { "text": "New Brand Name", "font_weight": "medium", "font_size": "sdui.font-size.lg" } } },
+                    { "type": "sdui.snippet.info_row", "id": "c-meta", "data": { "title": { "text": "Beauty · Jnsn (26 February - Micro creators)", "font_size": "sdui.font-size.sm", "color": "sdui.color.neutral-medium" } } }
                 ],
-                "footer": { "type": "creator.snippet.info_row", "id": "c-ftr", "data": { "title": { "text": "Earn 10% EXTRA — Submit content in 19 hours", "font_size": "sdui.font-size.sm" } } }
+                "footer": { "type": "sdui.snippet.info_row", "id": "c-ftr", "data": { "title": { "text": "Earn 10% EXTRA — Submit content in 19 hours", "font_size": "sdui.font-size.sm" } } }
             }
         }
     ],

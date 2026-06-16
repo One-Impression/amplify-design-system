@@ -5,18 +5,18 @@
     "layout": "standard",
     "items": [
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "section-header-18",
             "data": {
                 "title": {
-                    "text": "creator.snippet.card",
+                    "text": "sdui.snippet.card",
                     "font_size": "sdui.font-size.lg",
                     "font_weight": "bold"
                 }
             }
         },
         {
-            "type": "creator.snippet.card",
+            "type": "sdui.snippet.card",
             "id": "campaigns-explore-card-fk-1",
             "on_click": {
                 "type": "navigate",
@@ -30,7 +30,7 @@
             },
             "data": {
                 "header": {
-                    "type": "creator.snippet.overlapping_image",
+                    "type": "sdui.snippet.overlapping_image",
                     "id": "campaigns-explore-card-cover-fk-1",
                     "data": {
                         "cover_image": {
@@ -56,7 +56,7 @@
                             },
                             "right_tags": [
                                 {
-                                    "type": "creator.ui_component.tag",
+                                    "type": "sdui.ui_component.tag",
                                     "id": "tag-21",
                                     "data": {
                                         "label": {
@@ -80,7 +80,7 @@
                 },
                 "items": [
                     {
-                        "type": "creator.snippet.info_row",
+                        "type": "sdui.snippet.info_row",
                         "id": "campaigns-explore-card-fk-1-brand-name",
                         "data": {
                             "title": {
@@ -91,7 +91,7 @@
                         }
                     },
                     {
-                        "type": "creator.snippet.info_row",
+                        "type": "sdui.snippet.info_row",
                         "id": "campaigns-explore-card-fk-1-subtitle",
                         "data": {
                             "title": {
@@ -103,12 +103,12 @@
                         }
                     },
                     {
-                        "type": "creator.snippet.group_chips",
+                        "type": "sdui.snippet.group_chips",
                         "id": "campaigns-explore-card-fk-1-tags",
                         "data": {
                             "items": [
                                 {
-                                    "type": "creator.ui_component.tag",
+                                    "type": "sdui.ui_component.tag",
                                     "id": "campaigns-explore-card-fk-1-tag-0",
                                     "data": {
                                         "label": {
@@ -117,7 +117,7 @@
                                     }
                                 },
                                 {
-                                    "type": "creator.ui_component.tag",
+                                    "type": "sdui.ui_component.tag",
                                     "id": "campaigns-explore-card-fk-1-tag-1",
                                     "data": {
                                         "label": {
@@ -129,7 +129,7 @@
                         }
                     },
                     {
-                        "type": "creator.snippet.separator",
+                        "type": "sdui.snippet.separator",
                         "id": "campaigns-explore-card-fk-1-separator",
                         "data": {
                             "color": "sdui.color.neutral-subtle",
@@ -137,7 +137,7 @@
                         }
                     },
                     {
-                        "type": "creator.snippet.info_row",
+                        "type": "sdui.snippet.info_row",
                         "id": "campaigns-explore-card-fk-1-offer",
                         "data": {
                             "title": {
@@ -154,7 +154,7 @@
                         }
                     },
                     {
-                        "type": "creator.snippet.info_row",
+                        "type": "sdui.snippet.info_row",
                         "id": "campaigns-explore-card-fk-1-reward-condition",
                         "data": {
                             "title": {
@@ -172,7 +172,7 @@
                     }
                 ],
                 "footer": {
-                    "type": "creator.snippet.info_row",
+                    "type": "sdui.snippet.info_row",
                     "id": "info-row-11",
                     "data": {
                         "title": {
@@ -190,18 +190,18 @@
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "section-header-19",
             "data": {
                 "title": {
-                    "text": "creator.snippet.info_row",
+                    "text": "sdui.snippet.info_row",
                     "font_size": "sdui.font-size.lg",
                     "font_weight": "bold"
                 }
             }
         },
         {
-            "type": "creator.snippet.info_row",
+            "type": "sdui.snippet.info_row",
             "id": "sample-info-row-8",
             "data": {
                 "title": {
@@ -219,18 +219,18 @@
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "section-header-20",
             "data": {
                 "title": {
-                    "text": "creator.snippet.section_header",
+                    "text": "sdui.snippet.section_header",
                     "font_size": "sdui.font-size.lg",
                     "font_weight": "bold"
                 }
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "sample-section-header-9",
             "data": {
                 "title": {
@@ -244,23 +244,23 @@
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "section-header-21",
             "data": {
                 "title": {
-                    "text": "creator.snippet.group_chips",
+                    "text": "sdui.snippet.group_chips",
                     "font_size": "sdui.font-size.lg",
                     "font_weight": "bold"
                 }
             }
         },
         {
-            "type": "creator.snippet.group_chips",
+            "type": "sdui.snippet.group_chips",
             "id": "sample-group-chips-10",
             "data": {
                 "items": [
                     {
-                        "type": "creator.ui_component.tag",
+                        "type": "sdui.ui_component.tag",
                         "id": "sample-tag-11",
                         "data": {
                             "label": {
@@ -269,7 +269,7 @@
                         }
                     },
                     {
-                        "type": "creator.ui_component.tag",
+                        "type": "sdui.ui_component.tag",
                         "id": "sample-tag-12",
                         "data": {
                             "label": {
@@ -278,7 +278,7 @@
                         }
                     },
                     {
-                        "type": "creator.ui_component.tag",
+                        "type": "sdui.ui_component.tag",
                         "id": "sample-tag-13",
                         "data": {
                             "label": {
@@ -290,18 +290,18 @@
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "section-header-22",
             "data": {
                 "title": {
-                    "text": "creator.snippet.separator",
+                    "text": "sdui.snippet.separator",
                     "font_size": "sdui.font-size.lg",
                     "font_weight": "bold"
                 }
             }
         },
         {
-            "type": "creator.snippet.separator",
+            "type": "sdui.snippet.separator",
             "id": "sample-separator-14",
             "data": {}
         }
