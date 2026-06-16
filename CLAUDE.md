@@ -85,6 +85,28 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## sdui-runtime: PageHeader & Snippet Elevation Pattern
+
+## sdui-runtime: PageHeader & Snippet Elevation Pattern
+
+**Package**: `packages/sdui-runtime` (`@one-impression/sdui-runtime` v3.1.2)
+**Peer dep bump**: requires `@one-impression/sdk-native-sdui ^4.5.0` (was ^4.4.0)
+
+### PageHeader capabilities (as of v3.1.2)
+
+- **`sub_row` slot**: nodes in `data.sub_row` render below the title, inside the header `View`, so the background (solid color or gradient) spans the full header surface — title + sub_row as one cohesive unit.
+- **Intrinsic bottom-edge elevation**: `PageHeader` now carries a built-in bottom shadow (`elevation: 4`, `shadowRadius: 4`). No wire flag needed — it is always present.
+
+### Header/footer elevation symmetry
+
+`PageHeader` (bottom shadow) and `TabsFooter` (top shadow) are now symmetric snippets — each owns its own surface and its own edge shadow. This is the established pattern for full-bleed snippet surfaces in `sdui-runtime`. Follow it for any new header/footer-style snippets.
+
+### Migration note
+
+Product apps consuming `@one-impression/sdui-runtime` must update their `sdk-native-sdui` peer dependency to `^4.5.0`. Older versions will not include the `sub_row` schema field.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
