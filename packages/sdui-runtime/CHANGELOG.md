@@ -1,5 +1,15 @@
 # @one-impression/sdui-runtime
 
+## 3.2.0
+
+### Minor Changes
+
+- [#262](https://github.com/One-Impression/amplify-design-system/pull/262) [`471b179`](https://github.com/One-Impression/amplify-design-system/commit/471b179c54de192d8b5dd0831a37bd3b97740d9b) Thanks [@achin-oi](https://github.com/achin-oi)! - `PageHeader` renders a `sub_row` (content below the title, inside the header
+  surface — e.g. a filter chip row) and now has an intrinsic bottom-edge shadow
+  (elevation), the symmetric counterpart to TabsFooter's top-edge shadow. The
+  background (solid or gradient) fills the whole header, title + sub_row included,
+  so the header reads as one cohesive surface. Requires sdk-native-sdui ^4.5.0.
+
 ## 3.1.2
 
 ### Patch Changes
