@@ -84,6 +84,7 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 3. **All token changes** go through direct PR (Pixel will detect drift and auto-cascade)
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
+6. **SDUI node-type namespace is `sdui.*` only** — the `creator.*` prefix (`creator.snippet.*`, `creator.ui_component.*`) has been fully removed from all renderer registries, type literals, and fixtures. Do not use `creator.*` prefixes anywhere. All node types must use `sdui.snippet.*` / `sdui.ui_component.*`.
 
 ## Oportunities theme (newest product line)
 
