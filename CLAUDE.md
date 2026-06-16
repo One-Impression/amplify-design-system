@@ -77,6 +77,23 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Reload Protocol
+
+## SDUI Reload Protocol
+
+The fixture server (`apps/sdui-playground/server/fixture-server.mjs`) implements the SDUI partial-reload contract. Key conventions:
+
+- **Parameter**: `ui_zones` (not `regions` — legacy `?regions=` is ignored)
+- **Values**: comma-separated zone names, e.g. `?ui_zones=content` or `?ui_zones=header,content`
+  - `["content"]` → returns `{ items }` (filter toggle / pull-refresh; header + footer stay)
+  - `["header","content"]` → returns `{ data: { header }, items }` (tab switch / first load; footer shell stays)
+- **Header zone contract**: the header zone must be a **single node** — a `sdui.ui_component.section` wrapping its children (page_header + filter chips). Do not return a bare `Node[]` array for the header zone.
+- **Context binding**: tab + filter state lives in the local store via `{ ref: "$.local.*" }` and is sent as query params on every reload.
+
+**Package versions** (as of this change): `@one-impression/sdk-native-sdui ^4.0.0`, `@one-impression/sdui-runtime ^3.0.0`.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
