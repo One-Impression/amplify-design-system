@@ -20,37 +20,24 @@ import { SelectableItemRenderer } from "../ui_components/SelectableItem/index.js
 import { SelectTriggerRenderer } from "../ui_components/SelectTrigger/index.js";
 import { ScrollViewRenderer } from "../ui_components/ScrollView/index.js";
 
-const baseUiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  "creator.ui_component.button": ButtonRenderer,
-  "creator.ui_component.text": TextRenderer,
-  "creator.ui_component.card": CardRenderer,
-  "creator.ui_component.chip": ChipRenderer,
-  "creator.ui_component.checkbox": CheckboxRenderer,
-  "creator.ui_component.radio": RadioRenderer,
-  "creator.ui_component.icon": IconRenderer,
-  "creator.ui_component.image": ImageRenderer,
-  "creator.ui_component.image_stack": ImageStackRenderer,
-  "creator.ui_component.input": InputRenderer,
-  "creator.ui_component.section": SectionRenderer,
-  "creator.ui_component.separator": SeparatorRenderer,
-  "creator.ui_component.tag": TagRenderer,
-  "creator.ui_component.tab": TabRenderer,
-  "creator.ui_component.progress_indicator": ProgressIndicatorRenderer,
-  "creator.ui_component.search_bar": SearchBarRenderer,
-  "creator.ui_component.selectable_item": SelectableItemRenderer,
-  "creator.ui_component.select_trigger": SelectTriggerRenderer,
-  "creator.ui_component.scroll_view": ScrollViewRenderer,
-};
-
-// Namespace migration: for each `creator.*` entry, add an `sdui.*` alias to the
-// same renderer (the loop only transforms `creator.*` keys; `sdui.*` entries are
-// left untouched). The base map is spread last, so any explicitly declared key
-// remains authoritative.
 export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  ...Object.fromEntries(
-    Object.entries(baseUiComponentRegistry)
-      .filter(([k]) => k.startsWith("creator."))
-      .map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
-  ),
-  ...baseUiComponentRegistry,
+  "sdui.ui_component.button": ButtonRenderer,
+  "sdui.ui_component.text": TextRenderer,
+  "sdui.ui_component.card": CardRenderer,
+  "sdui.ui_component.chip": ChipRenderer,
+  "sdui.ui_component.checkbox": CheckboxRenderer,
+  "sdui.ui_component.radio": RadioRenderer,
+  "sdui.ui_component.icon": IconRenderer,
+  "sdui.ui_component.image": ImageRenderer,
+  "sdui.ui_component.image_stack": ImageStackRenderer,
+  "sdui.ui_component.input": InputRenderer,
+  "sdui.ui_component.section": SectionRenderer,
+  "sdui.ui_component.separator": SeparatorRenderer,
+  "sdui.ui_component.tag": TagRenderer,
+  "sdui.ui_component.tab": TabRenderer,
+  "sdui.ui_component.progress_indicator": ProgressIndicatorRenderer,
+  "sdui.ui_component.search_bar": SearchBarRenderer,
+  "sdui.ui_component.selectable_item": SelectableItemRenderer,
+  "sdui.ui_component.select_trigger": SelectTriggerRenderer,
+  "sdui.ui_component.scroll_view": ScrollViewRenderer,
 };

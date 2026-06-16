@@ -14,7 +14,7 @@
 
 ## 1. Context & motivation
 
-The SDUI runtime renders server-driven forms (`creator.snippet.form` + the input
+The SDUI runtime renders server-driven forms (`sdui.snippet.form` + the input
 snippets: `input`, `phone_number_input`, `toggle_input`, `single_select_input`,
 `multi_select_input`, `upload_file`). Two things were broken / missing:
 
@@ -143,7 +143,7 @@ in validity.
 ### Form snippet
 ```jsonc
 {
-  "type": "creator.snippet.form",
+  "type": "sdui.snippet.form",
   "data": {
     "form_id": "campaign",
     "submit_gate": "validate_on_submit",   // NEW; default. or "disable"
@@ -311,7 +311,7 @@ the same "wire stays content, runtime/tokens own device chrome" discipline.
 
 **Country picker is fully wire-driven (supersedes the §10 chip sketch).** The
 generic `Input`'s `leading` slot hosts a `select_trigger` ui_component
-(`creator.ui_component.select_trigger`) — a form-aware node that reads
+(`sdui.ui_component.select_trigger`) — a form-aware node that reads
 `{form_id, field_name, value_display, trailing_icon}`, shows `value_display[value]`,
 and on press dispatches its `on_click` (a `sheet` action). The sheet is a normal
 `page.bottom_sheets[]` entry whose body is the reused `single_select_input` bound

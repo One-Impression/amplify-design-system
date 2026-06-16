@@ -6,7 +6,7 @@ import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 
 /**
- * CardRenderer — renders a `creator.snippet.card` node.
+ * CardRenderer — renders a `sdui.snippet.card` node.
  *
  * Composition mirrors the legacy `CardSnippetType1` shape: an optional
  * header Node, the array of body items, and an optional footer Node. The

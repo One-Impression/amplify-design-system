@@ -36,7 +36,7 @@ load are the **same** operation.
 - `reload({ endpoint, regions, query_params, debounce_ms })` — region-scoped fetch + partial-merge.
 - `set_local` ops incl. `array_toggle` (array membership, for multi-select).
 - Render-bindings: `{ ref: "$.local.<key>" }`, `+contains` (array → bool), `+equals` (scalar → bool); resolved reactively **before** schema validation.
-- `creator.snippet.skeleton` — BFF-composed placeholder (`rows`/`repeat`/`card`), no hardcoded shape.
+- `sdui.snippet.skeleton` — BFF-composed placeholder (`rows`/`repeat`/`card`), no hardcoded shape.
 
 ### Base scaffold (runtime architecture)
 `usePageScaffold(page)` owns the cross-cutting concerns so a layout is pure geometry:
@@ -62,7 +62,7 @@ existing envelope shape, not a new structure.
 ### Phase 1 — Contract (SDK 3.4.0, additive)
 - `reload` action + `regions: string[]` (replace `reload_page`/`reload_content`).
 - `array_toggle` set_local op (done; ensure in 3.4.0).
-- Promote `creator.snippet.skeleton` to a typed SDK schema.
+- Promote `sdui.snippet.skeleton` to a typed SDK schema.
 - Bindings need no schema change. → publish 3.4.0 (overlay locally meanwhile).
 
 ### Phase 2 — Runtime base

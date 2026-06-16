@@ -63,76 +63,62 @@ import { ChipRenderer } from "../snippets/Chip/index.js";
  * 43 snippets covering layout, headers, footers, cards, images,
  * info rows, inputs, and chips.
  */
-const baseSnippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
+export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
   // Layout / Utility
-  // First citizen of the domain-neutral `sdui.*` namespace (see migration plan).
   "sdui.snippet.composite": CompositeRenderer,
-  "creator.snippet.group_config": GroupConfigRenderer,
-  "creator.snippet.group_steps": GroupStepsRenderer,
-  "creator.snippet.group_snippets": GroupSnippetsRenderer,
-  "creator.snippet.group_chips": GroupChipsRenderer,
-  "creator.snippet.card": CardRenderer,
-  "creator.snippet.banner_image": BannerImageRenderer,
-  "creator.snippet.empty_space": EmptySpaceRenderer,
-  "creator.snippet.separator": SeparatorRenderer,
-  "creator.snippet.loader": LoaderRenderer,
-  "creator.snippet.skeleton": SkeletonRenderer,
-  "creator.snippet.aerobar": AerobarRenderer,
-  "creator.snippet.empty_state": EmptyStateRenderer,
-  "creator.snippet.steps": StepsRenderer,
+  "sdui.snippet.group_config": GroupConfigRenderer,
+  "sdui.snippet.group_steps": GroupStepsRenderer,
+  "sdui.snippet.group_snippets": GroupSnippetsRenderer,
+  "sdui.snippet.group_chips": GroupChipsRenderer,
+  "sdui.snippet.card": CardRenderer,
+  "sdui.snippet.banner_image": BannerImageRenderer,
+  "sdui.snippet.empty_space": EmptySpaceRenderer,
+  "sdui.snippet.separator": SeparatorRenderer,
+  "sdui.snippet.loader": LoaderRenderer,
+  "sdui.snippet.skeleton": SkeletonRenderer,
+  "sdui.snippet.aerobar": AerobarRenderer,
+  "sdui.snippet.empty_state": EmptyStateRenderer,
+  "sdui.snippet.steps": StepsRenderer,
 
   // Headers / Footers (11)
-  "creator.snippet.page_header": PageHeaderRenderer,
-  "creator.snippet.page_header_image_stack": PageHeaderImageStackRenderer,
-  "creator.snippet.page_footer": PageFooterRenderer,
-  "creator.snippet.page_footer_with_checkbox": PageFooterWithCheckboxRenderer,
-  "creator.snippet.page_floater_header": PageFloaterHeaderRenderer,
-  "creator.snippet.bottom_sheet_header": BottomSheetHeaderRenderer,
-  "creator.snippet.bottom_sheet_header_with_search": BottomSheetHeaderWithSearchRenderer,
-  "creator.snippet.bottom_sheet_footer": BottomSheetFooterRenderer,
-  "creator.snippet.section_header": SectionHeaderRenderer,
-  "creator.snippet.tabs_footer": TabsFooterRenderer,
-  "creator.snippet.tabs": TabsRenderer,
+  "sdui.snippet.page_header": PageHeaderRenderer,
+  "sdui.snippet.page_header_image_stack": PageHeaderImageStackRenderer,
+  "sdui.snippet.page_footer": PageFooterRenderer,
+  "sdui.snippet.page_footer_with_checkbox": PageFooterWithCheckboxRenderer,
+  "sdui.snippet.page_floater_header": PageFloaterHeaderRenderer,
+  "sdui.snippet.bottom_sheet_header": BottomSheetHeaderRenderer,
+  "sdui.snippet.bottom_sheet_header_with_search": BottomSheetHeaderWithSearchRenderer,
+  "sdui.snippet.bottom_sheet_footer": BottomSheetFooterRenderer,
+  "sdui.snippet.section_header": SectionHeaderRenderer,
+  "sdui.snippet.tabs_footer": TabsFooterRenderer,
+  "sdui.snippet.tabs": TabsRenderer,
 
   // Card / Layout containers (4)
-  "creator.snippet.bottom_sheet": BottomSheetRenderer,
-  "creator.snippet.bottom_sheet_input_section": BottomSheetInputSectionRenderer,
-  "creator.snippet.bottom_sheet_input": BottomSheetInputRenderer,
-  "creator.snippet.form": FormRenderer,
+  "sdui.snippet.bottom_sheet": BottomSheetRenderer,
+  "sdui.snippet.bottom_sheet_input_section": BottomSheetInputSectionRenderer,
+  "sdui.snippet.bottom_sheet_input": BottomSheetInputRenderer,
+  "sdui.snippet.form": FormRenderer,
 
   // Image snippets (3)
-  "creator.snippet.image_carousel": ImageCarouselRenderer,
-  "creator.snippet.image_stack": ImageStackRenderer,
-  "creator.snippet.overlapping_image": OverlappingImageRenderer,
+  "sdui.snippet.image_carousel": ImageCarouselRenderer,
+  "sdui.snippet.image_stack": ImageStackRenderer,
+  "sdui.snippet.overlapping_image": OverlappingImageRenderer,
 
   // Info / List (6)
-  "creator.snippet.info_row": InfoRowRenderer,
-  "creator.snippet.info_progress_row": InfoProgressRowRenderer,
-  "creator.snippet.info_icon_row": InfoIconRowRenderer,
-  "creator.snippet.info_media_row": InfoMediaRowRenderer,
-  "creator.snippet.info_breakdown_row": InfoBreakdownRowRenderer,
-  "creator.snippet.list": ListRenderer,
+  "sdui.snippet.info_row": InfoRowRenderer,
+  "sdui.snippet.info_progress_row": InfoProgressRowRenderer,
+  "sdui.snippet.info_icon_row": InfoIconRowRenderer,
+  "sdui.snippet.info_media_row": InfoMediaRowRenderer,
+  "sdui.snippet.info_breakdown_row": InfoBreakdownRowRenderer,
+  "sdui.snippet.list": ListRenderer,
 
   // Input / Selection
-  "creator.snippet.input": InputRenderer,
-  "creator.snippet.toggle_input": ToggleInputRenderer,
-  "creator.snippet.single_select_input": SingleSelectInputRenderer,
-  "creator.snippet.multi_select_input": MultiSelectInputRenderer,
-  "creator.snippet.upload_file": UploadFileRenderer,
+  "sdui.snippet.input": InputRenderer,
+  "sdui.snippet.toggle_input": ToggleInputRenderer,
+  "sdui.snippet.single_select_input": SingleSelectInputRenderer,
+  "sdui.snippet.multi_select_input": MultiSelectInputRenderer,
+  "sdui.snippet.upload_file": UploadFileRenderer,
 
   // Chip (1)
-  "creator.snippet.chip": ChipRenderer,
-};
-
-// Namespace migration: for each `creator.*` entry, add an `sdui.*` alias to the
-// same renderer (entries already in the `sdui.*` namespace are left untouched —
-// the loop only transforms `creator.*` keys). The base map is spread last, so
-// any explicitly declared key remains authoritative.
-export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  ...Object.fromEntries(
-    Object.entries(baseSnippetRegistry)
-      .filter(([k]) => k.startsWith("creator."))
-      .map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
-  ),
-  ...baseSnippetRegistry,
+  "sdui.snippet.chip": ChipRenderer,
 };

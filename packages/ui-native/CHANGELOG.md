@@ -44,7 +44,7 @@
   - **Region-scoped `reload`** + **partial-page merge** in `usePageStore` (`response.data` shallow-merges, `response.items` replaces; per-region loading flags).
   - **Reactive render-bindings** — `{ ref: "$.local.<key>" }` (+ `contains`/`equals`) resolved before validation in `SduiNode`, so a chip's `selected` / a tab's `active` reflect local state instantly with no reload.
   - **`set_local` `array_toggle`** handler (multi-select membership) + **backend-controlled debounce** in the action engine.
-  - **`creator.snippet.skeleton`** renderer — composable shimmer (`rect`/`line`/`circle` bars, horizontal row groups, padding), shown per region while reloading.
+  - **`sdui.snippet.skeleton`** renderer — composable shimmer (`rect`/`line`/`circle` bars, horizontal row groups, padding), shown per region while reloading.
   - Fixes: Chip wires `on_click` via the pressable + shows a remove × (trailing) via the icon-store glyph; `TabsFooter` bottom safe-area; nav host hides the native header when a header **region** is declared (`data.header_skeleton`), not only `data.header`.
 
   **ui-native**

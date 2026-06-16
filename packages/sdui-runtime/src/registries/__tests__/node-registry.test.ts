@@ -9,7 +9,7 @@ import {
 
 test("resolveRenderer — known ui_component type returns a renderer", () => {
   _resetResolveRendererState();
-  const renderer = resolveRenderer("creator.ui_component.text");
+  const renderer = resolveRenderer("sdui.ui_component.text");
   // We don't assert on identity (the renderer is a React component
   // function pulled in via the registry) — only that resolution
   // succeeded and the return value is a function.
@@ -18,14 +18,14 @@ test("resolveRenderer — known ui_component type returns a renderer", () => {
 
 test("resolveRenderer — known snippet type returns a renderer", () => {
   _resetResolveRendererState();
-  const renderer = resolveRenderer("creator.snippet.steps");
+  const renderer = resolveRenderer("sdui.snippet.steps");
   assert.equal(typeof renderer, "function");
 });
 
 test("resolveRenderer — unknown type returns null (does not throw)", () => {
   _resetResolveRendererState();
   // The whole point: a totally bogus type degrades gracefully.
-  const renderer = resolveRenderer("creator.ui_component.does_not_exist");
+  const renderer = resolveRenderer("sdui.ui_component.does_not_exist");
   assert.equal(renderer, null);
 });
 
@@ -44,12 +44,12 @@ test("resolveRenderer — warning fires once per unknown type", () => {
     calls.push(type);
   });
 
-  resolveRenderer("creator.ui_component.ghost");
-  resolveRenderer("creator.ui_component.ghost");
-  resolveRenderer("creator.ui_component.ghost");
+  resolveRenderer("sdui.ui_component.ghost");
+  resolveRenderer("sdui.ui_component.ghost");
+  resolveRenderer("sdui.ui_component.ghost");
 
-  assert.deepEqual(calls, ["creator.ui_component.ghost"]);
-  assert.ok(_unknownTypesWarned.has("creator.ui_component.ghost"));
+  assert.deepEqual(calls, ["sdui.ui_component.ghost"]);
+  assert.ok(_unknownTypesWarned.has("sdui.ui_component.ghost"));
 });
 
 test("resolveRenderer — distinct unknown types each warn once", () => {
@@ -59,13 +59,13 @@ test("resolveRenderer — distinct unknown types each warn once", () => {
     calls.push(type);
   });
 
-  resolveRenderer("creator.ui_component.alpha");
-  resolveRenderer("creator.ui_component.beta");
-  resolveRenderer("creator.ui_component.alpha");
-  resolveRenderer("creator.ui_component.beta");
+  resolveRenderer("sdui.ui_component.alpha");
+  resolveRenderer("sdui.ui_component.beta");
+  resolveRenderer("sdui.ui_component.alpha");
+  resolveRenderer("sdui.ui_component.beta");
 
   assert.deepEqual(calls.sort(), [
-    "creator.ui_component.alpha",
-    "creator.ui_component.beta",
+    "sdui.ui_component.alpha",
+    "sdui.ui_component.beta",
   ]);
 });

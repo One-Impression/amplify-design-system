@@ -92,11 +92,11 @@ context; arrays become CSV in query params.
 
 ## 6. Skeletons
 
-`creator.snippet.skeleton` is a BFF-composed shimmer — the runtime supplies the pulse, you
+`sdui.snippet.skeleton` is a BFF-composed shimmer — the runtime supplies the pulse, you
 compose the shape:
 
 ```jsonc
-{ "type": "creator.snippet.skeleton", "id": "skel-header", "data": {
+{ "type": "sdui.snippet.skeleton", "id": "skel-header", "data": {
   "padding": 16,
   "rows": [
     { "row": [ { "shape": "line", "height": 24, "width": "55%" }, { "shape": "circle", "width": 24 } ], "justify": "between" },

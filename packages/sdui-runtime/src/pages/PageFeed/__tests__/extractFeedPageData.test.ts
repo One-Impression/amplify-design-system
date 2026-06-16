@@ -17,10 +17,10 @@ test("returns empty object for primitive data", () => {
 
 test("passes through filters / on_load_more / loader / empty_state", () => {
   const input = {
-    filters: [{ id: "f1", type: "creator.snippet.chip", data: {} }],
+    filters: [{ id: "f1", type: "sdui.snippet.chip", data: {} }],
     on_load_more: { type: "bff_call", payload: {} },
-    loader: { id: "l", type: "creator.snippet.loader", data: {} },
-    empty_state: { id: "e", type: "creator.snippet.empty_state", data: {} },
+    loader: { id: "l", type: "sdui.snippet.loader", data: {} },
+    empty_state: { id: "e", type: "sdui.snippet.empty_state", data: {} },
   };
   const out = extractFeedPageData(input);
   assert.equal(out.filters?.length, 1);
@@ -59,30 +59,30 @@ test("reads footer slot", () => {
   const out = extractFeedPageData({
     footer: {
       id: "home-footer",
-      type: "creator.snippet.tabs_footer",
+      type: "sdui.snippet.tabs_footer",
       data: { items: [], active_index: 0 },
     },
   });
   assert.equal(out.footer?.id, "home-footer");
-  assert.equal(out.footer?.type, "creator.snippet.tabs_footer");
+  assert.equal(out.footer?.type, "sdui.snippet.tabs_footer");
 });
 
 test("reads header slot (sticky top region, distinct from items)", () => {
   const out = extractFeedPageData({
     header: {
       id: "home-header",
-      type: "creator.ui_component.search_bar",
+      type: "sdui.ui_component.search_bar",
       data: { placeholder: { text: "Search" } },
     },
   });
   assert.equal(out.header?.id, "home-header");
-  assert.equal(out.header?.type, "creator.ui_component.search_bar");
+  assert.equal(out.header?.type, "sdui.ui_component.search_bar");
 });
 
 test("missing config + footer + header leaves them undefined (no regression)", () => {
   const out = extractFeedPageData({
     filters: [],
-    loader: { id: "l", type: "creator.snippet.loader", data: {} },
+    loader: { id: "l", type: "sdui.snippet.loader", data: {} },
   });
   assert.equal(out.config, undefined);
   assert.equal(out.footer, undefined);

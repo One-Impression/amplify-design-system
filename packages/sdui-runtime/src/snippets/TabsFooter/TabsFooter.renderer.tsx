@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 /**
  * TabsFooter — bottom navigation row.
  *
- * Renders an array of tab Nodes (each `creator.ui_component.tab`) as a
+ * Renders an array of tab Nodes (each `sdui.ui_component.tab`) as a
  * horizontal flex row, with equal-width slots. Each tab Node is recursed
  * through `<Interpreter />`, which means:
  *

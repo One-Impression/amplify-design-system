@@ -1,5 +1,5 @@
 {
-  "type": "creator.snippet.card",
+  "type": "sdui.snippet.card",
   "id": "campaigns-explore-card-fk-1",
   "on_click": {
     "type": "navigate",
@@ -13,7 +13,7 @@
   },
   "data": {
     "header": {
-      "type": "creator.snippet.overlapping_image",
+      "type": "sdui.snippet.overlapping_image",
       "id": "campaigns-explore-card-cover-fk-1",
       "data": {
         "cover_image": {
@@ -39,7 +39,7 @@
           },
           "right_tags": [
             {
-              "type": "creator.ui_component.tag",
+              "type": "sdui.ui_component.tag",
               "id": "tag-21",
               "data": {
                 "label": {
@@ -63,7 +63,7 @@
     },
     "items": [
       {
-        "type": "creator.snippet.info_row",
+        "type": "sdui.snippet.info_row",
         "id": "campaigns-explore-card-fk-1-brand-name",
         "data": {
           "title": {
@@ -74,7 +74,7 @@
         }
       },
       {
-        "type": "creator.snippet.info_row",
+        "type": "sdui.snippet.info_row",
         "id": "campaigns-explore-card-fk-1-subtitle",
         "data": {
           "title": {
@@ -86,12 +86,12 @@
         }
       },
       {
-        "type": "creator.snippet.group_chips",
+        "type": "sdui.snippet.group_chips",
         "id": "campaigns-explore-card-fk-1-tags",
         "data": {
           "items": [
             {
-              "type": "creator.ui_component.tag",
+              "type": "sdui.ui_component.tag",
               "id": "campaigns-explore-card-fk-1-tag-0",
               "data": {
                 "label": {
@@ -100,7 +100,7 @@
               }
             },
             {
-              "type": "creator.ui_component.tag",
+              "type": "sdui.ui_component.tag",
               "id": "campaigns-explore-card-fk-1-tag-1",
               "data": {
                 "label": {
@@ -112,7 +112,7 @@
         }
       },
       {
-        "type": "creator.snippet.separator",
+        "type": "sdui.snippet.separator",
         "id": "campaigns-explore-card-fk-1-separator",
         "data": {
           "color": "sdui.color.neutral-subtle",
@@ -120,7 +120,7 @@
         }
       },
       {
-        "type": "creator.snippet.info_row",
+        "type": "sdui.snippet.info_row",
         "id": "campaigns-explore-card-fk-1-offer",
         "data": {
           "title": {
@@ -137,7 +137,7 @@
         }
       },
       {
-        "type": "creator.snippet.info_row",
+        "type": "sdui.snippet.info_row",
         "id": "campaigns-explore-card-fk-1-reward-condition",
         "data": {
           "title": {
@@ -155,7 +155,7 @@
       }
     ],
     "footer": {
-      "type": "creator.snippet.info_row",
+      "type": "sdui.snippet.info_row",
       "id": "info-row-11",
       "data": {
         "title": {
