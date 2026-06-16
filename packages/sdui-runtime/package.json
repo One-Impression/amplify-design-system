@@ -39,6 +39,7 @@
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.72.0",
+    "react-native-svg": ">=13.0.0",
     "@one-impression/sdk-native-sdui": "^3.5.0",
     "@one-impression/ui-native": ">=2.0.2",
     "@one-impression/tokens-creator": ">=3.0.0",
