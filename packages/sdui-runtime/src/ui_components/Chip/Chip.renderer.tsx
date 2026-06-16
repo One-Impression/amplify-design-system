@@ -41,6 +41,11 @@ export function ChipRenderer(node: Node): React.ReactElement {
               <IconGlyph name={v.icon.name} size={v.icon.size} color={v.icon.color} />
             ) : undefined
           }
+          // A selected (multi-select / filter) chip shows a remove × as a
+          // TRAILING icon — the conventional remove affordance. Reactive
+          // because `selected` is render-bound, so the × appears/disappears the
+          // instant the chip toggles. (Matches the snippet Chip renderer.)
+          trailingIcon={v.selected ? <IconGlyph name="close" size={14} /> : undefined}
         />
       )}
     </SduiNode>
