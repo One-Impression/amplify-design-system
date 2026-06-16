@@ -96,20 +96,20 @@ const CAMPAIGNS = [
 
 const CATEGORY_LABEL = Object.fromEntries(FILTERS.map((f) => [f.id, f.label]));
 
-// One region-scoped `reload` verb. `regions` names what it refreshes:
+// One UI-zone-scoped `reload` verb. `ui_zones` names what it refreshes:
 //   ["content"]            → filter toggle / pull-refresh (header + footer stay)
 //   ["header","content"]   → tab switch / first load (footer shell stays)
-// The runtime sends `regions` + the bound context to the server, shows each
-// region's skeleton while in flight, and merges the partial response. The
+// The runtime sends `ui_zones` + the bound context to the server, shows each
+// zone's skeleton while in flight, and merges the partial response. The
 // context cursor lives entirely in the local store via `{ ref: "$.local.* }`.
 const boundContext = {
   tab: { ref: "$.local.selected_tab" },
   filter: { ref: "$.local.selected_filters" },
 };
-const reload = (regions, debounceMs) => ({
+const reload = (uiZones, debounceMs) => ({
   type: "reload",
   ...(debounceMs ? { debounce_ms: debounceMs } : {}),
-  payload: { endpoint: "creator.campaigns.list", method: "GET", regions, query_params: { ...boundContext } },
+  payload: { endpoint: "creator.campaigns.list", method: "GET", ui_zones: uiZones, query_params: { ...boundContext } },
 });
 
 function campaignCard(c) {
@@ -311,27 +311,31 @@ const settingsContent = () => [
   ]),
 ];
 
-function headerRegion(tab, filters) {
-  if (tab === "saved") return settingsHeader();
-  const tabLabel = TABS.find((t) => t.id === tab).label;
-  const subtitle =
-    filters.length > 0
-      ? `${selectCampaigns(tab, filters).length} in ${filters.map((f) => CATEGORY_LABEL[f]).join(", ")}`
-      : `${selectCampaigns(tab, filters).length} campaigns`;
-  return [
-    {
-      type: "sdui.snippet.page_header",
-      id: "feed-hdr",
-      data: {
-        title: { text: "My Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
-        subtitle: { text: `${tabLabel} · ${subtitle}`, color: "sdui.color.neutral-inverse" },
-        right_icon: { name: "search", color: "sdui.color.neutral-inverse" },
-        background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
-      },
-    },
-    // Chips' selected state is render-bound to local — instant, no reload.
-    { type: "sdui.snippet.group_chips", id: "feed-filters", data: { items: FILTERS.map(filterChip) } },
-  ];
+// The header zone is a SINGLE node (the producer wraps its children in one
+// container). Here: a section holding the page_header + the filter chip row.
+function headerZone(tab, filters) {
+  const children =
+    tab === "saved"
+      ? [].concat(settingsHeader())
+      : [
+          {
+            type: "sdui.snippet.page_header",
+            id: "feed-hdr",
+            data: {
+              title: { text: "My Campaigns", font_size: "sdui.font-size.xl", font_weight: "bold", color: "sdui.color.neutral-inverse" },
+              subtitle: { text: `${TABS.find((t) => t.id === tab).label} · ${
+                filters.length > 0
+                  ? `${selectCampaigns(tab, filters).length} in ${filters.map((f) => CATEGORY_LABEL[f]).join(", ")}`
+                  : `${selectCampaigns(tab, filters).length} campaigns`
+              }`, color: "sdui.color.neutral-inverse" },
+              right_icon: { name: "search", color: "sdui.color.neutral-inverse" },
+              background: { gradient: { colors: ["#7C3AED", "#F2F2F2"], angle: 180 } },
+            },
+          },
+          // Chips' selected state is render-bound to local — instant, no reload.
+          { type: "sdui.snippet.group_chips", id: "feed-filters", data: { items: FILTERS.map(filterChip) } },
+        ];
+  return { type: "sdui.ui_component.section", id: "feed-header", data: { items: children } };
 }
 
 const contentItems = (tab, filters) =>
@@ -398,11 +402,11 @@ function buildShell() {
   };
 }
 
-// A `reload` partial response: only the requested regions.
-function buildPartial(regions, tab, filters) {
+// A `reload` partial response: only the requested ui_zones.
+function buildPartial(uiZones, tab, filters) {
   const out = {};
-  if (regions.includes("header")) out.data = { ...(out.data ?? {}), header: headerRegion(tab, filters) };
-  if (regions.includes("content")) out.items = contentItems(tab, filters);
+  if (uiZones.includes("header")) out.data = { ...(out.data ?? {}), header: headerZone(tab, filters) };
+  if (uiZones.includes("content")) out.items = contentItems(tab, filters);
   return out;
 }
 
@@ -444,8 +448,8 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  // Campaigns `reload` — lands here with `regions` (CSV) + the bound context
-  // (tab + filter CSV). Returns a PARTIAL page with only the requested regions:
+  // Campaigns `reload` — lands here with `ui_zones` (CSV) + the bound context
+  // (tab + filter CSV). Returns a PARTIAL page with only the requested ui_zones:
   // `["content"]` → { items }, `["header","content"]` → { data:{header}, items }.
   if (url.startsWith("/v1/creator/campaigns")) {
     // Simulate reload latency only when explicitly opted in (see RELOAD_LATENCY_MS).
@@ -454,9 +458,9 @@ const server = createServer(async (req, res) => {
     const tab = TABS.some((t) => t.id === params.get("tab")) ? params.get("tab") : TABS[0].id;
     const filterCsv = params.get("filter") || "";
     const filters = (filterCsv ? filterCsv.split(",") : []).filter((f) => FILTERS.some((x) => x.id === f));
-    const regions = (params.get("regions") || "content").split(",").filter(Boolean);
-    console.log(`[fixture-server] campaigns reload regions=[${regions.join(",")}] tab=${tab} filters=[${filters.join(",")}]`);
-    json(res, 200, buildPartial(regions, tab, filters));
+    const uiZones = (params.get("ui_zones") || "content").split(",").filter(Boolean);
+    console.log(`[fixture-server] campaigns reload ui_zones=[${uiZones.join(",")}] tab=${tab} filters=[${filters.join(",")}]`);
+    json(res, 200, buildPartial(uiZones, tab, filters));
     return;
   }
 
