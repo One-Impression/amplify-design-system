@@ -1,5 +1,13 @@
 # @one-impression/sdui-runtime
 
+## 3.1.2
+
+### Patch Changes
+
+- [#260](https://github.com/One-Impression/amplify-design-system/pull/260) [`ec2dae6`](https://github.com/One-Impression/amplify-design-system/commit/ec2dae6a67caba5f98e256de46c1e73b6460c7ac) Thanks [@achin-oi](https://github.com/achin-oi)! - GroupChips `layout: "scroll"` now insets the scroll content horizontally so the
+  first/last chip don't sit flush against the screen edge (and align with a
+  full-bleed header title). The wrap layout stays gutter-less (caller owns inset).
+
 ## 3.1.1
 
 ### Patch Changes
