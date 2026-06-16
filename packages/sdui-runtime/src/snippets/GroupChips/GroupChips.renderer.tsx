@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { GroupChipsSchema } from "@one-impression/sdk-native-sdui";
 import { SduiNode } from "../../sdui-node/index.js";
@@ -18,28 +18,44 @@ export function GroupChipsRenderer(node: Node): React.ReactElement {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v) => (
-        // A wrapping row that sizes to its content height. (Previously a
-        // ui-native ScrollView whose `flex: 1` base collapsed to zero height in
-        // a column with no fixed height — e.g. a pinned page header — leaving
-        // the chips invisible. A plain row View has no such viewport-height
-        // dependency and wraps if the chips overflow.)
-        <View style={styles.row}>
-          {v.items?.map((item: Node, i: number) => (
-            <Interpreter key={item.id || i} node={item} />
-          ))}
-        </View>
-      )}
+      {(v) => {
+        const chips = v.items?.map((item: Node, i: number) => (
+          <Interpreter key={item.id || i} node={item} />
+        ));
+        // No horizontal padding here — the caller's layout (the feed content
+        // gutter, an enclosing section, etc.) owns horizontal inset. Adding it
+        // here double-pads the chip row.
+        if (v.layout === "scroll") {
+          // A single row that scrolls horizontally. A horizontal ScrollView's
+          // height is content-driven (it does NOT collapse the way a vertical
+          // `flex: 1` ScrollView did in a no-height column), so chips stay
+          // visible.
+          return (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.scrollRow}
+            >
+              {chips}
+            </ScrollView>
+          );
+        }
+        return <View style={styles.wrapRow}>{chips}</View>;
+      }}
     </SduiNode>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
+  wrapRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  scrollRow: {
+    flexDirection: "row",
+    gap: 8,
     paddingVertical: 8,
   },
 });
