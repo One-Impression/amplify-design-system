@@ -77,6 +77,23 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Node-Type Namespace Migration (creator.* → sdui.*)
+
+## SDUI Node-Type Namespace Migration (creator.* → sdui.*)
+
+The `@one-impression/sdui-runtime` renderer registries now expose `sdui.*` aliases for every `creator.*` node-type key. Both prefixes resolve to the same renderer during migration.
+
+**Rules:**
+- **New fixtures and emitters** must use `sdui.*` prefixes (e.g. `sdui.snippet.info_row`, `sdui.ui_component.tag`)
+- **Existing `creator.*` keys are retained** for backward compatibility — do not remove them until all emitters have migrated
+- Alias generation skips keys that are already `sdui.*` — explicit `sdui.*` registry entries are never overwritten by derived aliases
+- The resolver dispatch logic (on the `.snippet.` / `.ui_component.` segment) is unchanged
+- See `NAMESPACE-MIGRATION.md` in `@one-impression/sdui-runtime` for the full rollout plan
+
+**Do not** introduce new `creator.*`-prefixed node types. All new node types must be registered under `sdui.*` directly.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
