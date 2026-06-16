@@ -1,5 +1,11 @@
 # @one-impression/sdui-runtime
 
+## 2.8.1
+
+### Patch Changes
+
+- [#237](https://github.com/One-Impression/amplify-design-system/pull/237) [`dc9abb4`](https://github.com/One-Impression/amplify-design-system/commit/dc9abb4e57edf3d54c88c651d877dfdd07b87751) Thanks [@achin-oi](https://github.com/achin-oi)! - Bump the `@one-impression/sdk-native-sdui` peer (and dev) dependency to `^3.5.0`. The ring rendering added in 2.8.0 reads `ProgressSchema.shape`, which only exists from SDK 3.5.0 — the range now states that requirement explicitly. The peer remains optional, so the runtime still degrades gracefully (renders the linear bar) against older SDKs.
+
 ## 2.8.0
 
 ### Minor Changes
