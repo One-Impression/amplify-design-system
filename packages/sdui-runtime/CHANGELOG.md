@@ -1,5 +1,11 @@
 # @one-impression/sdui-runtime
 
+## 2.9.0
+
+### Minor Changes
+
+- [#245](https://github.com/One-Impression/amplify-design-system/pull/245) [`7c45fc2`](https://github.com/One-Impression/amplify-design-system/commit/7c45fc2d30ce235f6e11e2d1082bf61a8a86fdd3) Thanks [@achin-oi](https://github.com/achin-oi)! - Drop `creator.*` node-type support entirely (namespace migration cleanup). The renderer registries are now keyed `sdui.*` only — the transitional `creator.*` keys and alias machinery are removed, and all renderer-internal type literals + playground fixtures are swept to `sdui.*`. Done while no live app consumes the design system, so there is no blast radius; the SDK already emits `sdui.*` only. The resolver (layer-segment dispatch) is unchanged.
+
 ## 2.8.3
 
 ### Patch Changes
