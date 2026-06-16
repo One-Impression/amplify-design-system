@@ -10,6 +10,21 @@ import { SvgXml } from 'react-native-svg';
 /** Cache of already-parsed SVG components keyed by icon name. */
 const svgCache = new Map<string, React.FC<SvgIconProps>>();
 
+/**
+ * Strip comment syntax that is invalid inside an SVG/XML document. Some glyphs
+ * in the icon manifest were authored as JSX and leaked `{/* ... *\/}` comments
+ * (and occasionally HTML `<!-- ... -->` comments) into the markup string. The
+ * `SvgXml` parser treats these as raw text nodes and renders them as bare
+ * strings inside an SVG element, which throws "Text strings must be rendered
+ * within a <Text> component". Removing them is always safe — comments carry no
+ * rendering meaning.
+ */
+function sanitizeSvg(svg: string): string {
+  return svg
+    .replace(/\{\s*\/\*[\s\S]*?\*\/\s*\}/g, "") // JSX comments: {/* ... */}
+    .replace(/<!--[\s\S]*?-->/g, ""); // HTML/XML comments: <!-- ... -->
+}
+
 export interface SvgIconProps {
   width?: number;
   height?: number;
@@ -31,8 +46,10 @@ export function parseSvg(name: string, svg: string): React.FC<SvgIconProps> {
   const cached = svgCache.get(name);
   if (cached) return cached;
 
+  const cleanSvg = sanitizeSvg(svg);
+
   const Component: React.FC<SvgIconProps> = ({ width = 24, height = 24, color }) => {
-    const resolvedSvg = color ? svg.replace(/currentColor/g, color) : svg;
+    const resolvedSvg = color ? cleanSvg.replace(/currentColor/g, color) : cleanSvg;
 
     return React.createElement(SvgXml, {
       xml: resolvedSvg,
