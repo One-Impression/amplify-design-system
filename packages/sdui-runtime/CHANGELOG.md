@@ -1,5 +1,11 @@
 # @one-impression/sdui-runtime
 
+## 2.8.3
+
+### Patch Changes
+
+- [#242](https://github.com/One-Impression/amplify-design-system/pull/242) [`41e6539`](https://github.com/One-Impression/amplify-design-system/commit/41e6539f259db7cf982fb2f1f82648f8cbf87444) Thanks [@achin-oi](https://github.com/achin-oi)! - Alias the `sdui.*` node-type namespace in the renderer registries. Every `creator.snippet.*` / `creator.ui_component.*` key now has an `sdui.*` alias resolving to the same renderer, so both prefixes render identically while emitters migrate `creator.* → sdui.*`. The resolver dispatch (on the `.snippet.`/`.ui_component.` segment) is unchanged; `creator.*` keys are retained for backward compatibility. See `NAMESPACE-MIGRATION.md`.
+
 ## 2.8.2
 
 ### Patch Changes
