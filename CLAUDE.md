@@ -52,10 +52,14 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native primitives (ProgressIndicator, CircularProgress, …); peer deps: react-native-svg >=13.0.0
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### ui-native peer dependencies
+`react-native-svg >=13.0.0` is required (used by `CircularProgress`). Consumers must install it separately.
 
 ## Token File Format
 
