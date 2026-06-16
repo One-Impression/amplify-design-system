@@ -1,5 +1,22 @@
 # @one-impression/sdui-runtime
 
+## 2.8.0
+
+### Minor Changes
+
+- [#233](https://github.com/One-Impression/amplify-design-system/pull/233) [`7810ce3`](https://github.com/One-Impression/amplify-design-system/commit/7810ce3bf2924bcc1e584cb8717955981b838c8f) Thanks [@achin-oi](https://github.com/achin-oi)! - Add circular progress support.
+
+  - **ui-native:** new `CircularProgress` primitive (SVG ring with optional centered content); declares `react-native-svg` as a peer dependency.
+  - **sdui-runtime:** `info_row` progress with `shape: "ring"` now renders the ring (with its `%` label centered) via `right_media`; `shape: "bar"` (default) keeps the linear indicator. Progress `value` is now normalized against `max` (a `value: 41, max: 100` previously rendered as a full bar). `info_row` tags now pass `bg_color`/`label.color` through to the pill instead of dropping them.
+
+  Requires `@one-impression/sdk-native-sdui` with the `ProgressSchema.shape` field.
+
+### Patch Changes
+
+- [#233](https://github.com/One-Impression/amplify-design-system/pull/233) [`7810ce3`](https://github.com/One-Impression/amplify-design-system/commit/7810ce3bf2924bcc1e584cb8717955981b838c8f) Thanks [@achin-oi](https://github.com/achin-oi)! - Strip JSX (`{/* ... */}`) and HTML (`<!-- ... -->`) comments from icon SVG markup before handing it to `SvgXml`. Several manifest glyphs were authored as JSX and leaked comments into the markup string, which `SvgXml` rendered as raw text nodes — throwing "Text strings must be rendered within a `<Text>` component" wherever those icons appeared. Comments carry no rendering meaning, so removing them is always safe.
+
+- [#233](https://github.com/One-Impression/amplify-design-system/pull/233) [`7810ce3`](https://github.com/One-Impression/amplify-design-system/commit/7810ce3bf2924bcc1e584cb8717955981b838c8f) Thanks [@achin-oi](https://github.com/achin-oi)! - `reload` is now latest-wins per region. A new reload of a region takes ownership from any in-flight reload of that region, so rapid/chained tab switches render only the latest response instead of flickering through each one in arrival order (and the last to _arrive_ no longer wins over the last clicked). Reloads targeting disjoint regions still run in parallel; an in-flight reload is aborted only when _all_ its regions are superseded — partial overlap (e.g. a `["content"]` filter over an in-flight `["header","content"]` tab switch) lets the older reload still apply the regions it owns. Skeletons are held across the hand-off. Automatic — no wire/BFF change.
+
 ## 2.7.0
 
 ### Minor Changes
