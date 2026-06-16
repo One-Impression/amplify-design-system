@@ -1,5 +1,11 @@
 # @one-impression/sdui-runtime
 
+## 2.8.2
+
+### Patch Changes
+
+- [#240](https://github.com/One-Impression/amplify-design-system/pull/240) [`5a9f5fb`](https://github.com/One-Impression/amplify-design-system/commit/5a9f5fb33ee7d863834c7dc05f7d5aa39ff68d7b) Thanks [@achin-oi](https://github.com/achin-oi)! - Declare `react-native-svg` as a required peer dependency. The runtime already imports it (icon rendering via `SvgXml`, and `ui-native`'s `CircularProgress` uses it too), but it was undeclared — so consuming apps got no install warning and could ship without native-linking it, crashing at runtime with `RNSVGSvgView … not found`. `INTEGRATION.md` now documents the install + native-rebuild (`pod install` / Gradle) requirement.
+
 ## 2.8.1
 
 ### Patch Changes
