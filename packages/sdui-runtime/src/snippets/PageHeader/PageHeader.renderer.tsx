@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { View, Pressable } from "react-native";
+import { View, Pressable, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { PageHeaderSchema } from "@one-impression/sdk-native-sdui";
@@ -68,7 +68,13 @@ export function PageHeaderRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => (
-        <View style={[{ paddingTop: insets.top }, solidBg ? { backgroundColor: solidBg } : null]}>
+        <View
+          style={[
+            styles.header,
+            { paddingTop: insets.top },
+            solidBg ? { backgroundColor: solidBg } : null,
+          ]}
+        >
           {gradient ? (
             <Gradient item={{ colors: gradient.colors, angle: gradient.angle ?? 90 }} />
           ) : null}
@@ -114,8 +120,33 @@ export function PageHeaderRenderer(node: Node): React.ReactElement {
               </Stack>
             </Stack>
           </Box>
+          {v.sub_row && v.sub_row.length > 0 ? (
+            <View style={styles.subRow}>
+              {v.sub_row.map((n: Node, i: number) => (
+                <Interpreter key={n.id || i} node={n} />
+              ))}
+            </View>
+          ) : null}
         </View>
       )}
     </SduiNode>
   );
 }
+
+const styles = StyleSheet.create({
+  // Soft bottom-edge elevation so the header lifts off the content below it
+  // (the symmetric counterpart to TabsFooter's top-edge shadow). Intrinsic to
+  // the snippet — no wire flag needed.
+  header: {
+    backgroundColor: "transparent",
+    shadowColor: "rgba(0, 0, 0, 0.15)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 4,
+    zIndex: 1,
+  },
+  subRow: {
+    paddingBottom: 8,
+  },
+});
