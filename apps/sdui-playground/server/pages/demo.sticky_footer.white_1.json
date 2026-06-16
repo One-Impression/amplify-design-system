@@ -5,11 +5,11 @@
     "layout": "sticky_footer",
     "data": {
         "footer": {
-            "type": "creator.snippet.page_footer",
+            "type": "sdui.snippet.page_footer",
             "id": "ftr-Continue",
             "data": {
                 "primary_button": {
-                    "type": "creator.ui_component.button",
+                    "type": "sdui.ui_component.button",
                     "id": "btn-Continue",
                     "data": {
                         "label": {
@@ -23,7 +23,7 @@
     },
     "items": [
         {
-            "type": "creator.snippet.page_header",
+            "type": "sdui.snippet.page_header",
             "id": "hdr-Sticky footer",
             "data": {
                 "title": {
@@ -41,7 +41,7 @@
             }
         },
         {
-            "type": "creator.snippet.section_header",
+            "type": "sdui.snippet.section_header",
             "id": "sample-section-header-22",
             "data": {
                 "title": {
@@ -55,7 +55,7 @@
             }
         },
         {
-            "type": "creator.snippet.info_row",
+            "type": "sdui.snippet.info_row",
             "id": "sample-info-row-23",
             "data": {
                 "title": {
@@ -73,12 +73,12 @@
             }
         },
         {
-            "type": "creator.snippet.separator",
+            "type": "sdui.snippet.separator",
             "id": "sample-separator-24",
             "data": {}
         },
         {
-            "type": "creator.snippet.info_row",
+            "type": "sdui.snippet.info_row",
             "id": "sample-info-row-25",
             "data": {
                 "title": {

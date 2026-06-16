@@ -20,7 +20,7 @@ import { SelectableItemRenderer } from "../ui_components/SelectableItem/index.js
 import { SelectTriggerRenderer } from "../ui_components/SelectTrigger/index.js";
 import { ScrollViewRenderer } from "../ui_components/ScrollView/index.js";
 
-export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
+const baseUiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
   "creator.ui_component.button": ButtonRenderer,
   "creator.ui_component.text": TextRenderer,
   "creator.ui_component.card": CardRenderer,
@@ -40,4 +40,17 @@ export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElem
   "creator.ui_component.selectable_item": SelectableItemRenderer,
   "creator.ui_component.select_trigger": SelectTriggerRenderer,
   "creator.ui_component.scroll_view": ScrollViewRenderer,
+};
+
+// Namespace migration: for each `creator.*` entry, add an `sdui.*` alias to the
+// same renderer (the loop only transforms `creator.*` keys; `sdui.*` entries are
+// left untouched). The base map is spread last, so any explicitly declared key
+// remains authoritative.
+export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
+  ...Object.fromEntries(
+    Object.entries(baseUiComponentRegistry)
+      .filter(([k]) => k.startsWith("creator."))
+      .map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
+  ),
+  ...baseUiComponentRegistry,
 };
