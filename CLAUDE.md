@@ -52,10 +52,16 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native UI components; peer deps: `@one-impression/tokens-creator >=3.0.0`, `react-native >=0.72.0`, `react-native-svg >=13.0.0`
+  sdui-runtime/       — SDUI rendering runtime; peer deps include `@one-impression/sdk-native-sdui ^3.5.0` (required for ring rendering via `ProgressSchema.shape`; peer is optional — degrades to linear bar on older SDKs)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+**Peer dependency notes:**
+- `@one-impression/sdui-runtime` requires `@one-impression/sdk-native-sdui ^3.5.0` for ring rendering (`ProgressSchema.shape` was added in 3.5.0). The peer is optional; older SDKs fall back to the linear progress bar.
+- `@one-impression/ui-native` requires `react-native-svg >=13.0.0` as a peer dependency.
 
 ## Token File Format
 
