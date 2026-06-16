@@ -55,6 +55,7 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime interpreter, action engine, bottom-sheet manager, loaders, providers (v2.9.0+: renderer registries are keyed `sdui.*` only — `creator.*` namespace removed)
 ```
 
 ## Token File Format
