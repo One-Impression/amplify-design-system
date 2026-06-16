@@ -1,5 +1,13 @@
 # @one-impression/sdui-runtime
 
+## 3.1.1
+
+### Patch Changes
+
+- [#257](https://github.com/One-Impression/amplify-design-system/pull/257) [`ce68ce9`](https://github.com/One-Impression/amplify-design-system/commit/ce68ce9f224a0d7fc56234e03b968e6ebde57f86) Thanks [@achin-oi](https://github.com/achin-oi)! - ui_component Chip now renders a trailing remove × when `selected` — the
+  conventional multi-select / filter-chip affordance (matches the snippet Chip).
+  Reactive to the render-bound `selected`, so the × appears/disappears instantly.
+
 ## 3.1.0
 
 ### Minor Changes
