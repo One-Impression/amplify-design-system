@@ -17,9 +17,16 @@ npm i @one-impression/sdui-runtime @one-impression/sdk-native-sdui
 ```
 
 Peer dependencies the app must already have (see this package's `peerDependencies`):
-`react`, `react-native`, `@react-navigation/native` + `@react-navigation/native-stack`,
+`react`, `react-native`, `react-native-svg`, `@react-navigation/native` + `@react-navigation/native-stack`,
 `react-native-screens`, `react-native-safe-area-context`, `react-native-gesture-handler`,
 `@gorhom/bottom-sheet`, `@tanstack/react-query`. (`react-native-webview` if you use web-view pages.)
+
+> **`react-native-svg` is required and has a native module.** The runtime renders
+> every icon through it (and `ui-native`'s `CircularProgress` uses it too), so after
+> `npm i` you **must rebuild the native app** (`pod install` for iOS, a Gradle sync
+> for Android) — installing the JS package alone is not enough. A missing native
+> link surfaces at runtime as `RNSVGSvgView … not found` the first time an icon or
+> ring renders.
 
 ## 2. Metro config — one `react` / `react-native`
 
