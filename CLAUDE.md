@@ -52,10 +52,19 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  sdui-runtime/       — SDUI renderer components (Chip, etc.) — server-driven UI primitives
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### SDUI Runtime — Chip
+
+`packages/sdui-runtime/src/ui_components/Chip/Chip.renderer.tsx`
+
+- When `selected` is `true`, the Chip automatically renders a trailing `×` (close) icon (`IconGlyph name="close" size={14}`) — the conventional multi-select / filter-chip remove affordance.
+- The trailing icon is **reactive to the render-bound `selected` state** — it appears/disappears instantly as the chip toggles, with no extra wiring required.
+- Do not manually pass a trailing close icon for selected state; it is injected by the renderer automatically.
 
 ## Token File Format
 
