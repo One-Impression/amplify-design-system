@@ -48,13 +48,13 @@ export interface PageStoreState {
   /** Page-level error. */
   error: string | null;
   /**
-   * Regions with a `reload` currently in flight, keyed by region name
-   * (`"header"`, `"content"`, …). A page renderer shows a region's skeleton
+   * UI zones with a `reload` currently in flight, keyed by zone name
+   * (`"header"`, `"content"`, …). A page renderer shows a zone's skeleton
    * while its entry is true. Set by the `reload` handler from the action's
-   * `regions`, cleared when the partial response merges. Regions not named in
+   * `ui_zones`, cleared when the partial response merges. Zones not named in
    * any in-flight reload (e.g. the footer shell) stay rendered.
    */
-  loadingRegions: Record<string, boolean>;
+  loadingUiZones: Record<string, boolean>;
 }
 
 export interface PageStoreActions {
@@ -92,14 +92,14 @@ export interface PageStoreActions {
   appendItems: (targetId: string, items: Node[], options?: AppendItemsOptions) => void;
   /**
    * Apply a `reload` response as a PARTIAL page: shallow-merge `partial.data`
-   * into the live page's `data` (so unrefreshed regions + skeletons survive)
+   * into the live page's `data` (so unrefreshed UI zones + skeletons survive)
    * and, when `partial.items` is present, replace top-level `items` (raw —
    * node-level fields like `viewability` survive). No-op (with a warning) when
    * no page is loaded.
    */
-  mergeRegions: (partial: { data?: Record<string, unknown>; items?: Node[] }) => void;
-  /** Mark/clear a set of regions as reloading — drives their skeletons. */
-  setRegionsLoading: (regions: string[], loading: boolean) => void;
+  mergeUiZones: (partial: { data?: Record<string, unknown>; items?: Node[] }) => void;
+  /** Mark/clear a set of UI zones as reloading — drives their skeletons. */
+  setUiZonesLoading: (uiZones: string[], loading: boolean) => void;
   /** Set loading state for a specific section. */
   setSectionLoading: (sectionId: string, loading: boolean) => void;
   /** Set error state for a specific section. */
@@ -118,7 +118,7 @@ const initialState: PageStoreState = {
   sections: {},
   loading: false,
   error: null,
-  loadingRegions: {},
+  loadingUiZones: {},
 };
 
 /**
@@ -232,10 +232,10 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
   setPageTree: (page) =>
     set({ page, pageId: page.id, loading: false, error: null }),
 
-  mergeRegions: (partial) =>
+  mergeUiZones: (partial) =>
     set((state) => {
       if (!state.page) {
-        console.warn("usePageStore.mergeRegions: no page loaded");
+        console.warn("usePageStore.mergeUiZones: no page loaded");
         return {};
       }
       const nextData = partial.data
@@ -245,11 +245,11 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
       return { page: { ...state.page, data: nextData, items: nextItems } };
     }),
 
-  setRegionsLoading: (regions, loading) =>
+  setUiZonesLoading: (uiZones, loading) =>
     set((state) => {
-      const next = { ...state.loadingRegions };
-      for (const r of regions) next[r] = loading;
-      return { loadingRegions: next };
+      const next = { ...state.loadingUiZones };
+      for (const z of uiZones) next[z] = loading;
+      return { loadingUiZones: next };
     }),
 
   replaceSection: (sectionId, data) =>
