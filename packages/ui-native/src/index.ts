@@ -85,6 +85,10 @@ export type { TabProps } from './primitives/Tab';
 export { ProgressIndicator } from './primitives/ProgressIndicator';
 export type { ProgressIndicatorProps } from './primitives/ProgressIndicator';
 
+// CircularProgress
+export { CircularProgress } from './primitives/CircularProgress';
+export type { CircularProgressProps } from './primitives/CircularProgress';
+
 // SearchBar
 export { SearchBar } from './primitives/SearchBar';
 export type { SearchBarProps } from './primitives/SearchBar';

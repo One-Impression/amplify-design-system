@@ -32,9 +32,14 @@ export type MediaDescriptor =
   | {
       kind: "progress";
       props: {
+        /** Normalized fraction, 0..1. */
         value: number;
         trackColor?: string;
         fillColor?: string;
+        /** "bar" (default, linear) or "ring" (circular). */
+        shape?: "bar" | "ring";
+        /** Optional label text (rendered centered inside a ring). */
+        label?: string;
       };
     };
 
@@ -97,12 +102,20 @@ export function describeMedia(media: Media): MediaDescriptor | null {
     }
     case "progress": {
       const { progress } = media;
+      // `max` present → value is on a 0..max scale; absent → already a 0..1
+      // fraction (back-compat with callers that pre-normalize).
+      const value =
+        progress.max != null && progress.max > 0
+          ? progress.value / progress.max
+          : progress.value;
       return {
         kind: "progress",
         props: {
-          value: progress.value,
+          value,
           trackColor: progress.track_color,
           fillColor: progress.color,
+          shape: progress.shape,
+          label: progress.label?.text,
         },
       };
     }
