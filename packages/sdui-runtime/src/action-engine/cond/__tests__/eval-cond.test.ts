@@ -85,14 +85,14 @@ test("cond:local eq — structural equality across plain objects", () => {
     type: "cond:local",
     key: "filters",
     op: "eq",
-    value: { tier: "pro", region: "in" },
+    value: { tier: "pro", country: "in" },
   };
   assert.equal(
-    evaluateCond(cond, reader({ filters: { tier: "pro", region: "in" } })),
+    evaluateCond(cond, reader({ filters: { tier: "pro", country: "in" } })),
     true,
   );
   assert.equal(
-    evaluateCond(cond, reader({ filters: { tier: "free", region: "in" } })),
+    evaluateCond(cond, reader({ filters: { tier: "free", country: "in" } })),
     false,
   );
 });

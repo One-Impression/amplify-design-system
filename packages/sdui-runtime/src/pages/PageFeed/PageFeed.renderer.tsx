@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Feed layout — pure zone geometry over {@link usePageScaffold}. Three zones:
- * a pinned `header` (region), a scrolling `content` body (region = top-level
- * `items`, virtualized via FlatList), and a pinned `footer` (region — the shell).
- * The scaffold decides content-vs-skeleton per region; this renderer only places
+ * Feed layout — pure zone geometry over {@link usePageScaffold}. Three UI zones:
+ * a pinned `header`, a scrolling `content` body (= top-level `items`, virtualized
+ * via FlatList), and a pinned `footer` (the shell).
+ * The scaffold decides content-vs-skeleton per zone; this renderer only places
  * each zone and owns content virtualization + viewport-driven infinite scroll.
  */
 export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
@@ -105,7 +105,7 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
     <View style={containerStyle}>
       {gradient ? <Gradient item={gradient} /> : null}
 
-      {/* Pinned header zone — region nodes (page_header + filters) or skeleton. */}
+      {/* Pinned header zone — its node (page_header + filters) or skeleton. */}
       {headerNodes.length > 0 ? (
         <View style={[styles.header, headerIsSkeleton ? { paddingTop: insets.top } : null]}>
           {headerNodes.map((node, i) => (

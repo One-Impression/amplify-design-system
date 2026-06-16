@@ -104,7 +104,7 @@ function CoverLayout({ v }: { v: Record<string, unknown> }): React.ReactElement 
         </Box>
       ) : null}
 
-      {/* Media region — full-bleed, clipped by the surface. Overlay chips sit
+      {/* Media area — full-bleed, clipped by the surface. Overlay chips sit
           on top, pinned to the top corners. */}
       {media ? (
         <View>

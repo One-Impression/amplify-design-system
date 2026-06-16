@@ -131,7 +131,7 @@ export default function App() {
 
 `resolvePage` is the only wired seam — every `navigate` target round-trips through it, so
 navigation stays fully data-driven. The host hides its native header automatically when a
-page declares a header region (`data.header` or `data.header_skeleton`).
+page declares a header zone (`data.header` or `data.header_skeleton`).
 
 ## 6. Registering app-specific snippets
 
