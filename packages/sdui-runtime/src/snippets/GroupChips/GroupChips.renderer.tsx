@@ -57,5 +57,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     paddingVertical: 8,
+    // Leading/trailing inset so the first/last chip don't sit flush against the
+    // screen edge. A horizontal scroll row is typically caller-gutter-less (it
+    // scrolls edge-to-edge), so the inset lives on the scroll content itself.
+    paddingHorizontal: 16,
   },
 });
