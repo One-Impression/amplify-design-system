@@ -126,9 +126,12 @@ const baseSnippetRegistry: Record<string, (node: Node) => React.ReactElement> = 
 
 // Namespace migration: alias every `creator.*` entry to its `sdui.*` key so both
 // prefixes resolve to the same renderer while emitters move creator.* -> sdui.*.
+// Derived aliases are spread FIRST and the explicit base map LAST, so an
+// intentional explicit key (e.g. `sdui.snippet.composite`) always wins over a
+// derived alias and can never be silently overwritten.
 export const snippetRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  ...baseSnippetRegistry,
   ...Object.fromEntries(
     Object.entries(baseSnippetRegistry).map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
   ),
+  ...baseSnippetRegistry,
 };

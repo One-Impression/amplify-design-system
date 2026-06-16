@@ -44,9 +44,11 @@ const baseUiComponentRegistry: Record<string, (node: Node) => React.ReactElement
 
 // Namespace migration: alias every `creator.*` entry to its `sdui.*` key so both
 // prefixes resolve to the same renderer while emitters move creator.* -> sdui.*.
+// Derived aliases are spread FIRST and the explicit base map LAST, so an
+// intentional explicit key always wins over a derived alias.
 export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
-  ...baseUiComponentRegistry,
   ...Object.fromEntries(
     Object.entries(baseUiComponentRegistry).map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
   ),
+  ...baseUiComponentRegistry,
 };
