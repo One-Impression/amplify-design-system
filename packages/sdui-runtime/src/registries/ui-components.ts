@@ -42,13 +42,15 @@ const baseUiComponentRegistry: Record<string, (node: Node) => React.ReactElement
   "creator.ui_component.scroll_view": ScrollViewRenderer,
 };
 
-// Namespace migration: alias every `creator.*` entry to its `sdui.*` key so both
-// prefixes resolve to the same renderer while emitters move creator.* -> sdui.*.
-// Derived aliases are spread FIRST and the explicit base map LAST, so an
-// intentional explicit key always wins over a derived alias.
+// Namespace migration: for each `creator.*` entry, add an `sdui.*` alias to the
+// same renderer (the loop only transforms `creator.*` keys; `sdui.*` entries are
+// left untouched). The base map is spread last, so any explicitly declared key
+// remains authoritative.
 export const uiComponentRegistry: Record<string, (node: Node) => React.ReactElement> = {
   ...Object.fromEntries(
-    Object.entries(baseUiComponentRegistry).map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
+    Object.entries(baseUiComponentRegistry)
+      .filter(([k]) => k.startsWith("creator."))
+      .map(([k, v]) => [k.replace(/^creator\./, "sdui."), v]),
   ),
   ...baseUiComponentRegistry,
 };
