@@ -55,7 +55,13 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime interpreter, action engine, bottom-sheet manager, loaders, providers
 ```
+
+### sdui-runtime notable behaviours
+
+- **`PageHeader` `sub_row`** (v3.2.0): `PageHeader` accepts a `sub_row` slot — content rendered below the title but inside the header surface (e.g. a filter chip row). The header background (solid or gradient) spans the full surface including `sub_row`. The header also carries an intrinsic **bottom-edge shadow (elevation)**, the symmetric counterpart to `TabsFooter`'s top-edge shadow.
+  - Requires peer dependency **`sdk-native-sdui ^4.5.0`**.
 
 ## Token File Format
 
