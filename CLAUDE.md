@@ -51,11 +51,30 @@ packages/
   tokens-brand/       — Brand Platform tokens (purple primary, light/dark themes)
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
+  tokens-oportunities/ — Oportunities tokens (apricot palette, Geist + Inter + JBM, light + dark)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  sdui-runtime/       — SDUI runtime for Creator App (interpreter, action engine, bottom-sheet manager, loaders, providers)
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### sdui-runtime breaking changes
+
+**v3.0.0** (matches `sdk-native-sdui@4.0.0`): renamed `region` → `ui_zone` everywhere.
+
+| Old API | New API |
+|---|---|
+| `getRegion` | `getUiZone` |
+| `isRegionLoading` | `isUiZoneLoading` |
+| `loadingRegions` | `loadingUiZones` |
+| `mergeRegions` | `mergeUiZones` |
+| `setRegionsLoading` | `setUiZonesLoading` |
+| `reload.payload.regions` | `reload.payload.ui_zones` |
+| `?regions=` query param | `?ui_zones=` query param |
+| `REGION-PAGE-MODEL.md` | `UI-ZONE-PAGE-MODEL.md` |
+
+**BFF must emit `ui_zones` (not `regions`) in reload payloads.** SDK peer bumped to `^4.0.0`. Renderer geometry, lifecycle, partial-merge, and skeleton selection are unchanged.
 
 ## Token File Format
 
