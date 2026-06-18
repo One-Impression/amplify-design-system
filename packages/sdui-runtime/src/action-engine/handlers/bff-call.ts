@@ -1,9 +1,9 @@
-import { BffCallPayloadSchema, EndpointPaths } from "@one-impression/sdk-native-sdui";
+import { BffCallPayloadSchema } from "@one-impression/sdk-native-sdui";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 import { useLocalStore } from "../../state/useLocalStore.js";
 import { bindRequestPayload } from "../cond/resolve-request-refs.js";
-import { resolveEndpointUrl, buildBffHeaders } from "./_shared/bff-request.js";
+import { resolveRequestUrl, buildBffHeaders } from "./_shared/bff-request.js";
 
 /**
  * bff_call — fetches a BFF endpoint with auth, dispatches on_success/on_error
@@ -22,13 +22,12 @@ export async function handleBffCall(
   const bound = bindRequestPayload(action.payload, useLocalStore.getState().data);
   const payload = BffCallPayloadSchema.parse(bound);
 
-  // Resolve the endpoint id to a full URL (path lookup + param substitution +
-  // query string) and build the standard header set — shared with reload.
-  // The id is NOT a path; treating it as one would request "/creator.home.tab"
-  // and 404. Throws loudly on an unregistered id or unsubstituted "{param}".
-  const endpointPath = EndpointPaths[payload.endpoint];
-  const url = resolveEndpointUrl(config, {
-    endpoint: payload.endpoint,
+  // Build the full URL path-direct (path-param substitution + query string) and
+  // the standard header set — shared with reload. The BFF emits the concrete
+  // `path`; the runtime fetches `bffBaseUrl + path` verbatim (no id→path
+  // registry). Throws loudly on a missing path or unsubstituted "{param}".
+  const url = resolveRequestUrl(config, {
+    path: payload.path,
     path_params: payload.path_params,
     query_params: payload.query_params,
   });
@@ -55,7 +54,7 @@ export async function handleBffCall(
     });
 
     if (!res.ok) {
-      throw new Error(`BFF ${payload.method} ${endpointPath} returned ${res.status}`);
+      throw new Error(`BFF ${payload.method} ${payload.path} returned ${res.status}`);
     }
 
     // Server may bundle a follow-up action chain in the response body

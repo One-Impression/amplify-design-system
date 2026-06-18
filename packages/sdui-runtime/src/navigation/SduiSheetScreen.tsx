@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -8,12 +8,19 @@ import BottomSheet, {
   type BottomSheetFooterProps,
 } from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { Action } from "@one-impression/sdk-native-sdui";
+import type { Action, Node } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../interpreter/index.js";
 import { useActionEngine } from "../action-engine/useActionEngine.js";
+import { useBffConfig } from "../action-engine/useBffConfig.js";
 import { BottomSheetContext } from "../bottom-sheet/BottomSheetContext.js";
-import { useBottomSheetStore } from "../bottom-sheet/useBottomSheetStore.js";
+import {
+  useBottomSheetStore,
+  type SheetEntry,
+} from "../bottom-sheet/useBottomSheetStore.js";
 import type { SduiRootParamList } from "./navigationRef.js";
+import { registerSurfaceReload } from "./surfaceRegistry.js";
+import { fetchSurfaceDocument } from "./fetchSurfaceDocument.js";
+import { ListRowsSkeleton } from "../loaders/index.js";
 
 const SIZE_TO_SNAP: Record<string, string[]> = {
   small: ["25%"],
@@ -42,12 +49,84 @@ export function SduiSheetScreen({
   navigation,
 }: Props): React.ReactElement | null {
   const sheetId = route.params?.sheetId;
-  const sheet = useBottomSheetStore((s) => s.registry[sheetId]);
+  // Addressable sheets carry a content `path`: they fetch their OWN document on
+  // open instead of reading the static registry. The route's existence is
+  // authoritative for presence either way (B5).
+  const contentPath = route.params?.contentPath;
+  const isAddressable = !!contentPath;
+
+  const staticSheet = useBottomSheetStore((s) => s.registry[sheetId]);
   const actionEngine = useActionEngine();
+  const { bffBaseUrl, authToken } = useBffConfig();
   const sheetRef = useRef<BottomSheet>(null);
   // goBack() is idempotent-guarded: drag-close fires onClose AND the route may
   // already be popping, so guard against a double-pop.
   const poppedRef = useRef(false);
+
+  // Fetched document for an addressable sheet (null until the first fetch
+  // resolves). Static sheets ignore this and read the registry directly.
+  const [fetched, setFetched] = useState<SheetEntry | null>(null);
+
+  // Fetch the sheet's own document path-direct. Used on open and by
+  // reload-by-name. Maps the fetched JSON into the SheetEntry render shape.
+  // `queryParams` (reload-by-name only) ride into the refetch so the document
+  // can reflect what the triggering action passed (e.g. a just-picked address);
+  // the initial open passes none.
+  const fetchContent = useCallback(
+    (queryParams?: Record<string, unknown>) => {
+    if (!contentPath) return;
+    // Clear to the loading state on EVERY fetch — initial open AND reload-by-name
+    // — so the sheet shows its shimmer as feedback that it's (re)loading, matching
+    // the page screen's reload behavior. Content swaps back in when the fetch
+    // resolves.
+    setFetched(null);
+    fetchSurfaceDocument<Partial<SheetEntry> & { items?: Node[] }>(
+      bffBaseUrl,
+      authToken,
+      contentPath,
+      queryParams,
+    )
+      .then((doc) => {
+        setFetched({
+          id: doc.id ?? sheetId,
+          title: doc.title,
+          size: doc.size ?? "medium",
+          items: doc.items ?? [],
+          header: doc.header,
+          footer: doc.footer,
+          on_dismiss: doc.on_dismiss,
+          on_open: doc.on_open,
+          overlay_on_click: doc.overlay_on_click,
+        });
+      })
+      .catch((e: unknown) => {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `[SduiSheetScreen] failed to fetch content for "${sheetId}" (${contentPath}):`,
+          e,
+        );
+      });
+  }, [contentPath, bffBaseUrl, authToken, sheetId]);
+
+  // The effective sheet: the fetched document for addressable sheets, else the
+  // static registry entry (legacy path — kept working untouched).
+  const sheet = isAddressable ? fetched ?? undefined : staticSheet;
+
+  // Addressable sheets fetch their content once on mount (on_load-style).
+  useEffect(() => {
+    if (isAddressable) fetchContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Register a reload handler keyed by this route so reload-by-name targeting
+  // this sheet's name refetches its document. Only addressable sheets refetch;
+  // static sheets have no own-document to refresh.
+  useEffect(() => {
+    if (!isAddressable) return;
+    return registerSurfaceReload(route.key, (opts) =>
+      fetchContent(opts?.queryParams),
+    );
+  }, [isAddressable, route.key, fetchContent]);
 
   const snapPoints = useMemo(
     () => SIZE_TO_SNAP[sheet?.size ?? "medium"] ?? SIZE_TO_SNAP["medium"],
@@ -60,16 +139,25 @@ export function SduiSheetScreen({
     if (navigation.canGoBack()) navigation.goBack();
   }, [navigation]);
 
-  // on_open lifecycle — once, on mount.
+  // on_open lifecycle. Static sheets: fire once on mount (definition is already
+  // in the registry). Addressable sheets: fire once the fetched document
+  // arrives (its on_open ships in that document).
+  const openFiredRef = useRef(false);
   useEffect(() => {
+    if (openFiredRef.current) return;
+    if (isAddressable && !fetched) return; // wait for the document
     if (sheet?.on_open) actionEngine.dispatch(sheet.on_open as Action);
+    openFiredRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAddressable, fetched]);
 
-  // Defensive: a sheet id with no registered definition just closes the route.
+  // Defensive: a STATIC sheet id with no registered definition just closes the
+  // route. Addressable sheets are intentionally empty until their fetch
+  // resolves — never auto-pop them while the document is loading.
   useEffect(() => {
+    if (isAddressable) return;
     if (!sheet) pop();
-  }, [sheet, pop]);
+  }, [isAddressable, sheet, pop]);
 
   // Backdrop tap: fire the overlay click-action (server-driven) — gorhom's
   // pressBehavior="close" handles the actual close → onClose → pop.
@@ -113,7 +201,12 @@ export function SduiSheetScreen({
     [sheet?.footer],
   );
 
-  if (!sheet) return null;
+  // Addressable sheet still fetching its document → PRESENT the sheet now (so it
+  // animates open immediately) showing a shimmer skeleton; swap in content when
+  // the fetch resolves. Only a STATIC sheet with no definition renders nothing
+  // (its auto-pop effect closes the route).
+  const loading = isAddressable && !fetched;
+  if (!loading && !sheet) return null;
 
   return (
     <BottomSheet
@@ -124,28 +217,46 @@ export function SduiSheetScreen({
       enableDynamicSizing={false}
       onClose={handleClose}
       backdropComponent={renderBackdrop}
-      footerComponent={sheet.footer ? renderFooter : undefined}
+      footerComponent={!loading && sheet?.footer ? renderFooter : undefined}
     >
       <BottomSheetContext.Provider value={{ insideSheet: true }}>
-        {/* Pinned header SLOT — a wire `bottom_sheet_header` snippet rendered
-            OUTSIDE the scroll area so it (and any search field it carries)
-            stays put as `items` scroll. Symmetric with the footer slot.
-            Replaces the plain `title` text when present. */}
-        {sheet.header ? <Interpreter node={sheet.header} /> : null}
-        <BottomSheetScrollView
-          contentContainerStyle={[
-            styles.content,
-            // Reserve room so the last item isn't hidden behind the pinned footer.
-            sheet.footer && styles.contentWithFooter,
-          ]}
-        >
-          {!sheet.header && sheet.title ? (
-            <Text style={styles.title}>{sheet.title}</Text>
-          ) : null}
-          {sheet.items.map((node, i) => (
-            <Interpreter key={node.id ?? i} node={node} />
-          ))}
-        </BottomSheetScrollView>
+        {loading || !sheet ? (
+          // Loading state: sheet is open, content is in flight → show the
+          // action-supplied title/subtitle (so the opening sheet reads properly,
+          // not blank) above the shimmer rows. The fetched document's own
+          // header/title takes over once it arrives.
+          <BottomSheetScrollView contentContainerStyle={styles.content}>
+            {route.params?.title ? (
+              <Text style={styles.title}>{route.params.title}</Text>
+            ) : null}
+            {route.params?.subtitle ? (
+              <Text style={styles.subtitle}>{route.params.subtitle}</Text>
+            ) : null}
+            <ListRowsSkeleton />
+          </BottomSheetScrollView>
+        ) : (
+          <>
+            {/* Pinned header SLOT — a wire `bottom_sheet_header` snippet rendered
+                OUTSIDE the scroll area so it (and any search field it carries)
+                stays put as `items` scroll. Symmetric with the footer slot.
+                Replaces the plain `title` text when present. */}
+            {sheet.header ? <Interpreter node={sheet.header} /> : null}
+            <BottomSheetScrollView
+              contentContainerStyle={[
+                styles.content,
+                // Reserve room so the last item isn't hidden behind the pinned footer.
+                sheet.footer && styles.contentWithFooter,
+              ]}
+            >
+              {!sheet.header && sheet.title ? (
+                <Text style={styles.title}>{sheet.title}</Text>
+              ) : null}
+              {sheet.items.map((node, i) => (
+                <Interpreter key={node.id ?? i} node={node} />
+              ))}
+            </BottomSheetScrollView>
+          </>
+        )}
       </BottomSheetContext.Provider>
     </BottomSheet>
   );
@@ -154,5 +265,6 @@ export function SduiSheetScreen({
 const styles = StyleSheet.create({
   content: { paddingHorizontal: 16, paddingBottom: 32 },
   contentWithFooter: { paddingBottom: 96 },
-  title: { fontSize: 18, fontWeight: "700", paddingVertical: 12 },
+  title: { fontSize: 18, fontWeight: "700", paddingTop: 12 },
+  subtitle: { fontSize: 13, color: "#666", paddingBottom: 8 },
 });

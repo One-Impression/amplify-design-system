@@ -24,10 +24,12 @@ const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
 /** Stable key for coalescing repeat dispatches of "the same" action. */
 function debounceKey(action: Action): string {
   const payload = action.payload as
-    | { endpoint?: string; target?: string }
+    | { endpoint?: string; target?: string; path?: string; page?: string }
     | undefined;
   const target = action.target ?? payload?.target ?? "";
-  const endpoint = payload?.endpoint ?? "";
+  // Path-direct actions key on `path` (current surface) or `page` (named
+  // surface); the legacy `endpoint` id is kept as a fallback for old callers.
+  const endpoint = payload?.path ?? payload?.page ?? payload?.endpoint ?? "";
   return `${action.type}|${target}|${endpoint}`;
 }
 

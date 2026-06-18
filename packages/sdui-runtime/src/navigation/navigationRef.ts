@@ -16,9 +16,28 @@ export type SduiRootParamList = {
     // simple_push | none. presentation: card | modal | transparentModal | formSheet.
     transition?: string;
     presentation?: string;
+    // Path the surface was fetched with (addressable, path-direct surfaces).
+    // Carried so reload-by-name can reuse it to refetch this exact instance.
+    contentPath?: string;
+    // Header chrome the navigate action supplies for the LOADING phase: shown in
+    // the native header synchronously (before the page document is fetched), so
+    // the shimmer screen reads a proper title/subtitle instead of the raw route
+    // name. The loaded page's own title / wire header reconciles in afterward.
+    title?: string;
+    subtitle?: string;
   };
   SduiSheet: {
     sheetId: string;
+    // When set, the sheet fetches its own document from this path on open
+    // (`on_load`-style) instead of reading the static `useBottomSheetStore`
+    // registry. Also the refetch handle for reload-by-name on the sheet.
+    contentPath?: string;
+    // Header chrome the sheet action supplies for the LOADING phase: rendered
+    // above the shimmer rows while the sheet fetches its document, so an opening
+    // sheet reads a proper title/subtitle. The fetched doc's own header/title
+    // takes over once it arrives.
+    title?: string;
+    subtitle?: string;
   };
 };
 
@@ -39,10 +58,25 @@ export function goBack(): void {
   }
 }
 
-/** Push a bottom sheet as a `transparentModal` route. */
-export function pushSheet(sheetId: string): void {
+/**
+ * Push a bottom sheet as a `transparentModal` route. `contentPath` (optional)
+ * makes this an ADDRESSABLE sheet that fetches its own document from that path
+ * on open instead of reading the static registry — see `SduiSheetScreen`.
+ */
+export function pushSheet(
+  sheetId: string,
+  contentPath?: string,
+  chrome?: { title?: string; subtitle?: string },
+): void {
   if (!navigationRef.isReady()) return;
-  navigationRef.dispatch(StackActions.push(SDUI_SHEET_ROUTE, { sheetId }));
+  navigationRef.dispatch(
+    StackActions.push(SDUI_SHEET_ROUTE, {
+      sheetId,
+      contentPath,
+      title: chrome?.title,
+      subtitle: chrome?.subtitle,
+    }),
+  );
 }
 
 /**
@@ -70,6 +104,13 @@ export function applyNavigate(
     screenId: target,
     transition: params?.transition as string | undefined,
     presentation: params?.presentation as string | undefined,
+    // Path-direct surfaces carry the path they were fetched with so
+    // reload-by-name can refetch this exact instance.
+    contentPath: params?.path as string | undefined,
+    // Loading-phase header chrome (server-driven): shown during the shimmer
+    // before the page document resolves. See SduiRootParamList.SduiPage.
+    title: params?.title as string | undefined,
+    subtitle: params?.subtitle as string | undefined,
   };
   switch (op) {
     case "pop":

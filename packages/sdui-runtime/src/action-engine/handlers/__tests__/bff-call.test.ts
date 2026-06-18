@@ -55,12 +55,14 @@ function jsonResponse(body: unknown, status = 200): Response {
   });
 }
 
+// Path-direct: actions carry the concrete request `path` (no endpoint-id
+// registry). The default path mirrors the old `creator.events.track` endpoint.
 const bffAction = (overrides: Record<string, unknown> = {}): Action =>
   ({
     type: "bff_call",
     payload: {
       method: "POST",
-      endpoint: "creator.events.track",
+      path: "/v1/creator/events/track",
       ...overrides,
     },
   }) as Action;
@@ -213,37 +215,35 @@ test("bff_call — prod BFF + devIdentity set → no X-Dev-Identity header (defe
 });
 
 // ---------------------------------------------------------------------------
-// URL resolution (FIX 2): the endpoint id is a LOGICAL id, not a path. It must
-// be resolved through EndpointPaths (id → "/v1/..."), with no double slash and
-// path-param substitution applied to the resolved path.
+// URL resolution (path-direct): the action carries the concrete request `path`.
+// The runtime fetches `bffBaseUrl + path` verbatim — no endpoint-id registry,
+// no double slash, with `{param}` / `:param` substitution from path_params.
 // ---------------------------------------------------------------------------
 
-test("bff_call — resolves logical endpoint id to its path via EndpointPaths (no double slash)", async () => {
+test("bff_call — fetches bffBaseUrl + path verbatim (no double slash)", async () => {
   let capturedUrl: string | undefined;
   installFetch(async (input) => {
     capturedUrl = input as string;
     return jsonResponse({ ok: true });
   });
-  // creator.events.track → /v1/creator/events/track
   await handleBffCall(
-    bffAction({ endpoint: "creator.events.track" }),
+    bffAction({ path: "/v1/creator/events/track" }),
     noopConfig,
     makeSpyEngine(),
   );
   assert.equal(capturedUrl, "https://bff.example.test/v1/creator/events/track");
 });
 
-test("bff_call — substitutes path params into the resolved path", async () => {
+test("bff_call — substitutes path params into the path (:param and {param})", async () => {
   let capturedUrl: string | undefined;
   installFetch(async (input) => {
     capturedUrl = input as string;
     return jsonResponse({ ok: true });
   });
-  // creator.campaigns.detail → /v1/creator/campaigns/{id}
   await handleBffCall(
     bffAction({
       method: "GET",
-      endpoint: "creator.campaigns.detail",
+      path: "/v1/creator/campaigns/:id",
       path_params: { id: "abc-123" },
     }),
     noopConfig,
@@ -252,20 +252,19 @@ test("bff_call — substitutes path params into the resolved path", async () => 
   assert.equal(capturedUrl, "https://bff.example.test/v1/creator/campaigns/abc-123");
 });
 
-test("bff_call — throws on an unsubstituted path param (template declares {id}, action omits it)", async () => {
+test("bff_call — throws on an unsubstituted path param (path declares :id, action omits it)", async () => {
   installFetch(async () => jsonResponse({ ok: true }));
-  // creator.campaigns.detail → /v1/creator/campaigns/{id}; no path_params supplied.
   await assert.rejects(
     handleBffCall(
-      bffAction({ method: "GET", endpoint: "creator.campaigns.detail" }),
+      bffAction({ method: "GET", path: "/v1/creator/campaigns/:id" }),
       noopConfig,
       makeSpyEngine(),
     ),
-    /unsubstituted path param \{id\}/,
+    /unsubstituted path param :id/,
   );
 });
 
-test("bff_call — appends query params to the resolved path", async () => {
+test("bff_call — appends query params to the path", async () => {
   let capturedUrl: string | undefined;
   installFetch(async (input) => {
     capturedUrl = input as string;
@@ -274,7 +273,7 @@ test("bff_call — appends query params to the resolved path", async () => {
   await handleBffCall(
     bffAction({
       method: "GET",
-      endpoint: "creator.campaigns.list",
+      path: "/v1/creator/campaigns",
       query_params: { status: "open" },
     }),
     noopConfig,
@@ -290,7 +289,7 @@ test("bff_call — trims a trailing slash off bffBaseUrl (no double slash)", asy
     return jsonResponse({ ok: true });
   });
   await handleBffCall(
-    bffAction({ endpoint: "creator.events.track" }),
+    bffAction({ path: "/v1/creator/events/track" }),
     { ...noopConfig, bffBaseUrl: "https://bff.example.test/" },
     makeSpyEngine(),
   );

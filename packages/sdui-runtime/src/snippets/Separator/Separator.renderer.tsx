@@ -19,7 +19,7 @@ export function SeparatorRenderer(node: Node): React.ReactElement {
     >
       {(v) => (
         <DSSeparator
-          orientation={v.variant}
+          variant={v.variant}
           thickness={v.thickness}
           color={v.color}
           spacing={v.margin_vertical}

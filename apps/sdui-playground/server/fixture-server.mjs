@@ -109,7 +109,8 @@ const boundContext = {
 const reload = (uiZones, debounceMs) => ({
   type: "reload",
   ...(debounceMs ? { debounce_ms: debounceMs } : {}),
-  payload: { endpoint: "creator.campaigns.list", method: "GET", ui_zones: uiZones, query_params: { ...boundContext } },
+  // Path-direct: the BFF emits the concrete path; no client endpoint-id registry.
+  payload: { path: "/v1/creator/campaigns", method: "GET", ui_zones: uiZones, query_params: { ...boundContext } },
 });
 
 function campaignCard(c) {
@@ -410,6 +411,173 @@ function buildPartial(uiZones, tab, filters) {
   return out;
 }
 
+// ─── Addressable surfaces + cross-surface reload demo ────────────────────────
+// Exercises the addressable-surfaces feature end to end, BFF-driven, with zero
+// per-surface frontend code:
+//   (a) reload-by-name (nearest): the address-form submit fires
+//       reload{ page: "address-select" } — refreshes the surface one below it.
+//   (b) a sheet that fetches its OWN content on open: the entry page opens a
+//       sheet shell carrying content_path → /v1/demo/apply-checklist; the sheet
+//       fetches that doc on mount (B4).
+//   (c) a 3-level back+reload chain: apply-checklist sheet → address-select page
+//       → address-form page; submit pops to address-select (reload-by-name) and
+//       selecting an address pops to the apply-checklist sheet (reload-by-name).
+//
+// Mutable in-memory state proves the refetch actually happened: adding an
+// address grows the list; selecting one stamps the checklist. Both surfaces are
+// re-fetched (not re-rendered from a cache), so the new state appears only
+// because reload-by-name refetched the named surface's own path.
+const ADDR_PATH = "/v1/demo/address-select";
+const FORM_PATH = "/v1/demo/address-form";
+const CHECKLIST_PATH = "/v1/demo/apply-checklist";
+const ADDR_UPSERT_PATH = "/v1/demo/address/upsert";
+
+const addressState = {
+  addresses: [
+    { id: "a1", label: "Home", line: "12 Linking Road, Bandra, Mumbai 400050" },
+    { id: "a2", label: "Office", line: "WeWork, BKC, Mumbai 400051" },
+  ],
+  selectedId: null,
+};
+
+const infoRowNode = (id, title, subtitle, onClick) => ({
+  type: "sdui.snippet.info_row",
+  id,
+  ...(onClick ? { on_click: onClick } : {}),
+  data: {
+    title: { text: title, font_weight: "medium", font_size: "sdui.font-size.md" },
+    ...(subtitle
+      ? { subtitle: { text: subtitle, color: "sdui.color.neutral-medium", font_size: "sdui.font-size.sm" } }
+      : {}),
+    right_icon: { name: "chevron-right", color: "sdui.color.neutral-medium" },
+  },
+});
+
+// (b) The apply-checklist SHEET document — fetched by the sheet on open and
+// refetched by reload{ page: "apply-checklist" }. The selected address (set by
+// picking a row on address-select) shows here, proving the refetch ran.
+function buildChecklistDoc() {
+  const selected = addressState.addresses.find((a) => a.id === addressState.selectedId);
+  return {
+    id: "apply-checklist",
+    title: "Complete your application",
+    size: "large",
+    items: [
+      {
+        type: "sdui.snippet.section_header",
+        id: "ck-h",
+        data: { title: { text: "Checklist", font_weight: "bold", font_size: "sdui.font-size.lg" } },
+      },
+      infoRowNode(
+        "ck-address",
+        selected ? `Address: ${selected.label}` : "Add billing & shipping",
+        selected ? selected.line : "Tap to choose an address",
+        // Opens the address-select PAGE path-direct (navigate carries the path).
+        { type: "navigate", payload: { op: "push", target: "demo.address-select", params: { path: ADDR_PATH } } },
+      ),
+      {
+        type: "sdui.snippet.info_row",
+        id: "ck-status",
+        data: {
+          title: {
+            text: selected ? "✓ Address selected" : "Address pending",
+            color: selected ? "sdui.color.positive" : "sdui.color.notice",
+            font_size: "sdui.font-size.sm",
+          },
+        },
+      },
+    ],
+  };
+}
+
+// (c) The address-select PAGE — single-select list + "Add a new address". Each
+// row, on tap, persists the selection then back+reload the apply-checklist
+// sheet (reload-by-name). Refetched after the form adds an address (the new row
+// appears only because submit fired reload{ page: "address-select" }).
+function buildAddressSelectPage() {
+  const rows = addressState.addresses.map((a) =>
+    infoRowNode("addr-" + a.id, a.label, a.line, {
+      type: "compound",
+      payload: {
+        actions: [
+          // Persist the selection server-side, then pop back to the sheet and
+          // refetch it by name so the checklist shows the chosen address.
+          { type: "bff_call", payload: { method: "POST", path: ADDR_UPSERT_PATH, request_body: { select: a.id } } },
+          { type: "navigate", payload: { op: "pop", target: "" } },
+          { type: "reload", payload: { page: "apply-checklist", scope: "nearest" } },
+        ],
+      },
+    }),
+  );
+  return {
+    id: "demo.address-select",
+    title: "Select an address",
+    protocol_version: "1.0.0",
+    layout: "standard",
+    items: [
+      {
+        type: "sdui.snippet.section_header",
+        id: "as-h",
+        data: { title: { text: `Your addresses (${addressState.addresses.length})`, font_weight: "bold", font_size: "sdui.font-size.lg" } },
+      },
+      ...rows,
+      infoRowNode("as-add", "+ Add a new address", "Opens the address form", {
+        type: "navigate",
+        payload: { op: "push", target: "demo.address-form", params: { path: FORM_PATH } },
+      }),
+    ],
+    on_back_press: { type: "navigate", payload: { op: "pop", target: "" } },
+  };
+}
+
+// (c) The address-form PAGE — submit POSTs the upsert path, then on_success
+// back+reload the address-select page by name (the 3rd level of the chain).
+function buildAddressFormPage() {
+  return {
+    id: "demo.address-form",
+    title: "Add a new address",
+    protocol_version: "1.0.0",
+    layout: "standard",
+    items: [
+      {
+        type: "sdui.snippet.form",
+        id: "address-form",
+        data: {
+          items: [
+            { type: "sdui.snippet.input", id: "f-label", data: { name: "label", label: { text: "Label" }, placeholder: { text: "Home / Office" } } },
+            { type: "sdui.snippet.input", id: "f-line", data: { name: "line", label: { text: "Address" }, placeholder: { text: "Street, area, city, PIN" } } },
+          ],
+        },
+      },
+      {
+        type: "sdui.ui_component.button",
+        id: "f-submit",
+        data: { label: { text: "Save address" }, variant: "primary" },
+        on_click: {
+          type: "submit",
+          payload: {
+            form_id: "address-form",
+            endpoint: ADDR_UPSERT_PATH,
+            method: "POST",
+            // After the upsert: pop back to address-select and refetch it by
+            // name so the new address appears (reload-by-name, nearest).
+            on_success: {
+              type: "compound",
+              payload: {
+                actions: [
+                  { type: "navigate", payload: { op: "pop", target: "" } },
+                  { type: "reload", payload: { page: "demo.address-select", scope: "nearest" } },
+                ],
+              },
+            },
+          },
+        },
+      },
+    ],
+    on_back_press: { type: "navigate", payload: { op: "pop", target: "" } },
+  };
+}
+
 const server = createServer(async (req, res) => {
   const url = req.url ?? "/";
   // eslint-disable-next-line no-console
@@ -464,6 +632,43 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  // ── Addressable surfaces: path-direct documents fetched on open / reload ──
+  // The sheet fetches CHECKLIST_PATH on open; address-select / address-form are
+  // pages fetched by their navigate `path`; reload-by-name refetches each.
+  const cleanUrl = url.split("?")[0];
+  if (req.method === "GET" && cleanUrl === CHECKLIST_PATH) {
+    json(res, 200, buildChecklistDoc());
+    return;
+  }
+  if (req.method === "GET" && cleanUrl === ADDR_PATH) {
+    json(res, 200, buildAddressSelectPage());
+    return;
+  }
+  if (req.method === "GET" && cleanUrl === FORM_PATH) {
+    json(res, 200, buildAddressFormPage());
+    return;
+  }
+  // Upsert: a form submit ({label,line}) adds an address; a row tap ({select})
+  // sets the selection. Pure state mutation — the follow-up reload-by-name is
+  // what makes the change visible, so we just return ok.
+  if (req.method === "POST" && cleanUrl === ADDR_UPSERT_PATH) {
+    const body = await readJsonBody(req);
+    if (typeof body.select === "string") {
+      addressState.selectedId = body.select;
+    } else if (body.label || body.line) {
+      const id = "a" + (addressState.addresses.length + 1);
+      addressState.addresses.push({
+        id,
+        label: String(body.label ?? "New address"),
+        line: String(body.line ?? ""),
+      });
+      addressState.selectedId = id;
+    }
+    console.log(`[fixture-server] address upsert →`, JSON.stringify(addressState));
+    json(res, 200, { ok: true });
+    return;
+  }
+
   if (url.startsWith(PAGE_PREFIX)) {
     const target = decodeURIComponent(url.slice(PAGE_PREFIX.length));
     // Generated campaigns feed (shell-first region demo) — overrides any on-disk
@@ -471,6 +676,17 @@ const server = createServer(async (req, res) => {
     // skeletons); on_load streams in the default tab via reload.
     if (target === "demo.feed") {
       json(res, 200, buildShell());
+      return;
+    }
+    // Addressable-surface pages are dynamic (state-dependent), so they're
+    // generated rather than read off disk. The initial navigate fetches them by
+    // target here; reload-by-name later refetches them by their path (same doc).
+    if (target === "demo.address-select") {
+      json(res, 200, buildAddressSelectPage());
+      return;
+    }
+    if (target === "demo.address-form") {
+      json(res, 200, buildAddressFormPage());
       return;
     }
     // Guard against path traversal — target is a flat page id, never a path.

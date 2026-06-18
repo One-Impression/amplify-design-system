@@ -4,6 +4,8 @@ import type { ColorToken, SpacingToken } from '../../tokens';
 export interface SeparatorProps extends Omit<ViewProps, 'style'> {
   /** Orientation. Defaults to 'horizontal'. */
   orientation?: 'horizontal' | 'vertical';
+  /** Line style. Defaults to 'solid'. */
+  variant?: 'solid' | 'dashed' | 'dotted';
   /** Color token or raw color string. Defaults to 'neutralSubtle'. */
   color?: ColorToken | string;
   /** Thickness in pixels. Defaults to 1. */

@@ -1,5 +1,7 @@
 export { createActionEngine } from "./action-engine.js";
 export { ActionEngineContext, useActionEngine } from "./useActionEngine.js";
+export { BffConfigContext, useBffConfig } from "./useBffConfig.js";
+export type { BffConfigValue } from "./useBffConfig.js";
 export type {
   ActionEngineConfig,
   ActionEngine,

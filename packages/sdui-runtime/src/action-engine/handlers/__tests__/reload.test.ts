@@ -5,6 +5,13 @@ import type { ActionEngine, ActionEngineConfig } from "../../types.ts";
 import type { Action, Node, Page } from "@one-impression/sdk-native-sdui";
 import { useLocalStore } from "../../../state/useLocalStore.ts";
 import { usePageStore } from "../../../state/usePageStore.ts";
+import {
+  rebuildSurfaceIndex,
+  registerSurfaceReload,
+  setNavigationAccessor,
+  __resetSurfaceRegistry,
+  type NavigationAccessor,
+} from "../../../navigation/surfaceRegistry.ts";
 
 const config: ActionEngineConfig = {
   bffBaseUrl: "https://bff.example.test",
@@ -107,7 +114,7 @@ const reloadAction = (payload: Record<string, unknown>): Action =>
 test("reload — content-only response replaces items, preserves chrome", async () => {
   installFetch({ items: [{ type: "sdui.snippet.composite", id: "c1", data: {} }] });
   await handleReload(
-    reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }),
+    reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] }),
     config,
     noopEngine,
   );
@@ -126,7 +133,7 @@ test("reload — header+content response merges data.header and replaces items",
     items: [{ type: "sdui.snippet.composite", id: "c1", data: {} }],
   });
   await handleReload(
-    reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header", "content"] }),
+    reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["header", "content"] }),
     config,
     noopEngine,
   );
@@ -142,7 +149,7 @@ test("reload — binds $.local refs into the query string", async () => {
   installFetch({ items: [] });
   await handleReload(
     reloadAction({
-      endpoint: "creator.campaigns.list",
+      path: "/v1/creator/campaigns",
       ui_zones: ["content"],
       query_params: { tab: { ref: "$.local.selected_tab" }, filter: { ref: "$.local.selected_filters" } },
     }),
@@ -157,7 +164,7 @@ test("reload — binds $.local refs into the query string", async () => {
 test("reload — clears loading even on a non-OK response (and throws)", async () => {
   installFetch({ error: "boom" }, 500);
   await assert.rejects(
-    () => handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine),
+    () => handleReload(reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] }), config, noopEngine),
     /reload: BFF GET .* returned 500/,
   );
   assert.equal(usePageStore.getState().loadingUiZones.content, false);
@@ -165,8 +172,8 @@ test("reload — clears loading even on a non-OK response (and throws)", async (
 
 test("reload — chained same-zone reloads: latest wins, earlier aborted, skeleton held", async () => {
   const pendings = installDeferredFetch();
-  const a = reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] });
-  const b = reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] });
+  const a = reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] });
+  const b = reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] });
 
   const pA = handleReload(a, config, noopEngine);
   await flush(); // A reaches its fetch (pending)
@@ -192,9 +199,9 @@ test("reload — chained same-zone reloads: latest wins, earlier aborted, skelet
 
 test("reload — disjoint zones run in parallel, neither aborted", async () => {
   const pendings = installDeferredFetch();
-  const pH = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header"] }), config, noopEngine);
+  const pH = handleReload(reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["header"] }), config, noopEngine);
   await flush();
-  const pC = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine);
+  const pC = handleReload(reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] }), config, noopEngine);
   await flush();
 
   assert.equal(pendings.length, 2);
@@ -213,9 +220,9 @@ test("reload — disjoint zones run in parallel, neither aborted", async () => {
 test("reload — partial overlap: newer wins the shared zone, older still applies its own", async () => {
   const pendings = installDeferredFetch();
   // Tab switch: header + content. Filter: content only, lands mid-flight.
-  const pTab = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["header", "content"] }), config, noopEngine);
+  const pTab = handleReload(reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["header", "content"] }), config, noopEngine);
   await flush();
-  const pFilter = handleReload(reloadAction({ endpoint: "creator.campaigns.list", ui_zones: ["content"] }), config, noopEngine);
+  const pFilter = handleReload(reloadAction({ path: "/v1/creator/campaigns", ui_zones: ["content"] }), config, noopEngine);
   await flush();
 
   // Filter took `content`; tab still owns `header`, so its fetch is NOT aborted.
@@ -232,4 +239,109 @@ test("reload — partial overlap: newer wins the shared zone, older still applie
   assert.equal(page.items[0].id, "filtered", "content from the filter reload won; tab's content dropped");
   assert.equal(usePageStore.getState().loadingUiZones.content, false);
   assert.equal(usePageStore.getState().loadingUiZones.header, false);
+});
+
+// ── reload-by-name (B2) ────────────────────────────────────────────────────
+// `reload { page }` resolves an already-open surface by name (relative to the
+// caller / current focused route) and signals THAT surface to refetch — it does
+// not fetch from the caller. We drive a fake route stack so the by-name index
+// resolves; each surface's refetch is its registered handler.
+
+interface FakeRoute {
+  key: string;
+  name: string;
+  params?: { screenId?: string; sheetId?: string; contentPath?: string };
+}
+
+function setStack(routes: FakeRoute[], focusedKey: string): void {
+  const accessor: NavigationAccessor = {
+    isReady: () => true,
+    getRoutes: () => routes,
+    getCurrentRouteKey: () => focusedKey,
+  };
+  setNavigationAccessor(accessor);
+  rebuildSurfaceIndex();
+}
+function clearStack(): void {
+  setNavigationAccessor({
+    isReady: () => false,
+    getRoutes: () => [],
+    getCurrentRouteKey: () => undefined,
+  });
+  __resetSurfaceRegistry();
+}
+const pageRoute = (key: string, screenId: string): FakeRoute => ({
+  key,
+  name: "SduiPage",
+  params: { screenId },
+});
+
+test("reload-by-name — nearest signals the surface just below the caller, not the caller", async () => {
+  __resetSurfaceRegistry();
+  try {
+    // home, address-select, address-form (focused). reload{page:"address-select"}
+    // from the form should refetch address-select, NOT re-fetch the form.
+    setStack(
+      [
+        pageRoute("k1", "home"),
+        pageRoute("k2", "address-select"),
+        pageRoute("k3", "address-form"),
+      ],
+      "k3",
+    );
+    let selectReloads = 0;
+    let formReloads = 0;
+    registerSurfaceReload("k2", () => { selectReloads += 1; });
+    registerSurfaceReload("k3", () => { formReloads += 1; });
+
+    await handleReload(
+      reloadAction({ page: "address-select", scope: "nearest" }),
+      config,
+      noopEngine,
+    );
+    assert.equal(selectReloads, 1, "the named ancestor refetched");
+    assert.equal(formReloads, 0, "the caller did not refetch itself");
+  } finally {
+    clearStack();
+  }
+});
+
+test("reload-by-name — scope:all signals every open instance of the name", async () => {
+  __resetSurfaceRegistry();
+  try {
+    setStack(
+      [pageRoute("k1", "home"), pageRoute("k2", "list"), pageRoute("k3", "list")],
+      "k3",
+    );
+    const hits: string[] = [];
+    registerSurfaceReload("k2", () => hits.push("k2"));
+    registerSurfaceReload("k3", () => hits.push("k3"));
+    await handleReload(reloadAction({ page: "list", scope: "all" }), config, noopEngine);
+    assert.deepEqual(hits.sort(), ["k2", "k3"]);
+  } finally {
+    clearStack();
+  }
+});
+
+test("reload-by-name — no open surface with that name is a no-op (no throw)", async () => {
+  __resetSurfaceRegistry();
+  try {
+    setStack([pageRoute("k1", "home")], "k1");
+    await handleReload(
+      reloadAction({ page: "nonexistent", scope: "nearest" }),
+      config,
+      noopEngine,
+    );
+    // No throw, no fetch — the caller's own page is untouched.
+    assert.ok(true);
+  } finally {
+    clearStack();
+  }
+});
+
+test("reload — requires path or page (schema refine rejects empty)", async () => {
+  await assert.rejects(
+    () => handleReload(reloadAction({}), config, noopEngine),
+    /reload payload requires/,
+  );
 });

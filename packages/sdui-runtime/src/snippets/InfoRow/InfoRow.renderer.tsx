@@ -32,10 +32,18 @@ export function InfoRowRenderer(node: Node): React.ReactElement {
             {v.left_media && renderMedia(v.left_media)}
             <Box flex={1}>
               <Stack direction="column" gap={2}>
+                {/* Default the title larger + heavier than the subtitle so the
+                    row's primary line reads with emphasis (semibold/600 — bold
+                    reads too heavy here). Both overridable per-node. NB: use the
+                    WIRE-FORM token "sdui.font-weight.semibold", not the short
+                    "semiBold": the fontWeight map is keyed lowercase, so the
+                    short camelCase token misses the lookup and falls through as
+                    an invalid RN fontWeight (renders normal). The wire form
+                    resolves via the prefix-stripping path → "600". */}
                 <Text
                   color={v.title.color}
-                  size={v.title.font_size}
-                  weight={v.title.font_weight}
+                  size={v.title.font_size ?? "lg"}
+                  weight={v.title.font_weight ?? "sdui.font-weight.semibold"}
                 >
                   {v.title.text}
                 </Text>
