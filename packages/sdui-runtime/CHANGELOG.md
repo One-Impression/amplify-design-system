@@ -1,5 +1,17 @@
 # @one-impression/sdui-runtime
 
+## 4.0.0
+
+### Major Changes
+
+- [#266](https://github.com/One-Impression/amplify-design-system/pull/266) [`8c56a40`](https://github.com/One-Impression/amplify-design-system/commit/8c56a404f645cbbd1d31d3aaf98a1aa5fb139372) Thanks [@achin-oi](https://github.com/achin-oi)! - Addressable surfaces + runtime-owned navigation. `sdui-runtime` now owns the
+  native-stack host (`SduiNavigationHost`), reload-by-name + path-direct actions,
+  sheet content-fetched-from-own-API, action-driven header chrome, and the
+  `BlinkerDot` indicator; reload/sheet handlers and InfoRow/SectionHeader/Separator
+  renderers updated. Peers on `@one-impression/sdk-native-sdui` `^5.0.0` (breaking).
+
+  `ui-native`: `Separator` gains `variant` (solid/dashed/dotted) + per-state tinting.
+
 ## 3.2.0
 
 ### Minor Changes
