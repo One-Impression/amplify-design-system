@@ -77,6 +77,32 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — Addressable Surfaces
+
+## SDUI Runtime — Addressable Surfaces
+
+`packages/sdui-runtime` now owns native-stack navigation (`SduiNavigationHost`) and supports addressable surfaces. Key patterns introduced in this release:
+
+### Path-direct actions (breaking change from endpoint-id)
+All new `reload`, `bff_call`, and `sheet` actions carry the **API path directly** (e.g. `path: "/v1/creator/campaigns"`). The legacy `endpoint` id lookup (`EndpointPaths` / `getEndpoint`) survives only for already-shipped callers and is being phased out. **Do not use `endpoint` id for new surfaces.**
+
+### Reload-by-name
+`reload` now accepts `{ page: "<page.id | sheet.id>", scope?: "nearest" | "top" | "all" }` to refetch another open surface in the navigation stack. The default scope is `nearest` (highest stack index below the caller). The existing zone-scoped `reload` (no `page` field) is unchanged.
+
+### Self-fetching sheets
+A `sheet` action may carry `content_path` (e.g. `{ sheet_id: "apply-checklist", content_path: "/v1/demo/apply-checklist" }`). The sheet fetches its own document on open and on every `reload-by-name` — no content needs to be embedded in the parent page. Static `bottom_sheets[]` / `useBottomSheetStore.registry` is preserved for existing sheets.
+
+### Peer dependency bump
+`@one-impression/sdk-native-sdui` peer is now **`^5.0.0`** (breaking). `sdui-runtime` is at `3.2.0`; `ui-native` received a minor bump for `Separator` variant support.
+
+### `ui-native` — Separator variants
+`Separator` gains a `variant` prop: `solid` (default) | `dashed` | `dotted`, plus per-state tinting.
+
+### Design doc
+Full architecture (by-name index, coexistence with legacy registry, build stages A–D) is in `packages/sdui-runtime/ADDRESSABLE-SURFACES-DESIGN.md`.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
