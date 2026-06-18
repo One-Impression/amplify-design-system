@@ -132,7 +132,9 @@ export function SduiNode<TSchema extends z.ZodTypeAny>(
   return (
     <SduiErrorBoundary
       nodeId={props.id}
-      fallback={<SduiFallback nodeId={props.id} nodeType={props.type} />}
+      renderFallback={(error) => (
+        <SduiFallback nodeId={props.id} nodeType={props.type} error={error} />
+      )}
     >
       {viewportManaged ? (
         // Managed surface owns the view lifecycle (real visibility) — render the
