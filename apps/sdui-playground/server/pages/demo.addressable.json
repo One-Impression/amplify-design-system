@@ -1,0 +1,31 @@
+{
+  "id": "demo.addressable",
+  "title": "Addressable surfaces",
+  "protocol_version": "1.0.0",
+  "layout": "standard",
+  "items": [
+    {
+      "type": "sdui.snippet.section_header",
+      "id": "ad-h",
+      "data": { "title": { "text": "Cross-surface reload demo", "font_weight": "bold", "font_size": "sdui.font-size.lg" } }
+    },
+    {
+      "type": "sdui.snippet.info_row",
+      "id": "ad-explain",
+      "data": {
+        "title": { "text": "Open the apply checklist", "font_weight": "medium" },
+        "subtitle": { "text": "Sheet fetches its own content on open; address picks reload it by name", "color": "sdui.color.neutral-medium", "font_size": "sdui.font-size.sm" }
+      }
+    },
+    {
+      "type": "sdui.ui_component.button",
+      "id": "ad-open",
+      "data": { "label": { "text": "Open apply checklist" }, "variant": "primary" },
+      "on_click": {
+        "type": "sheet",
+        "payload": { "sheet_id": "apply-checklist", "content_path": "/v1/demo/apply-checklist" }
+      }
+    }
+  ],
+  "on_back_press": { "type": "navigate", "payload": { "op": "pop", "target": "" } }
+}

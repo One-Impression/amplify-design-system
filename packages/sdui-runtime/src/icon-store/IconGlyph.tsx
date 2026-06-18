@@ -6,6 +6,10 @@ import {
 } from "@one-impression/ui-native";
 import { useIconStore } from "./useIconStore.js";
 import { parseSvg } from "./parseSvg.js";
+import { BlinkerDot } from "./BlinkerDot.js";
+
+/** Icon names rendered by an animated runtime component instead of a static glyph. */
+const ANIMATED_ICON = "blinker-dot";
 
 export interface IconGlyphProps {
   name: string;
@@ -29,6 +33,11 @@ export function IconGlyph({ name, color, size }: IconGlyphProps): React.ReactEle
   const SvgIcon = useMemo(() => parseSvg(name, getIcon(name)), [name, getIcon]);
   const px = (typeof size === "number" ? size : resolveIconSize(size ?? "md")) ?? 20;
   const tint = resolveColor(color ?? "neutralStrong") ?? "#1A1A1A";
+  // Animated indicators render as a runtime component (a static SVG can't pulse)
+  // but stay font-like — they take the same resolved colour + px size as a glyph.
+  if (name === ANIMATED_ICON) {
+    return <BlinkerDot color={tint} size={px} />;
+  }
   return (
     <DSIcon name={name} color={color} size={size}>
       <SvgIcon width={px} height={px} color={tint} />

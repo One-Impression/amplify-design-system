@@ -124,6 +124,7 @@ export {
   presentSheet,
   dismissSheet,
   setSheetPresenter,
+  fetchSurfaceDocument,
   SDUI_PAGE_ROUTE,
   SDUI_SHEET_ROUTE,
 } from "./navigation/index.js";

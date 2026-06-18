@@ -16,7 +16,12 @@ import { useBottomSheetStore } from "../bottom-sheet/useBottomSheetStore.js";
  *    using `SduiNavigationHost`), calls fall back to the zustand store's
  *    open()/close() that the gorhom modal host bridges imperatively.
  */
-export type SheetPresenter = (sheetId: string) => void;
+export type SheetChrome = { title?: string; subtitle?: string };
+export type SheetPresenter = (
+  sheetId: string,
+  contentPath?: string,
+  chrome?: SheetChrome,
+) => void;
 export type SheetDismisser = (sheetId?: string) => void;
 
 let _present: SheetPresenter | null = null;
@@ -39,12 +44,21 @@ export function setSheetPresenter(
   };
 }
 
-/** Open a previously-registered sheet by id. Route-based if a host is mounted. */
-export function presentSheet(sheetId: string): void {
+/**
+ * Open a sheet by id. Route-based if a host is mounted. `contentPath` (optional)
+ * makes it an addressable sheet that fetches its own document from that path on
+ * open; the legacy store host ignores it (static sheets only).
+ */
+export function presentSheet(
+  sheetId: string,
+  contentPath?: string,
+  chrome?: SheetChrome,
+): void {
   if (_present) {
-    _present(sheetId);
+    _present(sheetId, contentPath, chrome);
     return;
   }
+  // Legacy store host has no fetch-on-open path; static registry sheets only.
   useBottomSheetStore.getState().open(sheetId);
 }
 

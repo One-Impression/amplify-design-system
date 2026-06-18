@@ -21,7 +21,11 @@ export async function handleReloadSection(
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const url = `${config.bffBaseUrl}/${payload.endpoint}`;
+  // Path-direct: the BFF emits the concrete `path`; fetch `bffBaseUrl + path`
+  // verbatim (no endpoint-id registry). Trim a trailing slash off the base so
+  // we never produce a double slash with the leading-`/` path.
+  const base = config.bffBaseUrl.replace(/\/$/, "");
+  const url = `${base}${payload.path}`;
   const res = await fetch(url, {
     method: payload.payload ? "POST" : "GET",
     headers,
@@ -30,7 +34,7 @@ export async function handleReloadSection(
 
   if (!res.ok) {
     throw new Error(
-      `reload_section: BFF ${payload.endpoint} returned ${res.status}`,
+      `reload_section: BFF ${payload.path} returned ${res.status}`,
     );
   }
 

@@ -11,6 +11,7 @@ export const Separator = React.forwardRef<View, SeparatorProps>(
   (
     {
       orientation = 'horizontal',
+      variant = 'solid',
       color = 'neutralSubtle',
       thickness = 1,
       spacing,
@@ -23,18 +24,44 @@ export const Separator = React.forwardRef<View, SeparatorProps>(
     const resolvedSpacing = resolveSpacing(spacing);
     const isHorizontal = orientation === 'horizontal';
 
+    // The spacing/margin logic is identical across all variants.
+    const spacingStyle = {
+      marginVertical: isHorizontal ? resolvedSpacing : undefined,
+      marginHorizontal: isHorizontal ? undefined : resolvedSpacing,
+    };
+
+    // 'solid' keeps the filled-View approach: a backgroundColor fills the
+    // thickness-sized box. A filled view cannot be dashed/dotted, so
+    // 'dashed'/'dotted' instead draw a border (the line) on a zero-extent,
+    // transparent View.
+    const lineStyle =
+      variant === 'solid'
+        ? {
+            backgroundColor: resolvedColor,
+            [isHorizontal ? 'height' : 'width']: thickness,
+          }
+        : isHorizontal
+          ? {
+              height: 0,
+              borderTopWidth: thickness,
+              borderStyle: variant,
+              borderColor: resolvedColor,
+            }
+          : {
+              width: 0,
+              borderLeftWidth: thickness,
+              borderStyle: variant,
+              borderColor: resolvedColor,
+            };
+
     return (
       <View
         ref={ref}
         accessibilityRole="none"
         style={[
           isHorizontal ? styles.horizontal : styles.vertical,
-          {
-            backgroundColor: resolvedColor,
-            [isHorizontal ? 'height' : 'width']: thickness,
-            marginVertical: isHorizontal ? resolvedSpacing : undefined,
-            marginHorizontal: isHorizontal ? undefined : resolvedSpacing,
-          },
+          lineStyle,
+          spacingStyle,
           style,
         ]}
         {...props}

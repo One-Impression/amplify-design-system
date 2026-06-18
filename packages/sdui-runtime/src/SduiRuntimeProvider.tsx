@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import type { ReactNode } from "react";
 import { createActionEngine } from "./action-engine/action-engine.js";
 import { ActionEngineContext } from "./action-engine/useActionEngine.js";
+import { BffConfigContext } from "./action-engine/useBffConfig.js";
+import type { BffConfigValue } from "./action-engine/useBffConfig.js";
 import { TelemetryContext } from "./telemetry/useTelemetry.js";
 import type { TelemetryEmitter } from "./telemetry/useTelemetry.js";
 import type { ActionEngineConfig } from "./action-engine/types.js";
@@ -56,6 +58,14 @@ export function SduiRuntimeProvider({
     return createActionEngine(config);
   }, [bffConfig.baseUrl, authConfig.getToken, onNavigate, onToast, onDeeplink]);
 
+  // Mirror the two BFF connection facts a path-direct screen-level document
+  // fetch needs (addressable sheet content, reload-by-name refetch) into
+  // context — handlers get the config by argument, screens get it here.
+  const bffConfigValue = useMemo<BffConfigValue>(
+    () => ({ bffBaseUrl: bffConfig.baseUrl, authToken: authConfig.getToken }),
+    [bffConfig.baseUrl, authConfig.getToken],
+  );
+
   // Route unknown-type warnings from the renderer registry through the
   // same telemetry emitter as the rest of the runtime. Memoised on the
   // emitter so swapping it (e.g. test rigs) re-wires the sink.
@@ -67,9 +77,11 @@ export function SduiRuntimeProvider({
 
   return (
     <TelemetryContext.Provider value={telemetryConfig.emitter}>
-      <ActionEngineContext.Provider value={actionEngine}>
-        {children}
-      </ActionEngineContext.Provider>
+      <BffConfigContext.Provider value={bffConfigValue}>
+        <ActionEngineContext.Provider value={actionEngine}>
+          {children}
+        </ActionEngineContext.Provider>
+      </BffConfigContext.Provider>
     </TelemetryContext.Provider>
   );
 }

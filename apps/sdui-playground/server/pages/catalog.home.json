@@ -169,6 +169,36 @@
     },
     {
       "type": "sdui.snippet.info_row",
+      "id": "launcher-addressable",
+      "on_click": {
+        "type": "navigate",
+        "payload": {
+          "op": "push",
+          "target": "demo.addressable"
+        }
+      },
+      "data": {
+        "title": {
+          "text": "Addressable surfaces",
+          "font_weight": "medium",
+          "font_size": "sdui.font-size.md"
+        },
+        "subtitle": {
+          "text": "self-fetching sheet · cross-surface reload-by-name",
+          "color": "sdui.color.text-muted",
+          "font_size": "sdui.font-size.sm"
+        },
+        "card": {},
+        "left_media": {
+          "type": "icon",
+          "icon": {
+            "name": "document"
+          }
+        }
+      }
+    },
+    {
+      "type": "sdui.snippet.info_row",
       "id": "launcher-5",
       "on_click": {
         "type": "navigate",

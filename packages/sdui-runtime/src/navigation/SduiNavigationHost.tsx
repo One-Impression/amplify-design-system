@@ -20,6 +20,11 @@ import {
 } from "./navigationRef.js";
 import { SduiSheetScreen } from "./SduiSheetScreen.js";
 import { setSheetPresenter } from "./sheetPresenter.js";
+import {
+  rebuildSurfaceIndex,
+  registerSurfaceReload,
+  setNavigationAccessor,
+} from "./surfaceRegistry.js";
 
 /**
  * Resolve a screenId (a `navigate` target) to its Page envelope. May be
@@ -47,6 +52,33 @@ export interface SduiNavigationHostProps {
   screenOptions?: NativeStackNavigationOptions;
 }
 
+/**
+ * Stacked native-header title used when a navigate action supplies a subtitle
+ * (native-stack has no built-in subtitle). Rendered on the branded header bg, so
+ * it uses the inverse tint; the subtitle is the same color, dimmed. Only used
+ * when a subtitle is present — titles without one keep the plain string header.
+ */
+function SduiHeaderTitle({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}): React.ReactElement {
+  return (
+    <View style={styles.headerTitleWrap}>
+      <Text style={styles.headerTitle} numberOfLines={1}>
+        {title}
+      </Text>
+      {subtitle ? (
+        <Text style={styles.headerSubtitle} numberOfLines={1}>
+          {subtitle}
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
 const Stack = createNativeStackNavigator<SduiRootParamList>();
 
 type PageScreenProps = NativeStackScreenProps<SduiRootParamList, "SduiPage">;
@@ -57,20 +89,39 @@ function makePageScreen(resolvePage: ResolvePage) {
     navigation,
   }: PageScreenProps): React.ReactElement {
     const screenId = route.params?.screenId;
+    // The path-direct fetch handle. `screenId` is the surface NAME (used by the
+    // by-name index for reload-by-name); `contentPath` is the concrete BFF path
+    // the navigate action carried (`params.path` → route `contentPath`). Fetch
+    // by the path when present, falling back to screenId for surfaces whose
+    // name IS their path (e.g. the initial screen).
+    const contentPath = route.params?.contentPath;
+    const fetchKey = contentPath ?? screenId;
     const [page, setPage] = useState<Page | undefined>(undefined);
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState(true);
+    // Bumped by reload-by-name to re-run the load effect (refetch this page
+    // instance). The route stack stays authoritative for presence; this only
+    // re-triggers the page's OWN fetch.
+    const [reloadNonce, setReloadNonce] = useState(0);
+
+    // Register this page route's refetch handler so reload-by-name targeting
+    // the page's name (screenId) can refresh it. Keyed by route.key so multiple
+    // open instances of the same page each refetch independently.
+    useEffect(
+      () => registerSurfaceReload(route.key, () => setReloadNonce((n) => n + 1)),
+      [route.key],
+    );
 
     // Load the page for this screenId. Re-runs if the route's screenId changes
-    // (it doesn't for a given screen instance, but this keeps it correct). A
-    // sync resolvePage resolves on the first microtask; an async one drives the
-    // skeleton → render / error transition.
+    // or a reload-by-name bumps the nonce. A sync resolvePage resolves on the
+    // first microtask; an async one drives the skeleton → render / error
+    // transition.
     useEffect(() => {
       let alive = true;
       setLoading(true);
       setError(null);
       setPage(undefined);
-      Promise.resolve(resolvePage(screenId))
+      Promise.resolve(resolvePage(fetchKey))
         .then((p) => {
           if (!alive) return;
           setPage(p ?? undefined);
@@ -84,7 +135,7 @@ function makePageScreen(resolvePage: ResolvePage) {
       return () => {
         alive = false;
       };
-    }, [screenId]);
+    }, [fetchKey, reloadNonce]);
 
     // Reflect the loaded page's title in the native header once it arrives
     // (the static screen options can't know it before the fetch resolves).
@@ -102,10 +153,24 @@ function makePageScreen(resolvePage: ResolvePage) {
         | undefined;
       const hasWireHeader = !!data?.header || !!data?.header_skeleton;
       navigation.setOptions({ headerShown: !hasWireHeader });
-      if (page?.title && !hasWireHeader) {
-        navigation.setOptions({ title: page.title });
+      if (!hasWireHeader) {
+        // Reconcile the loaded page into the native header: the page's own title
+        // wins for the title; the action-supplied subtitle (loading chrome)
+        // persists since the page has no wire-header subtitle of its own. With a
+        // subtitle present, render the stacked component; else the plain string.
+        const title = page?.title ?? route.params?.title;
+        const subtitle = route.params?.subtitle;
+        if (title && subtitle) {
+          navigation.setOptions({
+            headerTitle: () => (
+              <SduiHeaderTitle title={title} subtitle={subtitle} />
+            ),
+          });
+        } else if (title) {
+          navigation.setOptions({ title });
+        }
       }
-    }, [page, navigation]);
+    }, [page, navigation, route.params?.title, route.params?.subtitle]);
 
     if (loading) return <DefaultPageSkeleton />;
     if (error) {
@@ -162,15 +227,31 @@ function SduiNavigator({
         // The title starts as the screenId placeholder and is replaced with the
         // page's real title once the (possibly async) load resolves — see the
         // navigation.setOptions in SduiPageScreen.
-        options={({ route }) => ({
-          title: route.params?.screenId ?? "",
-          ...(route.params?.transition
-            ? { animation: route.params.transition as never }
-            : {}),
-          ...(route.params?.presentation
-            ? { presentation: route.params.presentation as never }
-            : {}),
-        })}
+        options={({ route }) => {
+          // Header chrome shown DURING the shimmer (synchronously, before the
+          // page document is fetched). Prefer the navigate-supplied title; fall
+          // back to the route name only when the action carried none (legacy).
+          // A subtitle upgrades the header to the stacked custom component; with
+          // no subtitle we keep the plain string title so existing pages render
+          // exactly as before.
+          const title = route.params?.title ?? route.params?.screenId ?? "";
+          const subtitle = route.params?.subtitle;
+          return {
+            ...(subtitle
+              ? {
+                  headerTitle: () => (
+                    <SduiHeaderTitle title={title} subtitle={subtitle} />
+                  ),
+                }
+              : { title }),
+            ...(route.params?.transition
+              ? { animation: route.params.transition as never }
+              : {}),
+            ...(route.params?.presentation
+              ? { presentation: route.params.presentation as never }
+              : {}),
+          };
+        }}
       />
       {/* Bottom sheets are routes too — presented over the page as a
           transparentModal so the page stays visible behind the dimmed
@@ -208,6 +289,27 @@ export function SduiNavigationHost({
   // focused route — no separate BackHandler needed.
   useEffect(() => setSheetPresenter(pushSheet, popSheet), []);
 
+  // Wire the surface registry's read accessor to the live navigationRef so the
+  // by-name index reads the real route stack (the single source of truth). Done
+  // here rather than in surfaceRegistry's module scope so that module stays free
+  // of the react-navigation import (keeps its resolution logic unit-testable).
+  useEffect(() => {
+    setNavigationAccessor({
+      isReady: () => navigationRef.isReady(),
+      getRoutes: () =>
+        navigationRef.isReady() ? (navigationRef.getState()?.routes ?? []) : [],
+      getCurrentRouteKey: () =>
+        navigationRef.isReady() ? navigationRef.getCurrentRoute()?.key : undefined,
+    });
+  }, []);
+
+  // Maintain the by-name surface index from a SINGLE navigation `state`
+  // listener. The route stack stays the single source of truth; the index is a
+  // derived read structure (see surfaceRegistry). `addListener('state', …)`
+  // fires on every push/pop/replace; we also rebuild once on `onReady` so the
+  // initial route is indexed before any reload-by-name can target it.
+  const handleStateChange = () => rebuildSurfaceIndex();
+
   const navigator = (
     <SduiNavigator
       resolvePage={resolvePage}
@@ -217,13 +319,52 @@ export function SduiNavigationHost({
   );
 
   return standalone ? (
-    <NavigationContainer ref={navigationRef}>{navigator}</NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={handleStateChange}
+      onStateChange={handleStateChange}
+    >
+      {navigator}
+    </NavigationContainer>
   ) : (
-    navigator
+    // Nested mode: no container of our own to hang onReady/onStateChange on.
+    // Attach the same single `state` listener directly to the shared ref.
+    <NestedSurfaceIndexListener>{navigator}</NestedSurfaceIndexListener>
   );
 }
 
+/**
+ * Non-standalone host: the consumer owns the NavigationContainer, so we can't
+ * use its onReady/onStateChange. Attach the same single `state` listener to the
+ * shared `navigationRef` once it's ready, and rebuild immediately.
+ */
+function NestedSurfaceIndexListener({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement {
+  useEffect(() => {
+    if (!navigationRef.isReady()) return;
+    rebuildSurfaceIndex();
+    const unsub = navigationRef.addListener("state", () => rebuildSurfaceIndex());
+    return unsub;
+  }, []);
+  return <>{children}</>;
+}
+
 const styles = StyleSheet.create({
+  headerTitleWrap: { alignItems: "center", justifyContent: "center" },
+  headerTitle: {
+    color: sdui.color.neutralInverse,
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  headerSubtitle: {
+    color: sdui.color.neutralInverse,
+    opacity: 0.8,
+    fontSize: 12,
+    marginTop: 1,
+  },
   missing: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24 },
   missingTitle: { fontSize: 14, color: "#888" },
   missingId: { fontSize: 13, color: "#C00", marginTop: 6 },

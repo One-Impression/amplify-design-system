@@ -1,15 +1,16 @@
-import { EndpointPaths } from '@one-impression/sdk-native-sdui';
 /**
- * endpoint-registry — maps EndpointId strings to concrete HTTP
- * method + path templates.
+ * endpoint-registry — maps legacy endpoint-id strings to concrete HTTP
+ * method + path templates, for the legacy `BffClient` (`bff/client.ts`) and its
+ * hooks only.
  *
- * The EndpointId type comes from @one-impression/sdk-native-sdui. The
- * registry is used by the BFF client to resolve an endpoint identifier
- * (as received in SDUI action payloads) to a fetchable URL.
- *
- * In production this will be code-generated from the creator-bff
- * OpenAPI spec (amplify-schemas task 003). For now, this is a manually
- * maintained registry covering the core endpoints.
+ * NOTE: this id→path registry is the LEGACY anti-pattern the addressable-surface
+ * design retires. New surfaces are **path-direct** — the BFF emits a concrete
+ * `path` and the action handlers (`bff_call` / `reload`) fetch `bffBaseUrl +
+ * path` verbatim with NO client-side id→path lookup (see
+ * `action-engine/handlers/_shared/bff-request.ts`). This map survives only for
+ * already-shipped `BffClient` callers and is not extended for new work; the
+ * codegen'd `EndpointPaths` catalog it used to fall back to has been removed
+ * from `@one-impression/sdk-native-sdui` entirely.
  */
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -96,15 +97,9 @@ export const endpointRegistry: Record<string, EndpointDefinition> = {
 export function getEndpoint(endpointId: string): EndpointDefinition {
   const def = endpointRegistry[endpointId];
   if (def) return def;
-
-  // Fall back to the codegen'd catalog from the contracts package
-  // (EndpointPaths is generated from the creator-bff OpenAPI spec and
-  // covers the full endpoint surface). The catalog carries paths only,
-  // so non-GET endpoints that documents fetch directly must keep an
-  // explicit method entry in endpointRegistry above.
-  const catalogPath = (EndpointPaths as Record<string, string>)[endpointId];
-  if (catalogPath) {
-    return { method: 'GET', path: catalogPath };
-  }
+  // The codegen'd `EndpointPaths` catalog fallback was removed with the
+  // endpoint-id enum (addressable-surfaces, path-direct). Legacy ids not in the
+  // hand-maintained map above are now hard errors — migrate the caller to
+  // path-direct `bff_call` / `reload`.
   throw new Error(`[BFF] Unknown endpoint: "${endpointId}"`);
 }

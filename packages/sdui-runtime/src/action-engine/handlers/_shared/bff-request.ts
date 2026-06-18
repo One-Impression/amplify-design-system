@@ -1,5 +1,3 @@
-import { EndpointPaths } from "@one-impression/sdk-native-sdui";
-import type { EndpointId } from "@one-impression/sdk-native-sdui";
 import { isLocalhostBffUrl } from "../../../bff/is-localhost.js";
 import { useDevConfigStore } from "../../../state/useDevConfigStore.js";
 import { useActiveSocialStore } from "../../../state/useActiveSocialStore.js";
@@ -7,45 +5,56 @@ import type { ActionEngineConfig } from "../../types.js";
 
 /**
  * Shared BFF request plumbing for the network action handlers (bff_call,
- * reload). Keeps endpoint-id → URL resolution and the standard header set
- * in one place so the handlers don't drift apart.
+ * reload). Keeps path → URL construction and the standard header set in one
+ * place so the handlers don't drift apart.
+ *
+ * **Path-direct only — no frontend endpoint-id registry.** Actions carry the
+ * concrete request `path` the BFF emits (e.g. `/v1/creator/campaigns/:id/apply`)
+ * and the runtime fetches `bffBaseUrl + path` verbatim. The old
+ * `EndpointPaths` / `resolveEndpointUrl` id→path lookup is gone (the enum was
+ * deleted from `@one-impression/sdk-native-sdui`): coupling a new endpoint to a
+ * frontend release was the anti-pattern this removes.
  */
 
 /**
- * Resolves a logical endpoint id to a full request URL: looks up the path
- * template, substitutes path params, appends the query string. Throws loudly
- * on an unregistered id or an unsubstituted `{param}` rather than silently
+ * Builds a full request URL from a path-direct `path`: substitutes `{param}` /
+ * `:param` placeholders from `path_params`, appends the query string. Throws
+ * loudly on a missing path or an unsubstituted placeholder rather than silently
  * constructing a wrong URL.
  */
-export function resolveEndpointUrl(
+export function resolveRequestUrl(
   config: ActionEngineConfig,
   opts: {
-    endpoint: EndpointId;
+    path: string;
     path_params?: Record<string, string>;
     query_params?: Record<string, string>;
   },
 ): string {
-  const path = EndpointPaths[opts.endpoint];
-  if (!path) {
-    throw new Error(`no path registered for endpoint id "${opts.endpoint}"`);
+  if (!opts.path) {
+    throw new Error(
+      "bff request requires a `path` (path-direct); no client-side endpoint registry exists",
+    );
   }
 
-  let endpointPath = path;
+  let requestPath = opts.path;
   if (opts.path_params) {
     for (const [key, value] of Object.entries(opts.path_params)) {
-      endpointPath = endpointPath.replace(`{${key}}`, encodeURIComponent(value));
+      // Support both `{param}` (legacy templates) and `:param` (path-direct).
+      requestPath = requestPath
+        .replace(`{${key}}`, encodeURIComponent(value))
+        .replace(`:${key}`, encodeURIComponent(value));
     }
   }
 
-  const unsubstituted = endpointPath.match(/\{[^}]+\}/);
+  const unsubstituted = requestPath.match(/\{[^}]+\}|:[A-Za-z_][A-Za-z0-9_]*/);
   if (unsubstituted) {
     throw new Error(
-      `unsubstituted path param ${unsubstituted[0]} in "${path}" for endpoint "${opts.endpoint}"`,
+      `unsubstituted path param ${unsubstituted[0]} in "${opts.path}"`,
     );
   }
 
   const base = config.bffBaseUrl.replace(/\/$/, "");
-  let url = `${base}${endpointPath}`;
+  let url = `${base}${requestPath}`;
   if (opts.query_params) {
     const qs = new URLSearchParams(opts.query_params).toString();
     if (qs) url += `?${qs}`;

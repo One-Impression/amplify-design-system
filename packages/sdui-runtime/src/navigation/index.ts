@@ -21,3 +21,14 @@ export {
   type SheetPresenter,
   type SheetDismisser,
 } from "./sheetPresenter.js";
+export {
+  rebuildSurfaceIndex,
+  resolveSurface,
+  subscribeSurfaceIndex,
+  pathForRouteKey,
+  registerSurfaceReload,
+  signalSurfaceReload,
+  currentRouteKey,
+  __resetSurfaceRegistry,
+} from "./surfaceRegistry.js";
+export { fetchSurfaceDocument } from "./fetchSurfaceDocument.js";
