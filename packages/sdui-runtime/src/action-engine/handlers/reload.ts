@@ -80,7 +80,7 @@ export async function handleReload(
     const callerKey = currentRouteKey();
     const targets = resolveSurface(payload.page, payload.scope, callerKey);
     if (targets.length === 0) {
-      console.warn(
+      config.logger?.warn(
         `[reload] no open surface named "${payload.page}" to reload (scope=${payload.scope})`,
       );
       return;
@@ -96,7 +96,7 @@ export async function handleReload(
     for (const key of targets) {
       const signalled = signalSurfaceReload(key, reloadOpts);
       if (!signalled) {
-        console.warn(
+        config.logger?.warn(
           `[reload] surface "${payload.page}" (route ${key}) is not listening for refetch`,
         );
       }
