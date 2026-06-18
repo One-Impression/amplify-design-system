@@ -1,6 +1,6 @@
 {
   "name": "sdui-playground",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.14",
     "@one-impression/sdk-native-sdui": "^5.0.0",
-    "@one-impression/sdui-runtime": "^3.0.0",
+    "@one-impression/sdui-runtime": "^4.0.0",
     "@one-impression/tokens-creator": "*",
     "@one-impression/ui-native": "*",
     "@react-navigation/native": "^7.3.1",
