@@ -85,6 +85,23 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## sdui-runtime Notable Releases
+
+## sdui-runtime Notable Releases
+
+### 4.0.1 (patch)
+
+Key behavioral changes engineers consuming `@one-impression/sdui-runtime` must know:
+
+- **Per-instance page store**: `usePageStore` is now keyed by `route.key`, not a single shared `page`/`pageId`. Each navigation screen owns its own store entry, reclaims focus on back-navigation, and drops its entry on unmount. Two screens with the same page id (e.g. two campaign detail screens on the stack) no longer collide.
+- **`submit` action — path-direct migration**: `submit` now resolves URLs via `resolveRequestUrl` and sends headers via `buildBffHeaders` (same as `bff_call` / `reload`). The old `payload.endpoint` field is no longer read — builders must emit `payload.path`. Any form submit silently no-op'd on 4.0.0 if `payload.endpoint` was absent.
+- **`replace_section` / `replaceNode` reach header/footer slots**: Previously only `items` were searched; now sticky header and footer slots are also reachable, enabling section reloads that swap pinned footers.
+- **`PageStandard` / `PageStickyFooter` now sync to `usePageStore`**: Both page types previously rendered from the raw `page` prop and never reflected store updates, so `reload_section` / `replace_section` / `append_items` silently had no effect on them. They now match `PageFeed` behaviour.
+- **Keyboard taps**: `keyboardShouldPersistTaps="handled"` is set on all page scroll containers — in-page action taps (e.g. an inline Verify button beside a focused field) no longer get swallowed by keyboard dismissal.
+- **`Button` icon rendering**: `icon_left` / `icon_right` specs are now rendered via `IconGlyph` directly, not routed through the Interpreter (which threw on absent `type`). Dev `SduiFallback` now surfaces the actual error message for render-time throws.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
