@@ -8,8 +8,10 @@ import BottomSheet, {
   type BottomSheetFooterProps,
 } from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { resolveSpacing } from "@one-impression/ui-native";
 import type { Action, Node } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../interpreter/index.js";
+import { GutterItem, PAGE_GUTTER_TOKEN } from "../layout/page-gutter.js";
 import { useActionEngine } from "../action-engine/useActionEngine.js";
 import { useBffConfig } from "../action-engine/useBffConfig.js";
 import { BottomSheetContext } from "../bottom-sheet/BottomSheetContext.js";
@@ -243,16 +245,26 @@ export function SduiSheetScreen({
             {sheet.header ? <Interpreter node={sheet.header} /> : null}
             <BottomSheetScrollView
               contentContainerStyle={[
-                styles.content,
+                // No horizontal padding here — each item's GutterItem owns the
+                // page gutter, so sheet content aligns with page layouts.
+                styles.scrollBody,
                 // Reserve room so the last item isn't hidden behind the pinned footer.
                 sheet.footer && styles.contentWithFooter,
               ]}
             >
               {!sheet.header && sheet.title ? (
-                <Text style={styles.title}>{sheet.title}</Text>
+                <Text style={[styles.title, styles.titleInset]}>
+                  {sheet.title}
+                </Text>
               ) : null}
+              {/* Wrap each item in GutterItem so sheet content shares the page's
+                  gutter + inter-item gap model (incl. the section_header
+                  GAP_OVERRIDES). The route-based sheet was outside that system,
+                  so its section headers got no vertical gap. */}
               {sheet.items.map((node, i) => (
-                <Interpreter key={node.id ?? i} node={node} />
+                <GutterItem key={node.id ?? i} node={node}>
+                  <Interpreter node={node} />
+                </GutterItem>
               ))}
             </BottomSheetScrollView>
           </>
@@ -262,9 +274,16 @@ export function SduiSheetScreen({
   );
 }
 
+const PAGE_GUTTER_PX = resolveSpacing(PAGE_GUTTER_TOKEN) ?? 12;
+
 const styles = StyleSheet.create({
-  content: { paddingHorizontal: 16, paddingBottom: 32 },
+  // Loading branch — skeleton/title/subtitle aren't GutterItem-wrapped, so inset
+  // them at the page gutter to match the loaded content's alignment.
+  content: { paddingHorizontal: PAGE_GUTTER_PX, paddingBottom: 32 },
+  // Loaded content branch — each item's GutterItem owns the horizontal inset.
+  scrollBody: { paddingBottom: 32 },
   contentWithFooter: { paddingBottom: 96 },
   title: { fontSize: 18, fontWeight: "700", paddingTop: 12 },
+  titleInset: { paddingHorizontal: PAGE_GUTTER_PX },
   subtitle: { fontSize: 13, color: "#666", paddingBottom: 8 },
 });
