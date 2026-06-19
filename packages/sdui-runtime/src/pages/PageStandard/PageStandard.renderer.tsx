@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { BackHandler, ScrollView, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { sdui } from "@one-impression/tokens-creator/react-native";
@@ -11,6 +11,7 @@ import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
 import { usePageStore } from "../../state/usePageStore.js";
 import { useShallow } from "zustand/react/shallow";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 
 interface PageProps {
   page: Page;
@@ -30,18 +31,23 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const insets = useSafeAreaInsets();
 
-  // Live page from the store so reload_section / replace_node / append_items
-  // flow back into the render. The standard layout previously rendered straight
-  // from the `page` prop, so a section reload (e.g. KYC verify → reload the
-  // result container) updated the store but never re-rendered the screen. Sync
-  // the server page into the store on mount and read the live tree back; the
-  // prop is the fallback until that sync commits.
+  // Per-instance store entry (keyed by route.key) so reload_section /
+  // replace_node / append_items flow back into the render without clobbering
+  // other stacked screens. Register + activate on mount, drop on unmount,
+  // re-claim active focus on navigation back. Prop is the fallback until sync.
+  const instanceKey = useRoute().key;
   const livePage = usePageStore(
-    useShallow((s): Page => (s.pageId === page.id && s.page ? s.page : page)),
+    useShallow((s): Page => s.pagesByKey[instanceKey] ?? page),
   );
   useEffect(() => {
-    usePageStore.getState().setPageTree(page);
-  }, [page]);
+    usePageStore.getState().setPageTree(page, instanceKey);
+    return () => usePageStore.getState().dropPage(instanceKey);
+  }, [page, instanceKey]);
+  useFocusEffect(
+    useCallback(() => {
+      usePageStore.getState().activatePage(instanceKey);
+    }, [instanceKey]),
+  );
 
   // Register inline bottom sheets so sheet actions can open them later.
   // Sheets are pre-registered (not opened) — the sheet action handler

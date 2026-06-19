@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
 import { useShallow } from "zustand/react/shallow";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import type { Page, Node, Action } from "@one-impression/sdk-native-sdui";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
@@ -50,20 +51,34 @@ export function usePageScaffold(page: Page): PageScaffold {
   const register = useBottomSheetStore((s) => s.register);
   const unregister = useBottomSheetStore((s) => s.unregister);
 
-  // Live page: store-backed for THIS screen (so reload/append/replace flow back
+  // This screen's unique instance key (route.key) — so two instances of the
+  // same page id keep separate store entries and don't clobber each other.
+  const instanceKey = useRoute().key;
+
+  // Live page: this instance's store entry (so reload/append/replace flow back
   // in), prop fallback before the mount-sync commits or during a nav transition.
   const livePage = usePageStore(
-    useShallow((s): Page => (s.pageId === page.id && s.page ? s.page : page)),
+    useShallow((s): Page => s.pagesByKey[instanceKey] ?? page),
   );
   const loadingUiZones = usePageStore((s) => s.loadingUiZones);
 
   const { refreshing, onRefresh } = usePageRefresh(livePage.on_refresh);
 
-  // Sync the server page into the store on mount / prop change, so action
-  // handlers (reload merge, append_items, replace_node) flow back to the layout.
+  // Register this instance + make it active on mount / prop change; drop it on
+  // unmount so backgrounded trees don't leak. Action handlers (reload merge,
+  // append_items, replace_node) target the active instance and flow back here.
   useEffect(() => {
-    usePageStore.getState().setPageTree(page);
-  }, [page]);
+    usePageStore.getState().setPageTree(page, instanceKey);
+    return () => usePageStore.getState().dropPage(instanceKey);
+  }, [page, instanceKey]);
+
+  // Re-claim active focus on navigation back — so this screen's actions target
+  // its own (cached, content-carrying) tree, not whatever was pushed on top.
+  useFocusEffect(
+    useCallback(() => {
+      usePageStore.getState().activatePage(instanceKey);
+    }, [instanceKey]),
+  );
 
   // Page lifecycle: on_load (once) / on_dismount (unmount).
   useEffect(() => {

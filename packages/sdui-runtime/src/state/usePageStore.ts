@@ -37,10 +37,20 @@ export interface AppendItemsOptions {
 }
 
 export interface PageStoreState {
-  /** Current page identifier. */
+  /** Current (focused) page id — mirrors the active instance, for handlers. */
   pageId: string | null;
-  /** The full SDUI page envelope, when one is loaded. */
+  /** The full SDUI page envelope for the focused instance, when one is loaded. */
   page: Page | null;
+  /** The focused instance's key (navigation route.key). */
+  activeKey: string | null;
+  /**
+   * Live page tree PER instance, keyed by navigation route.key. The store is a
+   * stack-aware cache, not a single page: each mounted screen keeps its own
+   * entry, so pushing another page never clobbers a backgrounded one (a feed
+   * survives a detail push + back) and two instances of the same page id don't
+   * collide. `page`/`pageId`/`activeKey` mirror whichever instance is focused.
+   */
+  pagesByKey: Record<string, Page>;
   /** Sections map keyed by section ID. */
   sections: Record<string, PageSection>;
   /** Whether the full page is loading. */
@@ -60,8 +70,17 @@ export interface PageStoreState {
 export interface PageStoreActions {
   /** Set the current page and its initial sections. */
   setPage: (pageId: string, sections: Record<string, PageSection>) => void;
-  /** Set the full SDUI page envelope (used by the page loader on initial fetch). */
-  setPageTree: (page: Page) => void;
+  /**
+   * Register a page instance and make it the focused (active) one. `instanceKey`
+   * is the navigation `route.key` — unique per push — so two instances of the
+   * SAME page id (e.g. two campaign details on the stack) keep separate trees.
+   * Defaults to `page.id` for legacy callers / tests.
+   */
+  setPageTree: (page: Page, instanceKey?: string) => void;
+  /** Re-focus an already-registered instance (on navigation back). */
+  activatePage: (instanceKey: string) => void;
+  /** Drop an instance's cached tree (on screen unmount) to avoid leaks. */
+  dropPage: (instanceKey: string) => void;
   /** Replace a section's data entirely (used for reload/refresh). */
   replaceSection: (sectionId: string, data: unknown) => void;
   /** Append data to a section (used for pagination/infinite scroll). */
@@ -115,6 +134,8 @@ export interface PageStoreActions {
 const initialState: PageStoreState = {
   pageId: null,
   page: null,
+  activeKey: null,
+  pagesByKey: {},
   sections: {},
   loading: false,
   error: null,
@@ -223,14 +244,60 @@ function appendItemsInTree(
   return [out, matched, mutated];
 }
 
+/**
+ * Keep the per-id cache in sync whenever the focused `page` is mutated, so a
+ * backgrounded screen reads its latest tree (with merged/replaced/appended
+ * content) when it regains focus.
+ */
+function syncCache(
+  state: PageStoreState,
+  nextPage: Page,
+): Pick<PageStoreState, "pagesByKey"> {
+  if (!state.activeKey) return { pagesByKey: state.pagesByKey };
+  return { pagesByKey: { ...state.pagesByKey, [state.activeKey]: nextPage } };
+}
+
 export const usePageStore = create<PageStoreState & PageStoreActions>((set) => ({
   ...initialState,
 
   setPage: (pageId, sections) =>
     set({ pageId, sections, loading: false, error: null }),
 
-  setPageTree: (page) =>
-    set({ page, pageId: page.id, loading: false, error: null }),
+  setPageTree: (page, instanceKey) =>
+    set((state) => {
+      const key = instanceKey ?? page.id;
+      return {
+        page,
+        pageId: page.id,
+        activeKey: key,
+        pagesByKey: { ...state.pagesByKey, [key]: page },
+        loading: false,
+        error: null,
+      };
+    }),
+
+  activatePage: (instanceKey) =>
+    set((state) => {
+      const cached = state.pagesByKey[instanceKey];
+      // Re-focus a known instance: make it the active target + mirror its cached
+      // tree (with whatever content it accumulated) back into page/pageId.
+      if (!cached) return { activeKey: instanceKey };
+      return { activeKey: instanceKey, page: cached, pageId: cached.id };
+    }),
+
+  dropPage: (instanceKey) =>
+    set((state) => {
+      if (!(instanceKey in state.pagesByKey)) return {};
+      const nextPages = { ...state.pagesByKey };
+      delete nextPages[instanceKey];
+      // If the dropped instance was active, clear the mirror (a sibling screen
+      // re-activates itself on focus).
+      const wasActive = state.activeKey === instanceKey;
+      return {
+        pagesByKey: nextPages,
+        ...(wasActive ? { activeKey: null, page: null, pageId: null } : {}),
+      };
+    }),
 
   mergeUiZones: (partial) =>
     set((state) => {
@@ -242,7 +309,8 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
         ? { ...(state.page.data ?? {}), ...partial.data }
         : state.page.data;
       const nextItems = partial.items ?? state.page.items;
-      return { page: { ...state.page, data: nextData, items: nextItems } };
+      const nextPage = { ...state.page, data: nextData, items: nextItems };
+      return { page: nextPage, ...syncCache(state, nextPage) };
     }),
 
   setUiZonesLoading: (uiZones, loading) =>
@@ -306,7 +374,8 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
         next,
       );
       if (matched) {
-        return { page: { ...state.page, items: nextItems } };
+        const nextPage = { ...state.page, items: nextItems };
+        return { page: nextPage, ...syncCache(state, nextPage) };
       }
       // The target may live in a page SLOT (the sticky header / footer node),
       // which is held on `page.data` outside `items`. Section actions must reach
@@ -321,9 +390,11 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
           next,
         );
         if (slotMatched) {
-          return {
-            page: { ...state.page, data: { ...data, [slot]: nextSlot[0] } },
+          const nextPage = {
+            ...state.page,
+            data: { ...data, [slot]: nextSlot[0] },
           };
+          return { page: nextPage, ...syncCache(state, nextPage) };
         }
       }
       console.warn(

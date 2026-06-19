@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   BackHandler,
   KeyboardAvoidingView,
@@ -17,6 +17,7 @@ import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
 import { usePageStore } from "../../state/usePageStore.js";
 import { useShallow } from "zustand/react/shallow";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 
 interface PageProps {
   page: Page;
@@ -49,15 +50,22 @@ export function PageStickyFooterRenderer({
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
 
-  // Live page from the store so reload_section / replace_node / append_items
-  // re-render (the layout otherwise renders straight from the prop). See
-  // PageStandard for the full rationale.
+  // Per-instance store entry (keyed by route.key) so reload_section /
+  // replace_node / append_items re-render without clobbering other stacked
+  // screens. See PageStandard for the full rationale.
+  const instanceKey = useRoute().key;
   const livePage = usePageStore(
-    useShallow((s): Page => (s.pageId === page.id && s.page ? s.page : page)),
+    useShallow((s): Page => s.pagesByKey[instanceKey] ?? page),
   );
   useEffect(() => {
-    usePageStore.getState().setPageTree(page);
-  }, [page]);
+    usePageStore.getState().setPageTree(page, instanceKey);
+    return () => usePageStore.getState().dropPage(instanceKey);
+  }, [page, instanceKey]);
+  useFocusEffect(
+    useCallback(() => {
+      usePageStore.getState().activatePage(instanceKey);
+    }, [instanceKey]),
+  );
 
   // Read header/footer from the LIVE page so a section reload that swaps a slot
   // node (e.g. the KYC verify step revealing the footer) re-renders. `keyboard_
