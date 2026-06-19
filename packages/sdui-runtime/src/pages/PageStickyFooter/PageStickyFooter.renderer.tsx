@@ -59,12 +59,17 @@ export function PageStickyFooterRenderer({
     usePageStore.getState().setPageTree(page);
   }, [page]);
 
-  const pageData = page.data as
+  // Read header/footer from the LIVE page so a section reload that swaps a slot
+  // node (e.g. the KYC verify step revealing the footer) re-renders. `keyboard_
+  // aware` is a static layout flag, so the prop is fine for it.
+  const pageData = livePage.data as
     | { header?: unknown; footer?: unknown; keyboard_aware?: boolean }
     | undefined;
   const header = pageData?.header;
   const footer = pageData?.footer;
-  const keyboardAware = pageData?.keyboard_aware ?? false;
+  const keyboardAware =
+    (page.data as { keyboard_aware?: boolean } | undefined)?.keyboard_aware ??
+    false;
 
   // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
