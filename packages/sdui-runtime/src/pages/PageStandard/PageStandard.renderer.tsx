@@ -9,6 +9,8 @@ import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
+import { usePageStore } from "../../state/usePageStore.js";
+import { useShallow } from "zustand/react/shallow";
 
 interface PageProps {
   page: Page;
@@ -27,6 +29,19 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const insets = useSafeAreaInsets();
+
+  // Live page from the store so reload_section / replace_node / append_items
+  // flow back into the render. The standard layout previously rendered straight
+  // from the `page` prop, so a section reload (e.g. KYC verify → reload the
+  // result container) updated the store but never re-rendered the screen. Sync
+  // the server page into the store on mount and read the live tree back; the
+  // prop is the fallback until that sync commits.
+  const livePage = usePageStore(
+    useShallow((s): Page => (s.pageId === page.id && s.page ? s.page : page)),
+  );
+  useEffect(() => {
+    usePageStore.getState().setPageTree(page);
+  }, [page]);
 
   // Register inline bottom sheets so sheet actions can open them later.
   // Sheets are pre-registered (not opened) — the sheet action handler
@@ -93,6 +108,11 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
       {header ? <Interpreter node={header} /> : null}
       <ScrollView
         style={{ flex: 1 }}
+        // Deliver taps to children even while the keyboard is open — otherwise a
+        // tap on an in-page action (e.g. an inline "Verify" beside a text field)
+        // is swallowed to dismiss the keyboard and the press never fires. With
+        // "handled", taps on non-interactive areas still dismiss the keyboard.
+        keyboardShouldPersistTaps="handled"
         // Bottom safe-area inset + a base buffer so the last item clears the home
         // indicator with breathing room. Applied to every scroll page by default.
         contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
@@ -102,7 +122,7 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
           ) : undefined
         }
       >
-        {page.items.map((node, i) => (
+        {livePage.items.map((node, i) => (
           <GutterItem key={node.id ?? `item-${i}`} node={node}>
             <Interpreter node={node} />
           </GutterItem>

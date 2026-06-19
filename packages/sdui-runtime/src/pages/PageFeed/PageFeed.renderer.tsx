@@ -133,6 +133,9 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
               keyExtractor={keyExtractor}
               onViewableItemsChanged={handleViewableItemsChanged}
               viewabilityConfig={viewabilityConfigRef.current}
+              // Deliver taps to children while the keyboard is open (e.g. an
+              // inline field action) rather than swallowing the first tap.
+              keyboardShouldPersistTaps="handled"
               contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
               refreshControl={
                 livePage.on_refresh ? (
