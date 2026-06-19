@@ -1,6 +1,7 @@
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
 import { useFormStore, selectFormIsValid } from "../../state/useFormStore.js";
+import { resolveRequestUrl, buildBffHeaders } from "./_shared/bff-request.js";
 
 /**
  * `submit` action payload (a runtime wire extension — promote to the SDK with
@@ -9,8 +10,16 @@ import { useFormStore, selectFormIsValid } from "../../state/useFormStore.js";
 interface SubmitPayload {
   /** Which form's values to collect (keyed in useFormStore). */
   form_id: string;
-  /** Request path (raw for the playground; a registered endpoint id in prod). */
-  endpoint: string;
+  /**
+   * Path-direct request target — the concrete BFF path the handler emits (e.g.
+   * `/v1/creator/kyc/verify`), fetched as `bffBaseUrl + path`. Shares the
+   * `bff_call` / `reload` plumbing; there is NO client-side endpoint registry.
+   */
+  path: string;
+  /** `{param}` / `:param` substitutions for the path. */
+  path_params?: Record<string, string>;
+  /** Query-string params appended to the path. */
+  query_params?: Record<string, string>;
   /** HTTP method; defaults to POST. */
   method?: string;
   /** Server-known constants merged UNDER the form values (design D3/D4). */
@@ -45,8 +54,8 @@ export async function handleSubmit(
 ): Promise<void> {
   const payload = (action.payload ?? {}) as unknown as SubmitPayload;
   const formId = payload.form_id;
-  if (!formId || !payload.endpoint) {
-    config.logger?.warn("submit: missing form_id or endpoint");
+  if (!formId || !payload.path) {
+    config.logger?.warn("submit: missing form_id or path");
     return;
   }
 
@@ -62,11 +71,15 @@ export async function handleSubmit(
   const values = store.getForm(formId)?.values ?? {};
   const body = { ...(payload.request_body ?? {}), ...values };
 
-  const base = config.bffBaseUrl.replace(/\/$/, "");
-  const url = `${base}${payload.endpoint}`;
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  const token = config.authToken();
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  // 3. Path-direct URL + the shared BFF header set (auth + dev identity +
+  //    active-social), identical to bff_call / reload — keeps form submits on
+  //    the same plumbing rather than a bespoke, header-light path.
+  const url = resolveRequestUrl(config, {
+    path: payload.path,
+    path_params: payload.path_params,
+    query_params: payload.query_params,
+  });
+  const headers = buildBffHeaders(config);
 
   try {
     const res = await fetch(url, {

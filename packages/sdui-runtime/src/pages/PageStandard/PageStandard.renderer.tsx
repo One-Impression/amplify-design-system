@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { BackHandler, ScrollView, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { sdui } from "@one-impression/tokens-creator/react-native";
@@ -9,6 +9,9 @@ import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
+import { usePageStore } from "../../state/usePageStore.js";
+import { useShallow } from "zustand/react/shallow";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 
 interface PageProps {
   page: Page;
@@ -27,6 +30,24 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
   const insets = useSafeAreaInsets();
+
+  // Per-instance store entry (keyed by route.key) so reload_section /
+  // replace_node / append_items flow back into the render without clobbering
+  // other stacked screens. Register + activate on mount, drop on unmount,
+  // re-claim active focus on navigation back. Prop is the fallback until sync.
+  const instanceKey = useRoute().key;
+  const livePage = usePageStore(
+    useShallow((s): Page => s.pagesByKey[instanceKey] ?? page),
+  );
+  useEffect(() => {
+    usePageStore.getState().setPageTree(page, instanceKey);
+    return () => usePageStore.getState().dropPage(instanceKey);
+  }, [page, instanceKey]);
+  useFocusEffect(
+    useCallback(() => {
+      usePageStore.getState().activatePage(instanceKey);
+    }, [instanceKey]),
+  );
 
   // Register inline bottom sheets so sheet actions can open them later.
   // Sheets are pre-registered (not opened) — the sheet action handler
@@ -93,6 +114,11 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
       {header ? <Interpreter node={header} /> : null}
       <ScrollView
         style={{ flex: 1 }}
+        // Deliver taps to children even while the keyboard is open — otherwise a
+        // tap on an in-page action (e.g. an inline "Verify" beside a text field)
+        // is swallowed to dismiss the keyboard and the press never fires. With
+        // "handled", taps on non-interactive areas still dismiss the keyboard.
+        keyboardShouldPersistTaps="handled"
         // Bottom safe-area inset + a base buffer so the last item clears the home
         // indicator with breathing room. Applied to every scroll page by default.
         contentContainerStyle={{ paddingBottom: insets.bottom + sdui.spacing.lg }}
@@ -102,7 +128,7 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
           ) : undefined
         }
       >
-        {page.items.map((node, i) => (
+        {livePage.items.map((node, i) => (
           <GutterItem key={node.id ?? `item-${i}`} node={node}>
             <Interpreter node={node} />
           </GutterItem>

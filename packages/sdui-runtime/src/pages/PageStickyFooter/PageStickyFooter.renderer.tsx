@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   BackHandler,
   KeyboardAvoidingView,
@@ -15,6 +15,9 @@ import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useBottomSheetStore } from "../../bottom-sheet/useBottomSheetStore.js";
 import { usePageRefresh } from "../../hooks/usePageRefresh.js";
 import { useAppStateSession } from "../../hooks/useAppStateSession.js";
+import { usePageStore } from "../../state/usePageStore.js";
+import { useShallow } from "zustand/react/shallow";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 
 interface PageProps {
   page: Page;
@@ -47,12 +50,34 @@ export function PageStickyFooterRenderer({
   const unregister = useBottomSheetStore((s) => s.unregister);
   const { refreshing, onRefresh } = usePageRefresh(page.on_refresh);
 
-  const pageData = page.data as
+  // Per-instance store entry (keyed by route.key) so reload_section /
+  // replace_node / append_items re-render without clobbering other stacked
+  // screens. See PageStandard for the full rationale.
+  const instanceKey = useRoute().key;
+  const livePage = usePageStore(
+    useShallow((s): Page => s.pagesByKey[instanceKey] ?? page),
+  );
+  useEffect(() => {
+    usePageStore.getState().setPageTree(page, instanceKey);
+    return () => usePageStore.getState().dropPage(instanceKey);
+  }, [page, instanceKey]);
+  useFocusEffect(
+    useCallback(() => {
+      usePageStore.getState().activatePage(instanceKey);
+    }, [instanceKey]),
+  );
+
+  // Read header/footer from the LIVE page so a section reload that swaps a slot
+  // node (e.g. the KYC verify step revealing the footer) re-renders. `keyboard_
+  // aware` is a static layout flag, so the prop is fine for it.
+  const pageData = livePage.data as
     | { header?: unknown; footer?: unknown; keyboard_aware?: boolean }
     | undefined;
   const header = pageData?.header;
   const footer = pageData?.footer;
-  const keyboardAware = pageData?.keyboard_aware ?? false;
+  const keyboardAware =
+    (page.data as { keyboard_aware?: boolean } | undefined)?.keyboard_aware ??
+    false;
 
   // Register inline bottom sheets (do not open) — see PageStandard for details.
   useEffect(() => {
@@ -108,13 +133,16 @@ export function PageStickyFooterRenderer({
   const bodyContent = (
     <ScrollView
       style={styles.bodyScroll}
+      // Deliver taps to children while the keyboard is open (e.g. an inline
+      // field action) instead of swallowing the first tap to dismiss it.
+      keyboardShouldPersistTaps="handled"
       refreshControl={
         page.on_refresh ? (
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         ) : undefined
       }
     >
-      {page.items.map((node, i) => (
+      {livePage.items.map((node, i) => (
         <GutterItem key={node.id ?? `item-${i}`} node={node}>
           <Interpreter node={node} />
         </GutterItem>

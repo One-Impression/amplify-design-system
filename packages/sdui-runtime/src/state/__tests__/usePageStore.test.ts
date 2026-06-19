@@ -138,6 +138,56 @@ test("usePageStore.replaceNode replaces a node in the loaded page", () => {
   assert.deepEqual(replaced.data, { fresh: true });
 });
 
+test("usePageStore keeps a separate entry per instance key (no clobber on push)", () => {
+  resetStore();
+  const s = usePageStore.getState();
+  // Home feed mounts (key kHome) with content.
+  s.setPageTree(page([leaf("home-card")]), "kHome");
+  // A detail page pushes on top (key kDetail) — must NOT clobber home's entry.
+  s.setPageTree(page([leaf("detail-body")]), "kDetail");
+  const st = usePageStore.getState();
+  assert.equal(st.activeKey, "kDetail");
+  assert.equal(st.pagesByKey["kHome"]?.items[0]?.id, "home-card", "home survives");
+  assert.equal(st.pagesByKey["kDetail"]?.items[0]?.id, "detail-body");
+  // Navigating back re-activates home with its own (intact) tree.
+  usePageStore.getState().activatePage("kHome");
+  const back = usePageStore.getState();
+  assert.equal(back.activeKey, "kHome");
+  assert.equal(back.page?.items[0]?.id, "home-card", "back-nav restores home content");
+  // Dropping the detail instance leaves home intact.
+  usePageStore.getState().dropPage("kDetail");
+  assert.equal(usePageStore.getState().pagesByKey["kDetail"], undefined);
+  assert.equal(usePageStore.getState().pagesByKey["kHome"]?.items[0]?.id, "home-card");
+});
+
+test("usePageStore.replaceNode reaches the page footer slot", () => {
+  resetStore();
+  const p = page([leaf("a")]);
+  (p as unknown as { data: Record<string, unknown> }).data = {
+    footer: leaf("kyc-footer"),
+  };
+  usePageStore.getState().setPageTree(p);
+  usePageStore.getState().replaceNode("kyc-footer", leaf("kyc-footer", { fresh: true }));
+  const updated = usePageStore.getState().page!;
+  const footer = (updated.data as { footer: Node }).footer;
+  assert.deepEqual(footer.data, { fresh: true });
+  // body items untouched
+  assert.equal(updated.items[0]?.id, "a");
+});
+
+test("usePageStore.replaceNode reaches a node nested inside the footer slot", () => {
+  resetStore();
+  const p = page([leaf("a")]);
+  (p as unknown as { data: Record<string, unknown> }).data = {
+    footer: container("footer-bar", [leaf("submit-btn")]),
+  };
+  usePageStore.getState().setPageTree(p);
+  usePageStore.getState().replaceNode("submit-btn", leaf("submit-btn", { fresh: true }));
+  const footer = (usePageStore.getState().page!.data as { footer: Node }).footer;
+  const inner = (footer.data as { items: Node[] }).items[0] as Node;
+  assert.deepEqual(inner.data, { fresh: true });
+});
+
 test("usePageStore.replaceNode is a no-op (with warning) when id not found", () => {
   resetStore();
   const warnings: unknown[][] = [];
