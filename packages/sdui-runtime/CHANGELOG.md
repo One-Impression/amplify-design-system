@@ -1,5 +1,27 @@
 # @one-impression/sdui-runtime
 
+## 4.0.1
+
+### Patch Changes
+
+- [#271](https://github.com/One-Impression/amplify-design-system/pull/271) [`88e5690`](https://github.com/One-Impression/amplify-design-system/commit/88e5690631a455f4d5f2c089f7bcfd1c1c771753) Thanks [@achin-oi](https://github.com/achin-oi)! - Fix `Button` icon rendering and surface render errors in the dev fallback.
+
+  The Button renderer routed `icon_left` / `icon_right` (bare `{ name, color?, size? }` specs, not nodes) straight through the Interpreter, whose `resolveRenderer` does `type.includes(...)` on the absent `type` — so ANY button with an icon threw "Cannot read property 'includes' of undefined" and fell back. Render them with `IconGlyph` directly (the same icon-store path `InfoRow` / `renderMedia` use), which resolves a default size/colour and feeds the parsed SVG concrete dimensions.
+
+  Also surface the caught error message in the dev `SduiFallback` for render-time throws (previously only schema-parse failures showed the message; render throws showed a bare label, making them hard to diagnose).
+
+- [#271](https://github.com/One-Impression/amplify-design-system/pull/271) [`88e5690`](https://github.com/One-Impression/amplify-design-system/commit/88e5690631a455f4d5f2c089f7bcfd1c1c771753) Thanks [@achin-oi](https://github.com/achin-oi)! - Make the page store **per-navigation-instance** (keyed by `route.key`) instead of a single shared page. Previously every mounted screen wrote to one `page`/`pageId`, so pushing a detail page clobbered the feed behind it — returning to the feed showed a permanent skeleton (its content was overwritten and `on_load` never re-fired). Each screen now keeps its own entry, re-claims active focus on navigation back (so its actions and reload/replace/append target its own tree), and drops it on unmount. Two instances of the same page id (e.g. two campaign details on the stack) no longer collide.
+
+- [#271](https://github.com/One-Impression/amplify-design-system/pull/271) [`88e5690`](https://github.com/One-Impression/amplify-design-system/commit/88e5690631a455f4d5f2c089f7bcfd1c1c771753) Thanks [@achin-oi](https://github.com/achin-oi)! - `replace_section` (and `replaceNode`) now reach nodes in the page's sticky header/footer slots, not just `items` — so a section reload can swap the pinned footer (e.g. a KYC verify step revealing the declaration + Submit footer). Also: `page_footer_with_checkbox` renders its primary CTA full-width when there's no secondary button, matching the plain `page_footer` bar.
+
+- [#271](https://github.com/One-Impression/amplify-design-system/pull/271) [`88e5690`](https://github.com/One-Impression/amplify-design-system/commit/88e5690631a455f4d5f2c089f7bcfd1c1c771753) Thanks [@achin-oi](https://github.com/achin-oi)! - Make `reload_section` / `replace_section` / `append_items` re-render standard and sticky-footer pages, and let in-page actions fire while the keyboard is open.
+
+  `PageStandard` and `PageStickyFooter` rendered straight from the `page` prop and never synced to `usePageStore` — so a section reload (e.g. KYC PAN verify swapping in the GST select) updated the store but never re-rendered the screen (only `PageFeed`, via `usePageScaffold`, read the live tree). Both now sync the page into the store on mount and read the live tree back, matching `PageFeed`.
+
+  Also set `keyboardShouldPersistTaps="handled"` on the page scroll containers (standard, sticky-footer, feed) so a tap on an in-page action (e.g. an inline "Verify" beside a focused text field) fires instead of being swallowed to dismiss the keyboard.
+
+- [#271](https://github.com/One-Impression/amplify-design-system/pull/271) [`88e5690`](https://github.com/One-Impression/amplify-design-system/commit/88e5690631a455f4d5f2c089f7bcfd1c1c771753) Thanks [@achin-oi](https://github.com/achin-oi)! - Fix the `submit` action: it was left on the old endpoint-id contract during the path-direct migration, reading `payload.endpoint` (always undefined now that builders emit `payload.path`) and hand-building the URL with a bare `Authorization` header. Every form submit silently no-op'd (the validity gate passed, then it aborted on the missing endpoint). It now resolves the URL via the shared path-direct plumbing (`resolveRequestUrl`) and uses `buildBffHeaders` — so it carries the same auth, dev-identity, and active-social headers as `bff_call` / `reload`.
+
 ## 4.0.0
 
 ### Major Changes
