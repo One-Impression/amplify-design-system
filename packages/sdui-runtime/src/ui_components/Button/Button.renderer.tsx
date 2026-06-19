@@ -7,7 +7,7 @@ import {
   buttonVariantColors,
 } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
-import { Interpreter } from "../../interpreter/index.js";
+import { IconGlyph } from "../../icon-store/IconGlyph.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 
 /**
@@ -52,7 +52,20 @@ export function ButtonRenderer(node: Node): React.ReactElement {
             node.on_click ? () => actionEngine.dispatch(node.on_click!) : undefined
           }
         >
-          {v.icon_left && <Interpreter node={v.icon_left} />}
+          {/* icon_left / icon_right are bare { name, color?, size? } specs, NOT
+              nodes — render them with IconGlyph directly (the same icon-store
+              path InfoRow uses), which resolves a default size/colour and feeds
+              the parsed SVG concrete dimensions. Routing the bare spec through
+              the Interpreter crashed resolveRenderer (`type.includes(...)` on an
+              absent `type`); routing it through the node IconRenderer left the
+              glyph dimensionless. */}
+          {v.icon_left && (
+            <IconGlyph
+              name={v.icon_left.name}
+              color={v.icon_left.color}
+              size={v.icon_left.size}
+            />
+          )}
           {/* label is TextSchema ({ text, color?, font_size? }), not a Node —
               ButtonComponentSchema types it that way, so render it directly
               instead of routing through the Interpreter (which requires a
@@ -74,7 +87,13 @@ export function ButtonRenderer(node: Node): React.ReactElement {
           >
             {v.label.text}
           </DSText>
-          {v.icon_right && <Interpreter node={v.icon_right} />}
+          {v.icon_right && (
+            <IconGlyph
+              name={v.icon_right.name}
+              color={v.icon_right.color}
+              size={v.icon_right.size}
+            />
+          )}
         </DSButton>
         );
       }}
