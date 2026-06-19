@@ -53,6 +53,17 @@ export const GAP_OVERRIDES: Record<string, SpacingToken> = {
   "sdui.snippet.section_header": "md",
 };
 
+/**
+ * Per-type EXTRA top margin, ADDED on top of `resolveRowGap` (so the margin is
+ * asymmetric). For types that should separate more strongly from what precedes
+ * them than from their own content below — a section header gets an extra md
+ * above, so a new section reads as a stronger break while the header→content gap
+ * below stays the row gap.
+ */
+export const GAP_TOP_OVERRIDES: Record<string, SpacingToken> = {
+  "sdui.snippet.section_header": "md",
+};
+
 /** Should this node bleed to the container edges (skip the horizontal gutter)? */
 export function isFullBleed(node: Node): boolean {
   const flag = (node as { full_bleed?: unknown }).full_bleed;
@@ -79,10 +90,23 @@ export function resolveRowGap(node: Node): number {
 }
 
 /**
- * Wrap one top-level item in the page's horizontal gutter + symmetric vertical
- * margin (both sides). Gutter is dropped for full-bleed items. Adjacent items'
- * margins sum (RN doesn't collapse), so default items sit a full gutter apart
- * and the page edges get the half. Page layouts / the sheet call this per item.
+ * The TOP margin (px) for this item: the row gap (`resolveRowGap`) plus any
+ * per-type extra-top override (`GAP_TOP_OVERRIDES`). The bottom margin stays
+ * `resolveRowGap`, so types like the section header sit asymmetrically — more
+ * space above than below.
+ */
+export function resolveRowGapTop(node: Node): number {
+  const extra = GAP_TOP_OVERRIDES[node.type];
+  const extraPx = extra !== undefined ? (resolveSpacing(extra) ?? 0) : 0;
+  return resolveRowGap(node) + extraPx;
+}
+
+/**
+ * Wrap one top-level item in the page's horizontal gutter + vertical margin.
+ * The margin is the row gap on both sides, plus any per-type extra-top override
+ * (so e.g. a section header sits with more space above than below). Gutter is
+ * dropped for full-bleed items. Adjacent items' margins sum (RN doesn't
+ * collapse). Page layouts / the sheet call this per item.
  */
 export function GutterItem({
   node,
@@ -92,6 +116,11 @@ export function GutterItem({
   children: React.ReactNode;
 }): React.ReactElement {
   const gutter = !isFullBleed(node) && styles.gutter;
-  const v = resolveRowGap(node);
-  return <View style={[gutter, { marginTop: v, marginBottom: v }]}>{children}</View>;
+  const bottom = resolveRowGap(node);
+  const top = resolveRowGapTop(node);
+  return (
+    <View style={[gutter, { marginTop: top, marginBottom: bottom }]}>
+      {children}
+    </View>
+  );
 }
