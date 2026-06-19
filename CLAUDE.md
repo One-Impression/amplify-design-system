@@ -77,6 +77,50 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — Notable Contracts & Behaviour
+
+## SDUI Runtime — Notable Contracts & Behaviour
+
+**Package**: `packages/sdui-runtime`
+
+### `submit` action — path-direct contract
+`payload.endpoint` is **removed**. The submit action now uses `payload.path` (same contract as `bff_call` / `reload`): the handler calls `resolveRequestUrl` + `buildBffHeaders`, carrying the same auth + dev-identity + active-social headers. Builders must emit `payload.path`; a missing path is a logged no-op (no request, no `on_success`/`on_error` chain).
+
+```ts
+// wire shape
+{ type: "submit", payload: { form_id: string; path: string; path_params?: Record<string,string>; query_params?: Record<string,string>; request_body?: Record<string,unknown>; ... } }
+```
+
+Form values are merged **over** `request_body` (form wins on key collisions).
+
+### Page store — per-navigation-instance (keyed by `route.key`)
+The page store is no longer single-page. Each mounted screen registers its own entry under `route.key`; pushing a new screen does not clobber the screen behind it. New store API:
+
+- `setPageTree(page, instanceKey?)` — register + activate
+- `activatePage(instanceKey)` — re-focus on navigation back
+- `dropPage(instanceKey)` — remove on unmount
+- `pagesByKey: Record<string, Page>` — per-instance cache
+- `activeKey: string | null` — focused instance
+
+`page` / `pageId` mirror the active instance (backwards-compatible for handlers). Two instances of the same page id (e.g. two campaign-detail screens on the stack) keep separate trees.
+
+### Section reload reaches header/footer slots
+`replaceNode` (and therefore `replace_section`) now searches `page.data.header` and `page.data.footer` slots after `page.items`, so a reload can swap a pinned footer node (e.g. KYC verify step revealing the Submit footer).
+
+### `PageStandard` and `PageStickyFooter` now read the live store
+Previously only `PageFeed` (via `usePageScaffold`) re-rendered on `reload_section` / `replace_section` / `append_items`. Both standard and sticky-footer pages now sync into the store on mount and read `livePage` back, identical to the feed.
+
+### Keyboard taps (`keyboardShouldPersistTaps="handled"`)
+All three scroll containers (feed, standard, sticky-footer) now set `keyboardShouldPersistTaps="handled"`. In-page actions (e.g. an inline Verify button beside a focused text field) fire without requiring a prior keyboard-dismiss tap.
+
+### Button icon rendering (`icon_left` / `icon_right`)
+`icon_left` and `icon_right` in `ButtonComponentSchema` are bare `{ name, color?, size? }` specs — **not** nodes. They are rendered with `IconGlyph` directly (same path as `InfoRow`/`renderMedia`). Do **not** route them through the `Interpreter`; passing a spec with no `type` crashes `resolveRenderer`.
+
+### `SduiErrorBoundary` API change
+`fallback: ReactNode` prop is replaced by `renderFallback: (error?: Error) => ReactNode`. The boundary now captures the error and passes it to the callback, so dev fallbacks can surface the error message. Update any direct usages of `SduiErrorBoundary`.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
