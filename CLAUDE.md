@@ -85,6 +85,48 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Gutter / Layout Model
+
+## SDUI Gutter / Layout Model
+
+All horizontal gutter and vertical inter-item spacing in SDUI is **page-owned** — managed by `GutterItem` in `packages/sdui-runtime/src/layout/page-gutter.tsx`. Snippets must NOT carry their own competing margins.
+
+### GutterItem
+
+- Wraps each top-level item with the page's horizontal gutter (skipped for full-bleed items) and asymmetric vertical margins.
+- `marginTop = resolveRowGap(node) + GAP_TOP_OVERRIDES[node.type]`
+- `marginBottom = max(0, resolveRowGap(node) − GAP_BOTTOM_REDUCTIONS[node.type])`
+- Takes an `index` prop — must be passed by every caller so the first-item rule fires correctly.
+
+### First-item top rule (index 0)
+
+- Full-bleed banner (`sdui.snippet.banner_image` + `isFullBleed`) → `marginTop: 0` (flush against screen/nav edge).
+- Any other first item → standard `md` top inset.
+- Applies on pages (`PageStandard`, `PageStickyFooter`, `PageFeed` tabs) and sheets (`SduiSheetScreen`).
+
+### Override tables (in `page-gutter.tsx`)
+
+| Table | Effect |
+|---|---|
+| `GAP_OVERRIDES` | Base row gap for a type (replaces the default) |
+| `GAP_TOP_OVERRIDES` | Extra top margin ADDED on top of the row gap (asymmetric) |
+| `GAP_BOTTOM_REDUCTIONS` | Amount SUBTRACTED from the bottom margin (floored at 0) |
+
+Current overrides: `sdui.snippet.section_header` → base gap `md`, extra top `sm`, bottom reduction `sm` (so it reads as a strong break above while hugging content below).
+
+### Surfaces that use GutterItem
+
+`PageStandard`, `PageStickyFooter`, `PageFeed`, and `SduiSheetScreen` all wrap items in `GutterItem` with the item index. The loading/title path in `SduiSheetScreen` uses `PAGE_GUTTER_TOKEN` directly for its inset.
+
+### Rules for snippet authors
+
+1. **Do not add vertical margin/padding to a snippet** for inter-item spacing — that is `GutterItem`'s job. Adding it doubles the gap.
+2. **Do not hardcode a horizontal inset** that replicates the page gutter. Use `PAGE_GUTTER_TOKEN` (from `page-gutter.tsx`) if a full-bleed snippet needs its own leading/trailing inset (e.g. `group_chips` scroll row).
+3. **To change spacing for a snippet type**, add or edit an entry in `GAP_OVERRIDES`, `GAP_TOP_OVERRIDES`, or `GAP_BOTTOM_REDUCTIONS` — not in the snippet renderer.
+4. **Section header title weight** defaults to `sdui.font-weight.semibold`; only override explicitly when the server sends a value.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
