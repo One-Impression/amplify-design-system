@@ -46,12 +46,11 @@ export const FULL_BLEED_TYPES = new Set<string>([]);
  * breathing more. Use `'none'` to butt against the previous item.
  */
 export const GAP_OVERRIDES: Record<string, SpacingToken> = {
-  // Section headers break sections — give them a clearly larger gap per side
-  // (xl = 24, so ~30px once an adjacent item's default 6 is added) than the
-  // default 6, so a section reads as a distinct break. This is the single,
+  // Section headers break sections — give them a full gutter (md = 12) per side
+  // instead of the default 6, so they separate more strongly. This is the single,
   // page-owned source of section-header spacing now that the snippet no longer
   // carries its own bottom margin.
-  "sdui.snippet.section_header": "xl",
+  "sdui.snippet.section_header": "md",
 };
 
 /** Should this node bleed to the container edges (skip the horizontal gutter)? */
