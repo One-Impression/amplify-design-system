@@ -30,7 +30,7 @@ export function SectionHeaderRenderer(node: Node): React.ReactElement {
               <Text
                 color={v.title.color}
                 size={v.title.font_size ?? "lg"}
-                weight={v.title.font_weight}
+                weight={v.title.font_weight ?? "sdui.font-weight.semibold"}
               >
                 {v.title.text}
               </Text>

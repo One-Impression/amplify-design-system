@@ -84,8 +84,8 @@ export function PageFeedRenderer({ page }: PageProps): React.ReactElement {
   ).current;
 
   const renderItem = useCallback(
-    ({ item }: { item: Node }) => (
-      <GutterItem node={item}>
+    ({ item, index }: { item: Node; index: number }) => (
+      <GutterItem node={item} index={index}>
         <Interpreter node={item} />
       </GutterItem>
     ),

@@ -55,16 +55,18 @@ export function GroupChipsRenderer(node: Node): React.ReactElement {
 }
 
 const styles = StyleSheet.create({
+  // No outer vertical padding — the chip block's outer vertical spacing is owned
+  // by the page gutter (GutterItem row gap). `gap` provides the spacing BETWEEN
+  // chips; for the wrap variant RN applies it as the row gap between wrapped
+  // lines too (sm = 8), so multi-row chip groups keep vertical breathing room.
   wrapRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    paddingVertical: 8,
   },
   scrollRow: {
     flexDirection: "row",
     gap: 8,
-    paddingVertical: 8,
     // Leading/trailing inset so the first/last chip don't sit flush against the
     // screen edge. A horizontal scroll row is typically caller-gutter-less (it
     // scrolls edge-to-edge), so the inset lives on the scroll content itself —

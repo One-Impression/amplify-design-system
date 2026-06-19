@@ -262,7 +262,7 @@ export function SduiSheetScreen({
                   GAP_OVERRIDES). The route-based sheet was outside that system,
                   so its section headers got no vertical gap. */}
               {sheet.items.map((node, i) => (
-                <GutterItem key={node.id ?? i} node={node}>
+                <GutterItem key={node.id ?? i} node={node} index={i}>
                   <Interpreter node={node} />
                 </GutterItem>
               ))}

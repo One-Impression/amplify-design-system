@@ -56,12 +56,22 @@ export const GAP_OVERRIDES: Record<string, SpacingToken> = {
 /**
  * Per-type EXTRA top margin, ADDED on top of `resolveRowGap` (so the margin is
  * asymmetric). For types that should separate more strongly from what precedes
- * them than from their own content below — a section header gets an extra md
+ * them than from their own content below — a section header gets an extra sm
  * above, so a new section reads as a stronger break while the header→content gap
  * below stays the row gap.
  */
 export const GAP_TOP_OVERRIDES: Record<string, SpacingToken> = {
-  "sdui.snippet.section_header": "md",
+  "sdui.snippet.section_header": "sm",
+};
+
+/**
+ * Per-type bottom-margin REDUCTION, SUBTRACTED from `resolveRowGap` (floored at
+ * 0). For types that should hug the content directly below them — a section
+ * header trims its bottom gap by sm so it sits closer to its own section's
+ * content, complementing the extra space GAP_TOP_OVERRIDES gives it above.
+ */
+export const GAP_BOTTOM_REDUCTIONS: Record<string, SpacingToken> = {
+  "sdui.snippet.section_header": "sm",
 };
 
 /** Should this node bleed to the container edges (skip the horizontal gutter)? */
@@ -102,22 +112,57 @@ export function resolveRowGapTop(node: Node): number {
 }
 
 /**
+ * The BOTTOM margin (px): the row gap minus any per-type bottom reduction
+ * (`GAP_BOTTOM_REDUCTIONS`), floored at 0.
+ */
+export function resolveRowGapBottom(node: Node): number {
+  const reduce = GAP_BOTTOM_REDUCTIONS[node.type];
+  const reducePx = reduce !== undefined ? (resolveSpacing(reduce) ?? 0) : 0;
+  return Math.max(0, resolveRowGap(node) - reducePx);
+}
+
+/** Banner snippet type — the first-item flush-top rule keys off this. */
+const BANNER_SNIPPET_TYPE = "sdui.snippet.banner_image";
+// First-item top inset — a standard md gap when the first item isn't a flush
+// full-bleed banner (which gets 0).
+const FIRST_ITEM_TOP = resolveSpacing("md") ?? 12;
+
+/**
+ * Top margin for an item given its position. The FIRST item (index 0) is
+ * special:
+ *  - a full-bleed banner sits FLUSH against the top (0) — a cover image meets
+ *    the screen / nav-header edge with no gap;
+ *  - any other first item gets a standard `md` top inset.
+ * Non-first items use the normal row-gap-top (incl. per-type extra-top override).
+ */
+export function resolveTopMargin(node: Node, index?: number): number {
+  if (index === 0) {
+    if (node.type === BANNER_SNIPPET_TYPE && isFullBleed(node)) return 0;
+    return FIRST_ITEM_TOP;
+  }
+  return resolveRowGapTop(node);
+}
+
+/**
  * Wrap one top-level item in the page's horizontal gutter + vertical margin.
- * The margin is the row gap on both sides, plus any per-type extra-top override
- * (so e.g. a section header sits with more space above than below). Gutter is
- * dropped for full-bleed items. Adjacent items' margins sum (RN doesn't
- * collapse). Page layouts / the sheet call this per item.
+ * Bottom = row gap (minus any per-type reduction); top = `resolveTopMargin`,
+ * which applies the first-item rule when `index` is 0 and otherwise the row-gap
+ * top (incl. per-type extra-top). Gutter is dropped for full-bleed items.
+ * Adjacent items' margins sum (RN doesn't collapse). Page layouts / the sheet
+ * call this per item, passing the item's `index`.
  */
 export function GutterItem({
   node,
+  index,
   children,
 }: {
   node: Node;
+  index?: number;
   children: React.ReactNode;
 }): React.ReactElement {
   const gutter = !isFullBleed(node) && styles.gutter;
-  const bottom = resolveRowGap(node);
-  const top = resolveRowGapTop(node);
+  const bottom = resolveRowGapBottom(node);
+  const top = resolveTopMargin(node, index);
   return (
     <View style={[gutter, { marginTop: top, marginBottom: bottom }]}>
       {children}
