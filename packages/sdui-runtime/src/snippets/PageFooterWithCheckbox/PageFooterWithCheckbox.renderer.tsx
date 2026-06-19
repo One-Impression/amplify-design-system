@@ -22,10 +22,17 @@ export function PageFooterWithCheckboxRenderer(node: Node): React.ReactElement {
         <Box padding={16}>
           <Stack direction="column" gap={12}>
             <Interpreter node={v.checkbox} />
-            <Stack direction="row" gap={12} justify="flex-end">
-              {v.secondary_button && <Interpreter node={v.secondary_button} />}
-              {v.primary_button && <Interpreter node={v.primary_button} />}
-            </Stack>
+            {/* With a secondary action the two buttons sit in a right-aligned
+                row; with only a primary CTA it spans full width (the standard
+                footer action), matching the plain page_footer bar. */}
+            {v.secondary_button ? (
+              <Stack direction="row" gap={12} justify="flex-end">
+                <Interpreter node={v.secondary_button} />
+                {v.primary_button && <Interpreter node={v.primary_button} />}
+              </Stack>
+            ) : (
+              v.primary_button && <Interpreter node={v.primary_button} />
+            )}
           </Stack>
         </Box>
       )}
