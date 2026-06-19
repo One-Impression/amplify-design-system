@@ -1,6 +1,6 @@
 {
   "name": "@one-impression/sdui-runtime",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "SDUI runtime for Amplify Creator App — interpreter, action engine, bottom-sheet manager, loaders, providers",
   "type": "module",
   "main": "dist/index.js",
