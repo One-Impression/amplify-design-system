@@ -51,12 +51,24 @@ export function FormRenderer(node: Node): React.ReactElement {
       view_events={node.view_events}
       load_events={node.load_events}
     >
-      {(v) => (
-        // Provide the form id to nested fields (id-only; state lives in the store).
-        <FormIdContext.Provider value={formId}>
-          <FormInner fields={v.fields} submitButton={v.submit_button} />
-        </FormIdContext.Provider>
-      )}
+      {(v) => {
+        // Render the RAW field nodes, not the schema-parsed `v.fields`: the
+        // FormSchema strips per-field wire extensions (e.g. `show_when`) that
+        // the Interpreter needs to gate visibility. Each field is still
+        // validated by its own renderer's SduiNode, so nothing is lost.
+        const rawData = node.data as
+          | { fields?: Node[]; submit_button?: Node }
+          | undefined;
+        return (
+          // Provide the form id to nested fields (id-only; state lives in the store).
+          <FormIdContext.Provider value={formId}>
+            <FormInner
+              fields={rawData?.fields ?? v.fields}
+              submitButton={rawData?.submit_button ?? v.submit_button}
+            />
+          </FormIdContext.Provider>
+        );
+      }}
     </SduiNode>
   );
 }

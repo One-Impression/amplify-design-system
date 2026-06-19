@@ -29,18 +29,23 @@ export function SelectTriggerRenderer(node: Node): React.ReactElement {
     | undefined;
 
   const formId = useFormId(data?.form_id);
-  const field = useFormField<string>(
+  const field = useFormField<string | string[]>(
     formId,
     data?.field_name,
     data?.default_value ?? "",
   );
   const actionEngine = useActionEngine();
 
-  const display =
-    (data?.value_display && data.value_display[field.value]) ||
-    field.value ||
-    data?.placeholder ||
-    "";
+  // The bound value is a string for single-select fields, a string[] for
+  // multi-select. Map each id to its rich label via `value_display` and join;
+  // fall back to the placeholder when empty.
+  const mapLabel = (v: string): string => data?.value_display?.[v] ?? v;
+  const value = field.value;
+  const display = Array.isArray(value)
+    ? value.length
+      ? value.map(mapLabel).join(", ")
+      : data?.placeholder ?? ""
+    : mapLabel(value) || data?.placeholder || "";
 
   return (
     <Pressable
