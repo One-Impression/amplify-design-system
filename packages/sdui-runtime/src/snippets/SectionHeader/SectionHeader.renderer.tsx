@@ -19,7 +19,12 @@ export function SectionHeaderRenderer(node: Node): React.ReactElement {
       load_events={node.load_events}
     >
       {(v) => (
-        <Box mb="md">
+        // No own bottom margin — vertical spacing is owned by the container's
+        // gutter system (the page layout / bottom sheet wrap each item in
+        // `GutterItem`, which applies `GAP_OVERRIDES["sdui.snippet.section_header"]`).
+        // Keeping it here too would double the gap on pages and leave the snippet
+        // as a second, competing source of truth.
+        <Box>
           <Stack direction="row" align="center" justify="space-between">
             <Stack direction="column" gap={2}>
               <Text

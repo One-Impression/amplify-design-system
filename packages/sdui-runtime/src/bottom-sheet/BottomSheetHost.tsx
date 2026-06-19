@@ -7,6 +7,7 @@ import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescrip
 import { useBottomSheetStore, type SheetEntry } from "./useBottomSheetStore.js";
 import { BottomSheetContext } from "./BottomSheetContext.js";
 import { Interpreter } from "../interpreter/Interpreter.js";
+import { GutterItem } from "../layout/page-gutter.js";
 
 const SIZE_TO_SNAP: Record<string, string[]> = {
   small: ["25%"],
@@ -54,8 +55,14 @@ function BottomSheetHostSheet({
     >
       <BottomSheetScrollView>
         <BottomSheetContext.Provider value={{ insideSheet: true }}>
+          {/* Wrap each item in GutterItem so sheet content shares the SAME
+              gutter + inter-item gap model as page layouts (PageStandard /
+              PageStickyFooter). Without this the sheet sat outside the
+              page-gutter system and relied on each snippet's own margins. */}
           {sheet.items.map((node, i) => (
-            <Interpreter key={node.id ?? i} node={node} />
+            <GutterItem key={node.id ?? i} node={node}>
+              <Interpreter node={node} />
+            </GutterItem>
           ))}
         </BottomSheetContext.Provider>
       </BottomSheetScrollView>
