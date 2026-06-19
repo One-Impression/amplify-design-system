@@ -305,13 +305,31 @@ export const usePageStore = create<PageStoreState & PageStoreActions>((set) => (
         targetId,
         next,
       );
-      if (!matched) {
-        console.warn(
-          `[usePageStore.replaceNode] no node with id "${targetId}" in page "${state.page.id}"`,
-        );
-        return {};
+      if (matched) {
+        return { page: { ...state.page, items: nextItems } };
       }
-      return { page: { ...state.page, items: nextItems } };
+      // The target may live in a page SLOT (the sticky header / footer node),
+      // which is held on `page.data` outside `items`. Section actions must reach
+      // those too — e.g. a verify step that swaps the page's sticky footer.
+      const data = (state.page.data ?? {}) as Record<string, unknown>;
+      for (const slot of ["footer", "header"] as const) {
+        const slotNode = data[slot] as Node | undefined;
+        if (!slotNode) continue;
+        const [nextSlot, slotMatched] = replaceNodeInTree(
+          [slotNode],
+          targetId,
+          next,
+        );
+        if (slotMatched) {
+          return {
+            page: { ...state.page, data: { ...data, [slot]: nextSlot[0] } },
+          };
+        }
+      }
+      console.warn(
+        `[usePageStore.replaceNode] no node with id "${targetId}" in page "${state.page.id}"`,
+      );
+      return {};
     }),
 
   appendItems: (targetId, items, options = {}) =>
