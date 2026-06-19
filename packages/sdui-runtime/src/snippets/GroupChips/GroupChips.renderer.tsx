@@ -1,9 +1,17 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { resolveSpacing } from "@one-impression/ui-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { GroupChipsSchema } from "@one-impression/sdk-native-sdui";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
+import { PAGE_GUTTER_TOKEN } from "../../layout/page-gutter.js";
+
+// A full-bleed scroll row opts out of the page's GutterItem, so it must supply
+// its own leading/trailing inset — but at the SAME value the page gutter uses,
+// so the first chip aligns with every other (gutter-wrapped) snippet. Source it
+// from the shared page-gutter token rather than a standalone number.
+const PAGE_GUTTER_PX = resolveSpacing(PAGE_GUTTER_TOKEN) ?? 12;
 
 export function GroupChipsRenderer(node: Node): React.ReactElement {
   return (
@@ -47,19 +55,22 @@ export function GroupChipsRenderer(node: Node): React.ReactElement {
 }
 
 const styles = StyleSheet.create({
+  // No outer vertical padding — the chip block's outer vertical spacing is owned
+  // by the page gutter (GutterItem row gap). `gap` provides the spacing BETWEEN
+  // chips; for the wrap variant RN applies it as the row gap between wrapped
+  // lines too (sm = 8), so multi-row chip groups keep vertical breathing room.
   wrapRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    paddingVertical: 8,
   },
   scrollRow: {
     flexDirection: "row",
     gap: 8,
-    paddingVertical: 8,
     // Leading/trailing inset so the first/last chip don't sit flush against the
     // screen edge. A horizontal scroll row is typically caller-gutter-less (it
-    // scrolls edge-to-edge), so the inset lives on the scroll content itself.
-    paddingHorizontal: 16,
+    // scrolls edge-to-edge), so the inset lives on the scroll content itself —
+    // at the page gutter value so it aligns with gutter-wrapped snippets.
+    paddingHorizontal: PAGE_GUTTER_PX,
   },
 });

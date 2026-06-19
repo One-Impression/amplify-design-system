@@ -129,7 +129,7 @@ export function PageStandardRenderer({ page }: PageProps): React.ReactElement {
         }
       >
         {livePage.items.map((node, i) => (
-          <GutterItem key={node.id ?? `item-${i}`} node={node}>
+          <GutterItem key={node.id ?? `item-${i}`} node={node} index={i}>
             <Interpreter node={node} />
           </GutterItem>
         ))}
