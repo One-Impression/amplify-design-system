@@ -55,7 +55,14 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime for Creator App (interpreter, action engine, bottom-sheet manager, loaders, providers) — current: v4.2.0
 ```
+
+### sdui-runtime notable capabilities (v4.2.0+)
+
+- **`Input.local_key`** — Input mirrors its current text into the local store under `local_key` on every keystroke; readable via `{ ref: "$.local.<key>" }`. Standalone (form-unbound) inputs also maintain their own text state.
+- **`reload_section` resolves `$.local` refs** — request body is run through `resolveRequestRefs` against the local store (same as `bff_call`), so typed search values are forwarded into reload requests.
+- **Reactive bottom-sheet content** — `SduiSheetScreen` registers its items in `usePageStore` (keyed by route + active instance); `reload_section` / `replace_section` / `append_items` targeting sections inside a sheet now update reactively (previously local-state only).
 
 ## Token File Format
 
