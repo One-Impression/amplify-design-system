@@ -208,6 +208,11 @@ export function resolveGroupRowGap(
  * group is spacing-transparent — its children space exactly as if inlined at the
  * page level, with no doubled gutter at the group's edges. No horizontal gutter:
  * the group owns horizontal layout (Box `direction` / `align` / `justify`).
+ *
+ * Precondition: rendered only from inside the group's `items.map(...)`, so
+ * `count` (= `items.length`) is ≥ 1 whenever this mounts. The last-child rule
+ * keys off `index === count - 1`; passing `count === 0` would leave a lone child's
+ * bottom margin un-zeroed, so callers must not invoke it for an empty group.
  */
 export function GroupGutterItem({
   node,
