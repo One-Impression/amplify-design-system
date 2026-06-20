@@ -169,3 +169,68 @@ export function GutterItem({
     </View>
   );
 }
+
+/**
+ * Per-side vertical margin (px) for a child INSIDE a vertical group_config — the
+ * same page rhythm a top-level item gets, but with the group's own `gap` slotted
+ * in as the MIDDLE fallback so a group can re-space all its children at once.
+ * Resolution order:
+ *   (1) child node `gap`   — backend per-instance override, on the child
+ *   (2) group `gap`        — backend override, on the group_config node
+ *   (3) per-type override / default — the inherited page rhythm (half-gutter = 6)
+ * Applied symmetrically (top + bottom) by `GroupGutterItem`, matching the page's
+ * per-side model so two default children sit a full gutter apart (6 + 6 = 12).
+ */
+export function resolveGroupRowGap(
+  node: Node,
+  groupGap?: string | number,
+): number {
+  const flag = (node as { gap?: unknown }).gap;
+  if (typeof flag === "string" || typeof flag === "number") {
+    // (1) per-child override — a spacing token (raw px tolerated)
+    return resolveSpacing(flag as SpacingToken | number) ?? DEFAULT_ROW_GAP_PX;
+  }
+  if (groupGap !== undefined) {
+    // (2) group-level override — applies to every child that doesn't set its own
+    return resolveSpacing(groupGap as SpacingToken | number) ?? DEFAULT_ROW_GAP_PX;
+  }
+  const override = GAP_OVERRIDES[node.type];
+  if (override !== undefined) return resolveSpacing(override) ?? DEFAULT_ROW_GAP_PX; // (3) per-type
+  return DEFAULT_ROW_GAP_PX; // (3) page default — inherited rhythm
+}
+
+/**
+ * Wrap one VERTICAL group_config child in the page's vertical rhythm. Margin is
+ * symmetric per side (top + bottom = `resolveGroupRowGap`), mirroring `GutterItem`,
+ * so children stack on the same rhythm as top-level page items. The FIRST child's
+ * top and the LAST child's bottom are zeroed: the group node itself sits inside a
+ * page `GutterItem` that owns the group's OUTER spacing, so a plain (cardless)
+ * group is spacing-transparent — its children space exactly as if inlined at the
+ * page level, with no doubled gutter at the group's edges. No horizontal gutter:
+ * the group owns horizontal layout (Box `direction` / `align` / `justify`).
+ */
+export function GroupGutterItem({
+  node,
+  index,
+  count,
+  groupGap,
+  children,
+}: {
+  node: Node;
+  index: number;
+  count: number;
+  groupGap?: string | number;
+  children: React.ReactNode;
+}): React.ReactElement {
+  const gap = resolveGroupRowGap(node, groupGap);
+  return (
+    <View
+      style={{
+        marginTop: index === 0 ? 0 : gap,
+        marginBottom: index === count - 1 ? 0 : gap,
+      }}
+    >
+      {children}
+    </View>
+  );
+}
