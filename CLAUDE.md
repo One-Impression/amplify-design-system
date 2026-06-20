@@ -103,3 +103,22 @@ that wraps existing primitives instead. If a true primitive is missing, raise
 it in `@one-impression/ui` first so all themes benefit.
 
 **Spelling**: single-P "Oportunities" everywhere. Not "Opportunities".
+
+## SDUI Runtime — vertical group_config spacing
+
+`packages/sdui-runtime` — `GroupConfigRenderer` now applies different spacing logic depending on axis:
+
+**Vertical groups** (`stacking !== "horizontal"`):
+- Children are individually wrapped in `GroupGutterItem` (from `layout/page-gutter.tsx`).
+- Spacing resolves in this precedence order:
+  1. Child node's own `gap` field — per-child backend override.
+  2. Group node's `gap` field — group-wide backend override.
+  3. Inherited page default (half-gutter = 6 px per side, matching `GutterItem`).
+- The first child's `marginTop` and last child's `marginBottom` are zeroed — making a plain (cardless) group spacing-transparent (children space as if inlined at the page level).
+- `Box` `gap` prop is **not** set for vertical groups; `GroupGutterItem` owns all vertical spacing.
+- **Precondition**: `GroupGutterItem` must only be rendered when `count >= 1` (i.e. `items.length >= 1`). Passing `count === 0` leaves the sole child's bottom margin un-zeroed.
+
+**Horizontal groups** (`stacking === "horizontal"`):
+- Unchanged: `Box` `gap` prop is set to `cfg.gap ?? "sm"`. Per-child `GroupGutterItem` is not used.
+
+**`gap` field type**: `group_config.data.gap` now accepts `string | number` (was `number` only). String values are spacing tokens (e.g. `"sm"`, `"md"`).
