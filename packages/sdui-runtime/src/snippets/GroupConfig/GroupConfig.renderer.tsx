@@ -4,6 +4,7 @@ import { GroupConfigSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Card as DSCard } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
+import { GroupGutterItem } from "../../layout/page-gutter.js";
 
 /** Friendly wire alignment values → RN flex values. */
 const ALIGN: Record<string, "flex-start" | "center" | "flex-end" | "stretch"> = {
@@ -27,7 +28,12 @@ const JUSTIFY: Record<
 /**
  * group_config — recursive layout group. `stacking` sets the axis; the extra
  * config below is read raw (wire extension, not yet in the schema):
- *   - `gap`       spacing token ("sm"/"md"/…) or number between items
+ *   - `gap`       spacing token ("sm"/"md"/…) or number between items. VERTICAL
+ *                 groups inherit the page's per-item vertical rhythm by default
+ *                 (so a plain group spaces like inlined page items); `gap` here
+ *                 re-spaces every child group-wide, and a child node's own `gap`
+ *                 overrides it per-child. HORIZONTAL groups use this as a uniform
+ *                 between-child gap (default `sm`).
  *   - `align`     cross-axis: start | center | end | stretch
  *   - `justify`   main-axis: start | center | end | between | around | evenly
  *   - `item_flex` "equal" → each item flexes to fill the axis evenly
@@ -38,7 +44,7 @@ const JUSTIFY: Record<
 export function GroupConfigRenderer(node: Node): React.ReactElement {
   const cfg = node.data as
     | {
-        gap?: number;
+        gap?: string | number;
         align?: string;
         justify?: string;
         item_flex?: string;
@@ -61,22 +67,41 @@ export function GroupConfigRenderer(node: Node): React.ReactElement {
       {(v) => {
         const horizontal = v.stacking === "horizontal";
         const equal = cfg?.item_flex === "equal";
+        const items = v.items ?? [];
         const content = (
           <Box
             direction={horizontal ? "row" : "column"}
-            gap={cfg?.gap ?? "sm"}
+            // Horizontal groups use the Box's uniform gap (vertical margin is
+            // meaningless on a row). Vertical groups inherit the page's per-item
+            // rhythm via GroupGutterItem instead — so spacing is overridable
+            // per-child and a plain group stays spacing-transparent.
+            gap={horizontal ? (cfg?.gap ?? "sm") : undefined}
             align={cfg?.align ? ALIGN[cfg.align] : undefined}
             justify={cfg?.justify ? JUSTIFY[cfg.justify] : undefined}
           >
-            {v.items?.map((item: Node, i: number) =>
-              equal ? (
-                <Box key={item.id || i} flex={1}>
+            {items.map((item: Node, i: number) => {
+              const key = item.id || i;
+              const inner = equal ? (
+                <Box flex={1}>
                   <Interpreter node={item} />
                 </Box>
               ) : (
-                <Interpreter key={item.id || i} node={item} />
-              ),
-            )}
+                <Interpreter node={item} />
+              );
+              return horizontal ? (
+                <React.Fragment key={key}>{inner}</React.Fragment>
+              ) : (
+                <GroupGutterItem
+                  key={key}
+                  node={item}
+                  index={i}
+                  count={items.length}
+                  groupGap={cfg?.gap}
+                >
+                  {inner}
+                </GroupGutterItem>
+              );
+            })}
           </Box>
         );
         // One card around the whole group (children stay plain).
