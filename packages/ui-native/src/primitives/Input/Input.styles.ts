@@ -4,6 +4,7 @@ import { sdui } from '@one-impression/tokens-creator/react-native';
 export const styles = StyleSheet.create({
   container: {
     gap: sdui.spacing.xs,
+    marginTop: sdui.spacing.sm,
   },
   // The bordered container row: holds [leading] [TextInput] [trailing]. Shared
   // control sizing (field token group) lives here so inputs, select rows, and

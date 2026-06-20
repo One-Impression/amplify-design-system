@@ -1,9 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, TextInput, Text as RNText, Animated, Easing } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  View,
+  TextInput,
+  Text as RNText,
+  Animated,
+  Easing,
+  Pressable,
+} from 'react-native';
 import { sdui } from '@one-impression/tokens-creator/react-native';
 import type { InputProps } from './Input.types';
 import { styles } from './Input.styles';
 import { resolveRadius, resolveFontSize } from '../../theme/resolvers';
+
+// An animated, pressable label container: it carries the floating-label
+// animation (left/top) AND focuses the field on tap (the resting label sits over
+// the placeholder slot with zIndex, so `pointerEvents:none` passthrough is not
+// reliable on Android — pressing it to focus is).
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 /**
  * Input — a text input with label/helper/error, optional `leading`/`trailing`
@@ -101,6 +114,19 @@ const FloatingLabelInput = React.forwardRef<TextInput, InputProps>(
       }).start();
     }, [floated, anim]);
 
+    // Keep an internal handle to the TextInput (so the label can focus it) while
+    // still forwarding the ref to the caller.
+    const innerRef = useRef<TextInput | null>(null);
+    const setRefs = useCallback(
+      (node: TextInput | null) => {
+        innerRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref)
+          (ref as React.MutableRefObject<TextInput | null>).current = node;
+      },
+      [ref],
+    );
+
     // Resting label aligns with the text start — past any leading adornment.
     // Resting (placeholder): aligned with the text start — shifted past a
     // leading adornment so it doesn't overlap it. Floated: snaps to the field's
@@ -111,12 +137,15 @@ const FloatingLabelInput = React.forwardRef<TextInput, InputProps>(
       (leading ? leadingWidth + sdui.spacing.sm : 0);
     const floatedLeft = sdui.component.field.paddingX;
 
-    const labelStyle = {
+    // Positioning animates on the pressable container; type styling on the Text.
+    const labelPosStyle = {
       left: anim.interpolate({
         inputRange: [0, 1],
         outputRange: [restingLeft, floatedLeft],
       }),
       top: anim.interpolate({ inputRange: [0, 1], outputRange: [14, -10] }),
+    };
+    const labelTextStyle = {
       // Resting = body size (placeholder-equivalent); floated = caption size
       // (matches helper/error text). Token-driven so it tracks the type scale.
       fontSize: anim.interpolate({
@@ -133,13 +162,18 @@ const FloatingLabelInput = React.forwardRef<TextInput, InputProps>(
     return (
       <View style={styles.container}>
         <View style={styles.floatWrap}>
-          <Animated.Text
-            pointerEvents="none"
-            numberOfLines={1}
-            style={[styles.floatLabel, labelStyle]}
+          <AnimatedPressable
+            // The resting label sits over the placeholder slot, so a tap on it
+            // must focus the field (passthrough is unreliable on Android because
+            // the label is z-lifted for the floated notch). Pressing focuses.
+            onPress={() => innerRef.current?.focus()}
+            disabled={disabled}
+            style={[styles.floatLabel, labelPosStyle]}
           >
-            {label}
-          </Animated.Text>
+            <Animated.Text numberOfLines={1} style={labelTextStyle}>
+              {label}
+            </Animated.Text>
+          </AnimatedPressable>
           <View
             style={[
               styles.inputRow,
@@ -155,14 +189,17 @@ const FloatingLabelInput = React.forwardRef<TextInput, InputProps>(
               </View>
             )}
             <TextInput
-              ref={ref}
+              ref={setRefs}
               editable={!disabled}
               accessibilityLabel={label}
               style={[styles.input, { fontSize: resolveFontSize(size) ?? 14 }]}
               placeholderTextColor="#78716C"
-              // The label occupies the placeholder slot until it floats up.
-              placeholder={floated ? props.placeholder : undefined}
               {...props}
+              // The label occupies the placeholder slot while resting, so the
+              // real placeholder is shown ONLY once the label floats up (focus
+              // or value) — otherwise they overlap. Set AFTER {...props} so this
+              // wins over props.placeholder rather than being re-overridden.
+              placeholder={floated ? props.placeholder : undefined}
               onFocus={(e) => {
                 setFocused(true);
                 props.onFocus?.(e);
