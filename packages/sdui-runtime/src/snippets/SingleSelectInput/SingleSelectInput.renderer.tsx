@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { View } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { SingleSelectInputSchema } from "@one-impression/sdk-native-sdui";
 import { Box, Stack, Text, SelectableItem as DSSelectableItem } from "@one-impression/ui-native";
@@ -17,7 +18,15 @@ interface OptionData {
 
 export function SingleSelectInputRenderer(node: Node): React.ReactElement {
   const data = node.data as
-    | { form_id?: string; field_name?: string; selected_value?: string; validations?: ValidationRule[] }
+    | {
+        form_id?: string;
+        field_name?: string;
+        selected_value?: string;
+        validations?: ValidationRule[];
+        /** "horizontal" lays the options out as equal-width columns in a row;
+         *  default (unset) stacks them vertically. Read raw (wire extension). */
+        layout?: string;
+      }
     | undefined;
   const formId = useFormId(data?.form_id);
   const field = useFormField<string>(
@@ -51,6 +60,7 @@ export function SingleSelectInputRenderer(node: Node): React.ReactElement {
           onSelect={(value) => field.setValue(value)}
           onTouched={field.markTouched}
           onChange={node.data?.on_change}
+          layout={data?.layout}
         />
       )}
     </SduiNode>
@@ -67,6 +77,7 @@ function SingleSelectInputInner({
   onSelect,
   onTouched,
   onChange,
+  layout,
 }: {
   label?: { text?: string; color?: string; font_size?: number; font_weight?: string };
   options: Node[];
@@ -80,8 +91,11 @@ function SingleSelectInputInner({
   onSelect: (value: string) => void;
   onTouched: () => void;
   onChange?: unknown;
+  /** "horizontal" → equal-width columns in a row; default stacks vertically. */
+  layout?: string;
 }): React.ReactElement {
   const actionEngine = useActionEngine();
+  const horizontal = layout === "horizontal" || layout === "row";
 
   // Render the selectable options directly (rather than via the generic
   // Interpreter) so selection is store-driven: `selected` is computed from the
@@ -106,12 +120,11 @@ function SingleSelectInputInner({
           {label.text}{required ? " *" : ""}
         </Text>
       )}
-      <Stack direction="column" gap={8}>
+      <Stack direction={horizontal ? "row" : "column"} gap={8}>
         {options?.map((option: Node, i: number) => {
           const o = (option.data ?? {}) as unknown as OptionData;
-          return (
+          const item = (
             <DSSelectableItem
-              key={option.id || o.value || i}
               label={o.label?.text ?? o.value}
               description={o.subtitle?.text}
               selected={selectedValue === o.value}
@@ -120,6 +133,16 @@ function SingleSelectInputInner({
               rounded="md"
               onPress={() => handlePress(o.value)}
             />
+          );
+          // Horizontal: each option flexes to an equal-width column.
+          return horizontal ? (
+            <View key={option.id || o.value || i} style={{ flex: 1 }}>
+              {item}
+            </View>
+          ) : (
+            <React.Fragment key={option.id || o.value || i}>
+              {item}
+            </React.Fragment>
           );
         })}
       </Stack>

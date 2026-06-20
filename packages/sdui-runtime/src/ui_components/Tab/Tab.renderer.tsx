@@ -1,8 +1,9 @@
 import React, { useCallback, useContext } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { TabComponentSchema } from "@one-impression/sdk-native-sdui";
-import { Tab as DSTab, Icon as DSIcon } from "@one-impression/ui-native";
+import { Tab as DSTab } from "@one-impression/ui-native";
 import { SduiNode } from "../../sdui-node/index.js";
+import { IconGlyph } from "../../icon-store/IconGlyph.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { TabBarActiveContext } from "../../state/TabBarActiveContext.js";
 
@@ -54,7 +55,7 @@ export function TabRenderer(node: Node): React.ReactElement {
           onPress={onPress}
           icon={
             v.icon ? (
-              <DSIcon
+              <IconGlyph
                 name={v.icon.name}
                 size={v.icon.size}
                 color={v.icon.color}

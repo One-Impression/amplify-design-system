@@ -53,6 +53,7 @@ import { InputRenderer } from "../snippets/Input/index.js";
 import { ToggleInputRenderer } from "../snippets/ToggleInput/index.js";
 import { SingleSelectInputRenderer } from "../snippets/SingleSelectInput/index.js";
 import { MultiSelectInputRenderer } from "../snippets/MultiSelectInput/index.js";
+import { DateInputRenderer } from "../snippets/DateInput/index.js";
 import { UploadFileRenderer } from "../snippets/UploadFile/index.js";
 
 // Chip
@@ -117,6 +118,7 @@ export const snippetRegistry: Record<string, (node: Node) => React.ReactElement>
   "sdui.snippet.toggle_input": ToggleInputRenderer,
   "sdui.snippet.single_select_input": SingleSelectInputRenderer,
   "sdui.snippet.multi_select_input": MultiSelectInputRenderer,
+  "sdui.snippet.date_input": DateInputRenderer,
   "sdui.snippet.upload_file": UploadFileRenderer,
 
   // Chip (1)

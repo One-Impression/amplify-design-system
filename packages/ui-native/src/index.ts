@@ -61,6 +61,10 @@ export type { CardProps } from './primitives/Card';
 export { Input } from './primitives/Input';
 export type { InputProps } from './primitives/Input';
 
+// DateField
+export { DateField } from './primitives/DateField';
+export type { DateFieldProps } from './primitives/DateField';
+
 // Chip
 export { Chip } from './primitives/Chip';
 export type { ChipProps } from './primitives/Chip';
