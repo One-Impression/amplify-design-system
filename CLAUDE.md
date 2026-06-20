@@ -85,6 +85,33 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## SDUI Runtime — Search-in-Sheet Primitives
+
+## SDUI Runtime — Search-in-Sheet Primitives
+
+Added in `@one-impression/sdui-runtime` (minor). Powers type-to-search pickers (e.g. location pickers) inside bottom sheets.
+
+### `Input.local_key`
+- Add `local_key: string` to an Input node's data to mirror the current text into the local store on every change.
+- Standalone (form-unbound) inputs now maintain their own controlled state, so a header search box works without a parent form.
+- Value is readable downstream via `{ ref: "$.local.<key>" }`.
+
+### `reload_section` resolves `$.local` refs
+- The action handler now runs `resolveRequestRefs` against the local store on the request body **before** schema parse (same behaviour as `bff_call`).
+- This means a typed search value written via `local_key` automatically rides into the reload request — no extra wiring needed.
+
+### Reactive bottom-sheet content (`SduiSheetScreen`)
+- On fetch, the sheet registers its item tree in `usePageStore` (keyed by route/active instance).
+- The sheet renders from `usePageStore` live items, so `reload_section` / `replace_section` / `append_items` targeting a section **inside** a sheet now update reactively (previously the sheet rendered from local state only and ignored section mutations).
+- The page-store entry is dropped automatically on sheet unmount.
+
+### Composing a search picker
+1. Place an `Input` node with `local_key: "q"` in the sheet header.
+2. Attach an `on_change` action: `reload_section` with `{ ref: "$.local.q" }` in the request body (debounce recommended).
+3. The section inside the sheet will re-render with fresh BFF results as the user types.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
