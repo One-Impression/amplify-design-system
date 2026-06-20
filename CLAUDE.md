@@ -52,10 +52,27 @@ packages/
   tokens-atmosphere/  — Atmosphere tokens (gold accent, dark-first themes)
   tokens-creator/     — Creator App tokens (SDUI mappings, mobile-optimized)
   ui/                 — Shared React components (Button, Badge, Card, EmptyState, Skeleton)
+  ui-native/          — React Native primitives for Creator App (SDUI-driven, token-resolved). Current: v2.5.0
+  sdui-runtime/       — SDUI interpreter, action engine, bottom-sheet manager, loaders, providers. Current: v4.1.0
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
 ```
+
+### SDUI / ui-native form primitives (as of v4.1.0 / v2.5.0)
+
+| Primitive | Package | Notes |
+|---|---|---|
+| `DateField` | `ui-native` | Form-bound date picker; pure-JS calendar popover (no native module). ISO `YYYY-MM-DD`, supports `min`/`max`. |
+| `date_input` | `sdui-runtime` | SDUI node type wiring `DateField` into the interpreter. |
+| `show_when` | `sdui-runtime` | Conditional visibility rule on any base node (`{ field, equals \| not_equals \| in \| truthy }`). Evaluated against a sibling field via `ConditionalGate`; hidden fields are dropped from validation. |
+| `single_select_input` `layout: "horizontal"` | `sdui-runtime` | Renders radio options as equal-width columns in a row. Default layout remains vertical. |
+
+**Known renderer fixes in this release:**
+- `Tab.renderer` — icon now rendered via `IconGlyph` (was bare `DSIcon`); footer tab icons resolve from the manifest correctly.
+- `Form.renderer` — renders raw field nodes (not schema-parsed `v.fields`), preserving per-field wire extensions like `show_when`.
+- `select_trigger` — input-styled tap-to-open field; multi-select (`string[]`) values shown via `value_display`.
+- `Input` floating label — placeholder visible only when label is floating; tapping resting label focuses the input.
 
 ## Token File Format
 
