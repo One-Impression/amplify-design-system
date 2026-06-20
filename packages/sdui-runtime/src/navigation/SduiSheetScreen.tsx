@@ -9,7 +9,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { resolveSpacing } from "@one-impression/ui-native";
-import type { Action, Node } from "@one-impression/sdk-native-sdui";
+import type { Action, Node, Page } from "@one-impression/sdk-native-sdui";
 import { Interpreter } from "../interpreter/index.js";
 import { GutterItem, PAGE_GUTTER_TOKEN } from "../layout/page-gutter.js";
 import { useActionEngine } from "../action-engine/useActionEngine.js";
@@ -22,6 +22,7 @@ import {
 import type { SduiRootParamList } from "./navigationRef.js";
 import { registerSurfaceReload } from "./surfaceRegistry.js";
 import { fetchSurfaceDocument } from "./fetchSurfaceDocument.js";
+import { usePageStore } from "../state/usePageStore.js";
 import { ListRowsSkeleton } from "../loaders/index.js";
 
 const SIZE_TO_SNAP: Record<string, string[]> = {
@@ -69,6 +70,20 @@ export function SduiSheetScreen({
   // resolves). Static sheets ignore this and read the registry directly.
   const [fetched, setFetched] = useState<SheetEntry | null>(null);
 
+  // Live items from the page store (keyed by this route) so a section reload
+  // INSIDE the sheet re-renders reactively. Falls back to the fetched items
+  // until the tree is registered (see the fetch handler).
+  const liveItems = usePageStore(
+    (s) => s.pagesByKey[route.key]?.items as Node[] | undefined,
+  );
+  // Drop this sheet's page-store entry on unmount so it doesn't linger.
+  useEffect(
+    () => () => {
+      if (isAddressable) usePageStore.getState().dropPage(route.key);
+    },
+    [isAddressable, route.key],
+  );
+
   // Fetch the sheet's own document path-direct. Used on open and by
   // reload-by-name. Maps the fetched JSON into the SheetEntry render shape.
   // `queryParams` (reload-by-name only) ride into the refetch so the document
@@ -100,6 +115,17 @@ export function SduiSheetScreen({
           on_open: doc.on_open,
           overlay_on_click: doc.overlay_on_click,
         });
+        // Register the items in the page store keyed by this route (which becomes
+        // the active instance), so reload_section / replace_section / append_items
+        // targeting a section INSIDE the sheet mutate reactively — the same model
+        // pages use. Without this the sheet renders from local state only and a
+        // section reload (e.g. live search results) never reaches it.
+        usePageStore
+          .getState()
+          .setPageTree(
+            { id: doc.id ?? sheetId, items: doc.items ?? [] } as Page,
+            route.key,
+          );
       })
       .catch((e: unknown) => {
         // eslint-disable-next-line no-console
@@ -261,7 +287,7 @@ export function SduiSheetScreen({
                   gutter + inter-item gap model (incl. the section_header
                   GAP_OVERRIDES). The route-based sheet was outside that system,
                   so its section headers got no vertical gap. */}
-              {sheet.items.map((node, i) => (
+              {(liveItems ?? sheet.items).map((node, i) => (
                 <GutterItem key={node.id ?? i} node={node} index={i}>
                   <Interpreter node={node} />
                 </GutterItem>
