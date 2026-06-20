@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text as RNText, View } from "react-native";
+import { sdui } from "@one-impression/tokens-creator/react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useFormField, useFormId } from "../../form/index.js";
@@ -78,19 +79,19 @@ export function SelectTriggerRenderer(node: Node): React.ReactElement {
 // sits flush with the text inputs around it in a form.
 const styles = StyleSheet.create({
   container: { width: "100%" },
-  label: { fontSize: 13, color: "#57534E", marginBottom: 6 },
+  label: { fontSize: 13, color: sdui.color.neutralMedium, marginBottom: 6 },
   field: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     borderWidth: 1,
-    borderColor: "#D6D3D1",
+    borderColor: sdui.color.neutralWeak,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: sdui.color.neutralInverse,
   },
-  value: { flex: 1, fontSize: 14, color: "#1C1917" },
-  placeholder: { color: "#78716C" },
-  chevron: { fontSize: 14, color: "#78716C", marginLeft: 8 },
+  value: { flex: 1, fontSize: 14, color: sdui.color.neutralStrong },
+  placeholder: { color: sdui.color.neutralMedium },
+  chevron: { fontSize: 14, color: sdui.color.neutralMedium, marginLeft: 8 },
 });

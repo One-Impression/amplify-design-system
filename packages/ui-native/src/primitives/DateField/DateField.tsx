@@ -7,6 +7,7 @@ import {
   Text as RNText,
   View,
 } from "react-native";
+import { sdui } from "@one-impression/tokens-creator/react-native";
 import { resolveRadius } from "../../theme/resolvers";
 
 /**
@@ -286,26 +287,31 @@ DateField.displayName = "DateField";
 
 const styles = StyleSheet.create({
   container: { width: "100%" },
-  label: { fontSize: 13, color: "#57534E", marginBottom: 6 },
+  label: { fontSize: 13, color: sdui.color.neutralMedium, marginBottom: 6 },
   field: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     borderWidth: 1,
-    borderColor: "#D6D3D1",
+    borderColor: sdui.color.neutralWeak,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: sdui.color.neutralInverse,
   },
-  fieldError: { borderColor: "#DC2626" },
-  fieldDisabled: { backgroundColor: "#F5F5F4", borderColor: "#E7E5E4" },
-  fieldValue: { fontSize: 14, color: "#1C1917" },
-  fieldPlaceholder: { color: "#78716C" },
-  fieldIcon: { fontSize: 14, color: "#78716C" },
-  helper: { fontSize: 12, color: "#78716C", marginTop: 4 },
-  helperError: { color: "#DC2626" },
+  fieldError: { borderColor: sdui.color.negative },
+  fieldDisabled: {
+    backgroundColor: sdui.color.stateNeutralBg,
+    borderColor: sdui.color.neutralSubtle,
+  },
+  fieldValue: { fontSize: 14, color: sdui.color.neutralStrong },
+  fieldPlaceholder: { color: sdui.color.neutralMedium },
+  fieldIcon: { fontSize: 14, color: sdui.color.neutralMedium },
+  helper: { fontSize: 12, color: sdui.color.neutralMedium, marginTop: 4 },
+  helperError: { color: sdui.color.negative },
   backdrop: {
     flex: 1,
+    // Modal scrim — an intentional translucent black overlay, not a palette
+    // colour (the token set has no scrim token).
     backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "center",
     alignItems: "center",
@@ -314,7 +320,7 @@ const styles = StyleSheet.create({
   popover: {
     width: "100%",
     maxWidth: 340,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: sdui.color.neutralInverse,
     borderRadius: 16,
     padding: 16,
   },
@@ -324,20 +330,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 12,
   },
-  calTitle: { fontSize: 16, fontWeight: "600", color: "#1C1917" },
+  calTitle: { fontSize: 16, fontWeight: "600", color: sdui.color.neutralStrong },
   navBtn: {
     width: 36,
     height: 36,
     alignItems: "center",
     justifyContent: "center",
   },
-  navText: { fontSize: 24, color: "#1C1917" },
+  navText: { fontSize: 24, color: sdui.color.neutralStrong },
   weekRow: { flexDirection: "row" },
   weekday: {
     flex: 1,
     textAlign: "center",
     fontSize: 12,
-    color: "#A8A29E",
+    color: sdui.color.neutralMedium,
     paddingVertical: 4,
   },
   grid: { flexDirection: "row", flexWrap: "wrap" },
@@ -354,10 +360,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  dayInnerActive: { backgroundColor: "#7C3AED" },
-  dayText: { fontSize: 14, color: "#1C1917" },
-  dayTextActive: { color: "#FFFFFF", fontWeight: "600" },
-  dayTextDisabled: { color: "#D6D3D1" },
+  dayInnerActive: { backgroundColor: sdui.color.primary },
+  dayText: { fontSize: 14, color: sdui.color.neutralStrong },
+  dayTextActive: { color: sdui.color.neutralInverse, fontWeight: "600" },
+  dayTextDisabled: { color: sdui.color.neutralWeak },
   yearScroll: { maxHeight: 280 },
   yearGrid: { flexDirection: "row", flexWrap: "wrap" },
   yearCell: {
@@ -366,6 +372,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   yearCellActive: {},
-  yearText: { fontSize: 16, color: "#1C1917" },
-  yearTextActive: { color: "#7C3AED", fontWeight: "700" },
+  yearText: { fontSize: 16, color: sdui.color.neutralStrong },
+  yearTextActive: { color: sdui.color.primary, fontWeight: "700" },
 });
