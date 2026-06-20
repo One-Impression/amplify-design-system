@@ -77,6 +77,39 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI / ui-native Primitives
+
+## SDUI / ui-native Primitives
+
+### `DateField` (`@one-impression/ui-native`)
+A pure-JS calendar popover — no native module required. Shows a month grid + year list. Value is ISO `YYYY-MM-DD`. Props: `label`, `value`, `placeholder`, `error`, `helperText`, `disabled`, `minDate`, `maxDate`, `onChange`, `onOpen`.
+
+### `date_input` (`sdui-runtime`)
+SDUI renderer for `DateField`. Registered as `sdui.snippet.date_input`. Binds into `useFormStore` by `(form_id, field_name)` exactly like other form inputs. Data schema is renderer-owned (not in `sdk-native-sdui`) — gateway emits it as raw wire.
+
+### `show_when` conditional visibility (`sdui-runtime`)
+A base-node wire extension (`{ field, equals | not_equals | in | truthy, form_id? }`) that hides/shows a node based on a sibling field's value in the same form. Evaluated by `ConditionalGate` in `interpreter/ConditionalGate.tsx`. When a node becomes hidden its validation error is cleared so it drops out of the form's validity gate; its value is preserved so toggling back restores user input. `ConditionalGate` is mounted by the Interpreter only for nodes that carry `show_when`.
+
+**Interpreter change**: the Interpreter now checks for `show_when` before rendering — nodes carrying it are wrapped in `<ConditionalGate>` instead of rendered directly.
+
+**Form.renderer change**: `Form.renderer` now passes the **raw** field nodes (`node.data.fields`) to `FormInner` instead of the schema-parsed `v.fields`. This preserves per-field wire extensions (e.g. `show_when`) that `FormSchema` would otherwise strip.
+
+### `single_select_input` — `layout: "horizontal"` flag
+New optional wire field. `"horizontal"` (or `"row"`) lays radio options as equal-width flex columns in a row. Default (unset) stays vertical.
+
+### `select_trigger` — restyled + multi-value support
+`select_trigger` now renders as an input-styled field (label + bordered box + value/placeholder + chevron) matching `Input`/`DateField` visual grammar. Supports both `string` (single-select) and `string[]` (multi-select) field values — each id is mapped via `value_display` and joined with `, `. Wire `data` shape updated: `{ form_id, field_name, label?, default_value?, value_display?, placeholder?, required? }` (removed `trailing_icon`).
+
+### `Input` (`@one-impression/ui-native`) — fixes
+- Real placeholder is hidden until the label floats; empty+resting state no longer overlaps the placeholder.
+- The floating label is an `AnimatedPressable` that focuses the field on tap (passthrough is unreliable on Android for z-lifted labels).
+- Inputs gain a small `sm` top margin (`marginTop: sdui.spacing.sm`).
+
+### `Tab.renderer` — icon fix
+Tab icons now render via `IconGlyph` (not bare `DSIcon`) so footer tab icons resolve from the manifest.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
