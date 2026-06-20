@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import type { Node } from "@one-impression/sdk-native-sdui";
 import { InputSnippetSchema } from "@one-impression/sdk-native-sdui";
 import { Input as DSInput, Box, Icon as DSIcon, Stack, Text } from "@one-impression/ui-native";
@@ -6,6 +6,7 @@ import { SduiNode } from "../../sdui-node/index.js";
 import { Interpreter } from "../../interpreter/index.js";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useFormField, useFormId } from "../../form/index.js";
+import { useLocalStore } from "../../state/useLocalStore.js";
 import type { ValidationRule } from "../../validation/index.js";
 
 /** Lightweight static shorthand for a leading/trailing slot. */
@@ -65,6 +66,10 @@ export function InputRenderer(node: Node): React.ReactElement {
         validations?: ValidationRule[];
         leading?: AdornmentSpec | Node;
         trailing?: AdornmentSpec | Node;
+        /** When set, the input writes its current text into the local store
+         *  under this key on every change — so a (typically debounced) reload
+         *  can read it via `{ ref: "$.local.<local_key>" }`. Powers search. */
+        local_key?: string;
       }
     | undefined;
   const formId = useFormId(data?.form_id);
@@ -76,6 +81,12 @@ export function InputRenderer(node: Node): React.ReactElement {
   );
 
   const errorText = field.touched ? field.error ?? undefined : undefined;
+
+  // Standalone inputs (no form binding — e.g. a sheet search box) keep their own
+  // text so they stay controllable; bound inputs read/write the form store.
+  const [standaloneValue, setStandaloneValue] = useState(data?.value ?? "");
+  const value = field.bound ? field.value : standaloneValue;
+  const setValue = field.bound ? field.setValue : setStandaloneValue;
 
   const leadingNode = adornmentNode(data?.leading);
   const trailingNode = adornmentNode(data?.trailing);
@@ -96,7 +107,7 @@ export function InputRenderer(node: Node): React.ReactElement {
         <InputInner
           inputType={v.input_type}
           placeholder={v.placeholder}
-          value={field.value}
+          value={value}
           label={v.label}
           required={v.required}
           disabled={v.disabled}
@@ -104,12 +115,13 @@ export function InputRenderer(node: Node): React.ReactElement {
           errorText={errorText}
           leading={leadingNode}
           trailing={trailingNode}
-          onChangeValue={field.setValue}
+          onChangeValue={setValue}
           onBlurField={field.markTouched}
           onChange={node.data?.on_change}
           onSubmit={node.data?.on_submit}
           onFocus={node.data?.on_focus}
           onBlur={node.data?.on_blur}
+          localKey={data?.local_key}
         />
       )}
     </SduiNode>
@@ -133,6 +145,7 @@ function InputInner({
   onSubmit,
   onFocus,
   onBlur,
+  localKey,
 }: {
   inputType?: string;
   placeholder?: { text?: string };
@@ -150,15 +163,20 @@ function InputInner({
   onSubmit?: unknown;
   onFocus?: unknown;
   onBlur?: unknown;
+  localKey?: string;
 }): React.ReactElement {
   const actionEngine = useActionEngine();
 
   const handleChange = useCallback(
     (text: string) => {
       onChangeValue(text);
+      // Mirror the text into the local store so a chained (debounced) reload can
+      // read it via `{ ref: "$.local.<localKey>" }` — synchronous, so the value
+      // is current before the reload fires.
+      if (localKey) useLocalStore.getState().set(localKey, text);
       if (onChange) actionEngine.dispatch(onChange as any);
     },
-    [actionEngine, onChange, onChangeValue],
+    [actionEngine, onChange, onChangeValue, localKey],
   );
 
   const handleSubmit = useCallback(() => {

@@ -1,6 +1,8 @@
 import { ReloadSectionPayloadSchema } from "@one-impression/sdk-native-sdui";
 import type { Action } from "@one-impression/sdk-native-sdui";
 import type { ActionEngineConfig, ActionEngine } from "../types.js";
+import { resolveRequestRefs } from "../cond/resolve-request-refs.js";
+import { useLocalStore } from "../../state/useLocalStore.js";
 
 /**
  * reload_section — fetches a fresh node from the BFF and replaces the
@@ -11,7 +13,21 @@ export async function handleReloadSection(
   config: ActionEngineConfig,
   _engine: ActionEngine,
 ): Promise<void> {
-  const payload = ReloadSectionPayloadSchema.parse(action.payload);
+  // Resolve `{ ref: "$.local.*" }` in the request body against the local store
+  // BEFORE parse — so a search box's typed value (mirrored to the local store
+  // on change) rides into the request. Before parse because the body schema
+  // would otherwise reject a ref-object value.
+  const raw = (action.payload ?? {}) as Record<string, unknown>;
+  const bound =
+    "payload" in raw
+      ? {
+          ...raw,
+          payload: resolveRequestRefs(raw.payload, {
+            local: useLocalStore.getState().data,
+          }),
+        }
+      : raw;
+  const payload = ReloadSectionPayloadSchema.parse(bound);
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
