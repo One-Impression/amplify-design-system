@@ -1,19 +1,24 @@
 import React from "react";
-import { Pressable } from "react-native";
+import { Pressable, StyleSheet, Text as RNText, View } from "react-native";
 import type { Node } from "@one-impression/sdk-native-sdui";
-import { Stack, Text, Icon as DSIcon } from "@one-impression/ui-native";
 import { useActionEngine } from "../../action-engine/useActionEngine.js";
 import { useFormField, useFormId } from "../../form/index.js";
 
 /**
- * select_trigger — a generic, form-aware dropdown trigger. Displays the current
- * value of a form field (optionally mapped to a rich label via `value_display`)
- * and fires its `on_click` (typically a `sheet` action that opens a picker whose
- * body is a `single_select_input` bound to the SAME field). No picker logic of
- * its own — presentation + options are 100% wire/BFF-driven. Reusable for any
- * field (country, currency, timezone, …).
+ * select_trigger — a generic, form-aware picker trigger styled as a read-only
+ * INPUT. It looks like a text field (label + bordered box + value/placeholder +
+ * chevron) but it has NO editing behaviour: tapping anywhere fires its
+ * `on_click` (typically a `sheet` action that opens a picker whose body is a
+ * single/multi `*_select_input` bound to the SAME field) instead of focusing a
+ * keyboard. It displays the current value of its form field (single-select →
+ * string, multi-select → string[], each id mapped via `value_display`).
  *
- * Wire `data`: { form_id, field_name, default_value?, value_display?, trailing_icon?, placeholder? }
+ * This is the "input with a custom click action, default input behaviour
+ * suppressed" pattern: same visual grammar as `Input` / `DateField`, but a tap
+ * is an action, not a focus.
+ *
+ * Wire `data`: { form_id, field_name, label?, default_value?, value_display?,
+ *                placeholder?, required? }
  * A runtime node type (not yet in the SDK) — read raw; promote with the rest.
  */
 export function SelectTriggerRenderer(node: Node): React.ReactElement {
@@ -21,10 +26,11 @@ export function SelectTriggerRenderer(node: Node): React.ReactElement {
     | {
         form_id?: string;
         field_name?: string;
+        label?: { text?: string };
         default_value?: string;
         value_display?: Record<string, string>;
-        trailing_icon?: string;
         placeholder?: string;
+        required?: boolean;
       }
     | undefined;
 
@@ -36,28 +42,55 @@ export function SelectTriggerRenderer(node: Node): React.ReactElement {
   );
   const actionEngine = useActionEngine();
 
-  // The bound value is a string for single-select fields, a string[] for
-  // multi-select. Map each id to its rich label via `value_display` and join;
-  // fall back to the placeholder when empty.
+  // Single-select → string, multi-select → string[]. Map each id to its rich
+  // label via `value_display`; an empty value renders the placeholder (greyed).
   const mapLabel = (v: string): string => data?.value_display?.[v] ?? v;
   const value = field.value;
-  const display = Array.isArray(value)
-    ? value.length
-      ? value.map(mapLabel).join(", ")
-      : data?.placeholder ?? ""
-    : mapLabel(value) || data?.placeholder || "";
+  const selectedText = Array.isArray(value)
+    ? value.map(mapLabel).join(", ")
+    : mapLabel(value);
+  const isEmpty = Array.isArray(value) ? value.length === 0 : !value;
+
+  const labelText = data?.label?.text
+    ? `${data.label.text}${data?.required ? " *" : ""}`
+    : undefined;
 
   return (
-    <Pressable
-      onPress={() => node.on_click && actionEngine.dispatch(node.on_click)}
-      hitSlop={6}
-    >
-      <Stack direction="row" align="center" gap={4}>
-        <Text size={14} color="#222">{display}</Text>
-        {data?.trailing_icon ? (
-          <DSIcon name={data.trailing_icon} size={14} color="#999" />
-        ) : null}
-      </Stack>
-    </Pressable>
+    <View style={styles.container}>
+      {labelText ? <RNText style={styles.label}>{labelText}</RNText> : null}
+      <Pressable
+        onPress={() => node.on_click && actionEngine.dispatch(node.on_click)}
+        style={styles.field}
+      >
+        <RNText
+          style={[styles.value, isEmpty && styles.placeholder]}
+          numberOfLines={1}
+        >
+          {isEmpty ? data?.placeholder ?? "Select" : selectedText}
+        </RNText>
+        <RNText style={styles.chevron}>▾</RNText>
+      </Pressable>
+    </View>
   );
 }
+
+// Mirrors the ui-native Input / DateField field styling so a select trigger
+// sits flush with the text inputs around it in a form.
+const styles = StyleSheet.create({
+  container: { width: "100%" },
+  label: { fontSize: 13, color: "#57534E", marginBottom: 6 },
+  field: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "#D6D3D1",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: "#FFFFFF",
+  },
+  value: { flex: 1, fontSize: 14, color: "#1C1917" },
+  placeholder: { color: "#78716C" },
+  chevron: { fontSize: 14, color: "#78716C", marginLeft: 8 },
+});
