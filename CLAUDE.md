@@ -55,7 +55,20 @@ packages/
   storybook/          — Component documentation and visual testing
   eslint-config/      — Design system lint rules (no-hardcoded-colors, no-raw-spacing, prefer-token-import)
   feature-flags/      — Feature flag utilities
+  sdui-runtime/       — SDUI runtime for Creator App (interpreter, action engine, bottom-sheet manager, loaders, providers)
 ```
+
+### sdui-runtime — vertical group spacing (v4.3.0+)
+
+Vertical `group_config` children **inherit the page's per-item vertical rhythm** by default (no longer a fixed `sm` gap). Spacing resolves in this precedence order:
+
+1. Child node's own `gap` (per-child, set by backend)
+2. Group's `gap` (group-wide, set by backend)
+3. Inherited page default (half-gutter)
+
+A plain (cardless) vertical group is **spacing-transparent**: children space exactly as if inlined at the page level. The first child's top margin and last child's bottom margin are zeroed (the group itself already sits in the page gutter).
+
+**Horizontal groups are unchanged** — they keep the uniform `Box` gap (default `sm`).
 
 ## Token File Format
 
