@@ -85,6 +85,27 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 4. **ESLint rules** exist in `packages/eslint-config/rules/` but are NOT enforced in product repos yet
 5. **Breaking changes** to CSS variable names or values require a migration note in the PR description
 
+
+
+## sdui-runtime: Vertical Group Spacing (v4.4.0)
+
+## sdui-runtime: Vertical Group Spacing (v4.4.0)
+
+`@one-impression/sdui-runtime` v4.4.0 changed how vertical `group_config` children are spaced.
+
+**Old behaviour**: fixed `sm` gap between all children in a vertical group.
+
+**New behaviour**: children inherit the page's per-item vertical rhythm by default.
+
+Spacing precedence (highest → lowest):
+1. Child node's own `gap` (per-child override, set by backend)
+2. Group's `gap` (group-wide override, set by backend)
+3. Inherited page default (half-gutter)
+
+A plain (cardless) vertical group is now **spacing-transparent** — its children space exactly as if inlined at the page level. The first child's top margin and the last child's bottom margin are zeroed (the group already sits within the page gutter).
+
+**Horizontal groups are unchanged** — they keep the uniform `Box` gap, default `sm`.
+
 ## Oportunities theme (newest product line)
 
 Oportunities is the newest product theme in this monorepo. It ships as the
