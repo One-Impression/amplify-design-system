@@ -77,6 +77,26 @@ Build script (`scripts/build-tokens.js`) generates CSS variables, SCSS, JSON, JS
 - `storybook-deploy.yml` — Deploy Storybook to GitHub Pages on push to main
 - ~~`figma-sync.yml`~~ — REMOVED: Tokens Studio integration deprecated in favour of direct PRs + Pixel cascade. Design changes flow via Pixel Agent governance, not Figma plugin.
 
+
+
+## SDUI Runtime — Vertical Group Spacing
+
+## SDUI Runtime — Vertical Group Spacing
+
+Vertical `group_config` children resolve spacing with the following precedence:
+
+1. **Child node `gap`** — per-child override set by the backend
+2. **Group `gap`** — group-wide override set by the backend
+3. **Inherited page default** — `DEFAULT_ROW_GAP_PX` (half the page gutter, exported from `packages/sdui-runtime/src/layout/page-gutter.tsx`)
+
+A plain (cardless) vertical group is **spacing-transparent**: the first child's top margin and the last child's bottom margin are zeroed, so children space exactly as if inlined at the page level.
+
+**Horizontal groups are unchanged** — they keep the uniform `Box` gap (default `sm`); vertical margin is meaningless on a row.
+
+`DEFAULT_ROW_GAP_PX` is exported and named because it encodes a layout policy (half the page gutter), not an arbitrary number. Reference it by name in tests and callers — do not re-derive `GUTTER_PX / 2`.
+
+**`GroupGutterItem` invariant**: `count` must be ≥ 1 when `GroupGutterItem` mounts (it is only rendered from inside `items.map`). Never pass `count === 0`.
+
 ## Rules
 
 1. **No hardcoded colors** in UI components — use CSS variables only
