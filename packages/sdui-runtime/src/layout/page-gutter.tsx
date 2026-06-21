@@ -31,7 +31,12 @@ const GUTTER_PX = resolveSpacing(PAGE_GUTTER_TOKEN) ?? 12;
 // does not collapse margins (unlike CSS), so adjacent items' margins sum: two
 // default items sit a full gutter (6 + 6 = 12) apart, and the page's top/bottom
 // edges get the half (6).
-const DEFAULT_ROW_GAP_PX = GUTTER_PX / 2; // 6
+//
+// Exported + named because it encodes a layout policy ("default row gap is half
+// the page gutter"), not an incidental magic number: it is the fallback in every
+// branch of `resolveGroupRowGap`, so callers and tests can reference the policy
+// by name rather than re-deriving `GUTTER_PX / 2`.
+export const DEFAULT_ROW_GAP_PX = GUTTER_PX / 2; // half the page gutter
 
 const styles = StyleSheet.create({
   gutter: { paddingHorizontal: GUTTER_PX },
